@@ -17,12 +17,18 @@ module.exports = ()=>{
                 this.nv_updateData = response.data;
                 // move the old data files to the archive
                 fs.readdir('./data/nv/',(err, files)=> {
-                    if (err) throw err;
+                    if (err){
+                        err.message = 'ERROR at reding the files that exist at ./data/nv/';
+                        throw err;
+                    } 
                     let filenames = [];
                     for (let index in files) {
                         if (files[index] != `nv_${dateAndTime}.txt` && files[index] !='archive'){
                             fs.move(`./data/nv/${files[index]}/`, `./data/nv/archive/${files[index]}/`, err => {
-                                if (err) return console.error(err);
+                                if (err){
+                                  err.message = `ERROR at move ${files[index]} to the archive`;
+                                  throw err;  
+                                } 
                             });
                             console.log(`${files[index]} successfully moved to nv archive`);
                         } 
@@ -31,7 +37,7 @@ module.exports = ()=>{
                 return; 
             } 
             catch(err){
-                this.nv_data = `ERROR in save the json from NV as file: ${err.message}`;
+                this.nv_updateData = err.message;
                 return; 
                 
             }

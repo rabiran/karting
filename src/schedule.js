@@ -7,7 +7,7 @@ const nv = require('./NV_synchronizeData');
 //loads the environment variables from '.env' file into process.env
 require('dotenv').config()
 
-const trialLog = schedule.scheduleJob('08 * * * *',async()=>{
+const trialLog = schedule.scheduleJob('01 * * * *',async()=>{
     // get the new json from aka & save him on the server
     aka();
     es();
