@@ -1,6 +1,10 @@
+const shell = require('shelljs');
 let express = require("express")
 let app = express()
 let port = 3001
+
+// shell.exec(`{kill $(lsof -t -i:${port})} &> /dev/null`)
+// shell.exec('kill $(lsof -t -i:3001) &>/dev/null',{silent:true});
 
 app.get("/getEightSocks", (req, res) => {
     res.json(require("./mocksFiles/eightsocks.json"))
