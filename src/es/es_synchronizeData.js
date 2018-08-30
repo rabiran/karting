@@ -15,7 +15,7 @@ module.exports = async()=>{
         // move the old data files to the archive
         let files = fs.readdirSync('./data/es/')
         files.map(file=>{
-            if (file != `es_${dateAndTime}.txt` && file != 'archive'){
+            if (file != `es_${dateAndTime}.txt` && file != 'archive' && file != 'completeData'){
                 fs.renameSync(`./data/es/${file}`, `./data/es/archive/${file}`);
                 console.log(`${file} successfully moved to es archive`);   
             } 

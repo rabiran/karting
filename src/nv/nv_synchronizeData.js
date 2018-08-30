@@ -15,7 +15,7 @@ module.exports = async()=>{
         // move the old data files to the archive
         let files = fs.readdirSync('./data/nv/')
         files.map(file=>{
-            if (file != `nv_${dateAndTime}.txt` && file != 'archive'){
+            if (file != `nv_${dateAndTime}.txt` && file != 'archive' && file != 'completeData'){
                 fs.renameSync(`./data/nv/${file}`, `./data/nv/archive/${file}`);
                 console.log(`${file} successfully moved to nv archive`);   
             } 
