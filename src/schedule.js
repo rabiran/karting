@@ -1,4 +1,5 @@
 const schedule = require("node-schedule");
+const fs = require('fs');
 const diff = require("diff-arrays-of-objects");
 const aka = require('./aka/aka_synchronizeData');
 const es = require('./es/es_synchronizeData');
@@ -20,24 +21,31 @@ require('dotenv').config()
     aka_data.then(aka_result=>{
         es_Data.then(es_result => {
             // integration of the data from the various sources and save the complete data on the server
-            es_DataCompletion(es_result,aka_result)
+            let es_completeData = es_DataCompletion(es_result,aka_result)
+            // compare the new json with the oldest
+            let last_es_Json_name = fs.readFileSync(`./data/es/completeData/archive/${es_completeData.lastJsonName}`,'utf8'); 
+            last_es_Json_name =  JSON.parse(last_es_Json_name);
+            let es_diff = diff(last_es_Json_name,es_completeData.copmleteData,"mi",{updateValues: 2 });
         });
         nv_Data.then(nv_result => {
             // integration of the data from the various sources and save the complete data on the server
-            nv_DataCompletion(nv_result,aka_result)
+            let nv_completeData = nv_DataCompletion(nv_result,aka_result);
+            // compare the new json with the oldest
+            let last_nv_Json_name = fs.readFileSync(`./data/nv/completeData/archive/${nv_completeData.lastJsonName}`,'utf8'); 
+            last_nv_Json_name =  JSON.parse(last_nv_Json_name);
+            let nv_diff = diff(last_nv_Json_name,nv_completeData.copmleteData,"mi",{updateValues: 2 });
         });
-    // });
-     
-    // compare the new json with the oldest          
-    // let result = diff(oldJson,API_Json,"id",{updateValues: 2 });
 
+     
     // add the new persons to Kartoffel
     // axios.post(process.env.KARTOFFEL_ADDPERSON_API,result.added)
     //     .then(()=>{
-    //         console.log('success to post :)');
+    //         console.log('success to post :)'); 
     //     })
     //     .catch((error)=>{
     //         console.log('failed to post :(');
     //         console.log(error);                
     //     })
-});
+    });
+    
+// });

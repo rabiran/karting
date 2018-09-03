@@ -1,6 +1,5 @@
 var fs = require('fs');
 const moment = require("moment");
-const util = require('util');
 
 module.exports = (es_data,aka_data)=>{
     // check if the person exist at aka and if so then adds the relevant fields
@@ -20,11 +19,11 @@ module.exports = (es_data,aka_data)=>{
 
     // save the complete data on the server
     const dateAndTime = moment(new Date()).format("DD.MM.YYYY_HH:mm");
+    const files = fs.readdirSync('./data/es/completeData/')
     try{
-        fs.writeFileSync(`./data/es/completeData/es_completeData_${dateAndTime}.txt`,util.inspect(es_copmleteData,{depth: null}))
+        fs.writeFileSync(`./data/es/completeData/es_completeData_${dateAndTime}.txt`,JSON.stringify(es_copmleteData))
         console.log(`the es complete data from ${dateAndTime} successfully saved`);
         // move the old data files to the archive
-        let files = fs.readdirSync('./data/es/completeData/')
         files.map(file=>{
             if (file != `es_completeData_${dateAndTime}.txt` && file != 'archive'){
                 fs.renameSync(`./data/es/completeData/${file}`, `./data/es/completeData/archive/${file}`);
@@ -35,5 +34,17 @@ module.exports = (es_data,aka_data)=>{
     catch(err){
         return err.message; 
     }; 
-    return es_copmleteData;
+    
+    // solve the problem that if runnig the module twice at same time on the clock
+    let lastJsonName = files[files.length-1]
+    if(files[files.length-1] === `es_completeData_${dateAndTime}.txt`){
+        const completeFiles = fs.readdirSync('./data/es/completeData/archive/');
+        lastJsonName = completeFiles[completeFiles.length-1]
+    }
+
+
+    return {
+        copmleteData:es_copmleteData,
+        lastJsonName:lastJsonName
+    };
 };

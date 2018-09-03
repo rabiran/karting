@@ -1,7 +1,6 @@
 var fs = require('fs');
 const axios = require("axios");
 const moment = require("moment");
-const util = require('util');
 require('dotenv').config()
 
 module.exports = async()=>{
@@ -10,7 +9,7 @@ module.exports = async()=>{
     let nv_Data = await axios.get(process.env.NV_API);
     // save the new json as file in the server
     try{
-        fs.writeFileSync(`./data/nv/nv_${dateAndTime}.txt`,util.inspect(nv_Data.data,{depth: null}));
+        fs.writeFileSync(`./data/nv/nv_${dateAndTime}.txt`,JSON.stringify(nv_Data.data));
         console.log(`the nv data from ${dateAndTime} successfully saved`);
         // move the old data files to the archive
         let files = fs.readdirSync('./data/nv/')

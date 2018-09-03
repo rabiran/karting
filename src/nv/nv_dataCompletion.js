@@ -1,6 +1,5 @@
 var fs = require('fs');
 const moment = require("moment");
-const util = require('util');
 
 module.exports = (nv_data,aka_data)=>{    
     let nv_copmleteData = [];
@@ -41,22 +40,34 @@ module.exports = (nv_data,aka_data)=>{
         }) 
     });
 
-    // save the complete data on the server
-    const dateAndTime = moment(new Date()).format("DD.MM.YYYY_HH:mm");
-    try{
-        fs.writeFileSync(`./data/nv/completeData/nv_completeData_${dateAndTime}.txt`,util.inspect(nv_copmleteData,{depth: null}));
-        console.log(`the nv complete data from ${dateAndTime} successfully saved`);
-        // move the old data files to the archive
-        let files = fs.readdirSync('./data/nv/completeData/')
-        files.map(file=>{
-            if (file != `nv_completeData_${dateAndTime}.txt` && file != 'archive'){
-                fs.renameSync(`./data/nv/completeData/${file}`, `./data/nv/completeData/archive/${file}`);
-                console.log(`${file} successfully moved to nv complete data archive`);   
-            } 
-        })
-    }
-    catch(err){
-        return err.message; 
-    };
-    return nv_copmleteData;
+   // save the complete data on the server
+   const dateAndTime = moment(new Date()).format("DD.MM.YYYY_HH:mm");
+   const files = fs.readdirSync('./data/nv/completeData/')
+   try{
+       fs.writeFileSync(`./data/nv/completeData/nv_completeData_${dateAndTime}.txt`,JSON.stringify(nv_copmleteData))
+       console.log(`the nv complete data from ${dateAndTime} successfully saved`);
+       // move the old data files to the archive
+       files.map(file=>{
+           if (file != `nv_completeData_${dateAndTime}.txt` && file != 'archive'){
+               fs.renameSync(`./data/nv/completeData/${file}`, `./data/nv/completeData/archive/${file}`);
+               console.log(`${file} successfully moved to nv complete data archive`);   
+           } 
+       })
+   }
+   catch(err){
+       return err.message; 
+   }; 
+   
+   // solve the problem that if runnig the module twice at same time on the clock
+   let lastJsonName = files[files.length-1]
+   if(files[files.length-1] === `nv_completeData_${dateAndTime}.txt`){
+       const completeFiles = fs.readdirSync('./data/nv/completeData/archive/');
+       lastJsonName = completeFiles[completeFiles.length-1]
+   }
+
+
+   return {
+       copmleteData:nv_copmleteData,
+       lastJsonName:lastJsonName
+   };
 };
