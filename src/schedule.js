@@ -7,6 +7,8 @@ const es = require('./es/es_synchronizeData');
 const nv = require('./nv/nv_synchronizeData');
 const es_DataCompletion = require('./es/es_dataCompletion');
 const nv_DataCompletion = require('./nv/nv_dataCompletion');
+const colors = require('../util/colorsForLogs');
+
 
 //load the environment variables from '.env' file into process.env
 require('dotenv').config()
@@ -24,38 +26,50 @@ require('dotenv').config()
             // integration of the data from the various sources and save the complete data on the server
             const es_completeData = es_DataCompletion(es_result,aka_result)
             // compare the new json with the oldest
-            let last_es_Json_name = fs.readFileSync(`./data/es/completeData/archive/${es_completeData.lastJsonName}`,'utf8'); 
-            last_es_Json_name =  JSON.parse(last_es_Json_name);
-           
+            let last_es_Json_name;
+            try {
+                let last_es_Json_name = fs.readFileSync(`./data/es/completeData/archive/${es_completeData.lastJsonName}`,'utf8'); 
+                last_es_Json_name =  JSON.parse(last_es_Json_name);
+            } catch(err) {
+                if (err.code === 'ENOENT') {
+                    console.log(`${colors.yellow}there is a first running of es and therefore there is no comparison!`);
+                }
+            }
+         
             // extarct the new data of new & exist persons
             // const es_diff = diff(last_es_Json_name,es_completeData.copmleteData,"personalNumber",{updateValues: 2 });          
             
-            // /*only for TEST needs*/
+            // /*ONLY for TEST needs*/
             const update_es_json = fs.readFileSync('/home/me/Desktop/escomp_UPDATE.txt','utf8');
-           
             const es_diff = diff(last_es_Json_name,JSON.parse(update_es_json),"personalNumber",{updateValues: 2 });
             // /*REMOVE UNTIL HERE*/
-   
             
             
             // add the new persons to Kartoffel
             es_diff.added.map(es_person => {
                 axios.post(process.env.KARTOFFEL_ADDPERSON_API,es_person)
                 .then(()=>{
-                    console.log(`success to post ${es_person.personalNumber} from es`); 
+                    console.log(`${colors.green}success to post ${es_person.personalNumber} from es`); 
                 })
                 .catch((error)=>{
-                    console.log(`failed to post ${es_person.personalNumber} from es`);
-                    // console.log(error);                
+                    console.log(`${colors.red}failed to post ${es_person.personalNumber} from es. The error message: "${error.response.data}"`);               
                 })                
             })
         });
-        nv_Data.then(nv_result => {
+        nv_Data.then(async(nv_result) => {
             // integration of the data from the various sources and save the complete data on the server
-            const nv_completeData = nv_DataCompletion(nv_result,aka_result);
+            const nv_completeData = await nv_DataCompletion(nv_result,aka_result);
             // compare the new json with the oldest
-            let last_nv_Json_name = fs.readFileSync(`./data/nv/completeData/archive/${nv_completeData.lastJsonName}`,'utf8'); 
-            last_nv_Json_name =  JSON.parse(last_nv_Json_name);
+            let last_nv_Json_name;
+            try {
+                last_nv_Json_name = fs.readFileSync(`./data/nv/completeData/archive/${nv_completeData.lastJsonName}`,'utf8'); 
+                last_nv_Json_name =  JSON.parse(last_nv_Json_name);
+            } catch(err) {
+                if (err.code === 'ENOENT') {
+                    console.log(`${colors.yellow}there is a first running of nv and therefore there is no comparison!`);
+                }
+            }
+            
             // extarct the new data of new & exist persons
             // const nv_diff = diff(last_nv_Json_name,nv_completeData.copmleteData,"personalNumber",{updateValues: 2 });
            
@@ -63,27 +77,19 @@ require('dotenv').config()
 
             // /*only for TEST needs*/
             const update_nv_json = fs.readFileSync('/home/me/Desktop/nvcomp_UPDATE.txt','utf8');
-
             const nv_diff = diff(last_nv_Json_name,JSON.parse(update_nv_json),"personalNumber",{updateValues: 2 });
             // /*REMOVE UNTIL HERE*/
 
             // add the new persons to Kartoffel
-            nv_diff.added.map(nv_person => {
+            nv_diff.added.map((nv_person) => {
                 axios.post(process.env.KARTOFFEL_ADDPERSON_API,nv_person)
                 .then(()=>{
-                    console.log(`success to post ${nv_person.personalNumber} from nv`); 
+                    console.log(`${colors.green}success to post ${nv_person.personalNumber} from nv`); 
                 })
                 .catch((error)=>{
-                    console.log(`failed to post ${nv_person.personalNumber} from nv`);
-                    // console.log(error);                
+                    console.log(`${colors.red}failed to post ${nv_person.personalNumber} from nv. The error message: "${error.response.data}"`);
                 })                
             })
-
         });
-
-     
-
-
-    });
-    
+    });   
 // });

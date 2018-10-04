@@ -1,16 +1,17 @@
-var fs = require('fs');
-const moment = require("moment");
+const axios = require('axios');
+const hierarchyHandler = require('../../util/hierarchyHandler');
+const SaveCompleteDataLog = require('../../util/SaveCompleteDataLog');
 
 module.exports = (es_data,aka_data)=>{
     // check if the person exist at aka and if so then adds the relevant fields
     let es_copmleteData = [];
-    es_data.map(es_record => {
-        aka_data.map(aka_record=>{
+    es_data.map((es_record) => {
+        aka_data.map(async(aka_record)=>{
             let ifExist = Object.values(aka_record).indexOf(es_record.mi);
             if (ifExist != -1){
                 // add the clearance from aka
                 es_record.clearance = aka_record.clearance
-                //edit field's name on nv to match them to kartoffel API
+                //edit field's name on es to match them to kartoffel API
                 es_record.identityCard = es_record.tz;
                 delete es_record.tz;
                 es_record.personalNumber = es_record.mi;
@@ -31,41 +32,24 @@ module.exports = (es_data,aka_data)=>{
                 delete es_record.tf;
                 es_record.primaryDomainUser = es_record.mail;
                 delete es_record.mail;
+                es_record.directGroup = await axios.get(process.env.KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API,es_record.hierarchy)
+                .then((result)=>{
+                    // This module accept person hierarchy and check if the hierarchy exit.
+                    // If yes- the modue return the last hierarchy's objectID,
+                    // else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
+                    es_record.directGroup = hierarchyHandler(result.data);
+                    }
+                );
 
-                // add the update record to new array that will returm from this module
-                es_copmleteData.push(es_record);
             }   
-        }) 
+        })  
     });
 
     // save the complete data on the server
-    const dateAndTime = moment(new Date()).format("DD.MM.YYYY_HH:mm");
-    const files = fs.readdirSync('./data/es/completeData/')
-    try{
-        fs.writeFileSync(`./data/es/completeData/es_completeData_${dateAndTime}.txt`,JSON.stringify(es_copmleteData))
-        console.log(`the es complete data from ${dateAndTime} successfully saved`);
-        // move the old data files to the archive
-        files.map(file=>{
-            if (file != `es_completeData_${dateAndTime}.txt` && file != 'archive'){
-                fs.renameSync(`./data/es/completeData/${file}`, `./data/es/completeData/archive/${file}`);
-                console.log(`${file} successfully moved to es complete data archive`);   
-            } 
-        })
-    }
-    catch(err){
-        return err.message; 
-    }; 
-    
-    // solve the problem that if runnig the module twice at same time on the clock
-    let lastJsonName = files[files.length-1]
-    if(files[files.length-1] === `es_completeData_${dateAndTime}.txt` || files[files.length-1] === 'archive'){
-        const completeFiles = fs.readdirSync('./data/es/completeData/archive/');
-        lastJsonName = completeFiles[completeFiles.length-1]
-    }
-
+    let lastJsonName = SaveCompleteDataLog("es",es_copmleteData);
 
     return {
-        copmleteData:es_copmleteData,
+        copmleteData: es_copmleteData,
         lastJsonName:lastJsonName
     };
 };

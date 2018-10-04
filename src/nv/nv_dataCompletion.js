@@ -1,9 +1,12 @@
-var fs = require('fs');
-const moment = require("moment");
+const axios = require('axios');
+const hierarchyHandler = require('../../util/hierarchyHandler');
+const SaveCompleteDataLog = require('../../util/SaveCompleteDataLog');
+
 
 module.exports = (nv_data,aka_data)=>{    
     let nv_copmleteData = [];
-    nv_data.map(nv_record => {
+    // complete the field for each person at nv from AKA
+    nv_data.map((nv_record) => {
         // complete the uniqe fields from ad
         
         /*
@@ -12,6 +15,7 @@ module.exports = (nv_data,aka_data)=>{
          * 
          */
         //temporary workaround tp generate 'mi':
+        // send array of users and get the users with mi and email address
         if (nv_record.uniqueId == "fshallcroff0@phpbb.com"){
             nv_record.personalNumber = 55579169;
             nv_record.primaryDomainUser = "primary@phpbb.com";
@@ -21,7 +25,7 @@ module.exports = (nv_data,aka_data)=>{
         }
         
          // check if the person exist at aka and if so then adds the relevant fields
-        aka_data.map(aka_record => {
+        aka_data.map((aka_record) => {
             let ifExist = Object.values(aka_record).indexOf(nv_record.personalNumber);
             if (ifExist != -1){
                 // add the fields from aka
@@ -39,12 +43,21 @@ module.exports = (nv_data,aka_data)=>{
                 //edit field's name on nv to match them to kartoffel API
                 nv_record.hierarchy = nv_record.hr;
                 delete nv_record.hr;
+                nv_record.primaryDomainUser  = nv_record.uniqueId;
                 nv_record.secondaryDomainUsers = nv_record.uniqueId;
                 delete nv_record.uniqueId;
                 let job = nv_record.hierarchy.split('/');
                 nv_record.job = job[job.length-1];
-                
-                
+                nv_record.directGroup = axios.get(process.env.KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API,nv_record.hierarchy)
+                .then((result)=>{
+                    // This module accept person hierarchy and check if the hierarchy exit.
+                    // If yes- the modue return the last hierarchy's objectID,
+                    // else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
+                    let directGroupID = hierarchyHandler(result.data);
+                    return directGroupID
+                    }
+                );
+                              
                 // add the update record to new array that will returm from this module
                 nv_copmleteData.push(nv_record);          
             }   
@@ -52,30 +65,7 @@ module.exports = (nv_data,aka_data)=>{
     });
 
    // save the complete data on the server
-   const dateAndTime = moment(new Date()).format("DD.MM.YYYY_HH:mm");
-   const files = fs.readdirSync('./data/nv/completeData/')
-   try{
-       fs.writeFileSync(`./data/nv/completeData/nv_completeData_${dateAndTime}.txt`,JSON.stringify(nv_copmleteData))
-       console.log(`the nv complete data from ${dateAndTime} successfully saved`);
-       // move the old data files to the archive
-       files.map(file=>{
-           if (file != `nv_completeData_${dateAndTime}.txt` && file != 'archive'){
-               fs.renameSync(`./data/nv/completeData/${file}`, `./data/nv/completeData/archive/${file}`);
-               console.log(`${file} successfully moved to nv complete data archive`);   
-           } 
-       })
-   }
-   catch(err){
-       return err.message; 
-   }; 
-   
-   // solve the problem that if runnig the module twice at same time on the clock
-   let lastJsonName = files[files.length-1];
-   if(files[files.length-1] === `nv_completeData_${dateAndTime}.txt` || files[files.length-1] === 'archive'){
-       const completeFiles = fs.readdirSync('./data/nv/completeData/archive/');
-       lastJsonName = completeFiles[completeFiles.length-1]
-   }
-
+   let lastJsonName = SaveCompleteDataLog("nv",nv_copmleteData);
 
    return {
        copmleteData:nv_copmleteData,
