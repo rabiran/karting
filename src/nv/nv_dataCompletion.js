@@ -3,10 +3,11 @@ const hierarchyHandler = require('../../util/hierarchyHandler');
 const SaveCompleteDataLog = require('../../util/SaveCompleteDataLog');
 
 
-module.exports = (nv_data,aka_data)=>{    
+module.exports = async(nv_data,aka_data)=>{    
     let nv_copmleteData = [];
     // complete the field for each person at nv from AKA
-    nv_data.map((nv_record) => {
+    for (nv_record of nv_data){
+    // (nv_data.map(async(nv_record) => {
         // complete the uniqe fields from ad
         
         /*
@@ -25,7 +26,8 @@ module.exports = (nv_data,aka_data)=>{
         }
         
          // check if the person exist at aka and if so then adds the relevant fields
-        aka_data.map((aka_record) => {
+        for (aka_record of aka_data){
+        // aka_data.map((aka_record) => {
             let ifExist = Object.values(aka_record).indexOf(nv_record.personalNumber);
             if (ifExist != -1){
                 // add the fields from aka
@@ -48,7 +50,7 @@ module.exports = (nv_data,aka_data)=>{
                 delete nv_record.uniqueId;
                 let job = nv_record.hierarchy.split('/');
                 nv_record.job = job[job.length-1];
-                nv_record.directGroup = axios.get(process.env.KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API,nv_record.hierarchy)
+                nv_record.directGroup =await axios.get(process.env.KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API,nv_record.hierarchy)
                 .then((result)=>{
                     // This module accept person hierarchy and check if the hierarchy exit.
                     // If yes- the modue return the last hierarchy's objectID,
@@ -61,14 +63,14 @@ module.exports = (nv_data,aka_data)=>{
                 // add the update record to new array that will returm from this module
                 nv_copmleteData.push(nv_record);          
             }   
-        }) 
-    });
+        } 
+    };
 
-   // save the complete data on the server
-   let lastJsonName = SaveCompleteDataLog("nv",nv_copmleteData);
+    // save the complete data on the server
+    let lastJsonName = SaveCompleteDataLog("nv",nv_copmleteData);
 
-   return {
-       copmleteData:nv_copmleteData,
-       lastJsonName:lastJsonName
-   };
+    return {
+        copmleteData:nv_copmleteData,
+        lastJsonName:lastJsonName
+    };
 };

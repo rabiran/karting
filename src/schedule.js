@@ -13,7 +13,7 @@ const colors = require('../util/colorsForLogs');
 //load the environment variables from '.env' file into process.env
 require('dotenv').config()
 
-// const trialLog = schedule.scheduleJob('02 * * * *',async()=>{
+// const trialLog = schedule.scheduleJob('50 * * * *',async()=>{
     // get the new json from aka & save him on the server
     let aka_data = aka();
     // get the new json from es & save him on the server
@@ -32,7 +32,7 @@ require('dotenv').config()
                 last_es_Json_name =  JSON.parse(last_es_Json_name);
             } catch(err) {
                 if (err.code === 'ENOENT') {
-                    console.log(`${colors.yellow}there is a first running of es and therefore there is no comparison!`);
+                    console.log(`${colors.yellow}this is the first running of es and therefore there is no comparison!`);
                 }
             }
          
@@ -66,7 +66,7 @@ require('dotenv').config()
                 last_nv_Json_name =  JSON.parse(last_nv_Json_name);
             } catch(err) {
                 if (err.code === 'ENOENT') {
-                    console.log(`${colors.yellow}there is a first running of nv and therefore there is no comparison!`);
+                    console.log(`${colors.yellow}this is the first running of nv and therefore there is no comparison!`);
                 }
             }
             
