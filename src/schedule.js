@@ -7,13 +7,14 @@ const es = require('./es/es_synchronizeData');
 const nv = require('./nv/nv_synchronizeData');
 const es_DataCompletion = require('./es/es_dataCompletion');
 const nv_DataCompletion = require('./nv/nv_dataCompletion');
-const colors = require('../util/colorsForLogs');
+const colors = require('./util/colorsForLogs');
 
 
 //load the environment variables from '.env' file into process.env
 require('dotenv').config()
 
-// const trialLog = schedule.scheduleJob('50 * * * *',async()=>{
+// const trialLog = schedule.scheduleJob('30 * * * *',async()=>{
+
     // get the new json from aka & save him on the server
     let aka_data = aka();
     // get the new json from es & save him on the server
@@ -22,14 +23,17 @@ require('dotenv').config()
     let nv_Data = nv();
 
     aka_data.then(aka_result=>{
-        es_Data.then(es_result => {
+        es_Data.then(async(es_result) => {
             // integration of the data from the various sources and save the complete data on the server
-            const es_completeData = es_DataCompletion(es_result,aka_result)
+            const es_completeData = await es_DataCompletion(es_result,aka_result)
             // compare the new json with the oldest
             let last_es_Json_name;
             try {
-                let last_es_Json_name = fs.readFileSync(`./data/es/completeData/archive/${es_completeData.lastJsonName}`,'utf8'); 
+                last_es_Json_name = fs.readFileSync(`./data/es/completeData/archive/${es_completeData.lastJsonName}`,'utf8'); 
                 last_es_Json_name =  JSON.parse(last_es_Json_name);
+                console.log(`888888888888888888888888888888es_completeData.lastJsonName: ${es_completeData.lastJsonName}`)
+                console.log(`888888888888888888888888888888last_es_Json_name: ${last_es_Json_name}`)
+                console.log(`888888888888888888888888888888completeData: ${es_completeData.completeData}`)
             } catch(err) {
                 if (err.code === 'ENOENT') {
                     console.log(`${colors.yellow}this is the first running of es and therefore there is no comparison!`);

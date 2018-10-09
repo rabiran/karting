@@ -1,13 +1,12 @@
 const axios = require('axios');
-const hierarchyHandler = require('../../util/hierarchyHandler');
-const SaveCompleteDataLog = require('../../util/SaveCompleteDataLog');
+const hierarchyHandler = require('../util/hierarchyHandler');
+const saveAsFile = require('../util/saveAsFile');
 
 
 module.exports = async(nv_data,aka_data)=>{    
     let nv_copmleteData = [];
     // complete the field for each person at nv from AKA
     for (nv_record of nv_data){
-    // (nv_data.map(async(nv_record) => {
         // complete the uniqe fields from ad
         
         /*
@@ -67,7 +66,7 @@ module.exports = async(nv_data,aka_data)=>{
     };
 
     // save the complete data on the server
-    let lastJsonName = SaveCompleteDataLog("nv",nv_copmleteData);
+    let lastJsonName = saveAsFile(nv_copmleteData,'./data/nv/completeData','nv_completeData');
 
     return {
         copmleteData:nv_copmleteData,
