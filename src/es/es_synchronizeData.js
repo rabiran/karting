@@ -1,12 +1,16 @@
 const axios = require("axios");
 const saveAsFile = require('../util/saveAsFile');
+const dataComparison = require('../util/dataComparison');
 require('dotenv').config()
 
 module.exports = async()=>{
     // get the update data from the remote server
-    let es_Data = await axios.get(process.env.ES_API);
+    let es_data = await axios.get(process.env.ES_API);
     // save the new json as file in the server
-    saveAsFile(es_Data.data,'./data/es','es_raw_data');
+    let previous_es_data_file_name = saveAsFile(es_data.data,'./data/es','es_raw_data');
+   
+    esDiff = dataComparison(es_data.data,"./data/es/archive", previous_es_data_file_name, "tz");
     
-    return es_Data.data;
+    return esDiff;
+
 };

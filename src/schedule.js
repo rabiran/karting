@@ -31,9 +31,9 @@ require('dotenv').config()
             try {
                 last_es_Json_name = fs.readFileSync(`./data/es/completeData/archive/${es_completeData.lastJsonName}`,'utf8'); 
                 last_es_Json_name =  JSON.parse(last_es_Json_name);
-                console.log(`888888888888888888888888888888es_completeData.lastJsonName: ${es_completeData.lastJsonName}`)
-                console.log(`888888888888888888888888888888last_es_Json_name: ${last_es_Json_name}`)
-                console.log(`888888888888888888888888888888completeData: ${es_completeData.completeData}`)
+                // console.log(`888888888888888888888888888888es_completeData.lastJsonName: ${es_completeData.lastJsonName}`)
+                // console.log(`888888888888888888888888888888last_es_Json_name: ${last_es_Json_name}`)
+                // console.log(`888888888888888888888888888888completeData: ${es_completeData.completeData}`)
             } catch(err) {
                 if (err.code === 'ENOENT') {
                     console.log(`${colors.yellow}this is the first running of es and therefore there is no comparison!`);
