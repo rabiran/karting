@@ -3,6 +3,8 @@ const diff = require("diff-arrays-of-objects");
 const colors = require('../util/colorsForLogs');
 
 /*
+    Finds the differences between two "data" files 
+
     the argument meanning:
     updateData: the data that will compared
     path: the location of the previous_data_file, without "/" at the end of the path
