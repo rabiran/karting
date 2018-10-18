@@ -1,7 +1,5 @@
 const schedule = require("node-schedule");
 const axios = require('axios');
-const fs = require('fs');
-const diff = require("diff-arrays-of-objects");
 const aka = require('./aka/aka_synchronizeData');
 const es = require('./es/es_synchronizeData');
 const nv = require('./nv/nv_synchronizeData');
@@ -9,7 +7,8 @@ const es_DataCompletion = require('./es/es_dataCompletion');
 const nv_DataCompletion = require('./nv/nv_dataCompletion');
 const colors = require('./util/colorsForLogs');
 const matchToKartoffel = require('./util/matchToKartoffel');
-const  fn = require('./config/fieldNames');
+const fn = require('./config/fieldNames');
+const p = require('./config/paths');
 //load the environment variables from '.env' file into process.env
 require('dotenv').config()
 
@@ -32,12 +31,12 @@ require('dotenv').config()
             "firstName": "Trcie",
             "lastName": "Butterick",
             "tz": 123456,
-            "mi": 55579169,
+            "mi": 95579169,
             "rnk": 70,
             "nrnk": "Account Representative IV",
             "telephone": "7408765",
             "ktelephone": "08",
-            "mobile":"8986935",
+            "mobile":"7086935",
             "kmobile": "050",
             "rld": "2017-12-07",
             "clearance": 4,
@@ -54,7 +53,7 @@ require('dotenv').config()
             "mi": 99508267,
             "rnk": 4,
             "nrnk": "Software Consultant",
-            "telephone": "2554334779",
+            "telephone": "9554334779",
             "ktelephone": 5,
             "mobile": "6125215533",
             "kmobile": 10,
@@ -67,12 +66,12 @@ require('dotenv').config()
 
         // update the person's fields the update at the last iteration of Karting
         for (aka_record of aka_result.updated){
-            // Checking if the user already exist and accept his object from Kartoffel
-            await axios.get(`${process.env.KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${aka_record[fn.aka.identityCard]}`)
+            // Checking if the person already exist and accept his object from Kartoffel
+            await axios.get(`${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${aka_record[fn.aka.identityCard]}`)
             // if the person already exist in Kartoffel => only update the person.
             .then(async(person) => {
                 let person_ready_for_kartoffel = matchToKartoffel(aka_record,"aka");
-                await axios.put(`${process.env.KARTOFFEL_PERSON_API}${person.data.id}/personal`, person_ready_for_kartoffel)
+                await axios.put(`${p().KARTOFFEL_PERSON_API}`, person_ready_for_kartoffel)
                 .then(()=>{
                     console.log(`${colors.green}The person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data successfully update in Kartoffel`);
                 })   
@@ -86,6 +85,148 @@ require('dotenv').config()
             });
         }
     });
+
+
+    
+    es_Data.then(async(es_result) => {
+        //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
+        es_result.updated = [{
+            "entity": 68,
+            "stype": 54,
+            "firstName": "Hasheem",
+            "lastName": "Derricoat",
+            "tz": 641939790,
+            "mi": 60254221,
+            "rnk": "Legal Assistant",
+            "vphone": "1986624807",
+            "cphone": "4312832987",
+            "mail": "hderricoat0@cnet.com",
+            "rld": "2018-08-15",
+            "adr": "3647 Del Mar Place",
+            "hr": "lamba/sabmba/gamba",
+            "tf": "Librarian",
+            "su": "hderricoat0@ucoz.com"
+            },
+            {
+            "entity": 58,
+            "stype": 54,
+            "firstName": "Ruthy",
+            "lastName": "Sivyer",
+            "tz": 797623584,
+            "mi": 42923825,
+            "rnk": "Product Engineer",
+            "vphone": "3547388848",
+            "cphone": "6062384437",
+            "mail": "rsivyer1@pagesperso-orange.fr",
+            "rld": "2018-05-08",
+            "adr": "913 Union Parkway",
+            "hr": "lamba/sabmba/gamba",
+            "tf": "Internal Auditor",
+            "su": "rsivyer1@marketwatch.com"
+            }]
+        es_result.added = [
+            {
+                "entity": 68,
+                "stype": 54,
+                "firstName": "Hasheem",
+                "lastName": "Derricoat",
+                "tz": 641939790,
+                "mi": 60254221,
+                "rnk": "Legal Assistant",
+                "vphone": "1986624807",
+                "cphone": "4312832987",
+                "mail": "hderricoat0@cnet.com",
+                "rld": "2018-08-15",
+                "adr": "3647 Del Mar Place",
+                "hr": "lamba/sabmba/gamba",
+                "tf": "Librarian",
+                "su": "hderricoat0@ucoz.com"
+            },
+            {
+                "entity": 58,
+                "stype": 54,
+                "firstName": "Ruthy",
+                "lastName": "Sivyer",
+                "tz": 797623584,
+                "mi": 42923825,
+                "rnk": "Product Engineer",
+                "vphone": "3547388848",
+                "cphone": "6062384437",
+                "mail": "rsivyer1@pagesperso-orange.fr",
+                "rld": "2018-05-08",
+                "adr": "913 Union Parkway",
+                "hr": "lamba/sabmba/gamba",
+                "tf": "Internal Auditor",
+                "su": "rsivyer1@marketwatch.com"
+            }
+        ]
+        /////////////////////////////////////////////////////////////////////////////
+        
+        //added the new person from es to Kartoffel
+        for (es_record of es_result.added){
+           // Checking if the person already exist and accept his object from Kartoffel
+           let person_ready_for_kartoffel = await matchToKartoffel(es_record,"es"); 
+           await axios.get(`${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${es_record.identityCard}`)
+                // if the person already exist in Kartoffel => only update the person.
+                .then(async(person) => {
+                    await axios.put(`${process.env.KARTOFFEL_PERSON_API}`, person_ready_for_kartoffel)
+                    .then(()=>{
+                        console.log(`${colors.green}The person with identityCard: ${person_ready_for_kartoffel.identityCard} from es_raw_data successfully update in Kartoffel`);
+                    })   
+                    .catch(err=>{
+                        console.log(`${colors.red}Not updated the person with identityCard: ${person_ready_for_kartoffel.identityCard} from es_raw_data to Kartoffel. The error message:"${err.response.data}"`);
+                    })
+                })
+                // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding primary user    
+                .catch((err)=>{
+                    // check if the perosn not exist in Kartoffel (404 status), or it is another error
+                    if(err.response.status === 404){
+                        // complete the data from aka (if exist):
+
+
+                    } else {
+                        console.log(`${colors.red}Failed to check the existance of the person with identityCard: ${person_ready_for_kartoffel.identityCard} from es_raw_data in Kartoffel. The error message:"${err.response.data}"`);
+                    };
+                    
+
+                }) 
+        
+        // // integration of the data from the various sources and save the complete data on the server
+        // const es_completeData = await es_DataCompletion(es_result,aka_result)
+        // // compare the new json with the oldest
+        // let last_es_Json_name;
+        // try {
+        //     last_es_Json_name = fs.readFileSync(`./data/es/completeData/archive/${es_completeData.lastJsonName}`,'utf8'); 
+        //     last_es_Json_name =  JSON.parse(last_es_Json_name);
+        // } catch(err) {
+        //     if (err.code === 'ENOENT') {
+        //         console.log(`${colors.yellow}this is the first running of es and therefore there is no comparison!`);
+        //     }
+        // }
+     
+        // // extarct the new data of new & exist persons
+        // // const es_diff = diff(last_es_Json_name,es_completeData.copmleteData,"personalNumber",{updateValues: 2 });          
+        
+        // // /*ONLY for TEST needs*/
+        // const update_es_json = fs.readFileSync('/home/me/Desktop/escomp_UPDATE.txt','utf8');
+        // const es_diff = diff(last_es_Json_name,JSON.parse(update_es_json),"personalNumber",{updateValues: 2 });
+        // // /*REMOVE UNTIL HERE*/
+        
+        
+        // // add the new persons to Kartoffel
+        // es_diff.added.map(es_person => {
+        //     axios.post(process.env.KARTOFFEL_ADDPERSON_API,es_person)
+        //     .then(()=>{
+        //         console.log(`${colors.green}success to post ${es_person.personalNumber} from es`); 
+        //     })
+        //     .catch((error)=>{
+        //         console.log(`${colors.red}failed to post ${es_person.personalNumber} from es. The error message: "${error.response.data}"`);               
+        //     })                
+        // })
+        }
+    });
+
+
 
     // nv_Data.then(async(nv_result) => {
     //     // integration of the data from the various sources and save the complete data on the server
@@ -122,42 +263,11 @@ require('dotenv').config()
     //         })                
     //     })
     // });
-    
-    // es_Data.then(async(es_result) => {
-    //     // integration of the data from the various sources and save the complete data on the server
-    //     const es_completeData = await es_DataCompletion(es_result,aka_result)
-    //     // compare the new json with the oldest
-    //     let last_es_Json_name;
-    //     try {
-    //         last_es_Json_name = fs.readFileSync(`./data/es/completeData/archive/${es_completeData.lastJsonName}`,'utf8'); 
-    //         last_es_Json_name =  JSON.parse(last_es_Json_name);
-    //         // console.log(`888888888888888888888888888888es_completeData.lastJsonName: ${es_completeData.lastJsonName}`)
-    //         // console.log(`888888888888888888888888888888last_es_Json_name: ${last_es_Json_name}`)
-    //         // console.log(`888888888888888888888888888888completeData: ${es_completeData.completeData}`)
-    //     } catch(err) {
-    //         if (err.code === 'ENOENT') {
-    //             console.log(`${colors.yellow}this is the first running of es and therefore there is no comparison!`);
-    //         }
-    //     }
-     
-    //     // extarct the new data of new & exist persons
-    //     // const es_diff = diff(last_es_Json_name,es_completeData.copmleteData,"personalNumber",{updateValues: 2 });          
-        
-    //     // /*ONLY for TEST needs*/
-    //     const update_es_json = fs.readFileSync('/home/me/Desktop/escomp_UPDATE.txt','utf8');
-    //     const es_diff = diff(last_es_Json_name,JSON.parse(update_es_json),"personalNumber",{updateValues: 2 });
-    //     // /*REMOVE UNTIL HERE*/
-        
-        
-    //     // add the new persons to Kartoffel
-    //     es_diff.added.map(es_person => {
-    //         axios.post(process.env.KARTOFFEL_ADDPERSON_API,es_person)
-    //         .then(()=>{
-    //             console.log(`${colors.green}success to post ${es_person.personalNumber} from es`); 
-    //         })
-    //         .catch((error)=>{
-    //             console.log(`${colors.red}failed to post ${es_person.personalNumber} from es. The error message: "${error.response.data}"`);               
-    //         })                
-    //     })
-    // });
+
+
+
+
+
+
+
 // });

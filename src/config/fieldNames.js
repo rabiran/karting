@@ -38,4 +38,5 @@ module.exports = {
         s:"digimon",
         c:"tamer"
     },
+    rootHierarchy:"wallmart"
 };

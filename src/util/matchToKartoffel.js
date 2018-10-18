@@ -1,4 +1,7 @@
 const fn = require("../config/fieldNames");
+const p = require("../config/paths");
+const axios = require('axios');
+const hierarchyHandler = require('../util/hierarchyHandler');
 
 /*
 This module match the fields of given object to Kartoffel fields structure.
@@ -189,9 +192,9 @@ const match_es = (objKeys,obj) => {
             //rank
             case fn.es.rank:
                 if(obj.hasOwnProperty("rank")){
-                    obj.personalNumber = obj[rawKey];
+                    obj.rank = obj[rawKey];
                 }else{
-                    obj.personalNumber = obj[rawKey];
+                    obj.rank = obj[rawKey];
                     delete obj[rawKey];
                 };
                 break;
@@ -225,18 +228,22 @@ const match_es = (objKeys,obj) => {
             //hierarchy 
             case fn.es.hierarchy:
                 if(obj.hasOwnProperty("hierarchy")){
-                    obj.hierarchy = obj[rawKey];
+                    let hr = obj[rawKey].split('/');
+                    hr[0]===fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                    obj.hierarchy = hr.join("/");
                 }else{
-                    obj.hierarchy = obj[rawKey];
+                    let hr = obj[rawKey].split('/');
+                    hr[0]===fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                    obj.hierarchy = hr.join("/");
                     delete obj[rawKey];
                 };
                 break;
             //mail 
             case fn.es.mail:
                 if(obj.hasOwnProperty("mail")){
-                    obj.hierarchy = obj[rawKey];
+                    obj.mail = obj[rawKey];
                 }else{
-                    obj.hierarchy = obj[rawKey];
+                    obj.mail = obj[rawKey];
                     delete obj[rawKey];
                 };
                 break;       
@@ -252,20 +259,41 @@ const match_es = (objKeys,obj) => {
             //job 
             case fn.es.job:
                 if(obj.hasOwnProperty("job")){
-                    obj.address = obj[rawKey];
+                    obj.job = obj[rawKey];
                 }else{
-                    obj.address = obj[rawKey];
+                    obj.job = obj[rawKey];
                     delete obj[rawKey];
                 };
-                break;  
+                break; 
+            // else
             default:
                 delete obj[rawKey]; 
         };
     });
 };
+ 
+directGroupHandler = (record)=>{
+    hr = record.hierarchy.replace(/\//g,"%2f"); //match the structure of the string to the browser
+    axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
+    .then(async(result)=>{
+        // This module accept person hierarchy and check if the hierarchy exit.
+        // If yes- the modue return the last hierarchy's objectID,
+        // else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
+        let directGroupID = await hierarchyHandler(result.data);
+        return directGroupID
+    })
+    .catch((err)=>{
+        console.log(`Faild to add directGroup to the person with the identityCard: ${obj.identityCard}. The error message:"${err.response.data}"`); 
+    });
+};
 
 
-module.exports = (obj, dataSource) => {
+
+
+
+
+
+module.exports = async(obj, dataSource) => {
     
     const objKeys = Object.keys(obj);
     
@@ -275,6 +303,7 @@ module.exports = (obj, dataSource) => {
             break;
         case "es":
             match_es(objKeys,obj);
+            obj.directGroup = await directGroupHandler(obj);
             break;
         case "nv":
             match_nv(objKeys,obj);

@@ -4,6 +4,7 @@
 const axios = require('axios');
 const _ = require('lodash');
 const colors = require('./colorsForLogs');
+const p = require('../config/paths');
 
 module.exports = async (hierarchy_obj)=>{
     let hierarchy_arr = Object.values(hierarchy_obj);
@@ -25,7 +26,7 @@ module.exports = async (hierarchy_obj)=>{
             parentID: hierarchy_arr[hierarchy_arr.length-1],
         }
         
-        await axios.post(process.env.KARTOFFEL_ADDGROUP_API,new_group)
+        await axios.post(p().KARTOFFEL_ADDGROUP_API,new_group)
             .then((result)=>{ 
                 hierarchy_obj[new_hierarchy_name] = result.data._id;
                 hierarchy_arr = Object.values(hierarchy_obj);
