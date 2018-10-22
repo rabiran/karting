@@ -4,7 +4,7 @@ const fn = require('../config/fieldNames');
 This module add fields from aka to given object.
 */
 
-const complete_nv = (obj) => {
+const complete_nv = (obj, akaData) => {
     akaData.map((akaRecord)=>{
         let ifExist = Object.values(akaRecord).indexOf(obj.personalNumber);
         if (ifExist != -1){
@@ -38,10 +38,10 @@ module.exports = (obj, akaData, dataSource) => {
         
     switch(dataSource){
         case "es":
-            complete_es(obj,akaData.all);
+            complete_es(obj,akaData);
             break;
         case "nv":
-            complete_nv(obj,akaData.all);
+            complete_nv(obj,akaData);
             break;
         default:
             console.log("'dataSource' variable must be attached to 'completeFromAka' function");

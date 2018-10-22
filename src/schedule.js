@@ -20,11 +20,11 @@ const devSchedual = async()=>{
     
     // get the new json from es & save him on the server
     let es_Data = es().then((esDiffs)=>{
-        diffsHandler(esDiffs, "es", aka_data);
+        diffsHandler(esDiffs, "es", aka_data.all);
     });
     // get the new json from nv & save him on the server
-    let nv_Data = nv().then((nvDiffs)=>{
-        diffsHandler(nvDiffs, "nv", aka_data);
+    let nv_Data = nv().then((nvDiff)=>{
+        diffsHandler(nvDiff, "nv", aka_data.all);
     });
 
 

@@ -118,9 +118,16 @@ const match_nv = (obj) => {
             // hierarchy 
             case fn.nv.hierarchy:
                 if(obj.hasOwnProperty("hierarchy")){
-                    obj.hierarchy = obj[rawKey];
+                    // obj.hierarchy = obj[rawKey];
+                    let hr = obj[rawKey].split('/');
+                    hr[0]===fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                    obj.hierarchy = hr.join("/");
                 }else{
-                    obj.hierarchy = obj[rawKey];
+                    // obj.hierarchy = obj[rawKey];
+                    // delete obj[rawKey];
+                    let hr = obj[rawKey].split('/');
+                    hr[0]===fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                    obj.hierarchy = hr.join("/");
                     delete obj[rawKey];
                 };    
             break;
