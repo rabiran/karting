@@ -30,16 +30,16 @@ module.exports = async(nv_data,aka_data)=>{
             let ifExist = Object.values(aka_record).indexOf(nv_record.personalNumber);
             if (ifExist != -1){
                 // add the fields from aka
-                nv_record.identityCard = aka_record.tz;
-                nv_record.firstName = aka_record.firstName;
-                nv_record.lastName = aka_record.lastName;
-                nv_record.currentUnit = aka_record.hr;
-                nv_record.rank = aka_record.nrnk;
-                nv_record.phone = `${aka_record.ktelephone}-${aka_record.telephone}`;
-                nv_record.mobilePhone = `${aka_record.kmobile}-${aka_record.mobile}`;
-                nv_record.dischargeDay = aka_record.rld;
-                nv_record.clearance = aka_record.clearance;
-                nv_record.serviceType = (aka_record.nstype === "אעב" || aka_record.nstype === "אעצ")?"Civilian":"Soldier";
+                // nv_record.identityCard = aka_record.tz;
+                // nv_record.firstName = aka_record.firstName;
+                // nv_record.lastName = aka_record.lastName;
+                // nv_record.currentUnit = aka_record.hr;
+                // nv_record.rank = aka_record.nrnk;
+                // nv_record.phone = `${aka_record.ktelephone}-${aka_record.telephone}`;
+                // nv_record.mobilePhone = `${aka_record.kmobile}-${aka_record.mobile}`;
+                // nv_record.dischargeDay = aka_record.rld;
+                // nv_record.clearance = aka_record.clearance;
+                // nv_record.serviceType = (aka_record.nstype === "אעב" || aka_record.nstype === "אעצ")?"Civilian":"Soldier";
 
                 //edit field's name on nv to match them to kartoffel API
                 nv_record.hierarchy = nv_record.hr;
