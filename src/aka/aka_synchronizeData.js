@@ -1,13 +1,25 @@
 const axios = require("axios");
 const saveAsFile = require('../util/saveAsFile');
 const dataComparison = require('../util/dataComparison');
+const akaDataManipulate = require('./akaDataManipulate.js');
 require('dotenv').config()
 
 module.exports = async()=>{
     // get the update data from the remote server
-    let aka_data = await axios.get(process.env.AKA_API);
+    let aka_phones_data = await axios.get(process.env.AKA_PHONES_API);
+    
+    // get the update data from the remote server
+    let aka_telephones_data = await axios.get(process.env.AKA_TELEPHONES_API);
+
+    // get the update data from the remote server
+    let aka_employees_data = await axios.get(process.env.AKA_EMPLOYEES_API);
+
+    // editing the aka data and squishing it to one object
+    let aka_data = akaDataManipulate(aka_phones_data, aka_telephones_data, aka_employees_data);
+
     // save the new json as file in the server
     let previous_aka_data_file_name = saveAsFile(aka_data.data,'./data/aka','aka_raw_data');
+
     // get the delta between the two last JSONs
     akaDiff = dataComparison(aka_data.data,"./data/aka/archive", previous_aka_data_file_name, "mi");
     
