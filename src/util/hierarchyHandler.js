@@ -1,10 +1,11 @@
-// This module accept person hierarchy and check if the hierarchy exit.
-// If yes- the modue return the last hierarchy's objectID,
-// else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
 const axios = require('axios');
 const _ = require('lodash');
 const colors = require('./colorsForLogs');
 const p = require('../config/paths');
+
+// This module accept person hierarchy and check if the hierarchy exit.
+// If yes- the modue return the last hierarchy's objectID,
+// else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
 
 module.exports = async (hierarchy_obj)=>{
     let hierarchy_arr = Object.values(hierarchy_obj);

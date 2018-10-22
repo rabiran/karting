@@ -4,11 +4,11 @@ const axios = require('axios');
 const hierarchyHandler = require('../util/hierarchyHandler');
 
 /*
-This module match the fields of given object to Kartoffel fields structure.
-
+This module match the fields of given object (raw_data) to Kartoffel fields structure.
 */
 
-const match_aka = (objKeys,obj) => {
+const match_aka = (obj) => {
+    const objKeys = Object.keys(obj);
     objKeys.map((rawKey)=>{
         switch(rawKey){
             //serviceType
@@ -111,7 +111,8 @@ const match_aka = (objKeys,obj) => {
     });
 }
 
-const match_nv = (objKeys,obj) => {
+const match_nv = (obj) => {
+    const objKeys = Object.keys(obj);
     objKeys.map((rawKey)=>{
         switch(rawKey){   
             // hierarchy 
@@ -140,7 +141,8 @@ const match_nv = (objKeys,obj) => {
     });
 };
 
-const match_es = (objKeys,obj) => {
+const match_es = (obj) => {
+    const objKeys = Object.keys(obj);
     objKeys.map((rawKey)=>{
         switch(rawKey){
            
@@ -272,41 +274,40 @@ const match_es = (objKeys,obj) => {
     });
 };
  
-directGroupHandler = (record)=>{
+directGroupHandler = async (record)=>{
     hr = record.hierarchy.replace(/\//g,"%2f"); //match the structure of the string to the browser
-    axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
-    .then(async(result)=>{
-        // This module accept person hierarchy and check if the hierarchy exit.
-        // If yes- the modue return the last hierarchy's objectID,
-        // else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
-        let directGroupID = await hierarchyHandler(result.data);
-        return directGroupID
-    })
-    .catch((err)=>{
-        console.log(`Faild to add directGroup to the person with the identityCard: ${obj.identityCard}. The error message:"${err.response.data}"`); 
-    });
+    let directGroup;
+    await axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
+        .then(async(result)=>{
+            // This module accept person hierarchy and check if the hierarchy exit.
+            // If yes- the modue return the last hierarchy's objectID,
+            // else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
+            let directGroupID = await hierarchyHandler(result.data);
+            directGroup = directGroupID;
+            
+        })
+        .catch((err)=>{
+            console.log(`Faild to add directGroup to the person with the identityCard: ${obj.identityCard}. The error message:"${err.response.data}"`); 
+        });
+    return directGroup;
 };
 
 
 
-
-
-
-
 module.exports = async(obj, dataSource) => {
-    
-    const objKeys = Object.keys(obj);
-    
+      
     switch(dataSource){
         case "aka":
-            match_aka(objKeys,obj);
+            match_aka(obj);
+            obj.directGroup = await directGroupHandler(obj);
             break;
         case "es":
-            match_es(objKeys,obj);
+            match_es(obj);
             obj.directGroup = await directGroupHandler(obj);
             break;
         case "nv":
-            match_nv(objKeys,obj);
+            match_nv(obj);
+            obj.directGroup = await directGroupHandler(obj);
             break;
         default:
             console.log("'dataSource' variable must be attached to 'matchToKartoffel' function");
