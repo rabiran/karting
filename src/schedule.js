@@ -59,6 +59,15 @@ const devSchedual = async()=>{
 
 
 
+//////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
+};
+devSchedual();
+/////////////////////////////////////////////////////////////////////////////
+// });
+
+
+
+
     // nv_Data.then(async(nv_result) => {
     //     // integration of the data from the various sources and save the complete data on the server
     //     const nv_completeData = await nv_DataCompletion(nv_result,aka_result);
@@ -74,10 +83,3 @@ const devSchedual = async()=>{
     //     }
         
    
-
-
-//////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
-};
-devSchedual();
-/////////////////////////////////////////////////////////////////////////////
-// });

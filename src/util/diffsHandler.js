@@ -51,8 +51,23 @@
                         person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource);
                         // Add the complete person object to Kartoffel
                         axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
-                            .then(()=>{
+                            .then((person)=>{
                                 console.log(`${colors.green}The person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully insert to Kartoffel`);
+                                // add primary user to the new person
+                                let user_object = {
+                                    personId : person.data.id,
+                                    fullString : person.data.mail,
+	                                isPrimary :true,
+                                };
+                                axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
+                                    .then((user)=>{
+                                        console.log(`${colors.green}Create the user ${user.data.primaryDomainUser} to the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully.`);
+                                    })
+                                    // check that
+                                    .catch((err)=>{
+                                        console.log(`${colors.red}Not create user to person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_datayy. The error message:"${err.response.data}"`);
+                                    })
+
                             })   
                             .catch(err=>{
                                 console.log(`${colors.red}Not insert the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
