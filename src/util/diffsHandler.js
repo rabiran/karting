@@ -12,11 +12,20 @@
  
  const added = async(diffsObj, dataSource, aka_all_data)=>{
     for (record of diffsObj){
+        // Define the unique changes for each "dataSource"
+        let person_existence_checking;
+        if (dataSource === "es"){
+            person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${record.identityCard}`
+        }
+        else if(dataSource === "nv"){
+            person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}${record.personalNumber}`
+            // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4
+            // insert your coe here:)
+            // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+        };
+
         let person_ready_for_kartoffel = await matchToKartoffel(record,dataSource); 
         // Checking if the person is already exist in Kartoffel and accept his object from Kartoffel
-        let person_existence_checking;
-        if (dataSource === "es"){person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${record.identityCard}`}
-        else if(dataSource === "nv"){person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}${record.personalNumber}`};
         await axios.get(person_existence_checking)
                 // if the person is already exist in Kartoffel => only update the person.
                 

@@ -9,9 +9,16 @@ const p = require('../config/paths');
 
 module.exports = async (hierarchy_obj)=>{
     let hierarchy_arr = Object.values(hierarchy_obj);
+    hierarchy_obj_length = Object.keys(hierarchy_obj).length;
+    hierarchy_obj_name = Object.keys(hierarchy_obj).join("/");
     // This loop create array with the names of the new hierarchy that need to be created
     hierarchy_to_add = [];
     while (hierarchy_arr[hierarchy_arr.length-1] == null) {
+        //  prevent infinity loop if the root hierarchy not exist in Kartoffel
+        if (hierarchy_to_add.length > hierarchy_obj_length){
+            console.log(`${colors.red}failed to add the hierarchy "${hierarchy_obj_name}" to Kartoffel. check if the root hierarchy exist in Kartoffel`)
+            return
+        }
         let nullKey = _.findKey(hierarchy_obj,(obID) => {
             return obID === hierarchy_arr[hierarchy_arr.length-1]
         })

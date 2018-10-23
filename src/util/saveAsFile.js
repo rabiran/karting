@@ -13,7 +13,7 @@ const colors = require('./colorsForLogs');
 
 
 module.exports = (data, path, actionDescription) => {
-    const dateAndTime = moment(new Date()).format("DD.MM.YYYY_HH:mm");
+    const dateAndTime = moment(new Date()).format("DD.MM.YYYY__HH.mm");
     const files = fs.readdirSync(`${path}/`);
     try{
         fs.writeFileSync(`${path}/${actionDescription}_${dateAndTime}.log`,JSON.stringify(data))
