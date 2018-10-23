@@ -4,6 +4,7 @@
   "description": "Kart data for kartoffel, also the api",
   "main": "app.js",
   "dependencies": {
+    "activedirectory": "^0.7.2",
     "axios": "^0.18.0",
     "diff-arrays-of-objects": "^1.1.1",
     "express": "^4.16.3",
@@ -18,7 +19,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"nodemon ./mocks/mocksGenerator.js\" \"nodemon ./src/schedule.js\""
+    "start": "concurrently \"nodemon ./mocks/mocksGenerator.js\" \"node --max_old_space_size=8000 ./src/schedule.js\""
   },
   "repository": {
     "type": "git",

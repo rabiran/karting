@@ -20,7 +20,7 @@
         else if(dataSource === "nv"){
             person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}${record.personalNumber}`
             // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4
-            // insert your coe here:)
+            record = getAData(record)
             // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         };
 
