@@ -15,7 +15,7 @@ module.exports = {
         unitName:"hr",
     },
     es:{
-        serviceType:"nstype",
+        serviceType:"stype",
         firstName:"firstName",
         lastName:"lastName",
         identityCard:"tz",

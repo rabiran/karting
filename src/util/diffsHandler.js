@@ -1,0 +1,221 @@
+ const p = require('../config/paths');
+ const matchToKartoffel = require('./matchToKartoffel');
+ const axios = require('axios');
+ const colors = require('./colorsForLogs');
+ const completeFromAka = require('./completeFromAka');
+
+ /*
+  * diffsObj - object that contain the results of diffs checking (added,updated,same,removed & all)
+  * dataSource - string the express the name of the data source
+  * aka_all_data - object that contain all the recent data from aka
+  */
+ 
+ const added = async(diffsObj, dataSource, aka_all_data)=>{
+    for (record of diffsObj){
+        // Define the unique changes for each "dataSource"
+        let person_existence_checking;
+        if (dataSource === "es"){
+            person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${record.identityCard}`
+        }
+        else if(dataSource === "nv"){
+            person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}${record.personalNumber}`
+            // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4
+            record = getAData(record)
+            // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+        };
+
+        let person_ready_for_kartoffel = await matchToKartoffel(record,dataSource); 
+        // Checking if the person is already exist in Kartoffel and accept his object from Kartoffel
+        await axios.get(person_existence_checking)
+                // if the person is already exist in Kartoffel => only update the person.
+                
+                
+                //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                // .then(async(person) => {
+                //     await axios.put(`${p().KARTOFFEL_PERSON_API}:${person.data.id}`, person_ready_for_kartoffel)
+                //     .then(()=>{
+                //         console.log(`${colors.green}The person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_raw_data successfully update in Kartoffel`);
+                //     })   
+                //     .catch(err=>{
+                //         console.log(`${colors.red}Not updated the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_raw_data to Kartoffel. The error message:"${err.response.data}"`);
+                //     })
+                // })
+                //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+                // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding primary user    
+                .catch((err)=>{
+                    // check if the perosn not exist in Kartoffel (404 status), or if there is another error
+                    if(err.response.status === 404){
+                        // complete the data from aka (if exist):
+                        person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource);
+                        // Add the complete person object to Kartoffel
+                        axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
+                            .then(()=>{
+                                console.log(`${colors.green}The person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully insert to Kartoffel`);
+                            })   
+                            .catch(err=>{
+                                console.log(`${colors.red}Not insert the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
+                            })
+
+                    } else {
+                        console.log(`${colors.red}Failed to check the existance of the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_raw_data in Kartoffel. The error message:"${err.response.data}"`);
+                    };
+                    
+
+                }) 
+        }
+ }
+ 
+ module.exports = (diffsObj, dataSource, aka_all_data)=>{
+    //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
+    switch(dataSource){       
+        case "es":
+            diffsObj.updated = [{
+                    "entity": 68,
+                    "stype": 54,
+                    "firstName": "Hasheem",
+                    "lastName": "Derricoat",
+                    "tz": 641939790,
+                    "mi": 60254221,
+                    "rnk": "Legal Assistant",
+                    "vphone": "1986624807",
+                    "cphone": "4312832987",
+                    "mail": "hderricoat0@cnet.com",
+                    "rld": "2018-08-15",
+                    "adr": "3647 Del Mar Place",
+                    "hr": "lamba/sabmba/gamba",
+                    "tf": "Librarian",
+                    "su": "hderricoat0@ucoz.com"
+                },
+                {
+                    "entity": 58,
+                    "stype": 54,
+                    "firstName": "Ruthy",
+                    "lastName": "Sivyer",
+                    "tz": 797623584,
+                    "mi": 42923825,
+                    "rnk": "Product Engineer",
+                    "vphone": "3547388848",
+                    "cphone": "6062384437",
+                    "mail": "rsivyer1@pagesperso-orange.fr",
+                    "rld": "2018-05-08",
+                    "adr": "913 Union Parkway",
+                    "hr": "lamba/sabmba/gamba",
+                    "tf": "Internal Auditor",
+                    "su": "rsivyer1@marketwatch.com"
+                }]
+            diffsObj.added = [
+                {
+                    "entity": 68,
+                    "stype": "tamer",
+                    "firstName": "Hasheem",
+                    "lastName": "Derricoat",
+                    "tz": 641939790,
+                    "mi": 60254221,
+                    "rnk": "rookie",
+                    "vphone": "023487226",
+                    "cphone": "4312832987",
+                    "mail": "hderricoat0@cnet.com",
+                    "rld": "2018-08-15",
+                    "adr": "3647 Del Mar Place",
+                    "hr": "lamba/sabmba/gamba",
+                    "tf": "Librarian",
+                    "su": "hderricoat0@ucoz.com"
+                },
+                {
+                    "entity": 58,
+                    "stype": "tamer",
+                    "firstName": "Ruthy",
+                    "lastName": "Sivyer",
+                    "tz": 797623584,
+                    "mi": 42923825,
+                    "rnk": "rookie",
+                    "vphone": "023487226",
+                    "cphone": "6062384437",
+                    "mail": "rsivyer1@pagesperso-orange.fr",
+                    "rld": "2018-05-08",
+                    "adr": "913 Union Parkway",
+                    "hr": "lamba/sabmba/gamba",
+                    "tf": "Internal Auditor",
+                    "su": "rsivyer1@marketwatch.com"
+                }
+            ]
+            break;
+        case "nv":
+            diffsObj.added = [
+                {
+                    "fullName": "Flint Shallcroff",
+                    "uniqueId": "fshallcroff0@phpbb.com",
+                    "hr": "shnizel/bamba/bisli60"
+                },
+                {
+                    "fullName": "Fionna Shinfield",
+                    "uniqueId": "fshinfield1@paginegialle.it",
+                    "hr": "shnizel/bamba/bisli60"
+                }
+            ]    
+            diffsObj.updated = [
+                {
+                    "fullName": "Flint Shallcroff",
+                    "uniqueId": "fshallcroff0@phpbb.com",
+                    "hr": "shnizel/bamba/bisli60"
+                },
+                {
+                    "fullName": "Fionna Shinfield",
+                    "uniqueId": "fshinfield1@paginegialle.it",
+                    "hr": "shnizel/bamba/bisli60"
+                }
+            ]
+            break;
+        case "aka":
+            diffsObj.updated = [
+            {
+                "drg": 61,
+                "stype": 41,
+                "nstype": "Quality Engineer",
+                "firstName": "Trcie",
+                "lastName": "Butterick",
+                "tz": 123456,
+                "mi": 95579169,
+                "rnk": 70,
+                "nrnk": "Account Representative IV",
+                "telephone": "7408765",
+                "ktelephone": "08",
+                "mobile":"7086935",
+                "kmobile": "050",
+                "rld": "2017-12-07",
+                "clearance": 4,
+                "hr": "Pine View",
+                "khr": 521
+            },
+            {
+                "drg": 94,
+                "stype": 55,
+                "nstype": "Compensation Analyst",
+                "firstName": "Aloise",
+                "lastName": "Lissandrini",
+                "tz": 420128795,
+                "mi": 99508267,
+                "rnk": 4,
+                "nrnk": "Software Consultant",
+                "telephone": "9554334779",
+                "ktelephone": 5,
+                "mobile": "6125215533",
+                "kmobile": 10,
+                "rld": "2018-03-01",
+                "clearance": 1,
+                "hr": "Talisman",
+                "khr": 910
+            }]
+            break;
+        default:
+            console.log("'dataSource' variable must be attached to 'diffsHandler - MOCK' function");
+    }
+    /////////////////////////////////////////////////////////////////////////////
+
+    //added the new person from es to Kartoffel
+    added(diffsObj.added, dataSource, aka_all_data);
+
+
+ };
