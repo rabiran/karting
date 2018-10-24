@@ -2,6 +2,7 @@ const fn = require("../config/fieldNames");
 const p = require("../config/paths");
 const axios = require('axios');
 const hierarchyHandler = require('../util/hierarchyHandler');
+const logger = require('./logger');
 
 /*
 This module match the fields of given object (raw_data) to Kartoffel fields structure.
@@ -294,7 +295,7 @@ directGroupHandler = async (record)=>{
             
         })
         .catch((err)=>{
-            console.log(`Faild to add directGroup to the person with the identityCard: ${obj.identityCard}. The error message:"${err.response.data}"`); 
+            logger.error(`Faild to add directGroup to the person with the identityCard: ${obj.identityCard}. The error message:"${err.response.data}"`); 
         });
     return directGroup;
 };
@@ -317,7 +318,8 @@ module.exports = async(obj, dataSource) => {
             obj.directGroup = await directGroupHandler(obj);
             break;
         default:
-            console.log("'dataSource' variable must be attached to 'matchToKartoffel' function");
+            
+            logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");
     }
 
         return obj;

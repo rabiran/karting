@@ -1,7 +1,7 @@
 const axios = require('axios');
 const _ = require('lodash');
-const colors = require('./colorsForLogs');
 const p = require('../config/paths');
+const logger = require('./logger');
 
 // This module accept person hierarchy and check if the hierarchy exit.
 // If yes- the modue return the last hierarchy's objectID,
@@ -16,7 +16,7 @@ module.exports = async (hierarchy_obj)=>{
     while (hierarchy_arr[hierarchy_arr.length-1] == null) {
         //  prevent infinity loop if the root hierarchy not exist in Kartoffel
         if (hierarchy_to_add.length > hierarchy_obj_length){
-            console.log(`${colors.red}failed to add the hierarchy "${hierarchy_obj_name}" to Kartoffel. check if the root hierarchy exist in Kartoffel`)
+            logger.error(`failed to add the hierarchy "${hierarchy_obj_name}" to Kartoffel. check if the root hierarchy exist in Kartoffel`);
             return
         }
         let nullKey = _.findKey(hierarchy_obj,(obID) => {
@@ -38,10 +38,10 @@ module.exports = async (hierarchy_obj)=>{
             .then((result)=>{ 
                 hierarchy_obj[new_hierarchy_name] = result.data._id;
                 hierarchy_arr = Object.values(hierarchy_obj);
-                console.log(`${colors.green}success to add the hierarchy "${new_hierarchy_name}" to Kartoffel`);
+                logger.info(`success to add the hierarchy "${new_hierarchy_name}" to Kartoffel`);
             })
             .catch((error)=>{
-                console.log(`${colors.red}failed to add the hierarchy "${new_hierarchy_name}" to Kartoffel. the error message: "${error.response.data}"`)
+                logger.error(`failed to add the hierarchy "${new_hierarchy_name}" to Kartoffel. the error message: "${error.response.data}"`);
             })
     }
     let parentID = hierarchy_arr[hierarchy_arr.length-1]

@@ -1,8 +1,10 @@
  const p = require('../config/paths');
  const matchToKartoffel = require('./matchToKartoffel');
  const axios = require('axios');
- const colors = require('./colorsForLogs');
  const completeFromAka = require('./completeFromAka');
+ const fn = require('../config/fieldNames');
+ const logger = require('./logger');
+
 
  /*
   * diffsObj - object that contain the results of diffs checking (added,updated,same,removed & all)
@@ -15,10 +17,10 @@
         // Define the unique changes for each "dataSource"
         let person_existence_checking;
         if (dataSource === "es"){
-            person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${record.identityCard}`
+            person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${record[fn.es.identityCard]}`;
         }
         else if(dataSource === "nv"){
-            person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}${record.personalNumber}`
+            person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}${record[fn.nv.personalNumber]}`;
             // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4
             // record = getAData(record)
             // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -33,11 +35,24 @@
                 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
                 // .then(async(person) => {
                 //     await axios.put(`${p().KARTOFFEL_PERSON_API}:${person.data.id}`, person_ready_for_kartoffel)
-                //     .then(()=>{
-                //         console.log(`${colors.green}The person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_raw_data successfully update in Kartoffel`);
+                //     .then((person)=>{
+                //         logger.info(`The person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_raw_data successfully update in Kartoffel`);
+                //         let user_object = {
+                //             personId : person.data.id,
+                //             fullString : person.data.mail,
+                //             isPrimary :false,
+                //         };
+                //         axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
+                //                     .then((user)=>{
+                //                         logger.info(`Create the user ${user.data.secondaryDomainUsers} to the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully`);
+                //                     })
+                //                     // check that
+                //                     .catch((err)=>{
+                //                         logger.error(`Not create user to person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_datayy. The error message:"${err.response.data}"`);
+                //                     })
                 //     })   
                 //     .catch(err=>{
-                //         console.log(`${colors.red}Not updated the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_raw_data to Kartoffel. The error message:"${err.response.data}"`);
+                //         logger.error(`Not updated the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_raw_data to Kartoffel. The error message:"${err.response.data}"`);
                 //     })
                 // })
                 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -52,7 +67,7 @@
                         // Add the complete person object to Kartoffel
                         axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
                             .then((person)=>{
-                                console.log(`${colors.green}The person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully insert to Kartoffel`);
+                                logger.info(`The person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully insert to Kartoffel`);
                                 // add primary user to the new person
                                 let user_object = {
                                     personId : person.data.id,
@@ -61,20 +76,20 @@
                                 };
                                 axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                                     .then((user)=>{
-                                        console.log(`${colors.green}Create the user ${user.data.primaryDomainUser} to the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully.`);
+                                        logger.info(`Create the user ${user.data.primaryDomainUser} to the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully.`);
                                     })
                                     // check that
                                     .catch((err)=>{
-                                        console.log(`${colors.red}Not create user to person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_datayy. The error message:"${err.response.data}"`);
+                                        logger.error(`Not create user to person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_datayy. The error message:"${err.response.data}"`);
                                     })
 
                             })   
                             .catch(err=>{
-                                console.log(`${colors.red}Not insert the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
+                                logger.error(`Not insert the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
                             })
 
                     } else {
-                        console.log(`${colors.red}Failed to check the existance of the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_raw_data in Kartoffel. The error message:"${err.response.data}"`);
+                        logger.error(`Failed to check the existance of the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_raw_data in Kartoffel. The error message:"${err.response.data}"`);
                     };
                     
 
@@ -225,7 +240,7 @@
             }]
             break;
         default:
-            console.log("'dataSource' variable must be attached to 'diffsHandler - MOCK' function");
+            logger.error("'dataSource' variable must be attached to 'diffsHandler - MOCK' function");
     }
     /////////////////////////////////////////////////////////////////////////////
 

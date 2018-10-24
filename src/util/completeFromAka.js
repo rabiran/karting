@@ -1,5 +1,5 @@
 const fn = require('../config/fieldNames');
-
+const logger = require('./logger');
 /*
 This module add fields from aka to given object.
 */
@@ -44,7 +44,7 @@ module.exports = (obj, akaData, dataSource) => {
             complete_nv(obj,akaData);
             break;
         default:
-            console.log("'dataSource' variable must be attached to 'completeFromAka' function");
+            logger.error(`'dataSource' variable must be attached to 'completeFromAka' function`);
     }
 
         return obj;
