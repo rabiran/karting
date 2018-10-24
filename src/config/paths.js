@@ -4,6 +4,9 @@ const kartoffelUrl = "http://localhost:3000";
 module.exports = pathsHandler = (param)=>{
     return {
         // Data source
+        // AKA_PHONES_API:
+        // AKA_TELEPHONES_API:
+        // AKA_EMPLOYEES_API:
         AKA_API : 'http://localhost:3001/getAka',
         NV_API : 'http://localhost:3001/getNva',
         ES_API : 'http://localhost:3001/getEightSocks',
