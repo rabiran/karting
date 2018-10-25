@@ -28,23 +28,25 @@ module.exports = async (hierarchy_obj)=>{
     }
 
     // Add the missing hierarchies to Kartoffel
-    
-    for (let new_hierarchy_name of hierarchy_to_add){
-        let new_group = {
-            name: new_hierarchy_name,
-            parentId: hierarchy_arr[hierarchy_arr.length-1],
+    if (hierarchy_to_add.length != 0){
+        for (let new_hierarchy_name of hierarchy_to_add){
+            let new_group = {
+                name: new_hierarchy_name,
+                parentId: hierarchy_arr[hierarchy_arr.length-1],
+            }
+            
+            await axios.post(p().KARTOFFEL_ADDGROUP_API,new_group)
+                .then((result)=>{ 
+                    hierarchy_obj[new_hierarchy_name] = result.data._id;
+                    hierarchy_arr = Object.values(hierarchy_obj);
+                    logger.info(`success to add the hierarchy "${new_hierarchy_name}" to Kartoffel`);
+                })
+                .catch((error)=>{
+                    logger.error(`failed to add the hierarchy "${new_hierarchy_name}" to Kartoffel. the error message: "${error.response.data}"`);
+                })
         }
-        
-        await axios.post(p().KARTOFFEL_ADDGROUP_API,new_group)
-            .then((result)=>{ 
-                hierarchy_obj[new_hierarchy_name] = result.data._id;
-                hierarchy_arr = Object.values(hierarchy_obj);
-                logger.info(`success to add the hierarchy "${new_hierarchy_name}" to Kartoffel`);
-            })
-            .catch((error)=>{
-                logger.error(`failed to add the hierarchy "${new_hierarchy_name}" to Kartoffel. the error message: "${error.response.data}"`);
-            })
-    }
-    let parentID = hierarchy_arr[hierarchy_arr.length-1]
-    return parentID;
+    }   
+
+    let groupID = hierarchy_arr[hierarchy_arr.length-1]
+    return groupID;
 };

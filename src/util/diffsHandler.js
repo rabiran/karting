@@ -17,81 +17,79 @@
         // Define the unique changes for each "dataSource"
         let person_existence_checking;
         if (dataSource === "es"){
-            person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${record[fn.es.identityCard]}`;
+            person_existence_checking = `${p(record[fn.es.identityCard]).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}`;
         }
         else if(dataSource === "nv"){
-            person_existence_checking = `${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}${record[fn.nv.personalNumber]}`;
+            person_existence_checking = `${p(record[fn.nv.personalNumber]).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
             // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4
             // record = getAData(record)
             // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         };
 
-        let person_ready_for_kartoffel = await matchToKartoffel(record,dataSource); 
+        let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource); 
         // Checking if the person is already exist in Kartoffel and accept his object from Kartoffel
         await axios.get(person_existence_checking)
-                // if the person is already exist in Kartoffel => only update the person.
-                
-                
-                //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                .then((person) => {
-                    let user_object = {
-                        personId : person.data.id,
-                        fullString : person.data.mail,
-                        isPrimary :false,
-                    };
-                    axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
-                                .then((user)=>{
-                                    logger.info(`Create the user ${user.data.secondaryDomainUsers} to the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully`);
-                                })
-                                .catch((err)=>{
-                                    logger.error(`Not create user to person with the identifyer: ${user_object.fullString} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
-                                })
-                })   
-                .catch(err=>{
-                    let identifyer = (dataSource === "nv") ? person_ready_for_kartoffel.uniqueId : person_ready_for_kartoffel.personalNumber;
-                    logger.error(`The person with the identifyer: ${identifyer} from ${dataSource}_raw_data not found in Kartoffel. The error message:"${err.response.data}"`);
-                })
-       
-                //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            // if the person is already exist in Kartoffel => only update the person.
 
-
-                // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding primary user    
-                .catch((err)=>{
-                    // check if the perosn not exist in Kartoffel (404 status), or if there is another error
-                    if(err.response.status === 404){
-                        // complete the data from aka (if exist):
-                        person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource);
-                        // Add the complete person object to Kartoffel
-                        axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
-                            .then((person)=>{
-                                logger.info(`The person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully insert to Kartoffel`);
-                                // add primary user to the new person
-                                let user_object = {
-                                    personId : person.data.id,
-                                    fullString : person.data.mail,
-	                                isPrimary :true,
-                                };
-                                axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
-                                    .then((user)=>{
-                                        logger.info(`Create the user ${user.data.primaryDomainUser} to the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully.`);
-                                    })
-                                    // check that
-                                    .catch((err)=>{
-                                        logger.error(`Not create user to person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_datayy. The error message:"${err.response.data}"`);
-                                    })
-
-                            })   
-                            .catch(err=>{
-                                logger.error(`Not insert the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
+            //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            .then((person) => {
+                let user_object = {
+                    personId : person.data.id,
+                    fullString : person.data.mail,
+                    isPrimary :false,
+                };
+                axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
+                            .then((user)=>{
+                                logger.info(`Create the user ${user.data.secondaryDomainUsers} to the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully`);
                             })
+                            .catch((err)=>{
+                                logger.error(`Not create user to person with the identifyer: ${user_object.fullString} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
+                            })
+            })   
+   
+            //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-                    } else {
-                        logger.error(`Failed to check the existance of the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_raw_data in Kartoffel. The error message:"${err.response.data}"`);
-                    };
-                    
 
-                }) 
-        }
+            // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding primary user    
+            .catch((err)=>{
+                // check if the perosn not exist in Kartoffel (404 status), or if there is another error
+                if(err.response.status === 404){
+                    // complete the data from aka (if exist):
+                    person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource);
+                    // Add the complete person object to Kartoffel
+                    axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
+                        .then((person)=>{
+                            logger.info(`The person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully insert to Kartoffel`);
+                            // add primary user to the new person
+                            let user_object = {
+                                personId : person.data.id,
+                                fullString : person.data.mail,
+                                isPrimary :true,
+                            };
+                            axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
+                                .then((user)=>{
+                                    logger.info(`Create the user ${user.data.primaryDomainUser} to the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully.`);
+                                })
+                                // check that
+                                .catch((err)=>{
+                                    logger.error(`Not create user to person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_datayy. The error message:"${err.response.data}"`);
+                                })
+                        })   
+                        .catch(err=>{
+                            let identifyer = (dataSource === "nv") ? person_ready_for_kartoffel.uniqueId : person_ready_for_kartoffel.personalNumber;
+                            if (dataSource === "nv" && identifyer === undefined){
+                                logger.warn(`Not adding person fron nv that not complete from aka`);  
+                            }else{
+                                logger.error(`Not insert the person with the identifyer: ${identifyer} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
+                            }
+                        })
+
+                } else {
+                    let identifyer = (dataSource === "nv") ? person_ready_for_kartoffel.uniqueId : person_ready_for_kartoffel.personalNumber;
+                    logger.error(`The person with the identifyer: ${identifyer} from ${dataSource}_raw_data not found in Kartoffel. The error message:"${err.response.data}"`);  
+                };
+            }) 
+    }
  }
  
  module.exports = (diffsObj, dataSource, aka_all_data)=>{

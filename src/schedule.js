@@ -14,7 +14,21 @@ const logger = require('./util/logger');
 const devSchedual = async()=>{
 /////////////////////////////////////////////////////////////////////////////
 
-    
+    // check if the root hierarchy exist and adding him if not
+    await axios.get(p(fn.rootHierarchy).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
+        .then((result)=>{ 
+            logger.info(`The root hierarchy "${result.data.name}" alrrady exist Kartoffel`);
+        })
+        .catch(async()=>{
+             await axios.post(p().KARTOFFEL_ADDGROUP_API, {name : fn.rootHierarchy})
+            .then((result)=>{ 
+                logger.info(`Success to add the root hierarchy "${result.data.name}" to Kartoffel`);
+            })
+            .catch((err)=>{
+                logger.error(`Failed to add the root hierarchy to Kartoffel. the error message: "${err.response.data}"`);
+            })
+        });
+
     // get the new json from aka & save him on the server
     let aka_data = await aka();
     
@@ -57,29 +71,8 @@ const devSchedual = async()=>{
     }
 
 
-
-
 //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
 };
 devSchedual();
 /////////////////////////////////////////////////////////////////////////////
 // });
-
-
-
-
-    // nv_Data.then(async(nv_result) => {
-    //     // integration of the data from the various sources and save the complete data on the server
-    //     const nv_completeData = await nv_DataCompletion(nv_result,aka_result);
-    //     // compare the new json with the oldest
-    //     let last_nv_Json_name;
-    //     try {
-    //         last_nv_Json_name = fs.readFileSync(`./data/nv/completeData/archive/${nv_completeData.lastJsonName}`,'utf8'); 
-    //         last_nv_Json_name =  JSON.parse(last_nv_Json_name);
-    //     } catch(err) {
-    //         if (err.code === 'ENOENT') {
-    //             logger.warn(`this is the first running of nv and therefore there is no comparison!`);
-    //         }
-    //     }
-        
-   

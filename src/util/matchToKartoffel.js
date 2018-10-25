@@ -72,14 +72,14 @@ const match_aka = (obj) => {
                     obj.phone = `${obj[fn.aka.areaCode]}-${obj[rawKey]}`;                
                     delete obj[fn.aka.areaCode];
                 }else{
-                    obj.phone = `${obj[fn.aka.areaCode]}-${obj[rawKey]}`;                
+                    obj.phone = `${obj[fn.akauniqueIdareaCode]}-${obj[rawKey]}`;                
                     delete obj[rawKey];
-                    delete obj[fn.aka.areaCode];
+                    delete obj[fn.aka.areaCoduniqueId];
                 };
                 break;
             // mobilePhone       
             case fn.aka.mobilePhone:
-                if(obj.hasOwnProperty("mobilePhone")){                   
+                if(obj.hasOwnProperty("mobileuniqueIdhone")){                   
                     obj.mobilePhone = `${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`;                
                     delete obj[fn.aka.areaCodeMobile];
                 }else{
@@ -134,7 +134,7 @@ const match_nv = (obj) => {
             break;
             // job
             case fn.nv.uniqueId:
-                if(obj.hasOwnProperty("uniqueId")){
+                if(obj.hasOwnProperty("job")){
                     let job = obj[fn.nv.hierarchy].split('/');
                     obj.job = job[job.length-1];
                 }else{
@@ -282,7 +282,7 @@ const match_es = (obj) => {
     });
 };
  
-directGroupHandler = async (record)=>{
+directGroupHandler = async (record, dataSource)=>{
     hr = record.hierarchy.replace(/\//g,"%2f"); //match the structure of the string to the browser
     let directGroup;
     await axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
@@ -295,7 +295,8 @@ directGroupHandler = async (record)=>{
             
         })
         .catch((err)=>{
-            logger.error(`Faild to add directGroup to the person with the identityCard: ${obj.identityCard}. The error message:"${err.response.data}"`); 
+            let identifyer = (dataSource === "nv") ? record.uniqueId : record.identityCard;
+            logger.error(`Faild to add directGroup to the person with the identityCard: ${identifyer}. The error message:"${err.response.data}"`); 
         });
     return directGroup;
 };
@@ -307,15 +308,17 @@ module.exports = async(obj, dataSource) => {
     switch(dataSource){
         case "aka":
             match_aka(obj);
-            obj.directGroup = await directGroupHandler(obj);
+            obj.directGroup = await directGroupHandler(obj, dataSource);
             break;
         case "es":
             match_es(obj);
-            obj.directGroup = await directGroupHandler(obj);
+            obj.directGroup = await directGroupHandler(obj, dataSource);
+            delete obj.hierarchy;
             break;
         case "nv":
             match_nv(obj);
-            obj.directGroup = await directGroupHandler(obj);
+            obj.directGroup = await directGroupHandler(obj, dataSource);
+            delete obj.hierarchy;
             break;
         default:
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");
