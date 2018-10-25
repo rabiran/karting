@@ -3,11 +3,11 @@ const axios = require('axios');
 const aka = require('./aka/aka_synchronizeData');
 const es = require('./es/es_synchronizeData');
 const nv = require('./nv/nv_synchronizeData');
-const colors = require('./util/colorsForLogs');
 const matchToKartoffel = require('./util/matchToKartoffel');
 const fn = require('./config/fieldNames');
 const p = require('./config/paths');
 const diffsHandler = require('./util/diffsHandler');
+const logger = require('./util/logger');
 
 // const trialLog = schedule.scheduleJob('22 * * * *',async()=>{
 //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
@@ -41,10 +41,10 @@ const devSchedual = async()=>{
             
         //     await axios.put(`${p().KARTOFFEL_PERSON_API}:${person.data.id}`, person_ready_for_kartoffel)
         //     .then(()=>{
-        //         console.log(`${colors.green}The person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data successfully update in Kartoffel`);
+        //         logger.info(`The person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data successfully update in Kartoffel`);
         //     })   
         //     .catch(err=>{
-        //         console.log(`${colors.red}Not update the person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data. The error message:"${err.response.data}"`);
+        //         logger.error(`Not update the person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data. The error message:"${err.response.data}"`);
         //     })
         // })
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -52,9 +52,18 @@ const devSchedual = async()=>{
 
         // if the person does not exist in Kartoffel => ignore from the record
         .catch(err=>{
-            console.log(`${colors.red}Not update the person with identityCard: ${aka_record[fn.aka.identityCard]} from aka_raw_data. The error message:"${err.response.data}"`);
+            logger.error(`Not update the person with identityCard: ${aka_record[fn.aka.identityCard]} from aka_raw_data. The error message:"${err.response.data}"`);
         });
     }
+
+
+
+
+//////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
+};
+devSchedual();
+/////////////////////////////////////////////////////////////////////////////
+// });
 
 
 
@@ -69,15 +78,8 @@ const devSchedual = async()=>{
     //         last_nv_Json_name =  JSON.parse(last_nv_Json_name);
     //     } catch(err) {
     //         if (err.code === 'ENOENT') {
-    //             console.log(`${colors.yellow}this is the first running of nv and therefore there is no comparison!`);
+    //             logger.warn(`this is the first running of nv and therefore there is no comparison!`);
     //         }
     //     }
         
    
-
-
-//////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
-};
-devSchedual();
-/////////////////////////////////////////////////////////////////////////////
-// });

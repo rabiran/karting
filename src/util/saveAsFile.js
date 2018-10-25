@@ -1,6 +1,6 @@
 const fs = require('fs');
 const moment = require("moment");
-const colors = require('./colorsForLogs');
+const logger = require('./logger');
 
 /*
     This module save log to file with formt of date and time.
@@ -17,16 +17,16 @@ module.exports = (data, path, actionDescription) => {
     const files = fs.readdirSync(`${path}/`);
     try{
         fs.writeFileSync(`${path}/${actionDescription}_${dateAndTime}.log`,JSON.stringify(data))
-        console.log(`${colors.green}the ${actionDescription} from ${dateAndTime} successfully saved`);
+        logger.info(`The ${actionDescription} from ${dateAndTime} successfully saved`);
         files.map(file=>{
             if (file != `${actionDescription}_${dateAndTime}.log` && file != 'archive' && file != 'completeData'){
                 fs.renameSync(`${path}/${file}`, `${path}/archive/${file}`);
-                console.log(`${colors.green}${file} successfully moved to the archive`); 
+                logger.info(`${file} successfully moved to the archive`);
             } 
         })
     }
     catch(err){
-        console.log(`${colors.red} Error at save ${actionDescription}_${dateAndTime}.log file. The error message:${err.message}`);
+        logger.error(`Error at save ${actionDescription}_${dateAndTime}.log file. The error message:${err.message}`);
         return err.message; 
     }; 
     

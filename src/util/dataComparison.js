@@ -1,6 +1,6 @@
 const fs = require('fs');
 const diff = require("diff-arrays-of-objects");
-const colors = require('../util/colorsForLogs');
+const logger = require('./logger');
 
 /*
     Finds the differences between two "data" files 
@@ -8,8 +8,8 @@ const colors = require('../util/colorsForLogs');
     the argument meanning:
     updateData: the data that will compared
     path: the location of the previous_data_file, without "/" at the end of the path
-    previous_data_file_name: the previous data file's name
-    comparison_field: The field by which the comparison will be made
+    previous_datae: the previous data file's name
+    comparison_field: The fi_file_nameld by which the comparison will be made
 */
 
 module.exports = (updateData, path, previous_data_file_name, comparison_field) => {
@@ -20,7 +20,7 @@ module.exports = (updateData, path, previous_data_file_name, comparison_field) =
         previous_data =  JSON.parse(previous_data_file);
     } catch(err) {
         if (err) {
-            console.log(`${colors.red} Reading the previous data file:"${previous_data_file_name}" failed. The error message: "${err.message}"`);
+            logger.error(`Reading the previous data file:"${previous_data_file_name}" failed. The error message: "${err.message}"`);
         }
     }
 

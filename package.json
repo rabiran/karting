@@ -10,7 +10,10 @@
     "express": "^4.16.3",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
-    "node-schedule": "^1.3.0"
+    "node-schedule": "^1.3.0",
+    "path": "^0.12.7",
+    "winston": "^3.1.0",
+    "winston-daily-rotate-file": "^3.3.3"
   },
   "devDependencies": {
     "concurrently": "^3.6.1",
@@ -19,7 +22,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"nodemon ./mocks/mocksGenerator.js\" \"node --max_old_space_size=8000 ./src/schedule.js\""
+    "start": "concurrently \"nodemon ./mocks/mocksGenerator.js\" \"nodemon ./src/schedule.js\""
   },
   "repository": {
     "type": "git",
