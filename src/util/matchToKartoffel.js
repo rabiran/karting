@@ -318,7 +318,6 @@ module.exports = async(obj, dataSource) => {
             obj.directGroup = await directGroupHandler(obj);
             break;
         default:
-            
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");
     }
 

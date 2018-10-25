@@ -12,16 +12,16 @@ module.exports = pathsHandler = (param)=>{
         ES_API : 'http://localhost:3001/getEightSocks',
         
         // Kartoffel - person
-        KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API : `${kartoffelUrl}/api/person/personalNumber/`,
-        KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API : `${kartoffelUrl}/api/person/identityCard/`,
-        KARTOFFEL_PERSON_API : `${kartoffelUrl}/api/person/`,
+        KARTOFFEL_PERSON_API : `${kartoffelUrl}/api/persons/`,
+        KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API : `${kartoffelUrl}/api/persons/personalNumber/`,
+        KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API : `${kartoffelUrl}/api/persons/identityCard/`,
 
         // Kartoffel - group
-        KARTOFFEL_ADDGROUP_API : `${kartoffelUrl}/api/organizationGroup/`,
-        KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API : `${kartoffelUrl}/api/organizationGroup/path/${param}/hierarchyExistenceChecking`,
+        KARTOFFEL_ADDGROUP_API : `${kartoffelUrl}/api/organizationGroups/`,
+        KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API : `${kartoffelUrl}/api/organizationGroups/path/${param}/hierarchyExistenceChecking`,
 
         // Kartoffel - domainUser
-        KARTOFFEL_DOMAIN_USER_API : `${kartoffelUrl}/api/person/domainUser`,
+        KARTOFFEL_DOMAIN_USER_API : `${kartoffelUrl}/api/persons/domainUser`,
     }
 }
 

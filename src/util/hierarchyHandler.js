@@ -28,10 +28,11 @@ module.exports = async (hierarchy_obj)=>{
     }
 
     // Add the missing hierarchies to Kartoffel
+    
     for (let new_hierarchy_name of hierarchy_to_add){
         let new_group = {
             name: new_hierarchy_name,
-            parentID: hierarchy_arr[hierarchy_arr.length-1],
+            parentId: hierarchy_arr[hierarchy_arr.length-1],
         }
         
         await axios.post(p().KARTOFFEL_ADDGROUP_API,new_group)
