@@ -3,18 +3,16 @@ export default(phones, telephones, employees) => {
     results.forEach(result => {
         telephones.forEach(telephone => {
             if (telephone[personalNumber] == result[personalNumber]) {
-                result.mobile = telephone.mobile
-                result.kmobile = telephone.kmobile
+                result[phone] = telephone[phone]
+                result[areaCode] = telephone[areaCode]
                 return;
             }
         })
-    });
 
-    results.forEach(result => {
         phones.forEach(phone => {
             if (phone[personalNumber] == result[personalNumber]) {
-                result.mobile = phone.mobile
-                result.kmobile = phone.kmobile
+                result[mobilePhone] = phone[mobilePhone]
+                result[areaCodeMobile] = phone[areaCodeMobile]
                 return;
             }
         })

@@ -6,18 +6,17 @@ const fn = require('../config/fieldNames');
 const p = require('../config/paths');
 
 module.exports = async()=>{ 
-    // // // get the update data from the remote server
-    // let aka_phones_data = await axios.get(p().AKA_PHONES_API);
+    // get the update data from the remote server
+    let aka_phones_data = await axios.get(p().AKA_PHONES_API);
     
-    // // // get the update data from the remote server
-    // let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API);
+    // get the update data from the remote server
+    let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API);
 
-    // // // get the update data from the remote server
-    // let aka_employees_data = await axios.get(p().AKA_EMPLOYEES_API);
+    // get the update data from the remote server
+    let aka_employees_data = await axios.get(p().AKA_EMPLOYEES_API);
 
-    // // editing the aka data and squishing it to one object
-    // let aka_data = akaDataManipulate(aka_phones_data, aka_telephones_data, aka_employees_data);
-    let aka_data = await axios.get(p().AKA_API);
+    // editing the aka data and squishing it to one object
+    let aka_data = akaDataManipulate(aka_phones_data, aka_telephones_data, aka_employees_data);
 
     // save the new json as file in the server
     let previous_aka_data_file_name = saveAsFile(aka_data.data,'./data/aka','aka_raw_data');
