@@ -40,10 +40,3 @@ const logger = createLogger({
 });
 
 module.exports = logger;
-
-
-// logger.debug('Debugging info');
-// logger.verbose('Verbose info');
-// logger.info('Hello world');
-// logger.warn('Warning message');
-// logger.error('Error info');

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const moment = require("moment");
 const logger = require('./logger');
-
+const shell = require('shelljs');
 /*
     This module save log to file with formt of date and time.
 
@@ -10,9 +10,18 @@ const logger = require('./logger');
     path: the location of the data (archive folder need to be exist at this path), without "/" at the end of the path
     actionDescription: descripton about the meanning of the logs, show at the log.
 */
+const dataDir = 'data';
+
+// Create the log directory if it does not exist
+const pathHandler = (path) => {
+    if (!fs.existsSync(path)) {
+        shell.mkdir('-p', logDir);
+    }    
+};
 
 
 module.exports = (data, path, actionDescription) => {
+    path = createPath(path);
     const dateAndTime = moment(new Date()).format("DD.MM.YYYY__HH.mm");
     const files = fs.readdirSync(`${path}/`);
     try{

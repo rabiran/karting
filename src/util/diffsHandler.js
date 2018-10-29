@@ -93,152 +93,153 @@
  }
  
  module.exports = (diffsObj, dataSource, aka_all_data)=>{
-    //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
-    switch(dataSource){       
-        case "es":
-            diffsObj.updated = [{
-                    "entity": 68,
-                    "stype": 54,
-                    "firstName": "Hasheem",
-                    "lastName": "Derricoat",
-                    "tz": 641939790,
-                    "mi": 60254221,
-                    "rnk": "Legal Assistant",
-                    "vphone": "1986624807",
-                    "cphone": "4312832987",
-                    "mail": "hderricoat0@cnet.com",
-                    "rld": "2018-08-15",
-                    "adr": "3647 Del Mar Place",
-                    "hr": "lamba/sabmba/gamba",
-                    "tf": "Librarian",
-                    "su": "hderricoat0@ucoz.com"
+    if (process.env.NODE_ENV !== "production"){
+        //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
+        switch(dataSource){       
+            case "es":
+                diffsObj.updated = [{
+                        "entity": 68,
+                        "stype": 54,
+                        "firstName": "Hasheem",
+                        "lastName": "Derricoat",
+                        "tz": 641939790,
+                        "mi": 60254221,
+                        "rnk": "Legal Assistant",
+                        "vphone": "1986624807",
+                        "cphone": "4312832987",
+                        "mail": "hderricoat0@cnet.com",
+                        "rld": "2018-08-15",
+                        "adr": "3647 Del Mar Place",
+                        "hr": "lamba/sabmba/gamba",
+                        "tf": "Librarian",
+                        "su": "hderricoat0@ucoz.com"
+                    },
+                    {
+                        "entity": 58,
+                        "stype": 54,
+                        "firstName": "Ruthy",
+                        "lastName": "Sivyer",
+                        "tz": 797623584,
+                        "mi": 42923825,
+                        "rnk": "Product Engineer",
+                        "vphone": "3547388848",
+                        "cphone": "6062384437",
+                        "mail": "rsivyer1@pagesperso-orange.fr",
+                        "rld": "2018-05-08",
+                        "adr": "913 Union Parkway",
+                        "hr": "lamba/sabmba/gamba",
+                        "tf": "Internal Auditor",
+                        "su": "rsivyer1@marketwatch.com"
+                    }]
+                diffsObj.added = [
+                    {
+                        "entity": 68,
+                        "stype": "tamer",
+                        "firstName": "Hasheem",
+                        "lastName": "Derricoat",
+                        "tz": 641939790,
+                        "mi": 60254221,
+                        "rnk": "rookie",
+                        "vphone": "023487226",
+                        "cphone": "4312832987",
+                        "mail": "hderricoat0@cnet.com",
+                        "rld": "2018-08-15",
+                        "adr": "3647 Del Mar Place",
+                        "hr": "lamba/sabmba/gamba",
+                        "tf": "Librarian",
+                        "su": "hderricoat0@ucoz.com"
+                    },
+                    {
+                        "entity": 58,
+                        "stype": "tamer",
+                        "firstName": "Ruthy",
+                        "lastName": "Sivyer",
+                        "tz": 797623584,
+                        "mi": 42923825,
+                        "rnk": "rookie",
+                        "vphone": "023487226",
+                        "cphone": "6062384437",
+                        "mail": "rsivyer1@pagesperso-orange.fr",
+                        "rld": "2018-05-08",
+                        "adr": "913 Union Parkway",
+                        "hr": "lamba/sabmba/gamba",
+                        "tf": "Internal Auditor",
+                        "su": "rsivyer1@marketwatch.com"
+                    }
+                ]
+                break;
+            case "nv":
+                diffsObj.added = [
+                    {
+                        "fullName": "Flint Shallcroff",
+                        "uniqueId": "fshallcroff0@phpbb.com",
+                        "hr": "shnizel/bamba/bisli60"
+                    },
+                    {
+                        "fullName": "Fionna Shinfield",
+                        "uniqueId": "fshinfield1@paginegialle.it",
+                        "hr": "shnizel/bamba/bisli60"
+                    }
+                ]    
+                diffsObj.updated = [
+                    {
+                        "fullName": "Flint Shallcroff",
+                        "uniqueId": "fshallcroff0@phpbb.com",
+                        "hr": "shnizel/bamba/bisli60"
+                    },
+                    {
+                        "fullName": "Fionna Shinfield",
+                        "uniqueId": "fshinfield1@paginegialle.it",
+                        "hr": "shnizel/bamba/bisli60"
+                    }
+                ]
+                break;
+            case "aka":
+                diffsObj.updated = [
+                {
+                    "drg": 61,
+                    "stype": 41,
+                    "nstype": "Quality Engineer",
+                    "firstName": "Trcie",
+                    "lastName": "Butterick",
+                    "tz": 123456,
+                    "mi": 95579169,
+                    "rnk": 70,
+                    "nrnk": "Account Representative IV",
+                    "telephone": "7408765",
+                    "ktelephone": "08",
+                    "mobile":"7086935",
+                    "kmobile": "050",
+                    "rld": "2017-12-07",
+                    "clearance": 4,
+                    "hr": "Pine View",
+                    "khr": 521
                 },
                 {
-                    "entity": 58,
-                    "stype": 54,
-                    "firstName": "Ruthy",
-                    "lastName": "Sivyer",
-                    "tz": 797623584,
-                    "mi": 42923825,
-                    "rnk": "Product Engineer",
-                    "vphone": "3547388848",
-                    "cphone": "6062384437",
-                    "mail": "rsivyer1@pagesperso-orange.fr",
-                    "rld": "2018-05-08",
-                    "adr": "913 Union Parkway",
-                    "hr": "lamba/sabmba/gamba",
-                    "tf": "Internal Auditor",
-                    "su": "rsivyer1@marketwatch.com"
+                    "drg": 94,
+                    "stype": 55,
+                    "nstype": "Compensation Analyst",
+                    "firstName": "Aloise",
+                    "lastName": "Lissandrini",
+                    "tz": 420128795,
+                    "mi": 99508267,
+                    "rnk": 4,
+                    "nrnk": "Software Consultant",
+                    "telephone": "9554334779",
+                    "ktelephone": 5,
+                    "mobile": "6125215533",
+                    "kmobile": 10,
+                    "rld": "2018-03-01",
+                    "clearance": 1,
+                    "hr": "Talisman",
+                    "khr": 910
                 }]
-            diffsObj.added = [
-                {
-                    "entity": 68,
-                    "stype": "tamer",
-                    "firstName": "Hasheem",
-                    "lastName": "Derricoat",
-                    "tz": 641939790,
-                    "mi": 60254221,
-                    "rnk": "rookie",
-                    "vphone": "023487226",
-                    "cphone": "4312832987",
-                    "mail": "hderricoat0@cnet.com",
-                    "rld": "2018-08-15",
-                    "adr": "3647 Del Mar Place",
-                    "hr": "lamba/sabmba/gamba",
-                    "tf": "Librarian",
-                    "su": "hderricoat0@ucoz.com"
-                },
-                {
-                    "entity": 58,
-                    "stype": "tamer",
-                    "firstName": "Ruthy",
-                    "lastName": "Sivyer",
-                    "tz": 797623584,
-                    "mi": 42923825,
-                    "rnk": "rookie",
-                    "vphone": "023487226",
-                    "cphone": "6062384437",
-                    "mail": "rsivyer1@pagesperso-orange.fr",
-                    "rld": "2018-05-08",
-                    "adr": "913 Union Parkway",
-                    "hr": "lamba/sabmba/gamba",
-                    "tf": "Internal Auditor",
-                    "su": "rsivyer1@marketwatch.com"
-                }
-            ]
-            break;
-        case "nv":
-            diffsObj.added = [
-                {
-                    "fullName": "Flint Shallcroff",
-                    "uniqueId": "fshallcroff0@phpbb.com",
-                    "hr": "shnizel/bamba/bisli60"
-                },
-                {
-                    "fullName": "Fionna Shinfield",
-                    "uniqueId": "fshinfield1@paginegialle.it",
-                    "hr": "shnizel/bamba/bisli60"
-                }
-            ]    
-            diffsObj.updated = [
-                {
-                    "fullName": "Flint Shallcroff",
-                    "uniqueId": "fshallcroff0@phpbb.com",
-                    "hr": "shnizel/bamba/bisli60"
-                },
-                {
-                    "fullName": "Fionna Shinfield",
-                    "uniqueId": "fshinfield1@paginegialle.it",
-                    "hr": "shnizel/bamba/bisli60"
-                }
-            ]
-            break;
-        case "aka":
-            diffsObj.updated = [
-            {
-                "drg": 61,
-                "stype": 41,
-                "nstype": "Quality Engineer",
-                "firstName": "Trcie",
-                "lastName": "Butterick",
-                "tz": 123456,
-                "mi": 95579169,
-                "rnk": 70,
-                "nrnk": "Account Representative IV",
-                "telephone": "7408765",
-                "ktelephone": "08",
-                "mobile":"7086935",
-                "kmobile": "050",
-                "rld": "2017-12-07",
-                "clearance": 4,
-                "hr": "Pine View",
-                "khr": 521
-            },
-            {
-                "drg": 94,
-                "stype": 55,
-                "nstype": "Compensation Analyst",
-                "firstName": "Aloise",
-                "lastName": "Lissandrini",
-                "tz": 420128795,
-                "mi": 99508267,
-                "rnk": 4,
-                "nrnk": "Software Consultant",
-                "telephone": "9554334779",
-                "ktelephone": 5,
-                "mobile": "6125215533",
-                "kmobile": 10,
-                "rld": "2018-03-01",
-                "clearance": 1,
-                "hr": "Talisman",
-                "khr": 910
-            }]
-            break;
-        default:
-            logger.error("'dataSource' variable must be attached to 'diffsHandler - MOCK' function");
+                break;
+            default:
+                logger.error("'dataSource' variable must be attached to 'diffsHandler - MOCK' function");
+        }
+        /////////////////////////////////////////////////////////////////////////////
     }
-    /////////////////////////////////////////////////////////////////////////////
-
     //added the new person from es to Kartoffel
     added(diffsObj.added, dataSource, aka_all_data);
 
