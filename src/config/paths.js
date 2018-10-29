@@ -1,5 +1,6 @@
-// change this field in prodaction
-const kartoffelUrl = "http://localhost:3000";
+const fn = require('./fieldNames');
+
+const kartoffelUrl = fn.kartoffelUrl;
 
 module.exports = pathsHandler = (param)=>{
     return {
@@ -24,8 +25,3 @@ module.exports = pathsHandler = (param)=>{
         KARTOFFEL_DOMAIN_USER_API : `${kartoffelUrl}/api/persons/domainUser`,
     }
 }
-
-
-
-
-
