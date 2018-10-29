@@ -1,17 +1,21 @@
-const shell = require('shelljs');
 let express = require("express")
 let app = express()
 let port = 3001
-
-// shell.exec(`{kill $(lsof -t -i:${port})} &> /dev/null`)
-// shell.exec('kill $(lsof -t -i:3001) &>/dev/null',{silent:true});
 
 app.get("/getEightSocks", (req, res) => {
     res.json(require("./mocksFiles/eightsocks.json"))
 })
 
-app.get("/getAka", (req, res) => {
-    res.json(require("./mocksFiles/AKA.json"))
+app.get("/getAkaPhones", (req, res) => {
+    res.json(require("./mocksFiles/getAkaPhones.json"))
+})
+
+app.get("/getAkaTelephone", (req, res) => {
+    res.json(require("./mocksFiles/getAkaTelephone.json"))
+})
+
+app.get("/getAkaEmployees", (req, res) => {
+    res.json(require("./mocksFiles/getAkaEmployees.json"))
 })
 
 app.get("/getNva", (req, res) => {

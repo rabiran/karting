@@ -1,27 +1,28 @@
-var fs = require('fs');
 const axios = require("axios");
-const moment = require("moment");
-require('dotenv').config()
+const saveAsFile = require('../util/saveAsFile');
+const dataComparison = require('../util/dataComparison');
+const akaDataManipulate = require('./akaDataManipulate.js');
+const fn = require('../config/fieldNames');
+const p = require('../config/paths');
 
-module.exports = async()=>{
-    const dateAndTime = moment(new Date()).format("DD.MM.YYYY_HH:mm");
+module.exports = async()=>{ 
     // get the update data from the remote server
-    let aka_Data = await axios.get(process.env.AKA_API);
+    let aka_phones_data = await axios.get(p().AKA_PHONES_API);
+    
+    // get the update data from the remote server
+    let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API);
+
+    // get the update data from the remote server
+    let aka_employees_data = await axios.get(p().AKA_EMPLOYEES_API);
+
+    // editing the aka data and squishing it to one object
+    let aka_data = akaDataManipulate(aka_phones_data, aka_telephones_data, aka_employees_data);
+
     // save the new json as file in the server
-    try{
-        fs.writeFileSync(`./data/aka/aka_${dateAndTime}.txt`,JSON.stringify(aka_Data.datal));
-        console.log(`the aka data from ${dateAndTime} successfully saved`);
-        // move the old data files to the archive
-        let files = fs.readdirSync('./data/aka/')
-        files.map(file=>{
-            if (file != `aka_${dateAndTime}.txt` && file != 'archive' && file != 'completeData'){
-                fs.renameSync(`./data/aka/${file}`, `./data/aka/archive/${file}`);
-                console.log(`${file} successfully moved to aka archive`);   
-            } 
-        })
-        return aka_Data.data;
-    }     
-    catch(err){
-        return err.message; 
-    };
+    let previous_aka_data_file_name = saveAsFile(aka_data,'./data/aka','aka_raw_data');
+
+    // get the delta between the two last JSONs
+    akaDiff = dataComparison(aka_data,"./data/aka/archive", previous_aka_data_file_name, fn.aka.personalNumber);
+    akaDiff.all = aka_data;
+    return akaDiff;
 };
