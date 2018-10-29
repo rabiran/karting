@@ -29,9 +29,7 @@
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource); 
         // Checking if the person is already exist in Kartoffel and accept his object from Kartoffel
         await axios.get(person_existence_checking)
-            // if the person is already exist in Kartoffel => only update the person.
-
-            //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            // if the person is already exist in Kartoffel => only add secodary user.
             .then((person) => {
                 let user_object = {
                     personId : person.data.id,
@@ -47,7 +45,6 @@
                             })
             })   
    
-            //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
             // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding primary user    
@@ -72,7 +69,7 @@
                                 })
                                 // check that
                                 .catch((err)=>{
-                                    logger.error(`Not create user to person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_datayy. The error message:"${err.response.data}"`);
+                                    logger.error(`Not create user to person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
                                 })
                         })   
                         .catch(err=>{

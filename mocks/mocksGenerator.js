@@ -7,15 +7,15 @@ app.get("/getEightSocks", (req, res) => {
 })
 
 app.get("/getAkaPhones", (req, res) => {
-    res.json(require("./mocksFiles/AKAphones.json"))
+    res.json(require("./mocksFiles/getAkaPhones.json"))
 })
 
 app.get("/getAkaTelephone", (req, res) => {
-    res.json(require("./mocksFiles/AKAtelephones.json"))
+    res.json(require("./mocksFiles/getAkaTelephone.json"))
 })
 
 app.get("/getAkaEmployees", (req, res) => {
-    res.json(require("./mocksFiles/AKAemployees.json"))
+    res.json(require("./mocksFiles/getAkaEmployees.json"))
 })
 
 app.get("/getNva", (req, res) => {

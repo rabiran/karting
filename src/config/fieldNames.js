@@ -40,8 +40,8 @@ module.exports = {
     },
     rootHierarchy: "wallmart",
     runningTime: {
-        hour: 11,
-         minute: 51
+        hour: 12,
+         minute: 54
     },
     kartoffelUrl: "http://localhost:3000", 
 };

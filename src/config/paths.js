@@ -12,6 +12,7 @@ module.exports = pathsHandler = (param)=>{
         ES_API : 'http://localhost:3001/getEightSocks',
         
         // Kartoffel - person
+        KARTOFFEL_UPDATE_PERSON_API : `${kartoffelUrl}/api/persons/${param}`,
         KARTOFFEL_PERSON_API : `${kartoffelUrl}/api/persons/`,
         KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API : `${kartoffelUrl}/api/persons/personalNumber/${param}`,
         KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API : `${kartoffelUrl}/api/persons/identityCard/${param}`,

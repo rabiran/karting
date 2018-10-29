@@ -20,7 +20,11 @@ module.exports = (updateData, path, previous_data_file_name, comparison_field) =
         previous_data =  JSON.parse(previous_data_file);
     } catch(err) {
         if (err) {
-            logger.error(`Reading the previous data file:"${previous_data_file_name}" failed. The error message: "${err.message}"`);
+            if (previous_data_file_name === undefined){
+                logger.warn(`There is not files at ${path}/`);
+            }else{
+                logger.error(`Reading the previous data file:"${previous_data_file_name}" failed. The error message: "${err.message}"`);
+            }
         }
     }
 

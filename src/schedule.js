@@ -11,9 +11,9 @@ const logger = require('./util/logger');
 require('dotenv').config();
 
 
-const trialLog = schedule.scheduleJob(fn.runningTime,async()=>{
+// const trialLog = schedule.scheduleJob(fn.runningTime,async()=>{
 //////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
-// const devSchedual = async()=>{
+const devSchedual = async()=>{
 /////////////////////////////////////////////////////////////////////////////
 
     // check if the root hierarchy exist and adding him if not
@@ -42,29 +42,46 @@ const trialLog = schedule.scheduleJob(fn.runningTime,async()=>{
     let nv_Data = nv().then((nvDiff)=>{
         diffsHandler(nvDiff, "nv", aka_data.all);
     });
-
-
+    if (process.env.NODE_ENV !== "production"){
+        //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
+        aka_data.updated = [
+            {
+                "drg": 61,
+                "stype": 41,
+                "nstype": "Quality Engineer",
+                "firstName": "Trcie",
+                "lastName": "Butterick",
+                "tz": 123456,
+                "mi": 95579169,
+                "rnk": 70,
+                "nrnk": "Account Representative IV",
+                "telephone": "7408765",
+                "ktelephone": "08",
+                "mobile":"7086935",
+                "kmobile": "050",
+                "rld": "2017-12-07",
+                "clearance": 4,
+                "hr": "Pine View",
+                "khr": 521
+            }]
+        /////////////////////////////////////////////////////////////////////////////
+    }
     // update the person's fields the update at the last iteration of Karting
     for (aka_record of aka_data.updated){
         // Checking if the person already exist and accept his object from Kartoffel
         await axios.get(`${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${aka_record[fn.aka.identityCard]}`)
         // if the person already exist in Kartoffel => only update the person.
-        
-        
-        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        // .then(async(person) => {
-        //     let person_ready_for_kartoffel = matchToKartoffel(aka_record,"aka");
+        .then(async(person) => {
+            let person_ready_for_kartoffel = matchToKartoffel(aka_record,"aka");
             
-        //     await axios.put(`${p().KARTOFFEL_PERSON_API}:${person.data.id}`, person_ready_for_kartoffel)
-        //     .then(()=>{
-        //         logger.info(`The person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data successfully update in Kartoffel`);
-        //     })   
-        //     .catch(err=>{
-        //         logger.error(`Not update the person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data. The error message:"${err.response.data}"`);
-        //     })
-        // })
-        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^uncomment after Kartoffel update^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+            await axios.put(`${p(person.data.id).KARTOFFEL_UPDATE_PERSON_API}`, person_ready_for_kartoffel)
+            .then(()=>{
+                logger.info(`The person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data successfully update in Kartoffel`);
+            })   
+            .catch(err=>{
+                logger.error(`Not update the person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data. The error message:"${err.response.data}"`);
+            })
+        })
 
         // if the person does not exist in Kartoffel => ignore from the record
         .catch(err=>{
@@ -74,7 +91,7 @@ const trialLog = schedule.scheduleJob(fn.runningTime,async()=>{
 
 
 //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
-// };
-// devSchedual();
+};
+devSchedual();
 /////////////////////////////////////////////////////////////////////////////
-});
+// });

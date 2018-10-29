@@ -15,15 +15,16 @@ const dataDir = 'data';
 // Create the log directory if it does not exist
 const pathHandler = (path) => {
     if (!fs.existsSync(path)) {
-        shell.mkdir('-p', logDir);
+        shell.mkdir('-p', path);
     }    
 };
 
 
 module.exports = (data, path, actionDescription) => {
-    path = createPath(path);
+    pathHandler(path);
+    pathHandler(`${path}/archive/`);
     const dateAndTime = moment(new Date()).format("DD.MM.YYYY__HH.mm");
-    const files = fs.readdirSync(`${path}/`);
+    const files = fs.readdirSync(`${path}/`); 
     try{
         fs.writeFileSync(`${path}/${actionDescription}_${dateAndTime}.log`,JSON.stringify(data))
         logger.info(`The ${actionDescription} from ${dateAndTime} successfully saved`);
@@ -43,7 +44,10 @@ module.exports = (data, path, actionDescription) => {
     let lastJsonName = files[files.length-1]
     if(files[files.length-1] === `${actionDescription}_${dateAndTime}.log` || files[files.length-1] === 'archive'){
         const completeFiles = fs.readdirSync(`${path}/archive/`);
-        lastJsonName = completeFiles[completeFiles.length-1]
+        lastJsonName = (completeFiles[completeFiles.length-1]);
+        if ((completeFiles[completeFiles.length-1]) === undefined){
+            logger.warn(`There is not files at ${path}/archive/`)
+        }
     }
 
     return lastJsonName;

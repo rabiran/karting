@@ -1,18 +1,20 @@
-export default(phones, telephones, employees) => {
-    let results = employees;
+const fn = require('../config/fieldNames');
+
+module.exports = (phones, telephones, employees) => {
+    let results = employees.data;
     results.forEach(result => {
-        telephones.forEach(telephone => {
-            if (telephone[personalNumber] == result[personalNumber]) {
-                result[phone] = telephone[phone]
-                result[areaCode] = telephone[areaCode]
+        telephones.data.forEach(telephone => {
+            if (telephone[fn.aka.personalNumber] == result[fn.aka.personalNumber]) {
+                result[fn.aka.phone] = telephone[fn.aka.phone]
+                result[fn.aka.areaCode] = telephone[fn.aka.areaCode]
                 return;
             }
         })
 
-        phones.forEach(phone => {
-            if (phone[personalNumber] == result[personalNumber]) {
-                result[mobilePhone] = phone[mobilePhone]
-                result[areaCodeMobile] = phone[areaCodeMobile]
+        phones.data.forEach(phone => {
+            if (phone[fn.aka.personalNumber] == result[fn.aka.personalNumber]) {
+                result[fn.aka.mobilePhone] = phone[fn.aka.mobilePhone]
+                result[fn.aka.areaCodeMobile] = phone[fn.aka.areaCodeMobile]
                 return;
             }
         })
