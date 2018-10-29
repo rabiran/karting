@@ -39,5 +39,10 @@ module.exports = {
         c:"tamer"
     },
     rootHierarchy:"wallmart",
+    runningTime:{
+        hour: 11,
+         minute: 51
+    }
+
     
 };
