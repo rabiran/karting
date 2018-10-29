@@ -1,18 +1,17 @@
 const schedule = require("node-schedule");
 const axios = require('axios');
-// const aka = require('./aka/aka_synchronizeData');
-// const es = require('./es/es_synchronizeData');
-// const nv = require('./nv/nv_synchronizeData');
-// const matchToKartoffel = require('./util/matchToKartoffel');
+const aka = require('./aka/aka_synchronizeData');
+const es = require('./es/es_synchronizeData');
+const nv = require('./nv/nv_synchronizeData');
+const matchToKartoffel = require('./util/matchToKartoffel');
 const fn = require('./config/fieldNames');
-// const p = require('./config/paths');
-// const diffsHandler = require('./util/diffsHandler');
-// const logger = require('./util/logger');
-// require('dotenv').config();
+const p = require('./config/paths');
+const diffsHandler = require('./util/diffsHandler');
+const logger = require('./util/logger');
+require('dotenv').config();
 
 
 const trialLog = schedule.scheduleJob(fn.runningTime,async()=>{
-    console.log("test");
 //////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
 // const devSchedual = async()=>{
 /////////////////////////////////////////////////////////////////////////////
