@@ -8,6 +8,7 @@ const fn = require('./config/fieldNames');
 const p = require('./config/paths');
 const diffsHandler = require('./util/diffsHandler');
 const logger = require('./util/logger');
+require('dotenv').config();
 
 // const trialLog = schedule.scheduleJob('22 * * * *',async()=>{
 //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
