@@ -39,6 +39,10 @@ module.exports = {
         c: "tamer",
     },
     rootHierarchy: "wallmart",
+    ldapURL:"LDAP://{LDAP_URL}",
+    LDAP_USER:"Daniel",
+    LDAP_PASSWORD:"Ezra",
+    baseDN:"OU='bla'",
     runningTime: {
         hour: 12,
          minute: 54
