@@ -1,8 +1,9 @@
 const ActiveDirectory = require('activedirectory');
+const fn = require('../config/fieldNames');
 const config = {
-  url='LDAP://{LDAP_URL}',
-  username: LDAP_USER,
-  password: LDAP_PASSWORD
+  url=fn.ldapURL,
+  username: fn.LDAP_USER,
+  password: fn.LDAP_PASSWORD
 }
 const ad = new ActiveDirectory(config)
 const rExpAD = /^t{1}[0-9]{1}[a-zA-Z\d]+$/i
@@ -10,6 +11,7 @@ const rExpPN = /^t{2}\d{7}$/i
 const rExpUPN = /^s{1}\d{7}$/i
 const usersQuery="(&(objectCategory=person)(objectClass=user))"
 const ousQuery = "(ou>='')"
+const BASE_LDAP_DN = fn.baseDN;
 const ouOpts = {
   filter: ousQuery,
   scope: "one",
@@ -58,7 +60,7 @@ async function getAllADUsers(query) {
   })
 }
 
-export async function getAData(user) {
+module.export = async (user) => {
     ous = await getAllADOus(ouOpts)
     for(const ou of ous) {
       let usersOpts ={
