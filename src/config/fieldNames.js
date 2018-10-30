@@ -13,6 +13,7 @@ module.exports = {
         dischargeDay: "rld",
         clearance: "clearance",
         unitName: "hr",
+        telephoneType:"telephoneType"
     },
     es:{
         serviceType: "stype",

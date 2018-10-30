@@ -1,7 +1,7 @@
 const ActiveDirectory = require('activedirectory');
 const fn = require('../config/fieldNames');
 const config = {
-  url=fn.ldapURL,
+  url:fn.ldapURL,
   username: fn.LDAP_USER,
   password: fn.LDAP_PASSWORD
 }

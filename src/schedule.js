@@ -27,7 +27,7 @@ const devSchedual = async()=>{
                 logger.info(`Success to add the root hierarchy "${result.data.name}" to Kartoffel`);
             })
             .catch((err)=>{
-                logger.error(`Failed to add the root hierarchy to Kartoffel. the error message: "${err.response.data}"`);
+                logger.error(`Failed to add the root hierarchy to Kartoffel. the error message: "${err}"`);
             })
         });
 

@@ -5,7 +5,6 @@ const kartoffelUrl = fn.kartoffelUrl;
 module.exports = pathsHandler = (param)=>{
     return {
         // Data source
-        AKA_PHONES_API:"http://localhost:3001/getAkaPhones",
         AKA_TELEPHONES_API:"http://localhost:3001/getAkaTelephone",
         AKA_EMPLOYEES_API:"http://localhost:3001/getAkaEmployees",
         NV_API : 'http://localhost:3001/getNva',
