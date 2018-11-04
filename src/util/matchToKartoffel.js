@@ -13,13 +13,9 @@ const match_aka = (obj) => {
     objKeys.map((rawKey)=>{
         switch(rawKey){
             //serviceType
-            case fn.aka.serviceType:
-                if(obj.hasOwnProperty("serviceType")){
-                    (obj[rawKey] === "אעב" || obj[rawKey] === "אעצ") ? obj.serviceType = fn.serviceTypeValue.c : obj.serviceType = fn.serviceTypeValue.s;
-                }else{
-                    (obj[rawKey] === "אעב" || obj[rawKey] === "אעצ") ? obj.serviceType = fn.serviceTypeValue.c : obj.serviceType = fn.serviceTypeValue.s;
-                    delete obj[rawKey];
-                };
+            case fn.aka.serviceType:            
+                obj.serviceType = fn.serviceTypeValue.s;
+                delete obj[rawKey];
                 break;
             //firstName
             case fn.aka.firstName:
