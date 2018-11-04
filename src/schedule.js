@@ -16,7 +16,7 @@ require('dotenv').config();
 const devSchedual = async()=>{
 /////////////////////////////////////////////////////////////////////////////
 
-    // check if the root hierarchy exist and adding him if not
+    // check if the root hierarchy exist and adding it if not
     await axios.get(p(fn.rootHierarchy).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result)=>{ 
             logger.info(`The root hierarchy "${result.data.name}" alrrady exist Kartoffel`);
@@ -27,7 +27,7 @@ const devSchedual = async()=>{
                 logger.info(`Success to add the root hierarchy "${result.data.name}" to Kartoffel`);
             })
             .catch((err)=>{
-                logger.error(`Failed to add the root hierarchy to Kartoffel. the error message: "${err}"`);
+                logger.error(`Failed to add the root hierarchy to Kartoffel. the error message: "${err.response.data}"`);
             })
         });
 
@@ -66,20 +66,19 @@ const devSchedual = async()=>{
             }]
         /////////////////////////////////////////////////////////////////////////////
     }
-    // update the person's fields the update at the last iteration of Karting
+    // update the person's fields that update in the last iteration of Karting
     for (aka_record of aka_data.updated){
         // Checking if the person already exist and accept his object from Kartoffel
         await axios.get(`${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${aka_record[fn.aka.identityCard]}`)
         // if the person already exist in Kartoffel => only update the person.
         .then(async(person) => {
             let person_ready_for_kartoffel = matchToKartoffel(aka_record,"aka");
-            
             await axios.put(`${p(person.data.id).KARTOFFEL_UPDATE_PERSON_API}`, person_ready_for_kartoffel)
             .then(()=>{
                 logger.info(`The person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data successfully update in Kartoffel`);
             })   
             .catch(err=>{
-                logger.error(`Not update the person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data. The error message:"${err.response.data}"`);
+                logger.warn(`The person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data not exist in Kartoffel. The Kartoffel message:"${err.response.data}"`);
             })
         })
 
