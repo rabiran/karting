@@ -142,7 +142,7 @@
                         "mail": "hderricoat0@cnet.com",
                         "rld": "2018-08-15",
                         "adr": "3647 Del Mar Place",
-                        "hr": "lamba/sabmba/gamba",
+                        "hr": "lamba/בית חלומותי 2/gamba",
                         "tf": "Librarian",
                         "su": "hderricoat0@ucoz.com"
                     },
