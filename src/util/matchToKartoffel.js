@@ -319,7 +319,8 @@ module.exports = async(obj, dataSource) => {
         default:
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");
     }
-
+        // delete the empty fields from the returned object
+        Object.keys(obj).forEach(key => !obj[key] ? delete obj[key] : '');
         return obj;
 };
 
