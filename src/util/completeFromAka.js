@@ -18,7 +18,7 @@ const complete_nv = (obj, akaData) => {
             obj.mobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
             obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
             obj.clearance = akaRecord[fn.aka.clearance];
-            obj.serviceType = (akaRecord[fn.aka.serviceType] === "אעב" || akaRecord[fn.aka.serviceType] === "אעצ")?fn.serviceTypeValue.c:fn.serviceTypeValue.s;
+            obj.serviceType = fn.serviceTypeValue.s;
         }
     }) 
 };

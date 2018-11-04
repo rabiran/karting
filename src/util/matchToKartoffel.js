@@ -279,8 +279,7 @@ const match_es = (obj) => {
 };
  
 directGroupHandler = async (record, dataSource)=>{
-    // hr = record.hierarchy.replace(/\//g,"%2f"); //match the structure of the string to the browser   
-    hr = encodeURIComponent(record.hierarchy) //match the structure of the string to the browser
+    hr = encodeURIComponent(record.hierarchy) 
     let directGroup;
     await axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async(result)=>{

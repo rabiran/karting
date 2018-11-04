@@ -67,9 +67,9 @@
                                 .then((user)=>{
                                     logger.info(`Create the user ${user.data.primaryDomainUser} to the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully.`);
                                 })
-                                // check that
                                 .catch((err)=>{
-                                    logger.error(`Not create user to person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
+                                    let identifyer = (dataSource === "nv") ? record.uniqueId : record.personalNumber;
+                                    logger.error(`Not create user to person with the identifyer: ${identifyer} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
                                 })
                         })   
                         .catch(err=>{
@@ -82,7 +82,7 @@
                         })
 
                 } else {
-                    let identifyer = (dataSource === "nv") ? person_ready_for_kartoffel.uniqueId : person_ready_for_kartoffel.personalNumber;
+                    let identifyer = (dataSource === "nv") ? record.uniqueId : record.personalNumber;
                     logger.error(`The person with the identifyer: ${identifyer} from ${dataSource}_raw_data not found in Kartoffel. The error message:"${err.response.data}"`);  
                 };
             }) 
@@ -101,7 +101,7 @@
                         "lastName": "Derricoat",
                         "tz": 641939790,
                         "mi": 60254221,
-                        "rnk": "אעב",
+                        "rnk": "אאא",
                         "vphone": "1986624807",
                         "cphone": "4312832987",
                         "mail": "hderricoat0@cnet.com",
@@ -136,7 +136,7 @@
                         "lastName": "Derricoat",
                         "tz": 641939790,
                         "mi": 60254221,
-                        "rnk": "אעב",
+                        "rnk": "רנג",
                         "vphone": null,
                         "cphone": "4312832987",
                         "mail": "hderricoat0@cnet.com",
