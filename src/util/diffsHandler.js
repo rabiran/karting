@@ -136,7 +136,7 @@
                         "lastName": "Derricoat",
                         "tz": 641939790,
                         "mi": 60254221,
-                        "rnk": "רנג",
+                        "rnk": "rookie",
                         "vphone": null,
                         "cphone": "4312832987",
                         "mail": "hderricoat0@cnet.com",
