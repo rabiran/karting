@@ -13,13 +13,9 @@ const match_aka = (obj) => {
     objKeys.map((rawKey)=>{
         switch(rawKey){
             //serviceType
-            case fn.aka.serviceType:
-                if(obj.hasOwnProperty("serviceType")){
-                    (obj[rawKey] === "אעב" || obj[rawKey] === "אעצ") ? obj.serviceType = fn.serviceTypeValue.c : obj.serviceType = fn.serviceTypeValue.s;
-                }else{
-                    (obj[rawKey] === "אעב" || obj[rawKey] === "אעצ") ? obj.serviceType = fn.serviceTypeValue.c : obj.serviceType = fn.serviceTypeValue.s;
-                    delete obj[rawKey];
-                };
+            case fn.aka.serviceType:            
+                obj.serviceType = fn.serviceTypeValue.s;
+                delete obj[rawKey];
                 break;
             //firstName
             case fn.aka.firstName:
@@ -69,10 +65,10 @@ const match_aka = (obj) => {
             //phone
             case fn.aka.phone:
                 if(obj.hasOwnProperty("phone")){                   
-                    obj.phone = `${obj[fn.aka.areaCode]}-${obj[rawKey]}`;                
+                    obj.phone = [`${obj[fn.aka.areaCode]}-${obj[rawKey]}`];                
                     delete obj[fn.aka.areaCode];
                 }else{
-                    obj.phone = `${obj[fn.akauniqueIdareaCode]}-${obj[rawKey]}`;                
+                    obj.phone = [`${obj[fn.akauniqueIdareaCode]}-${obj[rawKey]}`];                
                     delete obj[rawKey];
                     delete obj[fn.aka.areaCoduniqueId];
                 };
@@ -80,10 +76,10 @@ const match_aka = (obj) => {
             // mobilePhone       
             case fn.aka.mobilePhone:
                 if(obj.hasOwnProperty("mobileuniqueIdhone")){                   
-                    obj.mobilePhone = `${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`;                
+                    obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`];                
                     delete obj[fn.aka.areaCodeMobile];
                 }else{
-                    obj.mobilePhone = `${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`;                
+                    obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`];                
                     delete obj[rawKey];
                     delete obj[fn.aka.areaCodeMobile];
                 };
@@ -211,18 +207,18 @@ const match_es = (obj) => {
             //phone
             case fn.es.phone:
                 if(obj.hasOwnProperty("phone")){
-                    obj.phone = obj[rawKey];
+                    obj.phone = [obj[rawKey]];
                 }else{
-                    obj.phone = obj[rawKey];
+                    obj.phone = [obj[rawKey]];
                     delete obj[rawKey];
                 };
                 break;
             //mobilePhone       
             case fn.es.mobilePhone:
                 if(obj.hasOwnProperty("mobilePhone")){
-                    obj.mobilePhone = obj[rawKey];
+                    obj.mobilePhone = [obj[rawKey]];
                 }else{
-                    obj.mobilePhone = obj[rawKey];
+                    obj.mobilePhone = [obj[rawKey]];
                     delete obj[rawKey];
                 };
                 break;
@@ -283,7 +279,7 @@ const match_es = (obj) => {
 };
  
 directGroupHandler = async (record, dataSource)=>{
-    hr = record.hierarchy.replace(/\//g,"%2f"); //match the structure of the string to the browser
+    hr = encodeURIComponent(record.hierarchy) 
     let directGroup;
     await axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async(result)=>{
@@ -304,7 +300,8 @@ directGroupHandler = async (record, dataSource)=>{
 
 
 module.exports = async(obj, dataSource) => {
-      
+    // delete the empty fields from the returned object
+    Object.keys(obj).forEach(key => !obj[key] ? delete obj[key] : '');
     switch(dataSource){
         case "aka":
             match_aka(obj);

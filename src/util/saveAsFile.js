@@ -45,9 +45,6 @@ module.exports = (data, path, actionDescription) => {
     if(files[files.length-1] === `${actionDescription}_${dateAndTime}.log` || files[files.length-1] === 'archive'){
         const completeFiles = fs.readdirSync(`${path}/archive/`);
         lastJsonName = (completeFiles[completeFiles.length-1]);
-        if ((completeFiles[completeFiles.length-1]) === undefined){
-            logger.warn(`There is not files at ${path}/archive/`)
-        }
     }
 
     return lastJsonName;

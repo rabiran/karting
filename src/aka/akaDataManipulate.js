@@ -13,7 +13,7 @@ module.exports = (telephones, employees) => {
                 result[fn.aka.areaCode] = user[fn.aka.areaCode]
             } else {
                 result[fn.aka.mobilePhone] = user[fn.aka.mobilePhone]
-                result[fn.raka.areaCodeMobile] = user[fn.aka.areaCodeMobile]
+                result[fn.aka.areaCodeMobile] = user[fn.aka.areaCodeMobile]
             }
         })
     });

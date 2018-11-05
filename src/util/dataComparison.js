@@ -21,7 +21,7 @@ module.exports = (updateData, path, previous_data_file_name, comparison_field) =
     } catch(err) {
         if (err) {
             if (previous_data_file_name === undefined){
-                logger.warn(`There is not files at ${path}/`);
+                previous_data = [];
             }else{
                 logger.error(`Reading the previous data file:"${previous_data_file_name}" failed. The error message: "${err.message}"`);
             }
