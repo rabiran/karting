@@ -34,6 +34,8 @@ module.exports = {
         fullName: "fullName",
         uniqueId: "uniqueId",
         hierarchy: "hr",
+        personalNumber: "mi",
+        mail: "mail",
     },
     serviceTypeValue:{
         s: "digimon",
