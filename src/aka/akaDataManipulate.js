@@ -1,22 +1,40 @@
 const fn = require('../config/fieldNames');
 
 module.exports = (telephones, employees) => {
-    let results = employees.data;
-    results.forEach(result => {
-
-        currUser = telephones.data.filter(telephone => 
-            telephone[fn.aka.personalNumber] == result[fn.aka.personalNumber])
-
-        currUser.forEach((user) => {
-            if(user[fn.aka.telephoneType] == 1) {
-                result[fn.aka.phone] = user[fn.aka.phone]
-                result[fn.aka.areaCode] = user[fn.aka.areaCode]
-            } else {
-                result[fn.aka.mobilePhone] = user[fn.aka.mobilePhone]
-                result[fn.aka.areaCodeMobile] = user[fn.aka.areaCodeMobile]
-            }
-        })
-    });
+    let telephonesDict = employees.data;
     
-    return results;
+    for(let i = 0; i< telephones.length; i++) {
+        if(telephonesDict[telephones[i][fn.aka.personalNumber]] != null) {
+            telephonesDict[telephones[i][fn.aka.personalNumber]] = [telephonesDict[telephones[i][fn.aka.personalNumber]], telephones[i]]
+        } else {
+            telephonesDict[telephones[i][fn.aka.personalNumber]] = telephones[i]
+        }
+    }
+        
+    for(let j =0; j < employees.length; j++) {
+        currEmployee = telephonesDict[employees[j][fn.aka.personalNumber]]
+        
+        if(Array.isArray(currEmployee)) {
+            for(currPhone of currEmployee) {
+                if(currPhone[fn.aka.telephoneType] == 1) {
+                   employees[j][fn.aka.phone] = currPhone[fn.aka.phone]
+                   employees[j][fn.aka.areaCode] = currPhone[fn.aka.areaCode]
+                } else if(currPhone[fn.aka.telephoneType] == 2) {
+                   employees[j][fn.aka.mobilePhone] = currPhone[fn.aka.phone]
+                   employees[j][fn.aka.areaCodeMobile] = currPhone[fn.aka.areaCode]
+                }
+            }
+        }
+        else {
+            if(currPhone[fn.aka.telephoneType] == 1) {
+                employees[j][fn.aka.phone] = currPhone[fn.aka.phone]
+                employees[j][fn.aka.areaCode] = currPhone[fn.aka.areaCode]
+             } else if(currPhone[fn.aka.telephoneType] == 2) {
+                employees[j][fn.aka.mobilePhone] = currPhone[fn.aka.phone]
+                employees[j][fn.aka.areaCodeMobile] = currPhone[fn.aka.areaCode]
+           }
+        }
+    }
+    
+    return employees;
 }
