@@ -15,7 +15,7 @@ module.exports = async()=>{
 
     // editing the aka data and squishing it to one object
     let aka_data = akaDataManipulate(aka_telephones_data, aka_employees_data);
-
+    aka_data = aka_data.data;
     // save the new json as file in the server
     let previous_aka_data_file_name = saveAsFile(aka_data,'./data/aka','aka_raw_data');
 
