@@ -38,10 +38,10 @@
                 };
                 axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                             .then((user)=>{
-                                logger.info(`Create the user ${user.data.secondaryDomainUsers} to the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully`);
+                                logger.info(`Create the user ${user.data.secondaryDomainUsers} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully`);
                             })
                             .catch((err)=>{
-                                logger.error(`Not create user to person with the identifyer: ${user_object.fullString} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
+                                logger.error(`Not create user to person with the identifyer: ${user_object.personId} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
                             })
             })   
    
@@ -65,11 +65,10 @@
                             };
                             axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                                 .then((user)=>{
-                                    logger.info(`Create the user ${user.data.primaryDomainUser} to the person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully.`);
+                                    logger.info(`Create the user ${user.data.primaryDomainUser} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`);
                                 })
                                 .catch((err)=>{
-                                    let identifyer = (dataSource === "nv") ? record.uniqueId : record.personalNumber;
-                                    logger.error(`Not create user to person with the identifyer: ${identifyer} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
+                                    logger.error(`Not create user to person with the identifyer: ${user_object.personId} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
                                 })
                         })   
                         .catch(err=>{
@@ -104,7 +103,7 @@
                         "rnk": "אאא",
                         "vphone": "1986624807",
                         "cphone": "4312832987",
-                        "mail": "hderricoat0@cnet.com",
+                        "mail": undefined,
                         "rld": "2018-08-15",
                         "adr": "3647 Del Mar Place",
                         "hr": "lamba/משרד רואה חשבון/gamba",
@@ -121,7 +120,7 @@
                         "rnk": "Product Engineer",
                         "vphone": "3547388848",
                         "cphone": "6062384437",
-                        "mail": "rsivyer1@pagesperso-orange.fr",
+                        "mail": undefined,
                         "rld": "2018-05-08",
                         "adr": "913 Union Parkway",
                         "hr": "lamba/sabmba/gamba",
@@ -131,7 +130,7 @@
                 diffsObj.added = [
                     {
                         "entity": 68,
-                        "stype": "tamer",
+                        "stype": "tamar",
                         "firstName": "Hasheem",
                         "lastName": "Derricoat",
                         "tz": 641939790,
@@ -148,7 +147,7 @@
                     },
                     {
                         "entity": 58,
-                        "stype": "tamer",
+                        "stype": "tamar",
                         "firstName": "Ruthy",
                         "lastName": "Sivyer",
                         "tz": 797623584,
@@ -156,12 +155,12 @@
                         "rnk": "rookie",
                         "vphone": "023487226",
                         "cphone": "6062384437",
-                        "mail": "rsivyer1@pagesperso-orange.fr",
+                        "mail": null,
                         "rld": "2018-05-08",
                         "adr": "913 Union Parkway",
                         "hr": "lamba/sabmba/gamba",
                         "tf": "Internal Auditor",
-                        "su": "rsivyer1@marketwatch.com"
+                        "su": null
                     }
                 ]
                 break;

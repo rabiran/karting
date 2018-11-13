@@ -39,7 +39,7 @@ module.exports = {
     },
     serviceTypeValue:{
         s: "digimon",
-        c: "tamer",
+        c: "tamar",
     },
     rootHierarchy: "wallmart",
     ldapURL:"LDAP://{LDAP_URL}",
