@@ -130,11 +130,14 @@ const match_nv = (obj) => {
             break;
             // job
             case fn.nv.uniqueId:
+                let hr;
                 if(obj.hasOwnProperty("job")){
-                    let job = obj[fn.nv.hierarchy].split('/');
+                    obj[fn.nv.hierarchy]? hr=obj[fn.nv.hierarchy] : hr=obj["hierarchy"];
+                    let job = hr.split('/');
                     obj.job = job[job.length-1];
                 }else{
-                    let job = obj[fn.nv.hierarchy].split('/');
+                    obj[fn.nv.hierarchy]? hr=obj[fn.nv.hierarchy] : hr=obj["hierarchy"];
+                    let job = hr.split('/');
                     obj.job = job[job.length-1];
                     delete obj[rawKey];
                 };  
