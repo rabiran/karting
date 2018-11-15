@@ -17,7 +17,7 @@ const devSchedual = async()=>{
 /////////////////////////////////////////////////////////////////////////////
 
     // check if the root hierarchy exist and adding it if not
-    await axios.get(p(fn.rootHierarchy).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
+    await axios.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result)=>{ 
             logger.info(`The root hierarchy "${result.data.name}" already exist in Kartoffel`);
         })
