@@ -289,7 +289,7 @@ directGroupHandler = async (record, dataSource)=>{
             // This module accept person hierarchy and check if the hierarchy exit.
             // If yes- the modue return the last hierarchy's objectID,
             // else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
-            let directGroupID = await hierarchyHandler(result.data);
+            let directGroupID = await hierarchyHandler(result.data,record.hierarchy);
             directGroup = directGroupID;
             
         })
