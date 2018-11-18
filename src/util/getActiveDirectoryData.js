@@ -21,23 +21,24 @@ function getPrincipalName(userId) {
   return data
 }
 
-module.export = async (user) => {
+module.exports = async (user) => {
     adUsers = await axios.get(p().AD_API)
     adUsers = adUsers.data
     let UPN
     let userId = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[0] : ""
     let userDomain = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[1] : ""
     if(rExpAD.test(userId) && userDomain == "bla" ) {
-      userData = getPrincipalName(userId.toUpperCase())
-      UPN = userData[0]
-      UPN = UPN.split('@')[0]
-      user[fn.aka.personalNumber] = rExpUPN.test(UPN) ? UPN.substr(1) : ""
-      user[fn.aka.mail] = userData[1]
+      if(userData = getPrincipalName(userId.toUpperCase())) {
+        UPN = userData[0]
+        UPN = UPN.split('@')[0]
+        user[fn.nv.personalNumber] = rExpUPN.test(UPN) ? UPN.substr(1) : ""
+        user[fn.nv.mail] = userData[1]
+      }
     }
     else if(rExpPN.test(userId)) {
-        user[fn.aka.personalNumber] =userId.substr(2)
+        user[fn.nv.personalNumber] =userId.substr(2)
     } else {
-        user[fn.aka.personalNumber] =""
+        user[fn.nv.personalNumber] =""
     }
 
     return user;
