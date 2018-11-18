@@ -141,7 +141,7 @@
                         "mail": "hderricoat0@cnet.com",
                         "rld": "2018-08-15",
                         "adr": "3647 Del Mar Place",
-                        "hr": "lamba/בית חלומותי 2/gamba",
+                        "hr": "afeka/pikus/lab101",
                         "tf": "Librarian",
                         "su": "hderricoat0@ucoz.com"
                     },
@@ -158,7 +158,7 @@
                         "mail": null,
                         "rld": "2018-05-08",
                         "adr": "913 Union Parkway",
-                        "hr": "lamba/sabmba/gamba",
+                        "hr": "מכללה/פקולטה/כיתה",
                         "tf": "Internal Auditor",
                         "su": null
                     }

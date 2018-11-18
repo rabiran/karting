@@ -1,51 +1,36 @@
 const axios = require('axios');
-const _ = require('lodash');
 const p = require('../config/paths');
 const logger = require('./logger');
 
-// This module accept person hierarchy and check if the hierarchy exit.
-// If yes- the modue return the last hierarchy's objectID,
+// This module accept person's hierarchy and check if the hierarchy exist.
+// If yes- the module return the last hierarchy's objectID,
 // else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
 
 module.exports = async (hierarchy_obj, hierarchy)=>{
-    let hierarchy_arr = Object.values(hierarchy_obj);
-    hierarchy_obj_length = Object.keys(hierarchy_obj).length;
-    hierarchy_to_add = [];
-    // This loop create array with the names of the new hierarchy that need to be created
-    while (hierarchy_arr[hierarchy_arr.length-1] == null) {
-        //  prevent infinity loop if the root hierarchy not exist in Kartoffel
-        if (hierarchy_to_add.length > hierarchy_obj_length){
-            logger.error(`failed to add the hierarchy "${hierarchy}" to Kartoffel. check if the root hierarchy exist in Kartoffel`);
-            return
-        }
-        let nullKey = _.findKey(hierarchy_obj,(obID) => {
-            return obID === hierarchy_arr[hierarchy_arr.length-1]
-        })
-        hierarchy_to_add.push(nullKey.trim());
-        delete hierarchy_obj[nullKey];
-        hierarchy_arr = hierarchy_arr.splice(0,hierarchy_arr.length-1);
-    }
-
-    // Add the missing hierarchies to Kartoffel
-    if (hierarchy_to_add.length != 0){
-        for (let new_hierarchy_name of hierarchy_to_add){
+    let hierarchy_arr = hierarchy.split('/');
+    let hierarchyAfterProcess;
+    let lastGroupID 
+    // hierarchy_arr.map(async(group)=>{
+    for (group of hierarchy_arr){
+        (hierarchy_arr.indexOf(group) === 0) ? hierarchyAfterProcess=group : hierarchyAfterProcess = hierarchyAfterProcess.concat('/', group);
+        if (!hierarchy_obj[group]){
             let new_group = {
-                name: new_hierarchy_name,
-                parentId: hierarchy_arr[hierarchy_arr.length-1],
+                name: group,
+                parentId: hierarchy_obj[hierarchy_arr[hierarchy_arr.indexOf(group)-1]],
             }
-            
-            await axios.post(p().KARTOFFEL_ADDGROUP_API,new_group)
-                .then((result)=>{ 
-                    hierarchy_obj[new_hierarchy_name] = result.data._id;
-                    hierarchy_arr = Object.values(hierarchy_obj);
-                    logger.info(`success to add the hierarchy "${new_hierarchy_name}" to Kartoffel`);
-                })
-                .catch((error)=>{
-                    logger.error(`failed to add the hierarchy "${new_hierarchy_name}" to Kartoffel. the error message: "${error.response.data}"`);
-                })
-        }
-    }   
 
-    let groupID = hierarchy_arr[hierarchy_arr.length-1]
-    return groupID;
-};
+            await axios.post(p().KARTOFFEL_ADDGROUP_API,new_group)
+            .then((result)=>{ 
+                hierarchy_obj[group] = result.data._id;
+                logger.info(`success to add the hierarchy "${hierarchyAfterProcess}" to Kartoffel`);
+            
+            })
+            .catch((error)=>{
+                logger.error(`failed to add the hierarchy "${hierarchyAfterProcess}" to Kartoffel. the error message: "${error.response.data}"`);
+            })
+        }
+
+        lastGroupID = hierarchy_obj[group]; 
+    }
+    return lastGroupID;
+}

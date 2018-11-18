@@ -40,9 +40,9 @@ const devSchedual = async()=>{
         diffsHandler(esDiffs, "es", aka_data.all);
     });
     // get the new json from nv & save him on the server
-    let nv_Data = nv().then((nvDiff)=>{
-        diffsHandler(nvDiff, "nv", aka_data.all);
-    });
+    // let nv_Data = nv().then((nvDiff)=>{
+    //     diffsHandler(nvDiff, "nv", aka_data.all);
+    // });
 
     if (process.env.NODE_ENV !== "production"){
         //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////

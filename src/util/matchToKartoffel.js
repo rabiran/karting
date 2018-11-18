@@ -1,7 +1,7 @@
 const fn = require("../config/fieldNames");
 const p = require("../config/paths");
 const axios = require('axios');
-const hierarchyHandler = require('../util/hierarchyHandler');
+const hierarchyHandler = require('./hierarchyHandler');
 const logger = require('./logger');
 
 /*
