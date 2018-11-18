@@ -27,7 +27,8 @@ const devSchedual = async()=>{
                 logger.info(`Success to add the root hierarchy "${result.data.name}" to Kartoffel`);
             })
             .catch((err)=>{
-                logger.error(`Failed to add the root hierarchy to Kartoffel. the error message: "${err.response.data}"`);
+                let errorMessage = (err.response) ? err.response.data : err.message;
+                logger.error(`Failed to add the root hierarchy to Kartoffel. the error message: "${errorMessage}"`);
             })
         });
 
@@ -85,7 +86,8 @@ const devSchedual = async()=>{
 
         // if the person does not exist in Kartoffel => ignore from the record
         .catch(err=>{
-            logger.error(`Not update the person with identityCard: ${aka_record[fn.aka.identityCard]} from aka_raw_data. The error message:"${err.response.data}"`);
+            let errorMessage = (err.response) ? err.response.data : err.message;
+            logger.error(`Not update the person with identityCard: ${aka_record[fn.aka.identityCard]} from aka_raw_data. The error message:"${errorMessage}"`);
         });
     }
 

@@ -295,7 +295,8 @@ directGroupHandler = async (record, dataSource)=>{
         })
         .catch((err)=>{
             let identifyer = (dataSource === "nv") ? record.uniqueId : record.identityCard;
-            logger.error(`Faild to add directGroup to the person with the identityCard: ${identifyer}. The error message:"${err.response.data}"`); 
+            let errorMessage = (err.response) ? err.response.data : err.message;
+            logger.error(`Faild to add directGroup to the person with the identityCard: ${identifyer}. The error message:"${errorMessage}"`); 
         });
     return directGroup;
 };

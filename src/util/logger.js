@@ -1,7 +1,6 @@
 const { createLogger, format, transports } = require('winston');
 require('winston-daily-rotate-file');
 const fs = require('fs');
-const path = require('path');
 
 const env = process.env.NODE_ENV || 'development';
 const logDir = 'log';
@@ -13,7 +12,9 @@ if (!fs.existsSync(logDir)) {
 
 const dailyRotateFileTransport = new transports.DailyRotateFile({
   filename: `${logDir}/%DATE%-logs.log`,
-  datePattern: 'YYYY-MM-DD'
+  datePattern: 'YYYY-MM-DD',
+  prepend: true,
+  json : true,
 });
 
 const logger = createLogger({
@@ -24,6 +25,7 @@ const logger = createLogger({
       format: 'YYYY-MM-DD HH:mm:ss'
     }),
     format.json(),
+    // format.simple(),
   ),
   transports: [
     new transports.Console({
