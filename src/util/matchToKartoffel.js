@@ -119,6 +119,7 @@ const match_nv = (obj) => {
                     let hr = obj[rawKey].split('/');
                     hr[0]===fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                     obj.hierarchy = hr.join("/");
+                    obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}','g'),'');
                 }else{
                     // obj.hierarchy = obj[rawKey];
                     // delete obj[rawKey];
@@ -126,6 +127,7 @@ const match_nv = (obj) => {
                     hr[0]===fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                     obj.hierarchy = hr.join("/");
                     delete obj[rawKey];
+                    obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}','g'),'');
                 };    
             break;
             // job
