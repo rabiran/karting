@@ -10,18 +10,17 @@ module.exports = async (hierarchy_obj, hierarchy)=>{
     let hierarchy_arr = hierarchy.split('/');
     let hierarchyAfterProcess;
     let lastGroupID 
-    // hierarchy_arr.map(async(group)=>{
     for (group of hierarchy_arr){
         (hierarchy_arr.indexOf(group) === 0) ? hierarchyAfterProcess=group : hierarchyAfterProcess = hierarchyAfterProcess.concat('/', group);
-        if (!hierarchy_obj[group]){
+        if (!hierarchy_obj[hierarchyAfterProcess]){
             let new_group = {
                 name: group,
-                parentId: hierarchy_obj[hierarchy_arr[hierarchy_arr.indexOf(group)-1]],
+                parentId: lastGroupID,
             }
 
             await axios.post(p().KARTOFFEL_ADDGROUP_API,new_group)
             .then((result)=>{ 
-                hierarchy_obj[group] = result.data. id;
+                hierarchy_obj[hierarchyAfterProcess] = result.data. id;
                 logger.info(`success to add the hierarchy "${hierarchyAfterProcess}" to Kartoffel`);
             
             })
@@ -30,7 +29,7 @@ module.exports = async (hierarchy_obj, hierarchy)=>{
             })
         }
 
-        lastGroupID = hierarchy_obj[group]; 
+        lastGroupID = hierarchy_obj[hierarchyAfterProcess]; 
     }
     return lastGroupID;
 }

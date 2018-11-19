@@ -21,8 +21,6 @@ const dailyRotateFileTransportERROR = new transports.DailyRotateFile({
   filename: `${logDir}/%DATE%-ERROR logs.log`,
   level: 'error',
   datePattern: 'YYYY-MM-DD',
-  prepend: true,
-  json : true,
 });
 
 
