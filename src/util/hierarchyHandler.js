@@ -21,7 +21,7 @@ module.exports = async (hierarchy_obj, hierarchy)=>{
 
             await axios.post(p().KARTOFFEL_ADDGROUP_API,new_group)
             .then((result)=>{ 
-                hierarchy_obj[group] = result.data.id;
+                hierarchy_obj[group] = result.data. id;
                 logger.info(`success to add the hierarchy "${hierarchyAfterProcess}" to Kartoffel`);
             
             })

@@ -17,6 +17,16 @@ const dailyRotateFileTransport = new transports.DailyRotateFile({
   json : true,
 });
 
+const dailyRotateFileTransportERROR = new transports.DailyRotateFile({
+  filename: `${logDir}/%DATE%-ERROR logs.log`,
+  level: 'error',
+  datePattern: 'YYYY-MM-DD',
+  prepend: true,
+  json : true,
+});
+
+
+
 const logger = createLogger({
   // change level if in dev environment versus production
   level: env === 'development' ? 'verbose' : 'info',
@@ -37,7 +47,8 @@ const logger = createLogger({
         )
       )
     }),
-    dailyRotateFileTransport
+    dailyRotateFileTransport,
+    dailyRotateFileTransportERROR,
   ]
 });
 
