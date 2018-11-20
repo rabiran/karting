@@ -14,13 +14,23 @@ const dailyRotateFileTransport = new transports.DailyRotateFile({
   filename: `${logDir}/%DATE%-logs.log`,
   datePattern: 'YYYY-MM-DD',
   prepend: true,
-  json : true,
+  json: true,
 });
 
 const dailyRotateFileTransportERROR = new transports.DailyRotateFile({
   filename: `${logDir}/%DATE%-ERROR logs.log`,
   level: 'error',
   datePattern: 'YYYY-MM-DD',
+});
+
+const consoleTransport = new transports.Console({
+  level: 'info',
+  format: format.combine(
+    format.colorize(),
+    format.printf(
+      info => `${info.timestamp} ${info.level}: ${info.message}`
+    )
+  )
 });
 
 
@@ -33,18 +43,9 @@ const logger = createLogger({
       format: 'YYYY-MM-DD HH:mm:ss'
     }),
     format.json(),
-    // format.simple(),
   ),
   transports: [
-    new transports.Console({
-      level: 'info',
-      format: format.combine(
-        format.colorize(),
-        format.printf(
-          info => `${info.timestamp} ${info.level}: ${info.message}`
-        )
-      )
-    }),
+    consoleTransport,
     dailyRotateFileTransport,
     dailyRotateFileTransportERROR,
   ]
