@@ -10,8 +10,8 @@ module.exports = async (hierarchy_obj, hierarchy)=>{
     let hierarchy_arr = hierarchy.split('/');
     let hierarchyAfterProcess;
     let lastGroupID 
-    for (group of hierarchy_arr){
-        (hierarchy_arr.indexOf(group) === 0) ? hierarchyAfterProcess=group : hierarchyAfterProcess = hierarchyAfterProcess.concat('/', group);
+    for ([index, group] of hierarchy_arr.entries()){
+        (index === 0) ? hierarchyAfterProcess=group : hierarchyAfterProcess = hierarchyAfterProcess.concat('/', group);
         if (!hierarchy_obj[hierarchyAfterProcess]){
             let new_group = {
                 name: group,
