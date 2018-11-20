@@ -1,7 +1,7 @@
 const fn = require("../config/fieldNames");
 const p = require("../config/paths");
 const axios = require('axios');
-const hierarchyHandler = require('../util/hierarchyHandler');
+const hierarchyHandler = require('./hierarchyHandler');
 const logger = require('./logger');
 
 /*
@@ -119,6 +119,7 @@ const match_nv = (obj) => {
                     let hr = obj[rawKey].split('/');
                     hr[0]===fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                     obj.hierarchy = hr.join("/");
+                    obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}','g'),'');
                 }else{
                     // obj.hierarchy = obj[rawKey];
                     // delete obj[rawKey];
@@ -126,15 +127,19 @@ const match_nv = (obj) => {
                     hr[0]===fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                     obj.hierarchy = hr.join("/");
                     delete obj[rawKey];
+                    obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}','g'),'');
                 };    
             break;
             // job
             case fn.nv.uniqueId:
+                let hr;
                 if(obj.hasOwnProperty("job")){
-                    let job = obj[fn.nv.hierarchy].split('/');
+                    obj[fn.nv.hierarchy]? hr=obj[fn.nv.hierarchy] : hr=obj["hierarchy"];
+                    let job = hr.split('/');
                     obj.job = job[job.length-1];
                 }else{
-                    let job = obj[fn.nv.hierarchy].split('/');
+                    obj[fn.nv.hierarchy]? hr=obj[fn.nv.hierarchy] : hr=obj["hierarchy"];
+                    let job = hr.split('/');
                     obj.job = job[job.length-1];
                     delete obj[rawKey];
                 };  
@@ -286,13 +291,14 @@ directGroupHandler = async (record, dataSource)=>{
             // This module accept person hierarchy and check if the hierarchy exit.
             // If yes- the modue return the last hierarchy's objectID,
             // else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
-            let directGroupID = await hierarchyHandler(result.data);
+            let directGroupID = await hierarchyHandler(result.data,record.hierarchy);
             directGroup = directGroupID;
             
         })
         .catch((err)=>{
             let identifyer = (dataSource === "nv") ? record.uniqueId : record.identityCard;
-            logger.error(`Faild to add directGroup to the person with the identityCard: ${identifyer}. The error message:"${err.response.data}"`); 
+            let errorMessage = (err.response) ? err.response.data : err.message;
+            logger.error(`Faild to add directGroup to the person with the identityCard: ${identifyer}. The error message:"${errorMessage}"`); 
         });
     return directGroup;
 };
