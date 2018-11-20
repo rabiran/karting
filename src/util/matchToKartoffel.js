@@ -15,54 +15,54 @@ const match_aka = (obj) => {
             //serviceType
             case fn.aka.serviceType:
                 obj.serviceType = fn.serviceTypeValue.s;
-                (obj.hasOwnProperty("serviceType")) ? null : delete obj[rawKey];
+                (rawKey === "serviceType") ? null : delete obj[rawKey];
                 break;
             //firstName
             case fn.aka.firstName:
                 obj.firstName = obj[rawKey];
-                (obj.hasOwnProperty("firstName")) ? null : delete obj[rawKey];
+                (rawKey === "firstName") ? null : delete obj[rawKey];
                 break;
             //lastName
             case fn.aka.lastName:
                 obj.lastName = obj[rawKey];
-                (obj.hasOwnProperty("lastName")) ? null : delete obj[rawKey];
+                (rawKey === "lastName") ? null : delete obj[rawKey];
                 break;
             //identityCard
             case fn.aka.identityCard:
                 obj.identityCard = obj[rawKey];
-                (obj.hasOwnProperty("identityCard")) ? null : delete obj[rawKey];
+                (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
             case fn.aka.personalNumber:
                 obj.personalNumber = obj[rawKey];
-                (obj.hasOwnProperty("personalNumber")) ? null : delete obj[rawKey];
+                (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //rank
             case fn.aka.rank:
                 obj.rank = obj[rawKey];
-                (obj.hasOwnProperty("rank")) ? null : delete obj[rawKey];
+                (rawKey === "rank") ? null : delete obj[rawKey];
                 break;
             //phone
             case fn.aka.phone:
                 obj.phone = [`${obj[fn.aka.areaCode]}-${obj[rawKey]}`];
                 delete obj[fn.aka.areaCode];
-                (obj.hasOwnProperty("phone")) ? null : delete obj[rawKey];
+                (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             // mobilePhone       
             case fn.aka.mobilePhone:
                 obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`];
                 delete obj[fn.aka.areaCodeMobile];
-                (obj.hasOwnProperty("mobileuniqueIdhone")) ? null : delete obj[rawKey];
+                (rawKey === "mobileuniqueIdhone") ? null : delete obj[rawKey];
                 break;
             // dischargeDay
             case fn.aka.dischargeDay:
                 obj.dischargeDay = obj[rawKey];
-                (obj.hasOwnProperty("dischargeDay")) ? null : delete obj[rawKey];
+                (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance 
             case fn.aka.clearance:
                 obj.clearance = obj[rawKey];
-                (obj.hasOwnProperty("clearance")) ? null : delete obj[rawKey];
+                (rawKey === "clearance") ? null : delete obj[rawKey];
                 break;
             default:
                 delete obj[rawKey];
@@ -80,7 +80,7 @@ const match_nv = (obj) => {
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
-                (obj.hasOwnProperty("hierarchy")) ? null : delete obj[rawKey];
+                (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             // job
             case fn.nv.uniqueId:
@@ -88,7 +88,7 @@ const match_nv = (obj) => {
                 obj[fn.nv.hierarchy] ? hrForJob = obj[fn.nv.hierarchy] : hrForJob = obj["hierarchy"];
                 let job = hrForJob.split('/');
                 obj.job = job[job.length - 1];
-                (obj.hasOwnProperty("job")) ? null : delete obj[rawKey];
+                (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             default:
                 delete obj[rawKey];
@@ -103,69 +103,69 @@ const match_es = (obj) => {
             //serviceType
             case fn.es.serviceType:
                 obj.serviceType = obj[rawKey];
-                (obj.hasOwnProperty("serviceType")) ? null : delete obj[rawKey];
+                (rawKey === "serviceType") ? null : delete obj[rawKey];
                 break;
             //firstName
             case fn.es.firstName:
                 obj.firstName = obj[rawKey];
-                (obj.hasOwnProperty("firstName")) ? null : delete obj[rawKey];
+                (rawKey ==="firstName") ? null : delete obj[rawKey];
                 break;
             //lastName
             case fn.es.lastName:
                 obj.lastName = obj[rawKey];
-                (obj.hasOwnProperty("lastName")) ? null : delete obj[rawKey];
+                (rawKey ==="lastName") ? null : delete obj[rawKey];
                 break;
             //identityCard
             case fn.es.identityCard:
                 obj.identityCard = obj[rawKey];
-                (obj.hasOwnProperty("identityCard")) ? null : delete obj[rawKey];
+                (rawKey ==="identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
             case fn.es.personalNumber:
                 obj.personalNumber = obj[rawKey];
-                (obj.hasOwnProperty("personalNumber")) ? null : delete obj[rawKey];
+                (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //rank
             case fn.es.rank:
                 obj.rank = obj[rawKey];
-                (obj.hasOwnProperty("rank")) ? null : delete obj[rawKey];
+                (rawKey === "rank") ? null : delete obj[rawKey];
                 break;
             //phone
             case fn.es.phone:
                 obj.phone = [obj[rawKey]];
-                (obj.hasOwnProperty("phone")) ? null : delete obj[rawKey];
+                (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             //mobilePhone       
             case fn.es.mobilePhone:
                 obj.mobilePhone = [obj[rawKey]];
-                (obj.hasOwnProperty("mobilePhone")) ? null : delete obj[rawKey];
+                (rawKey === "mobilePhone") ? null : delete obj[rawKey];
                 break;
             //dischargeDay
             case fn.es.dischargeDay:
                 obj.dischargeDay = obj[rawKey];
-                (obj.hasOwnProperty("dischargeDay")) ? null : delete obj[rawKey];
+                (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             //hierarchy 
             case fn.es.hierarchy:
                 let hr = obj[rawKey].split('/');
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                 obj.hierarchy = hr.join("/");
-                (obj.hasOwnProperty("hierarchy")) ? null : delete obj[rawKey];
+                (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             //mail 
             case fn.es.mail:
                 obj.mail = obj[rawKey];
-                (obj.hasOwnProperty("mail")) ? null : delete obj[rawKey];
+                (rawKey === "mail") ? null : delete obj[rawKey];
                 break;
             //address 
             case fn.es.address:
                 obj.address = obj[rawKey];
-                (obj.hasOwnProperty("address")) ? null : delete obj[rawKey];
+                (rawKey === "address") ? null : delete obj[rawKey];
                 break;
             //job 
             case fn.es.job:
                 obj.job = obj[rawKey];
-                (obj.hasOwnProperty("job")) ? null : delete obj[rawKey];
+                (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             // else
             default:
