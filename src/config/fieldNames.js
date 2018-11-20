@@ -1,5 +1,5 @@
 module.exports = {
-    aka:{
+    aka: {
         serviceType: "nstype",
         firstName: "firstName",
         lastName: "lastName",
@@ -13,9 +13,9 @@ module.exports = {
         dischargeDay: "rld",
         clearance: "clearance",
         unitName: "hr",
-        telephoneType:"telephoneType"
+        telephoneType: "telephoneType"
     },
-    es:{
+    es: {
         serviceType: "stype",
         firstName: "firstName",
         lastName: "lastName",
@@ -30,25 +30,25 @@ module.exports = {
         address: "adr",
         job: "tf",
     },
-    nv:{
+    nv: {
         fullName: "fullName",
         uniqueId: "uniqueId",
         hierarchy: "hr",
         personalNumber: "mi",
         mail: "mail",
     },
-    serviceTypeValue:{
+    serviceTypeValue: {
         s: "digimon",
         c: "tamar",
     },
     rootHierarchy: "wallmart",
-    ldapURL:"LDAP://{LDAP_URL}",
-    LDAP_USER:"Daniel",
-    LDAP_PASSWORD:"Ezra",
-    baseDN:"OU='bla'",
+    ldapURL: "LDAP://{LDAP_URL}",
+    LDAP_USER: "Daniel",
+    LDAP_PASSWORD: "Ezra",
+    baseDN: "OU='bla'",
     runningTime: {
         hour: 12,
-         minute: 54
+        minute: 54
     },
-    kartoffelUrl: "http://localhost:3000", 
+    kartoffelUrl: "http://localhost:3000",
 };

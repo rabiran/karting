@@ -4,14 +4,14 @@ const dataComparison = require('../util/dataComparison');
 const p = require('../config/paths');
 const fn = require('../config/fieldNames');
 
-module.exports = async()=>{
+module.exports = async () => {
     // get the update data from the remote server
     let nv_data = await axios.get(p().NV_API);
     // save the new json as file in the server
-    let previous_nv_data_file_name = saveAsFile(nv_data.data,'./data/nv','nv_raw_data');
+    let previous_nv_data_file_name = saveAsFile(nv_data.data, './data/nv', 'nv_raw_data');
     // get the delta between the two last JSONs
-    nvDiff = dataComparison(nv_data.data,"./data/nv/archive", previous_nv_data_file_name, fn.nv.uniqueId);
-    
+    nvDiff = dataComparison(nv_data.data, "./data/nv/archive", previous_nv_data_file_name, fn.nv.uniqueId);
+
     return nvDiff;
 
 };

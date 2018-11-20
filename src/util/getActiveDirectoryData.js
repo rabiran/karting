@@ -9,37 +9,37 @@ let adUsers = []
 function getPrincipalName(userId) {
   let data = null
   adUsers.forEach((adUser, index) => {
-    if(adUser.sAMAccountName == userId) {
+    if (adUser.sAMAccountName == userId) {
       mi = adUser.userPrincipalName != null ? adUser.userPrincipalName : ""
       mail = adUser.mail != null ? adUser.mail : ""
       adUser.splice(index, 1)
-      data = [mi , mail]
+      data = [mi, mail]
       return
     }
   })
-  
+
   return data
 }
 
 module.exports = async (user) => {
-    adUsers = await axios.get(p().AD_API)
-    adUsers = adUsers.data
-    let UPN
-    let userId = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[0] : ""
-    let userDomain = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[1] : ""
-    if(rExpAD.test(userId) && userDomain == "bla" ) {
-      if(userData = getPrincipalName(userId.toUpperCase())) {
-        UPN = userData[0]
-        UPN = UPN.split('@')[0]
-        user[fn.nv.personalNumber] = rExpUPN.test(UPN) ? UPN.substr(1) : ""
-        user[fn.nv.mail] = userData[1]
-      }
+  adUsers = await axios.get(p().AD_API)
+  adUsers = adUsers.data
+  let UPN
+  let userId = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[0] : ""
+  let userDomain = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[1] : ""
+  if (rExpAD.test(userId) && userDomain == "bla") {
+    if (userData = getPrincipalName(userId.toUpperCase())) {
+      UPN = userData[0]
+      UPN = UPN.split('@')[0]
+      user[fn.nv.personalNumber] = rExpUPN.test(UPN) ? UPN.substr(1) : ""
+      user[fn.nv.mail] = userData[1]
     }
-    else if(rExpPN.test(userId)) {
-        user[fn.nv.personalNumber] =userId.substr(2)
-    } else {
-        user[fn.nv.personalNumber] =""
-    }
+  }
+  else if (rExpPN.test(userId)) {
+    user[fn.nv.personalNumber] = userId.substr(2)
+  } else {
+    user[fn.nv.personalNumber] = ""
+  }
 
-    return user;
+  return user;
 }
