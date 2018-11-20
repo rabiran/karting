@@ -41,8 +41,8 @@ module.exports = {
         s: "digimon",
         c: "tamar",
     },
+    rootHierarchy: "wallmart",
     ad: {
-        rootHierarchy: "wallmart",
         ldapURL: "LDAP://{LDAP_URL}",
         LDAP_USER: "Daniel",
         LDAP_PASSWORD: "Ezra",
