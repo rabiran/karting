@@ -32,15 +32,15 @@ module.exports = async (user) => {
     if (userData = getPrincipalName(userId.toUpperCase())) {
       UPN = userData[0]
       UPN = UPN.split('@')[0]
-      user[fn.nv.personalNumber] = rExpUPN.test(UPN) ? UPN.substr(1) : ""
-      user[fn.nv.mail] = userData[1]
+      user.personalNumber = rExpUPN.test(UPN) ? UPN.substr(1) : ""
+      user.mail = userData[1]
     }
   }
   else if (rExpPN.test(userId)) {
-    user[fn.nv.personalNumber] = userId.substr(2)
+    user.personalNumber = userId.substr(2)
   }
   
-  if(user[fn.nv.personalNumber] == "" | user[fn.nv.personalNumber] == undefined) {
+  if(user.personalNumber == "" | user.personalNumber == undefined) {
      logger.error("user didnt get personal number from ad, inside getActiveDirectoryData module. user info: " + JSON.stringfy(user))
    }
 
