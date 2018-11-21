@@ -14,7 +14,7 @@ module.exports = async () => {
     let aka_employees_data = await axios.get(p().AKA_EMPLOYEES_API);
 
     // editing the aka data and squishing it to one object
-    let aka_data = akaDataManipulate(aka_telephones_data, aka_employees_data).data;
+    let aka_data = akaDataManipulate(aka_telephones_data.data, aka_employees_data.data);
     // save the new json as file in the server
     let previous_aka_data_file_name = saveAsFile(aka_data, './data/aka', 'aka_raw_data');
 
