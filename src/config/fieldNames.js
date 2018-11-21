@@ -1,6 +1,6 @@
 module.exports = {
     aka: {
-        serviceType: "nstype",
+        entityType: "nstype",
         firstName: "firstName",
         lastName: "lastName",
         identityCard: "tz",
@@ -16,7 +16,7 @@ module.exports = {
         telephoneType: "telephoneType"
     },
     es: {
-        serviceType: "stype",
+        entityType: "stype",
         firstName: "firstName",
         lastName: "lastName",
         identityCard: "tz",
@@ -37,7 +37,7 @@ module.exports = {
         personalNumber: "mi",
         mail: "mail",
     },
-    serviceTypeValue: {
+    entityTypeValue: {
         s: "digimon",
         c: "tamar",
     },
