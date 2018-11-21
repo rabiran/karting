@@ -12,10 +12,10 @@ const match_aka = (obj) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
-            //serviceType
-            case fn.aka.serviceType:
-                obj.serviceType = fn.serviceTypeValue.s;
-                (rawKey === "serviceType") ? null : delete obj[rawKey];
+            //entityType
+            case fn.aka.entityType:
+                obj.entityType = fn.entityTypeValue.s;
+                (rawKey === "entityType") ? null : delete obj[rawKey];
                 break;
             //firstName
             case fn.aka.firstName:
@@ -100,10 +100,10 @@ const match_es = (obj) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
-            //serviceType
-            case fn.es.serviceType:
-                obj.serviceType = obj[rawKey];
-                (rawKey === "serviceType") ? null : delete obj[rawKey];
+            //entityType
+            case fn.es.entityType:
+                obj.entityType = obj[rawKey];
+                (rawKey === "entityType") ? null : delete obj[rawKey];
                 break;
             //firstName
             case fn.es.firstName:

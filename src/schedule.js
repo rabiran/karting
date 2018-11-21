@@ -87,7 +87,7 @@ const devSchedual = async () => {
             // if the person does not exist in Kartoffel => ignore from the record
             .catch(err => {
                 let errorMessage = (err.response) ? err.response.data : err.message;
-                logger.error(`Not update the person with identityCard: ${aka_record[fn.aka.identityCard]} from aka_raw_data. The error message:"${errorMessage}"`);
+                logger.warn(`Not update the person with identityCard: ${aka_record[fn.aka.identityCard]} from aka_raw_data. The error message:"${errorMessage}"`);
             });
     }
 
