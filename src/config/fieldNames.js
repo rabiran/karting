@@ -33,9 +33,7 @@ module.exports = {
     nv: {
         fullName: "fullName",
         uniqueId: "uniqueId",
-        hierarchy: "hr",
-        personalNumber: "mi",
-        mail: "mail",
+        hierarchy: "hr"
     },
     entityTypeValue: {
         s: "digimon",
