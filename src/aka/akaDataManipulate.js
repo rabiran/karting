@@ -1,7 +1,7 @@
 const fn = require('../config/fieldNames');
 
 module.exports = (telephones, employees) => {
-    let telephonesDict = employees;
+    let telephonesDict = {};
 
     for (let i = 0; i < telephones.length - 1; i++) {
         if (telephonesDict[telephones[i][fn.aka.personalNumber]] != null) {
