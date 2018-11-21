@@ -1,6 +1,7 @@
 const axios = require("axios");
 const p = require('../config/paths');
 const fn = require('../config/fieldNames');
+const logger = require('./logger');
 const rExpAD = /^t{1}[0-9]{1}[a-zA-Z\d]+$/i
 const rExpPN = /^t{2}\d{7}$/i
 const rExpUPN = /^s{1}\d{7}$/i
@@ -27,7 +28,7 @@ module.exports = async (user) => {
   let UPN
   let userId = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[0] : ""
   let userDomain = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[1] : ""
-  if (rExpAD.test(userId) && userDomain == "bla") {
+  if (rExpAD.test(userId) && userDomain == fn.mailExtension) {
     if (userData = getPrincipalName(userId.toUpperCase())) {
       UPN = userData[0]
       UPN = UPN.split('@')[0]
@@ -37,9 +38,11 @@ module.exports = async (user) => {
   }
   else if (rExpPN.test(userId)) {
     user[fn.nv.personalNumber] = userId.substr(2)
-  } else {
-    user[fn.nv.personalNumber] = ""
   }
+  
+  if(user[fn.nv.personalNumber] == "" | user[fn.nv.personalNumber] == undefined) {
+     logger.error("user didnt get personal number from ad, inside getActiveDirectoryData module. user info: " + JSON.stringfy(user))
+   }
 
   return user;
 }

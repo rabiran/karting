@@ -52,5 +52,6 @@ module.exports = {
         hour: 12,
         minute: 54
     },
+    mailExtension: "bla",
     kartoffelUrl: "http://localhost:3000",
 };
