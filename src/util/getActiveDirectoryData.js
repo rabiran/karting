@@ -13,7 +13,7 @@ function getPrincipalName(userId) {
     if (adUser.sAMAccountName == userId) {
       mi = adUser.userPrincipalName != null ? adUser.userPrincipalName : ""
       mail = adUser.mail != null ? adUser.mail : ""
-      adUser.splice(index, 1)
+      adUsers.splice(index, 1)
       data = [mi, mail]
       return
     }
