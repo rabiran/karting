@@ -21,9 +21,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
         }
         else if (dataSource === "nv") {
             person_existence_checking = `${p(record[fn.nv.personalNumber]).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
-            // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4
-            // record = getAData(record)
-            // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+            record = await getAData(record);
         };
 
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);

@@ -41,7 +41,7 @@ module.exports = async (user) => {
   }
   
   if(user.personalNumber == "" | user.personalNumber == undefined) {
-     logger.error("user didnt get personal number from ad, inside getActiveDirectoryData module. user info: " + JSON.stringfy(user))
+     logger.error("user didnt get personal number from ad, inside getActiveDirectoryData module. user info: " + JSON.stringify(user));
    }
 
   return user;
