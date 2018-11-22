@@ -24,7 +24,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"nodemon ./mocks/mocksGenerator.js\" \"nodemon ./src/schedule.js\""
+    "startDev": "concurrently \"nodemon ./mocks/mocksGenerator.js\" \"nodemon ./src/schedule.js\"",
+    "start": "node ./src/schedule.js"
   },
   "repository": {
     "type": "git",
