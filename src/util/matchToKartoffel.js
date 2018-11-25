@@ -91,7 +91,9 @@ const match_nv = (obj) => {
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             default:
-                delete obj[rawKey];
+                if (rawKey != "personalNumber" && rawKey != "mail") {
+                    delete obj[rawKey];
+                };
         };
     });
 };
@@ -108,17 +110,17 @@ const match_es = (obj) => {
             //firstName
             case fn.es.firstName:
                 obj.firstName = obj[rawKey];
-                (rawKey ==="firstName") ? null : delete obj[rawKey];
+                (rawKey === "firstName") ? null : delete obj[rawKey];
                 break;
             //lastName
             case fn.es.lastName:
                 obj.lastName = obj[rawKey];
-                (rawKey ==="lastName") ? null : delete obj[rawKey];
+                (rawKey === "lastName") ? null : delete obj[rawKey];
                 break;
             //identityCard
             case fn.es.identityCard:
                 obj.identityCard = obj[rawKey];
-                (rawKey ==="identityCard") ? null : delete obj[rawKey];
+                (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
             case fn.es.personalNumber:

@@ -20,7 +20,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
             person_existence_checking = `${p(record[fn.es.identityCard]).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}`;
         }
         else if (dataSource === "nv") {
-            person_existence_checking = `${p(record[fn.nv.personalNumber]).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
+            person_existence_checking = `${p(record.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
             record = await getAData(record);
         };
 
