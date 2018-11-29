@@ -23,33 +23,37 @@ function getPrincipalName(userId) {
   return data
 }
 
-module.exports = async (user) => {
+module.exports = async (users) => {
   adUsers = await axios.get(p().AD_API)
   adUsers = adUsers.data
-  if(process.env.NODE_ENV == "production"){
-    let a = getPrincipalName(user[fn.nv.uniqueId].split('@')[0].toUpperCase())
-    user.personalNumber = a[0]
-    user.mail = a[1]
-  } else {
-    let UPN
-    let userId = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[0] : ""
-    let userDomain = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[1] : ""
-    if (rExpAD.test(userId) && userDomain == fn.mailExtension) {
-      if (userData = getPrincipalName(userId.toUpperCase())) {
-        UPN = userData[0]
-        UPN = UPN.split('@')[0]
-        user.personalNumber = rExpUPN.test(UPN) ? UPN.substr(1) : ""
-        user.mail = userData[1]
+  users.map((user) => {
+    if(process.env.NODE_ENV !== "production"){
+      let a = getPrincipalName(user[fn.nv.uniqueId].split('@')[0].toUpperCase())
+      user.personalNumber = a[0]
+      user.mail = a[1]
+    } else {
+      let UPN
+      let userId = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[0] : ""
+      let userDomain = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[1] : ""
+      if (rExpAD.test(userId) && userDomain == fn.mailExtension) {
+        if (userData = getPrincipalName(userId.toUpperCase())) {
+          UPN = userData[0]
+          UPN = UPN.split('@')[0]
+          user.personalNumber = rExpUPN.test(UPN) ? UPN.substr(1) : ""
+          user.mail = userData[1]
+        }
       }
+      else if (rExpPN.test(userId)) {
+        user.personalNumber = userId.substr(2)
+        user.mail = `${userId}@${userDomain}`
+      }
+      
+      if(user.personalNumber == "" | user.personalNumber == undefined) {
+        users = users.filter(bla => bla != user)
+         logger.error("user didnt get personal number from ad, inside getActiveDirectoryData module. user info: " + JSON.stringify(user));
+       }
     }
-    else if (rExpPN.test(userId)) {
-      user.personalNumber = userId.substr(2)
-    }
-    
-    if(user.personalNumber == "" | user.personalNumber == undefined) {
-       logger.error("user didnt get personal number from ad, inside getActiveDirectoryData module. user info: " + JSON.stringify(user));
-     }
-  }
+  })
 
-  return user;
+  return users;
 }

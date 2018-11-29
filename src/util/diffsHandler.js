@@ -13,6 +13,7 @@ const getAData = require("./getActiveDirectoryData")
  */
 
 const added = async (diffsObj, dataSource, aka_all_data) => {
+    diffsObj = await getAData(diffsObj);
     for (record of diffsObj) {
         // Define the unique changes for each "dataSource"
         let person_existence_checking;
@@ -21,7 +22,6 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
         }
         else if (dataSource === "nv") {
             person_existence_checking = `${p(record.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
-            record = await getAData(record);
         };
 
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
