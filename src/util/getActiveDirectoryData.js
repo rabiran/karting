@@ -28,7 +28,7 @@ module.exports = async (user) => {
   let UPN
   let userId = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[0] : ""
   let userDomain = user[fn.nv.uniqueId] ? user[fn.nv.uniqueId].split('@')[1] : ""
-  if (rExpAD.test(userId) && userDomain == fn.mailExtension) {
+  if (true) {
     if (userData = getPrincipalName(userId.toUpperCase())) {
       UPN = userData[0]
       UPN = UPN.split('@')[0]
