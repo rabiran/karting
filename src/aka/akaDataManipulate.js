@@ -32,10 +32,10 @@ module.exports = (telephones, employees) => {
             }
             else {
                 if (currEmployee[fn.aka.telephoneType] == 1) {
-                    employees[j][fn.aka.phone] = currEmployee[fn.aka.phone]
+                    employees[j][fn.aka.phone] = currEmployee[fn.aka.mobilePhone]
                     employees[j][fn.aka.areaCode] = currEmployee[fn.aka.areaCode]
                 } else if (currEmployee[fn.aka.telephoneType] == 2) {
-                    employees[j][fn.aka.mobilePhone] = currEmployee[fn.aka.phone]
+                    employees[j][fn.aka.mobilePhone] = currEmployee[fn.aka.mobilePhone]
                     employees[j][fn.aka.areaCodeMobile] = currEmployee[fn.aka.areaCode]
                 }
             }
