@@ -22,10 +22,10 @@ module.exports = (telephones, employees) => {
             if (Array.isArray(currEmployee)) {
                 for (currPhone of currEmployee) {
                     if (currPhone[fn.aka.telephoneType] == 1) {
-                        employees[j][fn.aka.phone] = currPhone[fn.aka.phone]
+                        employees[j][fn.aka.phone] = currPhone[fn.aka.mobilePhone]
                         employees[j][fn.aka.areaCode] = currPhone[fn.aka.areaCode]
                     } else if (currPhone[fn.aka.telephoneType] == 2) {
-                        employees[j][fn.aka.mobilePhone] = currPhone[fn.aka.phone]
+                        employees[j][fn.aka.mobilePhone] = currPhone[fn.aka.mobilePhone]
                         employees[j][fn.aka.areaCodeMobile] = currPhone[fn.aka.areaCode]
                     }
                 }
