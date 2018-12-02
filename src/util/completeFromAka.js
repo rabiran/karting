@@ -5,8 +5,8 @@ This module add fields from aka to given object.
 */
 
 const complete_nv = (obj, akaData, dataSource, complete) => {
-    let akaRecord = akaData.find( person => person[fn.aka.personalNumber]=== obj.personalNumber);
-    if (akaRecord){
+    let akaRecord = akaData.find(person => person[fn.aka.personalNumber] === obj.personalNumber);
+    if (akaRecord) {
         complete = true;
         obj.identityCard = akaRecord[fn.aka.identityCard];
         obj.firstName = akaRecord[fn.aka.firstName];
@@ -19,29 +19,29 @@ const complete_nv = (obj, akaData, dataSource, complete) => {
         obj.clearance = akaRecord[fn.aka.clearance];
         obj.entityType = fn.entityTypeValue.s;
     }
-    if(!complete){logger.warn(`The person with the personalNumber ${obj.personalNumber} from ${dataSource} not complete from aka`)};
+    if (!complete) { logger.warn(`The person with the personalNumber ${obj.personalNumber} from ${dataSource} not complete from aka`) };
 };
 
-const complete_es = (obj, akaData,dataSource, complete) => {
-    let akaRecord = akaData.find( person => person[fn.aka.identityCard]=== obj.identityCard);
-    if (akaRecord){    
+const complete_es = (obj, akaData, dataSource, complete) => {
+    let akaRecord = akaData.find(person => person[fn.aka.identityCard] === obj.identityCard);
+    if (akaRecord) {
         complete = true;
-        obj.clearance = akaRecord.clearance;
+        obj.clearance = akaRecord[fn.aka.clearance];
     }
-    if(!complete){logger.warn(`The person with the identityCard ${obj.identityCard} from ${dataSource} not complete from aka`)};
+    if (!complete) { logger.warn(`The person with the identityCard ${obj.identityCard} from ${dataSource} not complete from aka`) };
 };
-   
-    
+
+
 
 
 module.exports = (obj, akaData, dataSource) => {
     let complete = false;
     switch (dataSource) {
         case "es":
-            complete_es(obj, akaData,dataSource,complete);
+            complete_es(obj, akaData, dataSource, complete);
             break;
         case "nv":
-            complete_nv(obj, akaData,dataSource,complete);
+            complete_nv(obj, akaData, dataSource, complete);
             break;
         default:
             logger.error(`'dataSource' variable must be attached to 'completeFromAka' function`);
