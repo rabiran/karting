@@ -69,13 +69,9 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                                     logger.error(`Not create user to person with the identifyer: ${user_object.personId} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
                                 })
                         })
-                        .catch(err => {
-                            let identifyer = (dataSource === "nv") ? person_ready_for_kartoffel.uniqueId : person_ready_for_kartoffel.personalNumber;
-                            if (dataSource === "nv" && identifyer === undefined) {
-                                logger.warn(`Not adding person from nv that not complete from aka`);
-                            } else {
-                                logger.error(`Not insert the person with the identifyer: ${identifyer} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
-                            }
+                        .catch(err => { person_ready_for_kartoffel.personalNumber;
+                            let identifyer = person_ready_for_kartoffel.personalNumber; 
+                            logger.error(`Not insert the person with the identifyer: ${identifyer} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
                         })
 
                 } else {
