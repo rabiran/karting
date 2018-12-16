@@ -18,13 +18,11 @@
     "winston-daily-rotate-file": "^3.3.3"
   },
   "devDependencies": {
-    "concurrently": "^3.6.1",
-    "nodemon": "^1.18.3",
     "shelljs": "^0.8.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startDev": "concurrently \"nodemon ./mocks/mocksGenerator.js\" \"nodemon ./src/schedule.js\"",
+    "startDev": "node ./mocks/mocksGenerator.js & npm start",
     "start": "node ./src/schedule.js"
   },
   "repository": {
