@@ -72,12 +72,14 @@ const match_aka = (obj) => {
 
 const match_nv = (obj) => {
     const objKeys = Object.keys(obj);
+    let source_hierarchy = obj[fn.nv.hierarchy];
     objKeys.map((rawKey) => {
         switch (rawKey) {
             // hierarchy 
             case fn.nv.hierarchy:
-                let hr = obj[rawKey].split('/');
-                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                let hr = source_hierarchy.split('/');
+                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);              
+                hr.splice((hr.length-1),1);
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
