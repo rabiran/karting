@@ -72,12 +72,14 @@ const match_aka = (obj) => {
 
 const match_nv = (obj) => {
     const objKeys = Object.keys(obj);
+    let source_hierarchy = obj[fn.nv.hierarchy];
     objKeys.map((rawKey) => {
         switch (rawKey) {
             // hierarchy 
             case fn.nv.hierarchy:
-                let hr = obj[rawKey].split('/');
-                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                let hr = source_hierarchy.split('/');
+                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);              
+                hr.splice((hr.length-1),1);
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
@@ -91,7 +93,9 @@ const match_nv = (obj) => {
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             default:
-                delete obj[rawKey];
+                if (rawKey != "personalNumber" && rawKey != "mail") {
+                    delete obj[rawKey];
+                };
         };
     });
 };
@@ -108,17 +112,17 @@ const match_es = (obj) => {
             //firstName
             case fn.es.firstName:
                 obj.firstName = obj[rawKey];
-                (rawKey ==="firstName") ? null : delete obj[rawKey];
+                (rawKey === "firstName") ? null : delete obj[rawKey];
                 break;
             //lastName
             case fn.es.lastName:
                 obj.lastName = obj[rawKey];
-                (rawKey ==="lastName") ? null : delete obj[rawKey];
+                (rawKey === "lastName") ? null : delete obj[rawKey];
                 break;
             //identityCard
             case fn.es.identityCard:
                 obj.identityCard = obj[rawKey];
-                (rawKey ==="identityCard") ? null : delete obj[rawKey];
+                (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
             case fn.es.personalNumber:

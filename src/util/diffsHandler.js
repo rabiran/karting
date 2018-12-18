@@ -13,6 +13,7 @@ const getAData = require("./getActiveDirectoryData")
  */
 
 const added = async (diffsObj, dataSource, aka_all_data) => {
+    diffsObj = await getAData(diffsObj);
     for (record of diffsObj) {
         // Define the unique changes for each "dataSource"
         let person_existence_checking;
@@ -20,10 +21,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
             person_existence_checking = `${p(record[fn.es.identityCard]).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}`;
         }
         else if (dataSource === "nv") {
-            person_existence_checking = `${p(record[fn.nv.personalNumber]).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
-            // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4
-            // record = getAData(record)
-            // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+            person_existence_checking = `${p(record.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
         };
 
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
@@ -72,12 +70,9 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                                 })
                         })
                         .catch(err => {
-                            let identifyer = (dataSource === "nv") ? person_ready_for_kartoffel.uniqueId : person_ready_for_kartoffel.personalNumber;
-                            if (dataSource === "nv" && identifyer === undefined) {
-                                logger.warn(`Not adding person from nv that not complete from aka`);
-                            } else {
-                                logger.error(`Not insert the person with the identifyer: ${identifyer} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
-                            }
+                            person_ready_for_kartoffel.personalNumber;
+                            let identifyer = person_ready_for_kartoffel.personalNumber;
+                            logger.error(`Not insert the person with the identifyer: ${identifyer} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
                         })
 
                 } else {
