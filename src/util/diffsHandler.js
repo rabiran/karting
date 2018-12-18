@@ -5,7 +5,7 @@ const completeFromAka = require('./completeFromAka');
 const fn = require('../config/fieldNames');
 const logger = require('./logger');
 const getAData = require("./getActiveDirectoryData")
-
+require('dotenv').config();
 /*
  * diffsObj - object that contain the results of diffs checking (added,updated,same,removed & all)
  * dataSource - string the express the name of the data source

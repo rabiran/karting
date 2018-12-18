@@ -3,7 +3,7 @@ const p = require("../config/paths");
 const axios = require('axios');
 const hierarchyHandler = require('./hierarchyHandler');
 const logger = require('./logger');
-
+require('dotenv').config();
 /*
 This module match the fields of given object (raw_data) to Kartoffel fields structure.
 */
