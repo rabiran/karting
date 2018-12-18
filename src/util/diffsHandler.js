@@ -13,7 +13,9 @@ require('dotenv').config();
  */
 
 const added = async (diffsObj, dataSource, aka_all_data) => {
-    diffsObj = await getAData(diffsObj);
+    if (dataSource === "nv") {
+        diffsObj = await getAData(diffsObj);
+    };
     for (record of diffsObj) {
         // Define the unique changes for each "dataSource"
         let person_existence_checking;
