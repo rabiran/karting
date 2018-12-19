@@ -51,5 +51,6 @@ module.exports = {
         minute: 54
     },
     mailExtension: "bla",
+    specialDomain: "gamba",
     kartoffelUrl: "http://localhost:3000",
 };

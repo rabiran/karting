@@ -14,8 +14,8 @@ const complete_nv = (obj, akaData, dataSource) => {
         obj.lastName = akaRecord[fn.aka.lastName];
         obj.currentUnit = akaRecord[fn.aka.unitName];
         obj.rank = akaRecord[fn.aka.rank];
-        obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`];
-        obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`];
+        akaRecord[fn.aka.phone] ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
+        akaRecord[fn.aka.mobilePhone] ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
         obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
         obj.clearance = akaRecord[fn.aka.clearance];
         obj.entityType = fn.entityTypeValue.s;
