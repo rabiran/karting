@@ -33,7 +33,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
             .then((person) => {
                 let user_object = {
                     personId: person.data.id,
-                    fullString: person.data.mail,
+                    fullString: person_ready_for_kartoffel.mail,
                     isPrimary: false,
                 };
                 axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
