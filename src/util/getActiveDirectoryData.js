@@ -45,7 +45,7 @@ module.exports = async (users) => {
       }
       else if (rExpPN.test(userId)) {
         user.personalNumber = userId.substr(2)
-        user.mail = `${userId}@${userDomain}`
+        user.mail = `${userId}@${fn.specialDomain}`
       }
       
       if(user.personalNumber == "" | user.personalNumber == undefined) {

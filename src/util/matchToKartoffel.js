@@ -87,7 +87,7 @@ const match_nv = (obj) => {
             // job
             case fn.nv.uniqueId:
                 let hrForJob;
-                obj[fn.nv.hierarchy] ? hrForJob = obj[fn.nv.hierarchy] : hrForJob = obj["hierarchy"];
+                obj[fn.nv.hierarchy] ? hrForJob = obj[fn.nv.hierarchy] : hrForJob = source_hierarchy;
                 let job = hrForJob.split('/');
                 obj.job = job[job.length - 1];
                 (rawKey === "job") ? null : delete obj[rawKey];
