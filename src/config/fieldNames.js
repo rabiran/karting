@@ -35,6 +35,15 @@ module.exports = {
         uniqueId: "uniqueId",
         hierarchy: "hr"
     },
+    ads:{
+        firstName: "KfirstName",
+        lastName: "KlastName",
+        job:"Kjob",
+        mail: "mail",
+        upn:"userPrincipalName",
+        hierarchy:"hierarchy",
+        sAMAccountName:"sAMAccountName",                
+    },
     entityTypeValue: {
         s: "digimon",
         c: "tamar",
