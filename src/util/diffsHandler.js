@@ -5,7 +5,7 @@ const completeFromAka = require('./completeFromAka');
 const fn = require('../config/fieldNames');
 const logger = require('./logger');
 const getAData = require("./getActiveDirectoryData")
-
+require('dotenv').config();
 /*
  * diffsObj - object that contain the results of diffs checking (added,updated,same,removed & all)
  * dataSource - string the express the name of the data source
@@ -13,7 +13,9 @@ const getAData = require("./getActiveDirectoryData")
  */
 
 const added = async (diffsObj, dataSource, aka_all_data) => {
-    diffsObj = await getAData(diffsObj);
+    if (dataSource === "nv") {
+        diffsObj = await getAData(diffsObj);
+    };
     for (record of diffsObj) {
         // Define the unique changes for each "dataSource"
         let person_existence_checking;
@@ -31,7 +33,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
             .then((person) => {
                 let user_object = {
                     personId: person.data.id,
-                    fullString: person.data.mail,
+                    fullString: person_ready_for_kartoffel.mail,
                     isPrimary: false,
                 };
                 axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)

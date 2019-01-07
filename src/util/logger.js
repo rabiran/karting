@@ -1,11 +1,12 @@
 const { createLogger, format, transports } = require('winston');
 require('winston-daily-rotate-file');
 const fs = require('fs');
+require('dotenv').config();
 
 const env = process.env.NODE_ENV || 'development';
 const logDir = 'log';
 
-// Create the log directory if it does not exist
+// Create require('dotenv').config()the log directory if it does not exist
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
 }

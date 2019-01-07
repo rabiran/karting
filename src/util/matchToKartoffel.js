@@ -3,7 +3,7 @@ const p = require("../config/paths");
 const axios = require('axios');
 const hierarchyHandler = require('./hierarchyHandler');
 const logger = require('./logger');
-
+require('dotenv').config();
 /*
 This module match the fields of given object (raw_data) to Kartoffel fields structure.
 */
@@ -72,12 +72,14 @@ const match_aka = (obj) => {
 
 const match_nv = (obj) => {
     const objKeys = Object.keys(obj);
+    let source_hierarchy = obj[fn.nv.hierarchy];
     objKeys.map((rawKey) => {
         switch (rawKey) {
             // hierarchy 
             case fn.nv.hierarchy:
-                let hr = obj[rawKey].split('/');
-                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                let hr = source_hierarchy.split('/');
+                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);              
+                hr.splice((hr.length-1),1);
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
@@ -85,7 +87,7 @@ const match_nv = (obj) => {
             // job
             case fn.nv.uniqueId:
                 let hrForJob;
-                obj[fn.nv.hierarchy] ? hrForJob = obj[fn.nv.hierarchy] : hrForJob = obj["hierarchy"];
+                obj[fn.nv.hierarchy] ? hrForJob = obj[fn.nv.hierarchy] : hrForJob = source_hierarchy;
                 let job = hrForJob.split('/');
                 obj.job = job[job.length - 1];
                 (rawKey === "job") ? null : delete obj[rawKey];
