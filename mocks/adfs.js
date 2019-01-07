@@ -11,11 +11,11 @@ for (let i = 0; i < 150; i++) {
   bla.KfirstName = faker.name.firstName();
   bla.KlastName = faker.name.lastName();
   bla.Kjob = faker.name.jobTitle();
-  bla.mail = faker.internet.email();
   bla.userPrincipalName = "M" + ae[i].mi
   bla.hierarchy = faker.lorem.word() + "/" + faker.lorem.word() + "/" + faker.lorem.word() + "/" +
                     bla.Kjob + " - " + bla.KfirstName + " " + bla.KlastName;
-  bla.sAMAccountName = faker.internet.email();
+  bla.sAMAccountName = faker.internet.email().split('@')[0];
+  bla.mail = bla.sAMAccountName + "@" +faker.internet.email().split('@')[1];
   adUsers.push(bla)
 }
 
@@ -24,11 +24,11 @@ for (let i = 0; i < 100; i++) {
     bla.KfirstName = faker.name.firstName();
     bla.KlastName = faker.name.lastName();
     bla.Kjob = faker.name.jobTitle();
-    bla.mail = faker.internet.email();
     bla.userPrincipalName = "D" + faker.random.number();
     bla.hierarchy = faker.lorem.word() + "/" + faker.lorem.word() + "/" + faker.lorem.word() + "/" +
                       bla.Kjob + " - " + bla.KfirstName + " " + bla.KlastName;
-    bla.sAMAccountName = faker.internet.email();
+    bla.sAMAccountName = faker.internet.email().split('@')[0];
+    bla.mail = bla.sAMAccountName + "@" +faker.internet.email().split('@')[1];
     adUsers.push(bla)
   }
 
