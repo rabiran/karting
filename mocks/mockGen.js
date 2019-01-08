@@ -15,8 +15,8 @@ for (let i = 0; i < 250; i++) {
     tzs.push(faker.random.number({'min': 100000,'max': 999999999}))
 }
 
-fs.writeFileSync("./list/miList.json", JSON.stringify(mis))
-fs.writeFileSync("./list/tzList.json", JSON.stringify(tzs))
+fs.writeFileSync("./lists/miList.json", JSON.stringify(mis))
+fs.writeFileSync("./lists/tzList.json", JSON.stringify(tzs))
 
 
 // Generating employee and teelephones objects
@@ -76,7 +76,7 @@ for(let i = 0; i < 250; i++) {
     })
 }
 
-fs.writeFileSync("./mockFiles/getAkaEmployees.json", JSON.stringify(employees))
-fs.writeFileSync("./mockFiles/getAkaTelephone.json", JSON.stringify(telephones))
-fs.writeFileSync("./mockFiles/AD.json", JSON.stringify(adUsers))
-fs.writeFileSync("./mockFiles/nVa.json", JSON.stringify(nvUsers))
+fs.writeFileSync("./mocksFiles/getAkaEmployees.json", JSON.stringify(employees))
+fs.writeFileSync("./mocksFiles/getAkaTelephone.json", JSON.stringify(telephones))
+fs.writeFileSync("./mocksFiles/AD.json", JSON.stringify(adUsers))
+fs.writeFileSync("./mocksFiles/nVa.json", JSON.stringify(nvUsers))
