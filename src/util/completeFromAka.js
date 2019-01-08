@@ -6,7 +6,7 @@ This module add fields from aka to given object.
 
 const complete_nv = (obj, akaData, dataSource) => {
     let complete = false;
-    let akaRecord = akaData.find(person => person[fn.aka.personalNumber] === obj.personalNumber.toString());
+    let akaRecord = akaData.find(person => person[fn.aka.personalNumber] == obj.personalNumber.toString());
     if (akaRecord) {
         complete = true;
         obj.identityCard = akaRecord[fn.aka.identityCard];
@@ -25,7 +25,7 @@ const complete_nv = (obj, akaData, dataSource) => {
 
 const complete_es = (obj, akaData, dataSource) => {
     let complete = false;
-    let akaRecord = akaData.find(person => person[fn.aka.identityCard] === obj.identityCard.toString());
+    let akaRecord = akaData.find(person => person[fn.aka.identityCard] == obj.identityCard.toString());
     if (akaRecord) {
         complete = true;
         obj.clearance = akaRecord[fn.aka.clearance];
@@ -35,7 +35,7 @@ const complete_es = (obj, akaData, dataSource) => {
 
 const complete_ads = (obj, akaData, dataSource) => {
     let complete = false;
-    let akaRecord = akaData.find(person => person[fn.aka.personalNumber] === obj.personalNumber.toString());
+    let akaRecord = akaData.find(person => person[fn.aka.personalNumber] == obj.personalNumber.toString());
     if (akaRecord) {
         complete = true;
         obj.identityCard = akaRecord[fn.aka.identityCard];

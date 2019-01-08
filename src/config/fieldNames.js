@@ -5,7 +5,7 @@ module.exports = {
         lastName: "lastName",
         identityCard: "tz",
         personalNumber: "mi",
-        rank: "nrnk",
+        rank: "rnk",
         phone: "telephone",
         areaCode: "ktelephone",
         mobilePhone: "telephone",

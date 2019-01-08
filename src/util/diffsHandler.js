@@ -34,11 +34,15 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
         await axios.get(person_existence_checking)
             // if the person is already exist in Kartoffel => only add secodary user.
             .then((person) => {
+                let globalIdentifyer = person_ready_for_kartoffel.globalIdentifyer;
                 let user_object = {
                     personId: person.data.id,
                     fullString: person_ready_for_kartoffel.mail,
                     isPrimary: false,
                 };
+                // delete after refactor of globalIdentifyer at es and nv+++++++++++++++
+                (dataSource == "ads") ? user_object.fullString = globalIdentifyer : null;
+                // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                 axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                     .then((user) => {
                         logger.info(`Create the user ${user.data.secondaryDomainUsers} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully`);
@@ -56,6 +60,11 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                 if (err.response.status === 404) {
                     // complete the data from aka (if exist):
                     person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource);
+                    let globalIdentifyer = person_ready_for_kartoffel.globalIdentifyer;
+
+                    // delete the condition after refactor of globalIdentifyer at es and nv+++++++++++++++
+                    (dataSource == "ads") ? delete person_ready_for_kartoffel.globalIdentifyer : null;
+                    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     // Add the complete person object to Kartoffel
                     axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
                         .then((person) => {
@@ -63,9 +72,12 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                             // add primary user to the new person
                             let user_object = {
                                 personId: person.data.id,
-                                fullString: person.data.mail,
+                                fullString: person.data.mail,//need to change this field to "globalIdentifyer" after refactor of nv and es
                                 isPrimary: true,
                             };
+                            // delete after refactor of globalIdentifyer at es and nv+++++++++++++++
+                            (dataSource == "ads") ? user_object.fullString = globalIdentifyer : null;
+                            // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                             axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                                 .then((user) => {
                                     logger.info(`Create the user ${user.data.primaryDomainUser} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`);
