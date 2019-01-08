@@ -17,16 +17,19 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
         diffsObj = await getAData(diffsObj);
     };
     for (record of diffsObj) {
+        let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         // Define the unique changes for each "dataSource"
         let person_existence_checking;
         if (dataSource === "es") {
-            person_existence_checking = `${p(record[fn.es.identityCard]).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}`;
+            person_existence_checking = `${p(person_ready_for_kartoffel.identityCard).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}`;
         }
         else if (dataSource === "nv") {
-            person_existence_checking = `${p(record.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
+            person_existence_checking = `${p(person_ready_for_kartoffel.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
+        }
+        else if (dataSource === "ads") {
+            (person_ready_for_kartoffel.entityType === fn.entityTypeValue.c) ? person_existence_checking = `${p(person_ready_for_kartoffel.identityCard).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}` : null;
+            (person_ready_for_kartoffel.entityType === fn.entityTypeValue.s) ? person_existence_checking = `${p(person_ready_for_kartoffel.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}` : null;
         };
-
-        let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         // Checking if the person is already exist in Kartoffel and accept his object from Kartoffel
         await axios.get(person_existence_checking)
             // if the person is already exist in Kartoffel => only add secodary user.

@@ -49,9 +49,9 @@ module.exports = {
     },
     entityTypeValue: {
         s: "digimon",
-        sPrefix:"M",
+        sPrefix:"m",
         c: "tamar",
-        cPrefix:"D",
+        cPrefix:"d",
     },
     rootHierarchy: "wallmart",
     ad: {

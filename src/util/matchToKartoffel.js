@@ -209,13 +209,17 @@ const match_ads = (obj) => {
                 break;
             //hierarchy
             case fn.ads.hierarchy:
-                obj.hierarchy = obj[rawKey].substring(0, obj[rawKey].indexOf('-'));
+                let hr = obj[rawKey].substring(0, obj[rawKey].indexOf('-')).trim().split('/');
+                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr.splice((hr.length - 1), 1);
+                obj.hierarchy = hr.join("/");
+                obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             //entityType,personalNumber/identityCard
             case fn.ads.upn:
                 let re = /[a-z]_|[a-z]/;
-                let upnPrefix = obj[rawKey].match(re);
+                let upnPrefix = obj[rawKey].toLowerCase().match(re).toString();
                 switch (upnPrefix) {
                     case fn.entityTypeValue.cPrefix:
                         obj.entityType = fn.entityTypeValue.c;
@@ -226,8 +230,8 @@ const match_ads = (obj) => {
                     default:
                         logger.warn(`Not inserted entity type for the user with the upn ${obj[rawKey]} from ads`);
                 }
-                (obj.entityType === fn.entityTypeValue.c) ? obj.identityCard = obj[rawKey].split(re) : null;
-                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].split(re) : null;
+                (obj.entityType === fn.entityTypeValue.c) ? obj.identityCard = obj[rawKey].toLowerCase().split(re)[1] : null;
+                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(re)[1] : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
         }
@@ -266,7 +270,7 @@ module.exports = async (obj, dataSource) => {
             break;
         case "es":
             match_es(obj);
-            obj.directGroup = await directGroupHandler(obj, dataSource);
+            obj.directGroup = await directGroupHandler(obj, dataSource); 
             delete obj.hierarchy;
             break;
         case "nv":
@@ -276,7 +280,8 @@ module.exports = async (obj, dataSource) => {
             break;
         case "ads":
             match_ads(obj);
-
+            obj.directGroup = await directGroupHandler(obj, dataSource);
+            delete obj.hierarchy;
         default:
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");
     }
