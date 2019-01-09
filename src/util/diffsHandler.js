@@ -84,9 +84,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                             // delete after refactor of globalIdentifyer at es and nv+++++++++++++++
                             (dataSource == "ads") ? user_object.fullString = globalIdentifyer : null;
                             // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                            // define the identifyer for the logger by entityType
-                            
-
+                       
                             axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                                 .then((user) => {
                                     (user.data.entityType==fn.entityTypeValue.s)?
