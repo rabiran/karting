@@ -48,7 +48,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                         logger.info(`Create the user ${user.data.secondaryDomainUsers} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully`);
                     })
                     .catch((err) => {
-                        logger.error(`Not create user to person with the identifyer: ${user_object.personId} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
+                        logger.error(`Not create user to person with the identifyer: ${user_object.fullString} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
                     })
             })
 
@@ -68,7 +68,9 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                     // Add the complete person object to Kartoffel
                     axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
                         .then((person) => {
-                            logger.info(`The person with personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data successfully insert to Kartoffel`);
+                            (person.data.entityType==fn.entityTypeValue.s)?
+                            logger.info(`The person with the personalNumber: ${person.data.personalNumber} from ${dataSource}_complete_data successfully insert to Kartoffel`):
+                            logger.info(`The person with the identityCard: ${person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
                             // add primary user to the new person
                             let user_object = {
                                 personId: person.data.id,
@@ -78,18 +80,25 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                             // delete after refactor of globalIdentifyer at es and nv+++++++++++++++
                             (dataSource == "ads") ? user_object.fullString = globalIdentifyer : null;
                             // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                            // define the identifyer for the logger by entityType
+                            
+
                             axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                                 .then((user) => {
-                                    logger.info(`Create the user ${user.data.primaryDomainUser} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`);
+                                    (user.data.entityType==fn.entityTypeValue.s)?
+                                    logger.info(`Create the user ${user_object.fullString} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
+                                    logger.info(`Create the user ${user_object.fullString} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);
                                 })
                                 .catch((err) => {
-                                    logger.error(`Not create user to person with the identifyer: ${user_object.personId} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
+                                    (user.data.entityType==fn.entityTypeValue.s)?
+                                    logger.error(`Not create user to person with the identifyer: ${user_object.fullString} to the person with personalNumber: ${person.data.personalNumber} from ${dataSource}_complete_data. The error message:"${err.response.data}"`):
+                                    logger.error(`Not create user to person with the identifyer: ${user_object.fullString} to the person with identityCard: ${person.data.identityCard} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
                                 })
                         })
                         .catch(err => {
-                            person_ready_for_kartoffel.personalNumber;
-                            let identifyer = person_ready_for_kartoffel.personalNumber;
-                            logger.error(`Not insert the person with the identifyer: ${identifyer} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
+                            (person_ready_for_kartoffel.entityType==fn.entityTypeValue.s)?
+                            logger.error(`Not insert the person with the personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`):
+                            logger.error(`Not insert the person with the identityCard: ${person_ready_for_kartoffel.identityCard} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
                         })
 
                 } else {
