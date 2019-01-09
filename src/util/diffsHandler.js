@@ -45,10 +45,14 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                 axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                     .then((user) => {
-                        logger.info(`Create the user ${user.data.secondaryDomainUsers} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully`);
+                        (user.data.entityType==fn.entityTypeValue.s)?
+                        logger.info(`Create the secondary user ${user_object.fullString} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
+                        logger.info(`Create the secondary user ${user_object.fullString} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);                    
                     })
                     .catch((err) => {
-                        logger.error(`Not create user to person with the identifyer: ${user_object.fullString} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
+                        (user.data.entityType==fn.entityTypeValue.s)?
+                        logger.error(`Not create user to person with the identifyer: ${user_object.fullString} to the person with personalNumber: ${person.data.personalNumber} from ${dataSource}_complete_data. The error message:"${err.response.data}"`):
+                        logger.error(`Not create user to person with the identifyer: ${user_object.fullString} to the person with identityCard: ${person.data.identityCard} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
                     })
             })
 
@@ -86,8 +90,8 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                             axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                                 .then((user) => {
                                     (user.data.entityType==fn.entityTypeValue.s)?
-                                    logger.info(`Create the user ${user_object.fullString} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
-                                    logger.info(`Create the user ${user_object.fullString} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);
+                                    logger.info(`Create the primary user ${user_object.fullString} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
+                                    logger.info(`Create the primary user ${user_object.fullString} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);
                                 })
                                 .catch((err) => {
                                     (user.data.entityType==fn.entityTypeValue.s)?
