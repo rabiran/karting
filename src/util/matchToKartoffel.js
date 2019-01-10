@@ -202,11 +202,6 @@ const match_ads = (obj) => {
                 obj.mail = obj[rawKey];
                 (rawKey === "mail") ? null : delete obj[rawKey];
                 break;
-            //globalIdentifyer
-            case fn.ads.sAMAccountName:
-                obj.globalIdentifyer = obj[rawKey].concat("@", fn.adfs.ads);
-                (rawKey === "globalIdentifyer") ? null : delete obj[rawKey];
-                break;
             //hierarchy
             case fn.ads.hierarchy:
                 let hr = obj[rawKey].substring(0, obj[rawKey].indexOf('-')).trim().split('/');
@@ -234,6 +229,9 @@ const match_ads = (obj) => {
                 (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(re)[1] : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
+                default:
+                    delete obj[rawKey];
+
         }
     })
 };

@@ -44,9 +44,6 @@ module.exports = {
         hierarchy:"hierarchy",
         sAMAccountName:"sAMAccountName",                
     },
-    adfs:{
-        ads:"cnn",
-    },
     entityTypeValue: {
         s: "digimon",
         sPrefix:"m",
