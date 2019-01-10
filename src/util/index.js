@@ -1,4 +1,3 @@
-export * from "./colorsForLogs"
 export * from "./completeFromAka"
 export * from "./dataComparison"
 export * from "./diffsHandler"

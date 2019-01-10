@@ -78,8 +78,8 @@ const match_nv = (obj) => {
             // hierarchy 
             case fn.nv.hierarchy:
                 let hr = source_hierarchy.split('/');
-                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);              
-                hr.splice((hr.length-1),1);
+                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr.splice((hr.length - 1), 1);
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
@@ -178,6 +178,64 @@ const match_es = (obj) => {
     });
 };
 
+const match_ads = (obj) => {
+    const objKeys = Object.keys(obj);
+    objKeys.map((rawKey) => {
+        switch (rawKey) {
+            //firstName
+            case fn.ads.firstName:
+                obj.firstName = obj[rawKey];
+                (rawKey === "firstName") ? null : delete obj[rawKey];
+                break;
+            //lastName
+            case fn.ads.lastName:
+                obj.lastName = obj[rawKey];
+                (rawKey === "lastName") ? null : delete obj[rawKey];
+                break;
+            //job
+            case fn.ads.job:
+                obj.job = obj[rawKey];
+                (rawKey === "job") ? null : delete obj[rawKey];
+                break;
+            //mail
+            case fn.ads.mail:
+                obj.mail = obj[rawKey];
+                (rawKey === "mail") ? null : delete obj[rawKey];
+                break;
+            //hierarchy
+            case fn.ads.hierarchy:
+                let hr = obj[rawKey].substring(0, obj[rawKey].indexOf('-')).trim().split('/');
+                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr.splice((hr.length - 1), 1);
+                obj.hierarchy = hr.join("/");
+                obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
+                (rawKey === "hierarchy") ? null : delete obj[rawKey];
+                break;
+            //entityType,personalNumber/identityCard
+            case fn.ads.upn:
+                let re = /[a-z]_|[a-z]/;
+                let upnPrefix = obj[rawKey].toLowerCase().match(re).toString();
+                switch (upnPrefix) {
+                    case fn.entityTypeValue.cPrefix:
+                        obj.entityType = fn.entityTypeValue.c;
+                        break;
+                    case fn.entityTypeValue.sPrefix:
+                        obj.entityType = fn.entityTypeValue.s;
+                        break;
+                    default:
+                        logger.warn(`Not inserted entity type for the user with the upn ${obj[rawKey]} from ads`);
+                }
+                (obj.entityType === fn.entityTypeValue.c) ? obj.identityCard = obj[rawKey].toLowerCase().split(re)[1] : null;
+                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(re)[1] : null;
+                (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
+                break;
+                default:
+                    delete obj[rawKey];
+
+        }
+    })
+};
+
 directGroupHandler = async (record, dataSource) => {
     hr = encodeURIComponent(record.hierarchy)
     let directGroup;
@@ -210,11 +268,16 @@ module.exports = async (obj, dataSource) => {
             break;
         case "es":
             match_es(obj);
-            obj.directGroup = await directGroupHandler(obj, dataSource);
+            obj.directGroup = await directGroupHandler(obj, dataSource); 
             delete obj.hierarchy;
             break;
         case "nv":
             match_nv(obj);
+            obj.directGroup = await directGroupHandler(obj, dataSource);
+            delete obj.hierarchy;
+            break;
+        case "ads":
+            match_ads(obj);
             obj.directGroup = await directGroupHandler(obj, dataSource);
             delete obj.hierarchy;
             break;

@@ -5,7 +5,7 @@ module.exports = {
         lastName: "lastName",
         identityCard: "tz",
         personalNumber: "mi",
-        rank: "nrnk",
+        rank: "rnk",
         phone: "telephone",
         areaCode: "ktelephone",
         mobilePhone: "telephone",
@@ -35,9 +35,20 @@ module.exports = {
         uniqueId: "uniqueId",
         hierarchy: "hr"
     },
+    ads:{
+        firstName: "KfirstName",
+        lastName: "KlastName",
+        job:"Kjob",
+        mail: "mail",
+        upn:"userPrincipalName",
+        hierarchy:"hierarchy",
+        sAMAccountName:"sAMAccountName",                
+    },
     entityTypeValue: {
         s: "digimon",
+        sPrefix:"m",
         c: "tamar",
+        cPrefix:"d",
     },
     rootHierarchy: "wallmart",
     ad: {
