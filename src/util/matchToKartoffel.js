@@ -225,8 +225,8 @@ const match_ads = (obj) => {
                     default:
                         logger.warn(`Not inserted entity type for the user with the upn ${obj[rawKey]} from ads`);
                 }
-                (obj.entityType === fn.entityTypeValue.c) ? obj.identityCard = obj[rawKey].toLowerCase().split(re)[1] : null;
-                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(re)[1] : null;
+                (obj.entityType === fn.entityTypeValue.c) ? obj.identityCard = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0] : null;
+                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0]  : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
                 default:
