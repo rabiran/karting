@@ -78,6 +78,10 @@ const match_nv = (obj) => {
             // hierarchy 
             case fn.nv.hierarchy:
                 let hr = source_hierarchy.split('/');
+                if (hr[0] == "") {
+                    delete obj[rawKey];
+                    break;
+                }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                 hr.splice((hr.length - 1), 1);
                 obj.hierarchy = hr.join("/");
@@ -152,6 +156,10 @@ const match_es = (obj) => {
             //hierarchy 
             case fn.es.hierarchy:
                 let hr = obj[rawKey].split('/');
+                if (hr[0] == "") {
+                    delete obj[rawKey];
+                    break;
+                }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                 obj.hierarchy = hr.join("/");
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
@@ -205,6 +213,10 @@ const match_ads = (obj) => {
             //hierarchy
             case fn.ads.hierarchy:
                 let hr = obj[rawKey].substring(0, obj[rawKey].indexOf('-')).trim().split('/');
+                if (hr[0] == "") {
+                    delete obj[rawKey];
+                    break;
+                }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                 hr.splice((hr.length - 1), 1);
                 obj.hierarchy = hr.join("/");
@@ -226,11 +238,11 @@ const match_ads = (obj) => {
                         logger.warn(`Not inserted entity type for the user with the upn ${obj[rawKey]} from ads`);
                 }
                 (obj.entityType === fn.entityTypeValue.c) ? obj.identityCard = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0] : null;
-                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0]  : null;
+                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0] : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
-                default:
-                    delete obj[rawKey];
+            default:
+                delete obj[rawKey];
 
         }
     })
@@ -268,7 +280,7 @@ module.exports = async (obj, dataSource) => {
             break;
         case "es":
             match_es(obj);
-            obj.directGroup = await directGroupHandler(obj, dataSource); 
+            obj.directGroup = await directGroupHandler(obj, dataSource);
             delete obj.hierarchy;
             break;
         case "nv":

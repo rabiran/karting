@@ -36,7 +36,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
             .then((person) => {
                 let user_object = {
                     personId: person.data.id,
-                    uniqueId: person_ready_for_kartoffel.mail,
+                    uniqueID: person_ready_for_kartoffel.mail,
                     isPrimary: false,
                 };
                 axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
@@ -69,7 +69,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                             // add primary user to the new person
                             let user_object = {
                                 personId: person.data.id,
-                                uniqueId: person.data.mail,
+                                uniqueID: person.data.mail,
                                 isPrimary: true,
                             };                      
                             axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
