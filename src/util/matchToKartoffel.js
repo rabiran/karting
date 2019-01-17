@@ -276,22 +276,36 @@ module.exports = async (obj, dataSource) => {
     switch (dataSource) {
         case "aka":
             match_aka(obj);
-            obj.directGroup = await directGroupHandler(obj, dataSource);
             break;
         case "es":
             match_es(obj);
-            obj.directGroup = await directGroupHandler(obj, dataSource);
-            delete obj.hierarchy;
+            if (obj.hierarchy){
+                obj.directGroup = await directGroupHandler(obj, dataSource);
+                delete obj.hierarchy;
+            }
+            else{
+                logger.warn(`there is no hierarchy to the person: ${JSON.stringify(obj)}`);
+            }
             break;
         case "nv":
             match_nv(obj);
-            obj.directGroup = await directGroupHandler(obj, dataSource);
-            delete obj.hierarchy;
+            if (obj.hierarchy){
+                obj.directGroup = await directGroupHandler(obj, dataSource);
+                delete obj.hierarchy;
+            }
+            else{
+                logger.warn(`there is no hierarchy to the person: ${JSON.stringify(obj)}`);
+            }
             break;
         case "ads":
             match_ads(obj);
-            obj.directGroup = await directGroupHandler(obj, dataSource);
-            delete obj.hierarchy;
+            if (obj.hierarchy){
+                obj.directGroup = await directGroupHandler(obj, dataSource);
+                delete obj.hierarchy;
+            }
+            else{
+                logger.warn(`There is no hierarchy to the person: ${JSON.stringify(obj)}`);
+            }
             break;
         default:
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");

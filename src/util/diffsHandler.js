@@ -42,8 +42,8 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                 axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                     .then((user) => {
                         (user.data.entityType==fn.entityTypeValue.s)?
-                        logger.info(`Create the secondary user ${user_object.fullString} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
-                        logger.info(`Create the secondary user ${user_object.fullString} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);                    
+                        logger.info(`Create the secondary user ${user_object.uniqueID} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
+                        logger.info(`Create the secondary user ${user_object.uniqueID} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);                    
                     })
                     .catch((err) => {
                         (person.data.entityType==fn.entityTypeValue.s)?
@@ -75,8 +75,8 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                             axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                                 .then((user) => {
                                     (user.data.entityType==fn.entityTypeValue.s)?
-                                    logger.info(`Create the primary user ${user_object.fullString} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
-                                    logger.info(`Create the primary user ${user_object.fullString} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);
+                                    logger.info(`Create the primary user ${user_object.uniqueID} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
+                                    logger.info(`Create the primary user ${user_object.uniqueID} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);
                                 })
                                 .catch((err) => {
                                     (user.data.entityType==fn.entityTypeValue.s)?
