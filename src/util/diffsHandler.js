@@ -27,6 +27,10 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
             person_existence_checking = `${p(person_ready_for_kartoffel.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
         }
         else if (dataSource === "ads") {
+            if(!person_ready_for_kartoffel.entityType){
+                logger.warn(`To the person with the identifyer: ${person_ready_for_kartoffel.mail} has not have "userPrincipalName" field at ads`);
+                continue;
+            }
             (person_ready_for_kartoffel.entityType === fn.entityTypeValue.c) ? person_existence_checking = `${p(person_ready_for_kartoffel.identityCard).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}` : null;
             (person_ready_for_kartoffel.entityType === fn.entityTypeValue.s) ? person_existence_checking = `${p(person_ready_for_kartoffel.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}` : null;
         };
