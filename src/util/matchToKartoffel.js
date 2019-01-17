@@ -284,7 +284,7 @@ module.exports = async (obj, dataSource) => {
                 delete obj.hierarchy;
             }
             else{
-                logger.warn(`there is no hierarchy to the person: ${JSON.stringify(obj)}`);
+                logger.warn(`There is no hierarchy to the person: ${JSON.stringify(obj)}`);
             }
             break;
         case "nv":
@@ -294,7 +294,7 @@ module.exports = async (obj, dataSource) => {
                 delete obj.hierarchy;
             }
             else{
-                logger.warn(`there is no hierarchy to the person: ${JSON.stringify(obj)}`);
+                logger.warn(`There is no hierarchy to the person: ${JSON.stringify(obj)}`);
             }
             break;
         case "ads":
