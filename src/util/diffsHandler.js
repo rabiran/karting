@@ -83,7 +83,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                                     logger.info(`Create the primary user ${user_object.uniqueID} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);
                                 })
                                 .catch((err) => {
-                                    (user.data.entityType==fn.entityTypeValue.s)?
+                                    (person.data.entityType==fn.entityTypeValue.s)?
                                     logger.error(`Not create user to person with the identifyer: ${person.data.mail} to the person with personalNumber: ${person.data.personalNumber} from ${dataSource}_complete_data. The error message:"${err.response.data}"`):
                                     logger.error(`Not create user to person with the identifyer: ${person.data.mail} to the person with identityCard: ${person.data.identityCard} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
                                 })
