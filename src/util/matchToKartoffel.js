@@ -269,10 +269,10 @@ directGroupHandler = async (record, dataSource) => {
 };
 
 
-
-module.exports = async (obj, dataSource) => {
+module.exports = async (origin_obj, dataSource) => {
+    const obj = {...origin_obj};
     // delete the empty fields from the returned object
-    Object.keys(obj).forEach(key => !obj[key] ? delete obj[key] : '');
+    Object.keys(obj).forEach(key => !obj[key] ? delete obj[key] : null);
     switch (dataSource) {
         case "aka":
             match_aka(obj);
@@ -298,6 +298,6 @@ module.exports = async (obj, dataSource) => {
     else {
         (dataSource !== "aka") ? logger.warn(`There is no hierarchy to the person: ${JSON.stringify(obj)}`) : null;
     }
+
     return obj;
 };
-

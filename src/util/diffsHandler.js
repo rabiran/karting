@@ -16,7 +16,9 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
     if (dataSource === "nv") {
         diffsObj = await getAData(diffsObj);
     };
-    for (record of diffsObj) {
+
+    for(let i=0; i<diffsObj.length; i++){
+        const record = diffsObj[i];
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         // Define the unique changes for each "dataSource"
         let person_existence_checking;
@@ -44,6 +46,9 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                     uniqueID: person_ready_for_kartoffel.mail,
                     isPrimary: false,
                 };
+
+                (dataSource==="ads" && record[fn.ads.sAMAccountName])?user_object.uniqueID=`${record[fn.ads.sAMAccountName]}${fn.ads.domainSuffix}`:null;
+
                 axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                     .then((user) => {
                         (user.data.entityType==fn.entityTypeValue.s)?
@@ -76,7 +81,10 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                                 personId: person.data.id,
                                 uniqueID: person_ready_for_kartoffel.mail,
                                 isPrimary: true,
-                            };                      
+                            };  
+
+                            (dataSource==="ads" && record[fn.ads.sAMAccountName])?user_object.uniqueID=`${record[fn.ads.sAMAccountName]}${fn.ads.domainSuffix}`:null;
+                   
                             axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                                 .then((user) => {
                                     (user.data.entityType==fn.entityTypeValue.s)?
