@@ -6,7 +6,7 @@ const dataComparison = require('../util/dataComparison');
 
 module.exports = async () => {
     // get the update data from the remote server
-    let ads_data = await axios.get(p().AD_API);
+    let ads_data = await axios.get(p().ADS_API);
     // save the new json as file in the server
     let previous_ads_data_file_name = saveAsFile(ads_data.data, './data/ads', 'ads_raw_data');
     // get the delta between the two last JSONs
