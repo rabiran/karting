@@ -31,12 +31,13 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                 logger.warn(`To the person with the identifyer: ${person_ready_for_kartoffel.mail} has not have "userPrincipalName" field at ads`);
                 continue;
             }
+
             (person_ready_for_kartoffel.entityType === fn.entityTypeValue.c) ? person_existence_checking = `${p(person_ready_for_kartoffel.identityCard).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}` : null;
             (person_ready_for_kartoffel.entityType === fn.entityTypeValue.s) ? person_existence_checking = `${p(person_ready_for_kartoffel.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}` : null;
         };
         // Checking if the person is already exist in Kartoffel and accept his object from Kartoffel
         await axios.get(person_existence_checking)
-            // if the person is already exist in Kartoffel => only add secodary user.
+            // if the person is already exist in Kartoffel => only add secondary user.
             .then((person) => {
                 let user_object = {
                     personId: person.data.id,
@@ -73,7 +74,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                             // add primary user to the new person
                             let user_object = {
                                 personId: person.data.id,
-                                uniqueID: person.data.mail,
+                                uniqueID: person_ready_for_kartoffel.mail,
                                 isPrimary: true,
                             };                      
                             axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
