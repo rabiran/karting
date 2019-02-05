@@ -78,6 +78,10 @@ const match_nv = (obj) => {
             // hierarchy 
             case fn.nv.hierarchy:
                 let hr = source_hierarchy.split('/');
+                if (hr[0] == "") {
+                    delete obj[rawKey];
+                    break;
+                }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                 hr.splice((hr.length - 1), 1);
                 obj.hierarchy = hr.join("/");
@@ -152,6 +156,10 @@ const match_es = (obj) => {
             //hierarchy 
             case fn.es.hierarchy:
                 let hr = obj[rawKey].split('/');
+                if (hr[0] == "") {
+                    delete obj[rawKey];
+                    break;
+                }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                 obj.hierarchy = hr.join("/");
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
@@ -205,6 +213,10 @@ const match_ads = (obj) => {
             //hierarchy
             case fn.ads.hierarchy:
                 let hr = obj[rawKey].substring(0, obj[rawKey].indexOf('-')).trim().split('/');
+                if (hr[0] == "") {
+                    delete obj[rawKey];
+                    break;
+                }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
                 hr.splice((hr.length - 1), 1);
                 obj.hierarchy = hr.join("/");
@@ -225,12 +237,12 @@ const match_ads = (obj) => {
                     default:
                         logger.warn(`Not inserted entity type for the user with the upn ${obj[rawKey]} from ads`);
                 }
-                (obj.entityType === fn.entityTypeValue.c) ? obj.identityCard = obj[rawKey].toLowerCase().split(re)[1] : null;
-                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(re)[1] : null;
+                (obj.entityType === fn.entityTypeValue.c) ? obj.identityCard = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0] : null;
+                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0] : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
-                default:
-                    delete obj[rawKey];
+            default:
+                delete obj[rawKey];
 
         }
     })
@@ -257,24 +269,22 @@ directGroupHandler = async (record, dataSource) => {
 };
 
 
-
-module.exports = async (obj, dataSource) => {
+module.exports = async (origin_obj, dataSource) => {
+    const obj = {...origin_obj};
     // delete the empty fields from the returned object
-    Object.keys(obj).forEach(key => !obj[key] ? delete obj[key] : '');
+    Object.keys(obj).forEach(key => !obj[key] ? delete obj[key] : null);
     switch (dataSource) {
         case "aka":
             match_aka(obj);
-            obj.directGroup = await directGroupHandler(obj, dataSource);
             break;
         case "es":
             match_es(obj);
-            obj.directGroup = await directGroupHandler(obj, dataSource); 
-            delete obj.hierarchy;
             break;
         case "nv":
             match_nv(obj);
-            obj.directGroup = await directGroupHandler(obj, dataSource);
-            delete obj.hierarchy;
+            break;
+        case "ads":
+            match_ads(obj);
             break;
         case "ads":
             match_ads(obj);
@@ -285,6 +295,14 @@ module.exports = async (obj, dataSource) => {
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");
     }
 
+
+    if (obj.hierarchy && dataSource !== "aka") {
+        obj.directGroup = await directGroupHandler(obj, dataSource);
+        delete obj.hierarchy;
+    }
+    else {
+        (dataSource !== "aka") ? logger.warn(`There is no hierarchy to the person: ${JSON.stringify(obj)}`) : null;
+    }
+
     return obj;
 };
-

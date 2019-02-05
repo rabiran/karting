@@ -16,7 +16,9 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
     if (dataSource === "nv") {
         diffsObj = await getAData(diffsObj);
     };
-    for (record of diffsObj) {
+
+    for(let i=0; i<diffsObj.length; i++){
+        const record = diffsObj[i];
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         // Define the unique changes for each "dataSource"
         let person_existence_checking;
@@ -27,23 +29,31 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
             person_existence_checking = `${p(person_ready_for_kartoffel.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
         }
         else if (dataSource === "ads") {
+            if(!person_ready_for_kartoffel.entityType){
+                logger.warn(`To the person with the identifyer: ${person_ready_for_kartoffel.mail} has not have "userPrincipalName" field at ads`);
+                continue;
+            }
+
             (person_ready_for_kartoffel.entityType === fn.entityTypeValue.c) ? person_existence_checking = `${p(person_ready_for_kartoffel.identityCard).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}` : null;
             (person_ready_for_kartoffel.entityType === fn.entityTypeValue.s) ? person_existence_checking = `${p(person_ready_for_kartoffel.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}` : null;
         };
         // Checking if the person is already exist in Kartoffel and accept his object from Kartoffel
         await axios.get(person_existence_checking)
-            // if the person is already exist in Kartoffel => only add secodary user.
+            // if the person is already exist in Kartoffel => only add secondary user.
             .then((person) => {
                 let user_object = {
                     personId: person.data.id,
-                    fullString: person_ready_for_kartoffel.mail,
+                    uniqueID: person_ready_for_kartoffel.mail,
                     isPrimary: false,
                 };
+
+                (dataSource==="ads" && record[fn.ads.sAMAccountName])?user_object.uniqueID=`${record[fn.ads.sAMAccountName]}${fn.ads.domainSuffix}`:null;
+
                 axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                     .then((user) => {
                         (user.data.entityType==fn.entityTypeValue.s)?
-                        logger.info(`Create the secondary user ${user_object.fullString} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
-                        logger.info(`Create the secondary user ${user_object.fullString} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);                    
+                        logger.info(`Create the secondary user ${user_object.uniqueID} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
+                        logger.info(`Create the secondary user ${user_object.uniqueID} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);                    
                     })
                     .catch((err) => {
                         (person.data.entityType==fn.entityTypeValue.s)?
@@ -69,14 +79,17 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                             // add primary user to the new person
                             let user_object = {
                                 personId: person.data.id,
-                                fullString: person.data.mail,
+                                uniqueID: person_ready_for_kartoffel.mail,
                                 isPrimary: true,
-                            };                      
+                            };  
+
+                            (dataSource==="ads" && record[fn.ads.sAMAccountName])?user_object.uniqueID=`${record[fn.ads.sAMAccountName]}${fn.ads.domainSuffix}`:null;
+                   
                             axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object)
                                 .then((user) => {
                                     (user.data.entityType==fn.entityTypeValue.s)?
-                                    logger.info(`Create the primary user ${user_object.fullString} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
-                                    logger.info(`Create the primary user ${user_object.fullString} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);
+                                    logger.info(`Create the primary user ${user_object.uniqueID} to the person with personalNumber: ${user.data.personalNumber} from ${dataSource}_complete_data successfully.`):
+                                    logger.info(`Create the primary user ${user_object.uniqueID} to the person with identityCard: ${user.data.identityCard} from ${dataSource}_complete_data successfully.`);
                                 })
                                 .catch((err) => {
                                     (person.data.entityType==fn.entityTypeValue.s)?

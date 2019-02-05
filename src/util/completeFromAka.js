@@ -67,5 +67,7 @@ module.exports = (obj, akaData, dataSource) => {
         default:
             logger.error(`'dataSource' variable must be attached to 'completeFromAka' function`);
     }
+    // delete the empty fields from the returned object
+    Object.keys(obj).forEach(key => !obj[key] ? delete obj[key] : null);
     return obj;
 };
