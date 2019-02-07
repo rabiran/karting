@@ -10,7 +10,11 @@ module.exports = async (person, person_ready_for_kartoffel,record, isPrimary, da
         isPrimary: isPrimary,
     };
 
-    (dataSource === "ads" && record[fn.ads.sAMAccountName]) ? user_object.uniqueID = `${record[fn.ads.sAMAccountName]}${fn.ads.domainSuffix}` : null;
+    (dataSource === "ads" && record[fn.ads.sAMAccountName]) ?
+        user_object.uniqueID = `${record[fn.ads.sAMAccountName]}${fn.ads.domainSuffix}` : null;
+    (dataSource === "es" && record[fn.es.userName]) ?
+        user_object.uniqueID = `${record[fn.es.userName]}${fn.es.domainSuffix}` :
+        logger.warn(`The user with the identifyer ${person.data.identityCard || person.data.personalNumber} from ${dataSource} does not have ${fn.es.userName} field`);
 
     try {
         const user = await axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object);
@@ -23,4 +27,4 @@ module.exports = async (person, person_ready_for_kartoffel,record, isPrimary, da
             logger.error(`Not create ${(isPrimary) ? "primary" : "secondary"} user to person with the identifyer: ${person.data.mail} to the person with personalNumber: ${person.data.personalNumber} from ${dataSource}_complete_data. The error message:"${err.response.data}"`) :
             logger.error(`Not create ${(isPrimary) ? "primary" : "secondary"} user to person with the identifyer: ${person.data.mail} to the person with identityCard: ${person.data.identityCard} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
     }
-}
+} 

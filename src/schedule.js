@@ -37,17 +37,17 @@ const devSchedual = async () => {
     let aka_data = await aka();
 
     // // get the new json from es & save him on the server
-    // let es_Data = es().then((esDiffs) => {
-    //     diffsHandler(esDiffs, "es", aka_data.all);
-    // });
+    let es_Data = es().then((esDiffs) => {
+        diffsHandler(esDiffs, "es", aka_data.all);
+    });
     // // get the new json from nv & save him on the server
     // let nv_Data = nv().then((nvDiff)=>{
     //     diffsHandler(nvDiff, "nv", aka_data.all);
     // });
     // get the new json from ads & save him on the server
-    let ads_Data = ads().then((adsDiff)=>{
-        diffsHandler(adsDiff, "ads", aka_data.all);
-    });
+    // let ads_Data = ads().then((adsDiff)=>{
+    //     diffsHandler(adsDiff, "ads", aka_data.all);
+    // });
 
     if (process.env.NODE_ENV !== "production") {
         //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
