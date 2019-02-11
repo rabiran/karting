@@ -37,9 +37,9 @@ const devSchedual = async () => {
     let aka_data = await aka();
 
     // get the new json from es & save him on the server
-    let es_Data = es().then((esDiffs) => {
-         diffsHandler(esDiffs, "es", aka_data.all);
-    });
+    // let es_Data = es().then((esDiffs) => {
+    //      diffsHandler(esDiffs, "es", aka_data.all);
+    // });
     // // get the new json from nv & save him on the server
     // let nv_Data = nv().then((nvDiff)=>{
     //     diffsHandler(nvDiff, "nv", aka_data.all);
@@ -49,30 +49,7 @@ const devSchedual = async () => {
         diffsHandler(adsDiff, "ads", aka_data.all);
     });
 
-    if (process.env.NODE_ENV !== "production") {
-        //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
-        aka_data.updated = [
-            {
-                "drg": 61,
-                "stype": 41,
-                "nstype": "Quality Engineer",
-                "firstName": "Trcie",
-                "lastName": "Butterick",
-                "tz": 123456,
-                "mi": 95579169,
-                "rnk": 70,
-                "nrnk": "Account Representative IV",
-                "telephone": "7408765",
-                "ktelephone": "08",
-                "mobile": "7086935",
-                "kmobile": "050",
-                "rld": "2017-12-07",
-                "clearance": 4,
-                "hr": "Pine View",
-                "khr": 521
-            }]
-        /////////////////////////////////////////////////////////////////////////////
-    }
+
     // update the person's fields that update in the last iteration of Karting
     for (aka_record of aka_data.updated) {
         // Checking if the person already exist and accept his object from Kartoffel

@@ -29,6 +29,8 @@ module.exports = {
         mail: "mail",
         address: "adr",
         job: "tf",
+        domainSuffix:"@es",
+        userName:"userName",
     },
     nv: {
         fullName: "fullName",
