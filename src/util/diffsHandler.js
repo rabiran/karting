@@ -57,7 +57,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                             logger.info(`The person with the personalNumber: ${person.data.personalNumber} from ${dataSource}_complete_data successfully insert to Kartoffel`) :
                             logger.info(`The person with the identityCard: ${person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
                         // add primary domain user for the new preson
-                        domainUserHandler(person, person_ready_for_kartoffel, record, false, dataSource);
+                        domainUserHandler(person, person_ready_for_kartoffel, record, true, dataSource);
 
                     })
                     .catch(err => {
