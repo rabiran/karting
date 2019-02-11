@@ -45,7 +45,7 @@ module.exports = {
         upn:"userPrincipalName",
         hierarchy:"hierarchy",
         sAMAccountName:"sAMAccountName",  
-        domainSuffix:"@ads",              
+        domainSuffix:"@ads",
     },
     entityTypeValue: {
         s: "digimon",
