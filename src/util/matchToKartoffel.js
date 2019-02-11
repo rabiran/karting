@@ -286,6 +286,11 @@ module.exports = async (origin_obj, dataSource) => {
         case "ads":
             match_ads(obj);
             break;
+        case "ads":
+            match_ads(obj);
+            obj.directGroup = await directGroupHandler(obj, dataSource);
+            delete obj.hierarchy;
+            break;
         default:
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");
     }
