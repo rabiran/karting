@@ -6,7 +6,7 @@ const logger = require('./logger');
 module.exports = async (person, person_ready_for_kartoffel, record, isPrimary, dataSource) => {
     let user_object = {
         personId: person.data.id,
-        uniqueID: person_ready_for_kartoffel.mail,//##############maybe cancel this field?
+        uniqueID: person_ready_for_kartoffel.mail,
         isPrimary: isPrimary,
     };
 
@@ -15,7 +15,6 @@ module.exports = async (person, person_ready_for_kartoffel, record, isPrimary, d
     (dataSource === "es" && record[fn.es.userName]) ?
         user_object.uniqueID = `${record[fn.es.userName]}${fn.es.domainSuffix}` :
         logger.warn(`The user with the identifyer ${person.data.identityCard || person.data.personalNumber} from ${dataSource} does not have ${fn.es.userName} field`);
-    // #######################need to condition the post process by the completenes of the uniqueID field
     if (user_object.uniqueID) {
         try {
             const user = await axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object);
