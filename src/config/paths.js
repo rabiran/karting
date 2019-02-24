@@ -7,7 +7,6 @@ module.exports = pathsHandler = (param) => {
         // Data source
         AKA_TELEPHONES_API: "http://localhost:3001/getAkaTelephone",
         AKA_EMPLOYEES_API: "http://localhost:3001/getAkaEmployees",
-        NV_API: 'http://localhost:3001/getNva',
         ES_API: 'http://localhost:3001/getEightSocks',
         ADS_API: 'http://localhost:3001/getAD',
 

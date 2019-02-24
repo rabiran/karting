@@ -70,40 +70,6 @@ const match_aka = (obj) => {
     });
 }
 
-const match_nv = (obj) => {
-    const objKeys = Object.keys(obj);
-    let source_hierarchy = obj[fn.nv.hierarchy];
-    objKeys.map((rawKey) => {
-        switch (rawKey) {
-            // hierarchy 
-            case fn.nv.hierarchy:
-                let hr = source_hierarchy.split('/');
-                if (hr[0] == "") {
-                    delete obj[rawKey];
-                    break;
-                }
-                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
-                hr.splice((hr.length - 1), 1);
-                obj.hierarchy = hr.join("/");
-                obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
-                (rawKey === "hierarchy") ? null : delete obj[rawKey];
-                break;
-            // job
-            case fn.nv.uniqueId:
-                let hrForJob;
-                obj[fn.nv.hierarchy] ? hrForJob = obj[fn.nv.hierarchy] : hrForJob = source_hierarchy;
-                let job = hrForJob.split('/');
-                obj.job = job[job.length - 1];
-                (rawKey === "job") ? null : delete obj[rawKey];
-                break;
-            default:
-                if (rawKey != "personalNumber" && rawKey != "mail") {
-                    delete obj[rawKey];
-                };
-        };
-    });
-};
-
 const match_es = (obj) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
@@ -279,9 +245,6 @@ module.exports = async (origin_obj, dataSource) => {
             break;
         case "es":
             match_es(obj);
-            break;
-        case "nv":
-            match_nv(obj);
             break;
         case "ads":
             match_ads(obj);

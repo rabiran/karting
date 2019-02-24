@@ -2,7 +2,6 @@ const schedule = require("node-schedule");
 const axios = require('axios');
 const aka = require('./aka/aka_synchronizeData');
 const es = require('./es/es_synchronizeData');
-const nv = require('./nv/nv_synchronizeData');
 const ads = require('./ads/ads_synchronizeData');
 const matchToKartoffel = require('./util/matchToKartoffel');
 const fn = require('./config/fieldNames');
@@ -39,10 +38,6 @@ const devSchedual = async () => {
     // get the new json from es & save him on the server
     // let es_Data = es().then((esDiffs) => {
     //      diffsHandler(esDiffs, "es", aka_data.all);
-    // });
-    // // get the new json from nv & save him on the server
-    // let nv_Data = nv().then((nvDiff)=>{
-    //     diffsHandler(nvDiff, "nv", aka_data.all);
     // });
     // get the new json from ads & save him on the server
     let ads_Data = ads().then((adsDiff)=>{

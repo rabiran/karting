@@ -62,7 +62,6 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
 
             }
             else {
-                let identifier = (dataSource === "nv") ? record.uniqueId : record.personalNumber;
                 logger.error(`The person with the identifier: ${identifier} from ${dataSource}_raw_data not found in Kartoffel. The error message:"${err.response.data}"`);
             };
         }
