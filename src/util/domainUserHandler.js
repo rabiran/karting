@@ -14,7 +14,7 @@ module.exports = async (person, person_ready_for_kartoffel, record, isPrimary, d
         user_object.uniqueID = `${record[fn.ads.sAMAccountName]}${fn.ads.domainSuffix}` : null;
     (dataSource === "es" && record[fn.es.userName]) ?
         user_object.uniqueID = `${record[fn.es.userName]}${fn.es.domainSuffix}` :
-        logger.warn(`The user with the identifyer ${person.identityCard || person.personalNumber} from ${dataSource} does not have ${fn.es.userName} field`);
+        logger.warn(`The user with the identifier ${person.identityCard || person.personalNumber} from ${dataSource} does not have ${fn.es.userName} field`);
     if (user_object.uniqueID) {
         try {
             const user = await axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object);
@@ -24,8 +24,8 @@ module.exports = async (person, person_ready_for_kartoffel, record, isPrimary, d
 
         } catch (err) {
             (person.entityType == fn.entityTypeValue.s) ?
-                logger.error(`Not create ${(isPrimary) ? "primary" : "secondary"} user to person with the identifyer: ${person.mail} to the person with personalNumber: ${person.personalNumber} from ${dataSource}_complete_data. The error message:"${err.response.data}"`) :
-                logger.error(`Not create ${(isPrimary) ? "primary" : "secondary"} user to person with the identifyer: ${person.mail} to the person with identityCard: ${person.identityCard} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
+                logger.error(`Not create ${(isPrimary) ? "primary" : "secondary"} user to person with the identifier: ${person.mail} to the person with personalNumber: ${person.personalNumber} from ${dataSource}_complete_data. The error message:"${err.response.data}"`) :
+                logger.error(`Not create ${(isPrimary) ? "primary" : "secondary"} user to person with the identifier: ${person.mail} to the person with identityCard: ${person.identityCard} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
         }
     }
 } 

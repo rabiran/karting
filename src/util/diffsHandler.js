@@ -4,7 +4,6 @@ const axios = require('axios');
 const completeFromAka = require('./completeFromAka');
 const fn = require('../config/fieldNames');
 const logger = require('./logger');
-const getAData = require("./getActiveDirectoryData")
 const domainUserHandler = require('./domainUserHandler');
 require('dotenv').config();
 /*
@@ -14,9 +13,6 @@ require('dotenv').config();
  */
 
 const added = async (diffsObj, dataSource, aka_all_data) => {
-    if (dataSource === "nv") {
-        diffsObj = await getAData(diffsObj);
-    };
 
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
@@ -26,12 +22,10 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
         if (dataSource === "es") {
             person_existence_checking = `${p(person_ready_for_kartoffel.identityCard).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}`;
         }
-        else if (dataSource === "nv") {
-            person_existence_checking = `${p(person_ready_for_kartoffel.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}`;
-        }
+
         else if (dataSource === "ads") {
             if (!person_ready_for_kartoffel.entityType) {
-                logger.warn(`To the person with the identifyer: ${person_ready_for_kartoffel.mail} has not have "userPrincipalName" field at ads`);
+                logger.warn(`To the person with the identifier: ${person_ready_for_kartoffel.mail} has not have "userPrincipalName" field at ads`);
                 continue;
             }
 
@@ -68,8 +62,8 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
 
             }
             else {
-                let identifyer = (dataSource === "nv") ? record.uniqueId : record.personalNumber;
-                logger.error(`The person with the identifyer: ${identifyer} from ${dataSource}_raw_data not found in Kartoffel. The error message:"${err.response.data}"`);
+                let identifier = (dataSource === "nv") ? record.uniqueId : record.personalNumber;
+                logger.error(`The person with the identifier: ${identifier} from ${dataSource}_raw_data not found in Kartoffel. The error message:"${err.response.data}"`);
             };
         }
     }
