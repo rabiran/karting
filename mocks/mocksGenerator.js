@@ -18,5 +18,4 @@ app.get("/getAD", (req, res) => {
     res.json(require("./mocksFiles/AD.json"))
 })
 
-
 app.listen(port, () => console.log("mocksGenerator server run on port:" + port))

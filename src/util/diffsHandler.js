@@ -5,10 +5,11 @@ const completeFromAka = require('./completeFromAka');
 const fn = require('../config/fieldNames');
 const logger = require('./logger');
 const domainUserHandler = require('./domainUserHandler');
+const identifierHandler = require('./identifierHandler');
 require('dotenv').config();
 /*
  * diffsObj - object that contain the results of diffs checking (added,updated,same,removed & all)
- * dataSource - string the express the name of the data source
+ * dataSourceperson_ready_for_kartoffel - string the express the name of the data source
  * aka_all_data - object that contain all the recent data from aka
  */
 
@@ -44,6 +45,7 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
             if (err.response.status === 404) {
                 // complete the data from aka (if exist):
                 person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource);
+                person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
                 axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
                     .then((person) => {
