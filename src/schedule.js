@@ -48,7 +48,7 @@ const devSchedual = async () => {
     // update the person's fields that update in the last iteration of Karting
     for (aka_record of aka_data.updated) {
         // Checking if the person already exist and accept his object from Kartoffel
-        await axios.get(`${p().KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}${aka_record[fn.aka.identityCard]}`)
+        await axios.get(`${p(aka_record[fn.aka.identityCard]).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`)
             // if the person already exist in Kartoffel => only update the person.
             .then(async (person) => {
                 let person_ready_for_kartoffel = matchToKartoffel(aka_record, "aka");

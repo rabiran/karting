@@ -19,24 +19,15 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
         const record = diffsObj[i];
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         // Define the unique changes for each "dataSource"
-        let person_existence_checking;
-        if (dataSource === "es") {
-            person_existence_checking = `${p(person_ready_for_kartoffel.identityCard).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}`;
-        }
-
-        else if (dataSource === "ads") {
+        if (dataSource === "ads") {
             if (!person_ready_for_kartoffel.entityType) {
                 logger.warn(`To the person with the identifier: ${person_ready_for_kartoffel.mail} has not have "userPrincipalName" field at ads`);
-                continue;
             }
-
-            (person_ready_for_kartoffel.entityType === fn.entityTypeValue.c) ? person_existence_checking = `${p(person_ready_for_kartoffel.identityCard).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_TZ_API}` : null;
-            (person_ready_for_kartoffel.entityType === fn.entityTypeValue.s) ? person_existence_checking = `${p(person_ready_for_kartoffel.personalNumber).KARTOFFEL_PERSON_EXISTENCE_CHECKING_BY_PN_API}` : null;
         };
         // Checking if the person is already exist in Kartoffel and accept his object from Kartoffel
         try {
             // if the person is already exist in Kartoffel => only add secondary user.
-            const person = await axios.get(person_existence_checking);
+            const person = await axios.get(`${p(person_ready_for_kartoffel.identityCard).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
             domainUserHandler(person.data, person_ready_for_kartoffel, record, false, dataSource);
         }
         // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding primary user    
