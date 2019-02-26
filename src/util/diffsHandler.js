@@ -19,10 +19,8 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
         const record = diffsObj[i];
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         // Define the unique changes for each "dataSource"
-        if (dataSource === "ads") {
-            if (!person_ready_for_kartoffel.entityType) {
-                logger.warn(`To the person with the identifier: ${person_ready_for_kartoffel.mail} has not have "userPrincipalName" field at ads`);
-            }
+        if (dataSource === "ads" && !person_ready_for_kartoffel.entityType) {
+            logger.warn(`To the person with the identifier: ${person_ready_for_kartoffel.mail} has not have "userPrincipalName" field at ads`);
         };
         // Checking if the person is already exist in Kartoffel and accept his object from Kartoffel
         try {
