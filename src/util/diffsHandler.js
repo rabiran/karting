@@ -70,13 +70,6 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
     }
 }
 
-
-
-
-
-
-
-
 module.exports = (diffsObj, dataSource, aka_all_data) => {
 
     //added the new person from es to Kartoffel
