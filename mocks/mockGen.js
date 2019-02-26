@@ -7,7 +7,6 @@ let tzs = [];
 let employees = [];
 let telephones = [];
 let adUsers = [];
-let nvUsers = [];
 
 // Generating mi and tz lists
 for (let i = 0; i < 250; i++) {
@@ -67,16 +66,6 @@ for (let i = 0; i < 100; i++) {
     adUsers.push(ad)
 }
 
-// Generating nVa file
-for(let i = 0; i < 250; i++) {
-    nvUsers.push({
-        "fullName": adUsers[i].KfirstName + " " + adUsers[i].KlastName,
-        "uniqueId": adUsers[i].mail,
-        "hr":"shnizel/bamba/bisli60"
-    })
-}
-
 fs.writeFileSync("./mocksFiles/getAkaEmployees.json", JSON.stringify(employees))
 fs.writeFileSync("./mocksFiles/getAkaTelephone.json", JSON.stringify(telephones))
 fs.writeFileSync("./mocksFiles/AD.json", JSON.stringify(adUsers))
-fs.writeFileSync("./mocksFiles/nVa.json", JSON.stringify(nvUsers))

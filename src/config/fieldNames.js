@@ -32,11 +32,6 @@ module.exports = {
         domainSuffix:"@es",
         userName:"userName",
     },
-    nv: {
-        fullName: "fullName",
-        uniqueId: "uniqueId",
-        hierarchy: "hr"
-    },
     ads:{
         firstName: "KfirstName",
         lastName: "KlastName",

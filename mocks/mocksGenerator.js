@@ -14,13 +14,8 @@ app.get("/getAkaEmployees", (req, res) => {
     res.json(require("./mocksFiles/getAkaEmployees.json"))
 })
 
-app.get("/getNva", (req, res) => {
-    res.json(require("./mocksFiles/nVa.json"))
-})
-
 app.get("/getAD", (req, res) => {
     res.json(require("./mocksFiles/AD.json"))
 })
-
 
 app.listen(port, () => console.log("mocksGenerator server run on port:" + port))
