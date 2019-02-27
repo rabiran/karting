@@ -23,8 +23,8 @@ const complete_ads = (obj, akaData, dataSource) => {
         obj.firstName = akaRecord[fn.aka.firstName];
         obj.lastName = akaRecord[fn.aka.lastName];
         obj.rank = akaRecord[fn.aka.rank];
-        akaRecord[fn.aka.phone] ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
-        akaRecord[fn.aka.mobilePhone] ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
+        /^\d{1,2}-?\d{6,7}$|^\*\d{3}$|^\d{4,5}$/.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
+        /^\d{2,3}-?\d{7}$/.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
         obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
         obj.clearance = akaRecord[fn.aka.clearance];
         obj.currentUnit = akaRecord[fn.aka.unitName];
