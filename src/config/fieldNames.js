@@ -59,7 +59,9 @@ module.exports = {
         hour: 12,
         minute: 54
     },
-    mailExtension: "bla",
-    specialDomain: "gamba",
+    validators:{
+        phone:/^\d{1,2}-?\d{6,7}$|^\*\d{3}$|^\d{4,5}$/,
+        mobilePhone:/^\d{2,3}-?\d{7}$/,
+    },
     kartoffelUrl: "http://localhost:3000",
 };

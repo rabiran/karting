@@ -106,14 +106,12 @@ const match_es = (obj) => {
                 break;
             //phone
             case fn.es.phone:
-                let phoneValid = /^\d{1,2}-?\d{6,7}$|^\*\d{3}$|^\d{4,5}$/
-                phoneValid.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : null, delete obj[rawKey];
+                fn.validators.phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : null, delete obj[rawKey];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             //mobilePhone       
             case fn.es.mobilePhone:
-                let mphoneValid = /^\d{2,3}-?\d{7}$/
-                mphoneValid.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : null, delete obj[rawKey];
+                fn.validators.mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : null, delete obj[rawKey];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
                 break;
             //dischargeDay
