@@ -44,15 +44,19 @@ const match_aka = (obj) => {
                 break;
             //phone
             case fn.aka.phone:
-                obj.phone = [`${obj[fn.aka.areaCode]}-${obj[rawKey]}`];
+                fn.validators.phone.test(`${obj[fn.aka.areaCode]}-${obj[rawKey]}`) ? obj.phone = [`${obj[fn.aka.areaCode]}-${obj[rawKey]}`] : delete obj[rawKey];
                 delete obj[fn.aka.areaCode];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             // mobilePhone       
             case fn.aka.mobilePhone:
-                obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`];
+            fn.validators.mobilePhone.test(`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`)?obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`]:delete obj[rawKey];
                 delete obj[fn.aka.areaCodeMobile];
-                (rawKey === "mobileuniqueIdhone") ? null : delete obj[rawKey];
+                (rawKey === "mobilePhone") ? null : delete obj[rawKey];
+
+
+                fn.validators.mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
+
                 break;
             // dischargeDay
             case fn.aka.dischargeDay:
@@ -106,12 +110,12 @@ const match_es = (obj) => {
                 break;
             //phone
             case fn.es.phone:
-                fn.validators.phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : null, delete obj[rawKey];
+                fn.validators.phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             //mobilePhone       
             case fn.es.mobilePhone:
-                fn.validators.mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : null, delete obj[rawKey];
+                fn.validators.mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
                 break;
             //dischargeDay
@@ -236,9 +240,9 @@ directGroupHandler = async (record, dataSource) => {
 
 
 module.exports = async (origin_obj, dataSource) => {
-    const obj = {...origin_obj};
+    const obj = { ...origin_obj };
     // delete the empty fields from the returned object
-    Object.keys(obj).forEach(key => (!obj[key] || obj[key]==="null" ) ? delete obj[key] : null);
+    Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null") ? delete obj[key] : null);
     switch (dataSource) {
         case "aka":
             match_aka(obj);
