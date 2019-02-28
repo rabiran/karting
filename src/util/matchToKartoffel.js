@@ -50,13 +50,9 @@ const match_aka = (obj) => {
                 break;
             // mobilePhone       
             case fn.aka.mobilePhone:
-            fn.validators.mobilePhone.test(`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`)?obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`]:delete obj[rawKey];
+                fn.validators.mobilePhone.test(`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`)?obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`]:delete obj[rawKey];
                 delete obj[fn.aka.areaCodeMobile];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
-
-
-                fn.validators.mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
-
                 break;
             // dischargeDay
             case fn.aka.dischargeDay:
