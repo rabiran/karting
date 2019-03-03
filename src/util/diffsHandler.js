@@ -38,17 +38,13 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                 // Add the complete person object to Kartoffel
                 axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
                     .then((person) => {
-                        (person.data.entityType == fn.entityTypeValue.s) ?
-                            logger.info(`The person with the personalNumber: ${person.data.personalNumber} from ${dataSource}_complete_data successfully insert to Kartoffel`) :
-                            logger.info(`The person with the identityCard: ${person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
+                        logger.info(`The person with the personalNumber: ${person.data.personalNumber || person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
                         // add primary domain user for the new preson
                         domainUserHandler(person.data, person_ready_for_kartoffel, record, true, dataSource);
 
                     })
                     .catch(err => {
-                        (person_ready_for_kartoffel.entityType == fn.entityTypeValue.s) ?
-                            logger.error(`Not insert the person with the personalNumber: ${person_ready_for_kartoffel.personalNumber} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`) :
-                            logger.error(`Not insert the person with the identityCard: ${person_ready_for_kartoffel.identityCard} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
+                        logger.error(`Not insert the person with the personalNumber: ${person_ready_for_kartoffel.personalNumber || person_ready_for_kartoffel.identityCard} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
                     })
 
             }
