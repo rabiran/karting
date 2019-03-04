@@ -23,7 +23,7 @@ const complete_ads = (obj, akaData, dataSource) => {
         let akaRecord = akaData.find(person => person[fn.aka.personalNumber] == obj.personalNumber.toString());
         if (akaRecord) {
             complete = true;
-            obj.identityCard = akaRecord[fn.aka.identityCard];
+            validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
             obj.firstName = akaRecord[fn.aka.firstName];
             obj.lastName = akaRecord[fn.aka.lastName];
             obj.rank = akaRecord[fn.aka.rank];
