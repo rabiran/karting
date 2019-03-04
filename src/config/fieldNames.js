@@ -16,7 +16,7 @@ module.exports = {
         telephoneType: "telephoneType"
     },
     es: {
-        entityType: "stype",
+        entityType: "entity",
         firstName: "firstName",
         lastName: "lastName",
         identityCard: "tz",
