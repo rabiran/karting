@@ -1,4 +1,5 @@
 const fn = require("../config/fieldNames");
+const validators = require('../config/validators');
 const p = require("../config/paths");
 const axios = require('axios');
 const hierarchyHandler = require('./hierarchyHandler');
@@ -44,13 +45,13 @@ const match_aka = (obj) => {
                 break;
             //phone
             case fn.aka.phone:
-                fn.validators.phone.test(`${obj[fn.aka.areaCode]}-${obj[rawKey]}`) ? obj.phone = [`${obj[fn.aka.areaCode]}-${obj[rawKey]}`] : delete obj[rawKey];
+                validators().phone.test(`${obj[fn.aka.areaCode]}-${obj[rawKey]}`) ? obj.phone = [`${obj[fn.aka.areaCode]}-${obj[rawKey]}`] : delete obj[rawKey];
                 delete obj[fn.aka.areaCode];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             // mobilePhone       
             case fn.aka.mobilePhone:
-                fn.validators.mobilePhone.test(`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`) ? obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`] : delete obj[rawKey];
+                validators().mobilePhone.test(`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`) ? obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`] : delete obj[rawKey];
                 delete obj[fn.aka.areaCodeMobile];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
                 break;
@@ -106,12 +107,12 @@ const match_es = (obj) => {
                 break;
             //phone
             case fn.es.phone:
-                fn.validators.phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : delete obj[rawKey];
+                validators().phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             //mobilePhone       
             case fn.es.mobilePhone:
-                fn.validators.mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
+                validators().mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
                 break;
             //dischargeDay
