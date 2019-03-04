@@ -25,8 +25,14 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
         // Checking if the person is already exist in Kartoffel and accept his object from Kartoffel
         try {
             // if the person is already exist in Kartoffel => only add secondary user.
-            const person = await axios.get(`${p(person_ready_for_kartoffel.identityCard).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
-            domainUserHandler(person.data, person_ready_for_kartoffel, record, false, dataSource);
+            let identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
+            if (identifier) {
+                const person = await axios.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
+                domainUserHandler(person.data, person_ready_for_kartoffel, record, false, dataSource);
+            }
+            else{
+                logger.warn(`There is no identifier to the person: ${JSON.stringify(person_ready_for_kartoffel)}`);
+            }
         }
         // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding primary user    
         catch (err) {
