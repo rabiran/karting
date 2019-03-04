@@ -6,12 +6,10 @@ This module add fields from aka to given object.
 */
 
 const complete_es = (obj, akaRecord) => {
-    complete = true;
     obj.clearance = akaRecord[fn.aka.clearance];
 }
 
 const complete_ads = (obj, akaRecord) => {
-    complete = true;
     validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.lastName = akaRecord[fn.aka.lastName];
@@ -25,7 +23,6 @@ const complete_ads = (obj, akaRecord) => {
 
 
 module.exports = (obj, akaData, dataSource) => {
-    let complete = false;
     let identifier = obj.personalNumber || obj.identityCard;
     if (identifier) {
         let akaRecord = akaData.find(person => ((person[fn.aka.personalNumber] == obj.personalNumber.toString()) || (person[fn.aka.identityCard] == obj.identityCard.toString())));
