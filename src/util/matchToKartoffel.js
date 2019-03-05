@@ -8,7 +8,7 @@ require('dotenv').config();
 This module match the fields of given object (raw_data) to Kartoffel fields structure.
 */
 
-const match_aka = (obj) => {
+ const match_aka = (obj) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
@@ -70,7 +70,7 @@ const match_aka = (obj) => {
     });
 }
 
-const match_es = (obj) => {
+ const match_es = (obj) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
@@ -152,7 +152,7 @@ const match_es = (obj) => {
     });
 };
 
-const match_ads = (obj) => {
+ const match_ads = (obj) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
@@ -210,11 +210,11 @@ const match_ads = (obj) => {
             default:
                 delete obj[rawKey];
 
-        }
+         }
     })
 };
 
-directGroupHandler = async (record, dataSource) => {
+ directGroupHandler = async (record, dataSource) => {
     hr = encodeURIComponent(record.hierarchy)
     let directGroup;
     await axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
@@ -225,7 +225,7 @@ directGroupHandler = async (record, dataSource) => {
             let directGroupID = await hierarchyHandler(result.data, record.hierarchy);
             directGroup = directGroupID;
 
-        })
+         })
         .catch((err) => {
             let identifier = (dataSource === "nv") ? record.uniqueId : record.identityCard;
             let errorMessage = (err.response) ? err.response.data : err.message;
@@ -235,7 +235,7 @@ directGroupHandler = async (record, dataSource) => {
 };
 
 
-module.exports = async (origin_obj, dataSource) => {
+ module.exports = async (origin_obj, dataSource) => {
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
     Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null") ? delete obj[key] : null);
@@ -254,7 +254,7 @@ module.exports = async (origin_obj, dataSource) => {
     }
 
 
-    if (obj.hierarchy && dataSource !== "aka") {
+     if (obj.hierarchy && dataSource !== "aka") {
         obj.directGroup = await directGroupHandler(obj, dataSource);
         delete obj.hierarchy;
     }
@@ -262,5 +262,5 @@ module.exports = async (origin_obj, dataSource) => {
         (dataSource !== "aka") ? logger.warn(`There is no hierarchy to the person: ${JSON.stringify(obj)}`) : null;
     }
 
-    return obj;
+     return obj;
 };
