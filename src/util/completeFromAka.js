@@ -4,7 +4,7 @@ const logger = require('./logger');
 This module add fields from aka to given object.
 */
 
-const complete_es = (obj, akaData, dataSource) => {
+ const complete_es = (obj, akaData, dataSource) => {
     let complete = false;
     let akaRecord = akaData.find(person => person[fn.aka.identityCard] == obj.identityCard.toString());
     if (akaRecord) {
@@ -14,7 +14,7 @@ const complete_es = (obj, akaData, dataSource) => {
     if (!complete) { logger.warn(`The person with the identityCard ${obj.identityCard} from ${dataSource} not complete from aka`) };
 };
 
-const complete_ads = (obj, akaData, dataSource) => {
+ const complete_ads = (obj, akaData, dataSource) => {
     let complete = false;
     let akaRecord = akaData.find(person => person[fn.aka.personalNumber] == obj.personalNumber.toString());
     if (akaRecord) {
@@ -33,7 +33,7 @@ const complete_ads = (obj, akaData, dataSource) => {
 }
 
 
-module.exports = (obj, akaData, dataSource) => {
+ module.exports = (obj, akaData, dataSource) => {
     switch (dataSource) {
         case "es":
             complete_es(obj, akaData, dataSource);
