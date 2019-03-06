@@ -25,7 +25,7 @@ const complete_ads = (obj, akaRecord) => {
 module.exports = (obj, akaData, dataSource) => {
     let identifier = obj.personalNumber || obj.identityCard;
     if (identifier) {
-        let akaRecord = akaData.find(person => ((person[fn.aka.personalNumber] == obj.personalNumber) || (person[fn.aka.identityCard] == obj.identityCard)));
+        let akaRecord = akaData.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
         if (akaRecord) {
             switch (dataSource) {
                 case "es":
