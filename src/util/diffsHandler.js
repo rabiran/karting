@@ -13,9 +13,9 @@ require('dotenv').config();
  * aka_all_data - object that contain all the recent data from aka
  */
 
-const added = async (diffsObj, dataSource, aka_all_data) => {
+ const added = async (diffsObj, dataSource, aka_all_data) => {
 
-    for (let i = 0; i < diffsObj.length; i++) {
+     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         // Define the unique changes for each "dataSource"
@@ -39,8 +39,8 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
             // check if the perosn not exist in Kartoffel (404 status), or if there is another error
             if (err.response.status === 404) {
                 // complete the data from aka (if exist):
-                person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource);
-                person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
+                aka_all_data ?  person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource) : null;
+                // person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
                 axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
                     .then((person) => {
@@ -48,12 +48,12 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
                         // add primary domain user for the new preson
                         domainUserHandler(person.data, person_ready_for_kartoffel, record, true, dataSource);
 
-                    })
+                     })
                     .catch(err => {
                         logger.error(`Not insert the person with the personalNumber: ${person_ready_for_kartoffel.personalNumber || person_ready_for_kartoffel.identityCard} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
                     })
 
-            }
+             }
             else {
                 logger.error(`The person with the identifier: ${identifier} from ${dataSource}_raw_data not found in Kartoffel. The error message:"${err.response.data}"`);
             };
@@ -61,9 +61,9 @@ const added = async (diffsObj, dataSource, aka_all_data) => {
     }
 }
 
-module.exports = (diffsObj, dataSource, aka_all_data) => {
+ module.exports = (diffsObj, dataSource, aka_all_data) => {
 
-    //added the new person from es to Kartoffel
+     //added the new person from es to Kartoffel
     added(diffsObj.added, dataSource, aka_all_data);
 
-}
+ }
