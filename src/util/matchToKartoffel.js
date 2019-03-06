@@ -30,7 +30,7 @@ const match_aka = (obj) => {
                 break;
             //identityCard
             case fn.aka.identityCard:
-                obj.identityCard = obj[rawKey];
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
@@ -92,7 +92,7 @@ const match_es = (obj) => {
                 break;
             //identityCard
             case fn.es.identityCard:
-                obj.identityCard = obj[rawKey];
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
@@ -204,7 +204,8 @@ const match_ads = (obj) => {
                     default:
                         logger.warn(`Not inserted entity type for the user with the upn ${obj[rawKey]} from ads`);
                 }
-                (obj.entityType === fn.entityTypeValue.c) ? obj.identityCard = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0] : null;
+                let identityCardCandidate = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0];
+                (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate : null;
                 (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0] : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
@@ -228,7 +229,7 @@ directGroupHandler = async (record, dataSource) => {
 
         })
         .catch((err) => {
-            let identifier = (dataSource === "nv") ? record.uniqueId : record.identityCard;
+            let identifier = record.identityCard || record.uniqueId;
             let errorMessage = (err.response) ? err.response.data : err.message;
             logger.error(`Faild to add directGroup to the person with the identityCard: ${identifier}. The error message:"${errorMessage}"`);
         });
