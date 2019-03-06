@@ -87,9 +87,9 @@ const devSchedual = async () => {
          diffsHandler(esDiffs, "es", aka_data.all);
     });
     // get the new json from ads & save him on the server
-    let ads_Data = ads().then((adsDiff)=>{
-        diffsHandler(adsDiff, "ads", aka_data.all);
-    });
+    // let ads_Data = ads().then((adsDiff)=>{
+    //     diffsHandler(adsDiff, "ads", aka_data.all);
+    // });
 
 
     // update the person's fields that update in the last iteration of Karting

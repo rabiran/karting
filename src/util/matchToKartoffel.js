@@ -1,4 +1,5 @@
 const fn = require("../config/fieldNames");
+const validators = require('../config/validators');
 const p = require("../config/paths");
 const axios = require('axios');
 const hierarchyHandler = require('./hierarchyHandler');
@@ -29,7 +30,7 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
                 break;
             //identityCard
             case fn.aka.identityCard:
-                obj.identityCard = obj[rawKey];
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
@@ -44,13 +45,13 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
                 break;
             //phone
             case fn.aka.phone:
-                fn.validators.phone.test(`${obj[fn.aka.areaCode]}-${obj[rawKey]}`) ? obj.phone = [`${obj[fn.aka.areaCode]}-${obj[rawKey]}`] : delete obj[rawKey];
+                validators().phone.test(`${obj[fn.aka.areaCode]}-${obj[rawKey]}`) ? obj.phone = [`${obj[fn.aka.areaCode]}-${obj[rawKey]}`] : delete obj[rawKey];
                 delete obj[fn.aka.areaCode];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             // mobilePhone       
             case fn.aka.mobilePhone:
-                fn.validators.mobilePhone.test(`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`) ? obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`] : delete obj[rawKey];
+                validators().mobilePhone.test(`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`) ? obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`] : delete obj[rawKey];
                 delete obj[fn.aka.areaCodeMobile];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
                 break;
@@ -91,7 +92,7 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
                 break;
             //identityCard
             case fn.es.identityCard:
-                obj.identityCard = obj[rawKey];
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
@@ -106,12 +107,12 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
                 break;
             //phone
             case fn.es.phone:
-                fn.validators.phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : delete obj[rawKey];
+                validators().phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             //mobilePhone       
             case fn.es.mobilePhone:
-                fn.validators.mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
+                validators().mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
                 break;
             //dischargeDay
@@ -203,7 +204,8 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
                     default:
                         logger.warn(`Not inserted entity type for the user with the upn ${obj[rawKey]} from ads`);
                 }
-                (obj.entityType === fn.entityTypeValue.c) ? obj.identityCard = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0] : null;
+                let identityCardCandidate = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0];
+                (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate : null;
                 (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0] : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
@@ -227,7 +229,7 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
 
          })
         .catch((err) => {
-            let identifier = (dataSource === "nv") ? record.uniqueId : record.identityCard;
+            let identifier = record.identityCard || record.uniqueId;
             let errorMessage = (err.response) ? err.response.data : err.message;
             logger.error(`Faild to add directGroup to the person with the identityCard: ${identifier}. The error message:"${errorMessage}"`);
         });

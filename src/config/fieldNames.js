@@ -16,7 +16,7 @@ module.exports = {
         telephoneType: "telephoneType"
     },
     es: {
-        entityType: "stype",
+        entityType: "entity",
         firstName: "firstName",
         lastName: "lastName",
         identityCard: "tz",
@@ -49,19 +49,9 @@ module.exports = {
         cPrefix:"d",
     },
     rootHierarchy: "wallmart",
-    ad: {
-        ldapURL: "LDAP://{LDAP_URL}",
-        LDAP_USER: "Daniel",
-        LDAP_PASSWORD: "Ezra",
-        baseDN: "OU='bla'",
-    },
     runningTime: {
         hour: 12,
         minute: 54
-    },
-    validators:{
-        phone:/^\d{1,2}-?\d{6,7}$|^\*\d{3}$|^\d{4,5}$/,
-        mobilePhone:/^\d{2,3}-?\d{7}$/,
     },
     kartoffelUrl: "http://localhost:3000",
 };
