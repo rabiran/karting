@@ -18,9 +18,9 @@ module.exports = async (person, person_ready_for_kartoffel, record, isPrimary, d
     if (user_object.uniqueID) {
         try {
             const user = await axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object);
-            logger.info(`Create the ${(isPrimary) ? "primary" : "secondary"} user ${user_object.uniqueID} to the person with personalNumber: ${user.data.personalNumber || user.data.identityCard} from ${dataSource}_complete_data successfully.`);
+            logger.info(`Create the ${(isPrimary) ? "primary" : "secondary"} user ${user_object.uniqueID} to the person with the idetifier: ${user.data.personalNumber || user.data.identityCard} from ${dataSource} successfully.`);
         } catch (err) {
-            logger.error(`Not create ${(isPrimary) ? "primary" : "secondary"} user to person with the identifier: ${person.mail} to the person with personalNumber: ${person.personalNumber || person.identityCard} from ${dataSource}_complete_data. The error message:"${err.response.data}"`);
+            logger.error(`Not create ${(isPrimary) ? "primary" : "secondary"} user to person with the identifier: ${person.mail} to the person with the idetifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${err.response.data}"`);
         }
     }
 } 
