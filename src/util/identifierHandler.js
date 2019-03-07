@@ -8,7 +8,7 @@ const validators = require('../config/validators');
 
 module.exports = (person) => {
     if ((person.identityCard == person.personalNumber) && (person.identityCard)) {
-        validators().identityCard(person.identityCard) ? person.personalNumber = null : person.identityCard = null;
+        validators(person.identityCard).identityCard ? person.personalNumber = null : person.identityCard = null;
         // delete the empty fields from the returned object
         Object.keys(person).forEach((key) => {
             if (!person[key] || person[key] === "null") {
