@@ -7,6 +7,7 @@ This module add fields from aka to given object.
 
 const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
+    obj.serviceType = akaRecord[fn.aka.serviceType];
 }
 
 const complete_ads = (obj, akaRecord) => {
@@ -19,6 +20,7 @@ const complete_ads = (obj, akaRecord) => {
     obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
+    obj.serviceType = akaRecord[fn.aka.serviceType];
 }
 
 
