@@ -9,7 +9,7 @@ require('dotenv').config();
 This module match the fields of given object (raw_data) to Kartoffel fields structure.
 */
 
- const match_aka = (obj) => {
+const match_aka = (obj) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
@@ -65,13 +65,18 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
                 obj.clearance = obj[rawKey];
                 (rawKey === "clearance") ? null : delete obj[rawKey];
                 break;
+            // serviceType 
+            case fn.aka.serviceType:
+                obj.serviceType = obj[rawKey];
+                (rawKey === "serviceType") ? null : delete obj[rawKey];
+                break;
             default:
                 delete obj[rawKey];
         }
     });
 }
 
- const match_es = (obj) => {
+const match_es = (obj) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
@@ -153,7 +158,7 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
     });
 };
 
- const match_ads = (obj) => {
+const match_ads = (obj) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
@@ -212,11 +217,11 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
             default:
                 delete obj[rawKey];
 
-         }
+        }
     })
 };
 
- directGroupHandler = async (record, dataSource) => {
+directGroupHandler = async (record, dataSource) => {
     hr = encodeURIComponent(record.hierarchy)
     let directGroup;
     await axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
@@ -227,7 +232,7 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
             let directGroupID = await hierarchyHandler(result.data, record.hierarchy);
             directGroup = directGroupID;
 
-         })
+        })
         .catch((err) => {
             let identifier = record.identityCard || record.uniqueId;
             let errorMessage = (err.response) ? err.response.data : err.message;
@@ -237,7 +242,7 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
 };
 
 
- module.exports = async (origin_obj, dataSource) => {
+module.exports = async (origin_obj, dataSource) => {
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
     Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null") ? delete obj[key] : null);
@@ -256,7 +261,7 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
     }
 
 
-     if (obj.hierarchy && dataSource !== "aka") {
+    if (obj.hierarchy && dataSource !== "aka") {
         obj.directGroup = await directGroupHandler(obj, dataSource);
         delete obj.hierarchy;
     }
@@ -264,5 +269,5 @@ This module match the fields of given object (raw_data) to Kartoffel fields stru
         (dataSource !== "aka") ? logger.warn(`There is no hierarchy to the person: ${JSON.stringify(obj)}`) : null;
     }
 
-     return obj;
+    return obj;
 };
