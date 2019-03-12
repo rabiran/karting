@@ -221,6 +221,72 @@ const match_ads = (obj) => {
     })
 };
 
+const match_adNN = (obj) => {
+    const objKeys = Object.keys(obj);
+    objKeys.map((rawKey) => {
+        switch (rawKey) {
+            //firstName
+            case fn.adNN.firstName:
+                obj.firstName = obj[rawKey];
+                (rawKey === "firstName") ? null : delete obj[rawKey];
+                break;
+            //lastName
+            case fn.adNN.lastName:
+                obj.lastName = obj[rawKey];
+                (rawKey === "lastName") ? null : delete obj[rawKey];
+                break;
+            //mail
+            case fn.adNN.mail:
+                obj.mail = obj[rawKey];
+                (rawKey === "mail") ? null : delete obj[rawKey];
+                break;
+            //hierarchy and job
+            case fn.adNN.hierarchy:
+                let hr = obj[rawKey].includes("\\") ? obj[rawKey].substring(0, obj[rawKey].lastIndexOf('\\')).trim().split('\\') : obj[rawKey].substring(0, obj[rawKey].lastIndexOf('/')).trim().split('/');
+                if (hr[0] == "") {
+                    delete obj[rawKey];
+                    break;
+                }
+                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr.splice((hr.length - 1), 1);
+                obj.hierarchy = hr.join("/");
+                obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
+
+                // Getting job
+                if(obj[rawKey].includes("-")) {
+                    if(obj[rawKey].includes("\\")) {
+                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("\\") + 1).replace(/-/g,"")
+                    } else {
+                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("/") + 1).replace(/-/g,"")
+                    }
+                    if(obj[rawKey].includes(obj[fn.adNN.fullName])) {
+                        job = job.replace(obj[fn.adNN.fullName],"").trim()
+                    }
+                    obj.job = job
+                }
+
+                (rawKey === "hierarchy") ? null : delete obj[rawKey];
+                break;
+            //personalNumber
+            case fn.adNN.sAMAccountName:
+                let uniqueNum = obj[rawKey].toLowerCase().search(fn.adNN.extension) ? null : obj[rawKey].toLowerCase().replace(fn.adNN.extension, "")
+                if(uniqueNum && validators(uniqueNum).identityCard) {
+                    obj.identityCard = uniqueNum;
+                    obj.entityType = fn.entityTypeValue.c;
+                } else {
+                    obj.personalNumber = uniqueNum;
+                    obj.entityType = fn.entityTypeValue.s;
+                }
+
+                (rawKey === "personalNumber") ? null : delete obj[rawKey];
+                break;
+            default:
+                (rawKey != "mail" && rawKey != fn.adNN.fullName) ? delete obj[rawKey] : null;
+
+        }
+    })
+};
+
 directGroupHandler = async (record, dataSource) => {
     hr = encodeURIComponent(record.hierarchy)
     let directGroup;
@@ -255,6 +321,10 @@ module.exports = async (origin_obj, dataSource) => {
             break;
         case "ads":
             match_ads(obj);
+            break;
+        case "adNN":
+            match_adNN(obj);
+            delete obj.cn;
             break;
         default:
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");

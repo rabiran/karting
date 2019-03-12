@@ -8,7 +8,8 @@ module.exports = pathsHandler = (param) => {
         AKA_TELEPHONES_API: "http://localhost:3001/getAkaTelephone",
         AKA_EMPLOYEES_API: "http://localhost:3001/getAkaEmployees",
         ES_API: 'http://localhost:3001/getEightSocks',
-        ADS_API: 'http://localhost:3001/getAD',
+        ADS_API: 'http://localhost:3001/getAD/s',
+        ADNN_API: 'http://localhost:3001/getAD/NN',
 
         // Kartoffel - person
         KARTOFFEL_UPDATE_PERSON_API: `${kartoffelUrl}/api/persons/${param}`,
