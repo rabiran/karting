@@ -40,7 +40,7 @@ require('dotenv').config();
             if (err.response.status === 404) {
                 // complete the data from aka (if exist):
                 aka_all_data ?  person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource) : null;
-                // person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
+                person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
                 axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
                     .then((person) => {
