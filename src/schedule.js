@@ -3,6 +3,7 @@ const axios = require('axios');
 const aka = require('./aka/aka_synchronizeData');
 const es = require('./es/es_synchronizeData');
 const ads = require('./ads/ads_synchronizeData');
+const adNN = require('./adNN/adNN_syncData');
 const matchToKartoffel = require('./util/matchToKartoffel');
 const fn = require('./config/fieldNames');
 const p = require('./config/paths');
@@ -89,6 +90,10 @@ const devSchedual = async () => {
     // get the new json from ads & save him on the server
     let ads_Data = ads().then((adsDiff)=>{
         diffsHandler(adsDiff, "ads", aka_data.all);
+    });
+    // get the new json from nn & save him on the server
+    let adNN_Data = adNN().then((adNNDiff)=>{
+        diffsHandler(adNNDiff, "adNN", aka_data.all);
     });
 
 

@@ -43,6 +43,16 @@ module.exports = {
         sAMAccountName:"sAMAccountName",  
         domainSuffix:"@ads",
     },
+    adNN:{
+        firstName: "KfirstName",
+        lastName: "KlastName",
+        fullName:"Kjob",
+        mail: "mail",
+        upn:"userPrincipalName",
+        hierarchy:"hierarchy",
+        sAMAccountName:"sAMAccountName",  
+        extension:"nn",
+    },
     entityTypeValue: {
         s: "digimon",
         sPrefix:"m",

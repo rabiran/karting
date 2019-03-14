@@ -23,6 +23,19 @@ const complete_ads = (obj, akaRecord) => {
     obj.serviceType = akaRecord[fn.aka.serviceType];
 }
 
+const complete_adNN = (obj, akaRecord) => {
+    validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
+    obj.firstName = akaRecord[fn.aka.firstName];
+    obj.lastName = akaRecord[fn.aka.lastName];
+    obj.rank = akaRecord[fn.aka.rank];
+    validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
+    validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
+    obj.clearance = akaRecord[fn.aka.clearance];
+    obj.currentUnit = akaRecord[fn.aka.unitName];
+    obj.serviceType = akaRecord[fn.aka.serviceType];
+}
+
 
 module.exports = (obj, akaData, dataSource) => {
     let identifier = obj.personalNumber || obj.identityCard;
@@ -36,6 +49,10 @@ module.exports = (obj, akaData, dataSource) => {
                 case "ads":
                     if (obj.entityType === fn.entityTypeValue.c) { break; };
                     complete_ads(obj, akaRecord);
+                    break;
+                case "adNN":
+                    if (obj.entityType === fn.entityTypeValue.c) { break; };
+                    complete_adNN(obj, akaRecord);
                     break;
                 default:
                     logger.error(`'dataSource' variable must be attached to 'completeFromAka' function`);

@@ -14,7 +14,11 @@ app.get("/getAkaEmployees", (req, res) => {
     res.json(require("./mocksFiles/getAkaEmployees.json"))
 })
 
-app.get("/getAD", (req, res) => {
+app.get("/getAD/s", (req, res) => {
+    res.json(require("./mocksFiles/AD.json"))
+})
+
+app.get("/getAD/NN", (req, res) => {
     res.json(require("./mocksFiles/AD.json"))
 })
 
