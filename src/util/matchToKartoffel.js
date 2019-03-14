@@ -254,7 +254,7 @@ const match_adNN = (obj) => {
                 // Getting job
                 if(obj[rawKey].includes("-")) {
                     if(obj[rawKey].includes("\\")) {
-                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("\\") + 1).replace(/-/g,"")
+                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("\\") + 1).replace(/-/g,"").trim()
                     } else {
                         job = obj[rawKey].substring(obj[rawKey].lastIndexOf("/") + 1).replace(/-/g,"").trim()
                     }
