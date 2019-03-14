@@ -257,7 +257,7 @@ const match_adNN = (obj) => {
                     if(obj[rawKey].includes("\\")) {
                         job = obj[rawKey].substring(obj[rawKey].lastIndexOf("\\") + 1).replace(/-/g,"")
                     } else {
-                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("/") + 1).replace(/-/g,"")
+                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("/") + 1).replace(/-/g,"").trim()
                     }
                     if(obj[rawKey].includes(obj[fn.adNN.fullName])) {
                         job = job.replace(obj[fn.adNN.fullName],"").trim()
