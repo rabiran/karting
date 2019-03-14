@@ -269,7 +269,7 @@ const match_adNN = (obj) => {
                 break;
             //personalNumber
             case fn.adNN.sAMAccountName:
-                let uniqueNum = obj[rawKey].toLowerCase().includes(fn.adNN.extension) ? obj[rawKey].toLowerCase().replace(fn.adNN.extension, "") : null;
+                let uniqueNum = obj[rawKey].toLowerCase().includes(fn.adNN.extension) ? obj[rawKey].toLowerCase().replace(fn.adNN.extension, "") : break;
                 if(uniqueNum && validators(uniqueNum).identityCard) {
                     obj.identityCard = uniqueNum;
                     obj.entityType = fn.entityTypeValue.c;
