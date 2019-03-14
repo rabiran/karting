@@ -248,7 +248,6 @@ const match_adNN = (obj) => {
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
-                hr.splice((hr.length - 1), 1);
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
 
@@ -269,8 +268,13 @@ const match_adNN = (obj) => {
                 break;
             //personalNumber
             case fn.adNN.sAMAccountName:
-                let uniqueNum = obj[rawKey].toLowerCase().includes(fn.adNN.extension) ? obj[rawKey].toLowerCase().replace(fn.adNN.extension, "") : break;
-                if(uniqueNum && validators(uniqueNum).identityCard) {
+                if(obj[rawKey].toLowerCase().includes(fn.adNN.extension)) {
+                    uniqueNum = obj[rawKey].toLowerCase().replace(fn.adNN.extension, "")
+                 } else {
+                    logger.warn(`User with id ${obj[rawKey]} is not ${fn.adNN.extension} extension`);
+                    break; 
+                 }
+                if(validators(uniqueNum).identityCard) {
                     obj.identityCard = uniqueNum;
                     obj.entityType = fn.entityTypeValue.c;
                 } else {
@@ -324,7 +328,7 @@ module.exports = async (origin_obj, dataSource) => {
             break;
         case "adNN":
             match_adNN(obj);
-            delete obj.cn;
+            delete obj[fn.adNN.fullName];
             break;
         default:
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");
