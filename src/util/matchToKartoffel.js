@@ -184,13 +184,12 @@ const match_ads = (obj) => {
                 break;
             //hierarchy
             case fn.ads.hierarchy:
-                let hr = obj[rawKey].substring(0, obj[rawKey].indexOf('-')).trim().split('/');
+                let hr = obj[rawKey].substring(0, obj[rawKey].lastIndexOf('/')).trim().split('/');
                 if (hr[0] == "") {
                     delete obj[rawKey];
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
-                hr.splice((hr.length - 1), 1);
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];

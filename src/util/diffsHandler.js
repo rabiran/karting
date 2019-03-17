@@ -28,7 +28,7 @@ require('dotenv').config();
             let identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
             if (identifier) {
                 const person = await axios.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
-                domainUserHandler(person.data, person_ready_for_kartoffel, record, false, dataSource);
+                 await domainUserHandler(person.data, person_ready_for_kartoffel, record, false, dataSource);
             }
             else{
                 logger.warn(`There is no identifier to the person: ${JSON.stringify(person_ready_for_kartoffel)}`);
@@ -40,22 +40,22 @@ require('dotenv').config();
             if (err.response.status === 404) {
                 // complete the data from aka (if exist):
                 aka_all_data ?  person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource) : null;
-                // person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
+                person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
-                axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel)
-                    .then((person) => {
-                        logger.info(`The person with the personalNumber: ${person.data.personalNumber || person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
-                        // add primary domain user for the new preson
-                        domainUserHandler(person.data, person_ready_for_kartoffel, record, true, dataSource);
-
-                     })
-                    .catch(err => {
-                        logger.error(`Not insert the person with the personalNumber: ${person_ready_for_kartoffel.personalNumber || person_ready_for_kartoffel.identityCard} from ${dataSource}_complete_data to Kartoffel. The error message:"${err.response.data}"`);
-                    })
-
-             }
+                try{
+                    let perosn = await axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
+                    logger.info(`The person with the personalNumber: ${person.data.personalNumber || person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
+                    // add primary domain user for the new preson
+                    await domainUserHandler(person.data, person_ready_for_kartoffel, record, true, dataSource);
+                }
+                catch(err){
+                    let errMessage = err.response ? err.response.data : err.message;
+                    logger.error(`Not insert the person with the personalNumber: ${person_ready_for_kartoffel.personalNumber || person_ready_for_kartoffel.identityCard} from ${dataSource}_complete_data to Kartoffel. The error message:"${errMessage}" ${JSON.stringify(record)}`);
+                }
+            }
             else {
-                logger.error(`The person with the identifier: ${identifier} from ${dataSource}_raw_data not found in Kartoffel. The error message:"${err.response.data}"`);
+                let errMessage = err.response ? err.response.data : err.message;
+                logger.error(`The person with the identifier: ${identifier} from ${dataSource}_raw_data not found in Kartoffel. The error message:"${errMessage}"`);
             };
         }
     }
