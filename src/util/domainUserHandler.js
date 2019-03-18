@@ -15,12 +15,29 @@ module.exports = async (person, person_ready_for_kartoffel, record, isPrimary, d
     (dataSource === "es" && record[fn.es.userName]) ?
         user_object.uniqueID = `${record[fn.es.userName]}${fn.es.domainSuffix}` :
         logger.warn(`The user with the identifier ${person.identityCard || person.personalNumber} from ${dataSource} does not have ${fn.es.userName} field`);
-    if (user_object.uniqueID) {
-        try {
-            const user = await axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object);
-            logger.info(`Create the ${(isPrimary) ? "primary" : "secondary"} user ${user_object.uniqueID} to the person with the idetifier: ${user.data.personalNumber || user.data.identityCard} from ${dataSource} successfully.`);
-        } catch (err) {
-            logger.error(`Not create ${(isPrimary) ? "primary" : "secondary"} user to person with the identifier: ${person.mail} to the person with the idetifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${err.response.data}"`);
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    if (!user_object.uniqueID) {
+        return;
+    }
+    else {
+        if (person.primaryDomainUser && person.primaryDomainUser.uniqueID == user_object.uniqueID) {
+            return;
+        }
+        if (person.secondaryDomainUsers.length !== 0) {
+            person.secondaryDomainUsers.filter(sdu => {
+                if (sdu.uniqueID === user_object.personId) {
+                    return;
+                }
+            })
         }
     }
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+    try {
+        const user = await axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object);
+        logger.info(`Create the ${(isPrimary) ? "primary" : "secondary"} user ${user_object.uniqueID} to the person with the idetifier: ${user.data.personalNumber || user.data.identityCard} from ${dataSource} successfully.`);
+    } catch (err) {
+        logger.error(`Not create ${(isPrimary) ? "primary" : "secondary"} user to person with the identifier: ${person.mail} to the person with the idetifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${err.response.data}"`);
+    }
+
 } 
