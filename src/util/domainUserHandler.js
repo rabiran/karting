@@ -25,7 +25,7 @@ module.exports = async (person, person_ready_for_kartoffel, record, isPrimary, d
         }
         if (person.secondaryDomainUsers.length !== 0) {
             person.secondaryDomainUsers.filter(sdu => {
-                if (sdu.uniqueID === user_object.personId) {
+                if (sdu.uniqueID === user_object.uniqueID) {
                     return;
                 }
             })
