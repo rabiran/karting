@@ -4,6 +4,9 @@ const aka = require('./aka/aka_synchronizeData');
 const es = require('./es/es_synchronizeData');
 const ads = require('./ads/ads_synchronizeData');
 const adNN = require('./adNN/adNN_syncData');
+const nvMM = require('./nvSql/mm_synchronizeData');
+const nvLMN = require('./nvSql/lmn_synchronizeData');
+const nvMDN = require('./nvSql/mdn_synchronizeData');
 const matchToKartoffel = require('./util/matchToKartoffel');
 const fn = require('./config/fieldNames');
 const p = require('./config/paths');
@@ -94,6 +97,18 @@ const devSchedual = async () => {
     // get the new json from nn & save him on the server
     let adNN_Data = adNN().then((adNNDiff)=>{
         diffsHandler(adNNDiff, "adNN", aka_data.all);
+    });
+    // get the new json from mm & save him on the server
+    let nvMM_Data = nvMM().then((nvMMDiffs) => {
+         diffsHandler(nvMMDiffs, "nvSQL", aka_data.all);
+    });
+    // get the new json from lmn & save him on the server
+    let nvLMN_Data = nvLMN().then((nvLMNDiff)=>{
+        diffsHandler(nvLMNDiff, "nvSQL", aka_data.all);
+    });
+    // get the new json from mdn & save him on the server
+    let nvMDN_Data = nvMDN().then((nvMDNDiff)=>{
+        diffsHandler(nvMDNDiff, "nvSQL", aka_data.all);
     });
 
 

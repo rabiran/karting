@@ -53,6 +53,14 @@ module.exports = {
         sAMAccountName:"sAMAccountName",  
         extension:"nn",
     },
+    nv: {
+        firstName:"KfirstName",
+        lastName:"KlastName",
+        uniqueID:"unid",
+        hierarchy:"hierarchy",
+        pn:"pn",
+        identityCard:"id"
+    },
     entityTypeValue: {
         s: "digimon",
         sPrefix:"m",
