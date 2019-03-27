@@ -321,7 +321,7 @@ const match_nv_sql = (obj) => {
                 break;
             //personalNumber
             case fn.nv.pn:
-                validators().personalNumber.test(obj[rawKey]) ? (obj.personalNumber = obj[rawKey], obj.entityType = fn.entityTypeValue.s) : null;
+                validators().personalNumber.test(obj[rawKey]) ? (obj.personalNumber = obj[rawKey], obj.entityType = fn.entityTypeValue.c) : null;
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //identity vard

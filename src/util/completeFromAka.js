@@ -34,6 +34,7 @@ const complete_adNN = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
+    obj.entityType = fn.entityTypeValue.s;
 }
 
 const complete_nv = (obj, akaRecord) => {
@@ -47,6 +48,7 @@ const complete_nv = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
+    obj.entityType = fn.entityTypeValue.s;
 }
 
 
@@ -75,7 +77,6 @@ module.exports = (obj, akaData, dataSource) => {
             }
         }
         else {
-            obj.entityType = fn.entityTypeValue.c;
             logger.warn(`The person with the identifier ${identifier} from ${dataSource} not complete from aka`);
         }
     }
