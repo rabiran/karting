@@ -75,6 +75,7 @@ module.exports = (obj, akaData, dataSource) => {
             }
         }
         else {
+            obj.entityType = fn.entityTypeValue.c;
             logger.warn(`The person with the identifier ${identifier} from ${dataSource} not complete from aka`);
         }
     }
