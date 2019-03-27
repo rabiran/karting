@@ -235,7 +235,7 @@ const match_adNN = (obj) => {
                 (rawKey === "lastName") ? null : delete obj[rawKey];
                 break;
             //mail
-            case fn.adNN.upn:
+            case fn.adNN.mail:
                 obj.mail = obj[rawKey];
                 (rawKey === "mail") ? null : delete obj[rawKey];
                 break;

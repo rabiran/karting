@@ -52,6 +52,7 @@ module.exports = {
         hierarchy:"hierarchy",
         sAMAccountName:"sAMAccountName",  
         extension:"nn",
+        domainSuffix:"@adnn",
     },
     nv: {
         firstName:"KfirstName",
