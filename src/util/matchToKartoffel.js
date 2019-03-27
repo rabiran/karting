@@ -275,10 +275,6 @@ const match_adNN = (obj) => {
                  }
                 if(validators(uniqueNum).identityCard) {
                     obj.identityCard = uniqueNum;
-                    obj.entityType = fn.entityTypeValue.c;
-                } else {
-                    obj.personalNumber = uniqueNum;
-                    obj.entityType = fn.entityTypeValue.s;
                 }
 
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
@@ -321,7 +317,7 @@ const match_nv_sql = (obj) => {
                 break;
             //personalNumber
             case fn.nv.pn:
-                validators().personalNumber.test(obj[rawKey]) ? (obj.personalNumber = obj[rawKey], obj.entityType = fn.entityTypeValue.c) : null;
+                validators().personalNumber.test(obj[rawKey]) ? obj.personalNumber = obj[rawKey] : null;
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //identity vard
@@ -373,10 +369,12 @@ module.exports = async (origin_obj, dataSource) => {
             break;
         case "adNN":
             match_adNN(obj);
+            obj.entityType = fn.entityTypeValue.c
             delete obj[fn.adNN.fullName];
             break;
         case "nvSQL":
             match_nv_sql(obj);
+            obj.entityType = fn.entityTypeValue.c
             break;
         default:
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");
