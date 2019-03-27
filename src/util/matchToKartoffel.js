@@ -275,13 +275,55 @@ const match_adNN = (obj) => {
                  }
                 if(validators(uniqueNum).identityCard) {
                     obj.identityCard = uniqueNum;
-                    obj.entityType = fn.entityTypeValue.c;
-                } else {
-                    obj.personalNumber = uniqueNum;
-                    obj.entityType = fn.entityTypeValue.s;
                 }
 
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
+                break;
+            default:
+                (rawKey != "mail" && rawKey != fn.adNN.fullName) ? delete obj[rawKey] : null;
+
+        }
+    })
+};
+
+const match_nv_sql = (obj) => {
+    const objKeys = Object.keys(obj);
+    objKeys.map((rawKey) => {
+        switch (rawKey) {
+            //firstName
+            case fn.nv.firstName:
+                obj.firstName = obj[rawKey];
+                (rawKey === "firstName") ? null : delete obj[rawKey];
+                break;
+            //lastName
+            case fn.nv.lastName:
+                obj.lastName = obj[rawKey];
+                (rawKey === "lastName") ? null : delete obj[rawKey];
+                break;
+            //hierarchy
+            case fn.nv.hierarchy:
+                let hr = obj[rawKey].substring(0, obj[rawKey].lastIndexOf('/')).trim().split('/');
+                if (hr[0] == "") {
+                    delete obj[rawKey];
+                    break;
+                }
+                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                obj.hierarchy = hr.join("/");
+                obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
+
+                // Getting job
+                obj.job = obj[rawKey].substring(obj[rawKey].lastIndexOf("/") + 1);
+                (rawKey === "hierarchy") ? null : delete obj[rawKey];
+                break;
+            //personalNumber
+            case fn.nv.pn:
+                validators().personalNumber.test(obj[rawKey]) ? obj.personalNumber = obj[rawKey] : null;
+                (rawKey === "personalNumber") ? null : delete obj[rawKey];
+                break;
+            //identity vard
+            case fn.nv.identityCard:
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
+                (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             default:
                 (rawKey != "mail" && rawKey != fn.adNN.fullName) ? delete obj[rawKey] : null;
@@ -327,7 +369,12 @@ module.exports = async (origin_obj, dataSource) => {
             break;
         case "adNN":
             match_adNN(obj);
+            obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             delete obj[fn.adNN.fullName];
+            break;
+        case "nvSQL":
+            match_nv_sql(obj);
+            obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
         default:
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");

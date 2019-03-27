@@ -12,10 +12,13 @@ module.exports = async (person, person_ready_for_kartoffel, record, isPrimary, d
 
     (dataSource === "ads" && record[fn.ads.sAMAccountName]) ?
         user_object.uniqueID = `${record[fn.ads.sAMAccountName]}${fn.ads.domainSuffix}` : null;
+    (dataSource === "adNN" && record[fn.adNN.sAMAccountName]) ?
+        user_object.uniqueID = `${record[fn.adNN.sAMAccountName]}${fn.adNN.domainSuffix}` : null;
+    (dataSource === "nvSQL" && record[fn.nv.uniqueID]) ?
+        user_object.uniqueID = record[fn.nv.uniqueID].toLowerCase() : null;
     (dataSource === "es" && record[fn.es.userName]) ?
         user_object.uniqueID = `${record[fn.es.userName]}${fn.es.domainSuffix}` :
         logger.warn(`The user with the identifier ${person.identityCard || person.personalNumber} from ${dataSource} does not have ${fn.es.userName} field`);
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     if (!user_object.uniqueID) {
         return;
     }
@@ -31,7 +34,6 @@ module.exports = async (person, person_ready_for_kartoffel, record, isPrimary, d
             })
         }
     }
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     try {
         const user = await axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object);

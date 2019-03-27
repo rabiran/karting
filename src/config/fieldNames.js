@@ -52,6 +52,15 @@ module.exports = {
         hierarchy:"hierarchy",
         sAMAccountName:"sAMAccountName",  
         extension:"nn",
+        domainSuffix:"@adnn",
+    },
+    nv: {
+        firstName:"KfirstName",
+        lastName:"KlastName",
+        uniqueID:"unid",
+        hierarchy:"hierarchy",
+        pn:"pn",
+        identityCard:"id"
     },
     entityTypeValue: {
         s: "digimon",

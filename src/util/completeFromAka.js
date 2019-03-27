@@ -34,6 +34,21 @@ const complete_adNN = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
+    obj.entityType = fn.entityTypeValue.s;
+}
+
+const complete_nv = (obj, akaRecord) => {
+    validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
+    obj.firstName = akaRecord[fn.aka.firstName];
+    obj.lastName = akaRecord[fn.aka.lastName];
+    obj.rank = akaRecord[fn.aka.rank];
+    validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
+    validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
+    obj.clearance = akaRecord[fn.aka.clearance];
+    obj.currentUnit = akaRecord[fn.aka.unitName];
+    obj.serviceType = akaRecord[fn.aka.serviceType];
+    obj.entityType = fn.entityTypeValue.s;
 }
 
 
@@ -53,6 +68,9 @@ module.exports = (obj, akaData, dataSource) => {
                 case "adNN":
                     if (obj.entityType === fn.entityTypeValue.c) { break; };
                     complete_adNN(obj, akaRecord);
+                    break;
+                case "nvSQL":
+                    complete_nv(obj, akaRecord);
                     break;
                 default:
                     logger.error(`'dataSource' variable must be attached to 'completeFromAka' function`);
