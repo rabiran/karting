@@ -369,12 +369,12 @@ module.exports = async (origin_obj, dataSource) => {
             break;
         case "adNN":
             match_adNN(obj);
-            obj.entityType = fn.entityTypeValue.c
+            obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             delete obj[fn.adNN.fullName];
             break;
         case "nvSQL":
             match_nv_sql(obj);
-            obj.entityType = fn.entityTypeValue.c
+            obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
         default:
             logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");
