@@ -265,7 +265,7 @@ const match_adNN = (obj) => {
 
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
-            //personalNumber
+            //personalNumber or identity card
             case fn.adNN.sAMAccountName:
                 if(obj[rawKey].toLowerCase().includes(fn.adNN.extension)) {
                     uniqueNum = obj[rawKey].toLowerCase().replace(fn.adNN.extension, "")
@@ -273,8 +273,10 @@ const match_adNN = (obj) => {
                     logger.warn(`User with id ${obj[rawKey]} is not ${fn.adNN.extension} extension`);
                     break; 
                  }
-                if(validators(uniqueNum).identityCard) {
+                 if(validators(uniqueNum).identityCard) {
                     obj.identityCard = uniqueNum;
+                } else {
+                    obj.personalNumber = uniqueNum;
                 }
 
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
