@@ -275,7 +275,7 @@ const match_adNN = (obj) => {
                  }
                  if(validators(uniqueNum).identityCard) {
                     obj.identityCard = uniqueNum;
-                } else {
+                } else if(validators().personalNumber.test(obj[rawKey])){
                     obj.personalNumber = uniqueNum;
                 }
 
