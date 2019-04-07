@@ -2,10 +2,11 @@ const p = require('../config/paths');
 const matchToKartoffel = require('./matchToKartoffel');
 const axios = require('axios');
 const completeFromAka = require('./completeFromAka');
-const fn = require('../config/fieldNames');
 const logger = require('./logger');
 const domainUserHandler = require('./domainUserHandler');
 const identifierHandler = require('./identifierHandler');
+const currentUnit_to_DataSource = require('./createDataSourcesMap');
+
 require('dotenv').config();
 /*
  * diffsObj - object that contain the results of diffs checking (added,updated,same,removed & all)
@@ -13,9 +14,9 @@ require('dotenv').config();
  * aka_all_data - object that contain all the recent data from aka
  */
 
- const added = async (diffsObj, dataSource, aka_all_data) => {
+const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
 
-     for (let i = 0; i < diffsObj.length; i++) {
+    for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         // Define the unique changes for each "dataSource"
@@ -28,9 +29,9 @@ require('dotenv').config();
             let identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
             if (identifier) {
                 const person = await axios.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
-                 await domainUserHandler(person.data, person_ready_for_kartoffel, record, false, dataSource);
+                await domainUserHandler(person.data, person_ready_for_kartoffel, record, false, dataSource);
             }
-            else{
+            else {
                 logger.warn(`There is no identifier to the person: ${JSON.stringify(person_ready_for_kartoffel)}`);
             }
         }
@@ -39,16 +40,16 @@ require('dotenv').config();
             // check if the perosn not exist in Kartoffel (404 status), or if there is another error
             if (err.response.status === 404) {
                 // complete the data from aka (if exist):
-                aka_all_data ?  person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource) : null;
+                aka_all_data ? person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource) : null;
                 person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
-                try{
+                try {
                     let perosn = await axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     logger.info(`The person with the personalNumber: ${person.data.personalNumber || person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
                     // add primary domain user for the new preson
                     await domainUserHandler(person.data, person_ready_for_kartoffel, record, true, dataSource);
                 }
-                catch(err){
+                catch (err) {
                     let errMessage = err.response ? err.response.data : err.message;
                     logger.error(`Not insert the person with the personalNumber: ${person_ready_for_kartoffel.personalNumber || person_ready_for_kartoffel.identityCard} from ${dataSource}_complete_data to Kartoffel. The error message:"${errMessage}" ${JSON.stringify(record)}`);
                 }
@@ -60,10 +61,14 @@ require('dotenv').config();
         }
     }
 }
+const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
+    // recognize the specific field that updated
 
- module.exports = (diffsObj, dataSource, aka_all_data) => {
+    // like the visio
+}
 
-     //added the new person from es to Kartoffel
-    added(diffsObj.added, dataSource, aka_all_data);
-
- }
+module.exports = (diffsObj, dataSource, aka_all_data) => {
+    //added the new person from es to Kartoffel
+    added(diffsObj.added, dataSource, aka_all_data, currentUnit_to_DataSource);
+    updated(diffsObj.updated, dataSource, aka_all_data, currentUnit_to_DataSource);
+}
