@@ -19,18 +19,26 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
 
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
+        // check if the current unit from aka belong to our orginization, if not the loop will continue to the next iteration
+        
+        
+        
+        if (!currentUnit_to_DataSource.get(record[fn.aka.unitName])){ continue;}
+
+
+
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         // Define the unique changes for each "dataSource"
         if (dataSource === "ads" && !person_ready_for_kartoffel.entityType) {
             logger.warn(`To the person with the identifier: ${person_ready_for_kartoffel.mail} has not have "userPrincipalName" field at ads`);
         };
-        // Checking if the person is already exist in Kartoffel and accept his object from Kartoffel
+        // Checking if the pers on is already exist in Kartoffel and accept his object from Kartoffel
         try {
             // if the person is already exist in Kartoffel => only add secondary user.
             let identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
             if (identifier) {
                 const person = await axios.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
-                let isPrimary = (currentUnit_to_DataSource.get(record[fn.aka.unitName]) === dataSource) ? true : false;
+                let isPrimary = (currentUnit_to_DataSource.get(person.data.currentUnit) === dataSource) ? true : false;
                 await domainUserHandler(person.data, person_ready_for_kartoffel, record, isPrimary, dataSource);
             }
             else {
@@ -49,7 +57,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                     let person = await axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     logger.info(`The person with the personalNumber: ${person.data.personalNumber || person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
                     // add domain user for the new preson 
-                    let isPrimary = (currentUnit_to_DataSource.get(record[fn.aka.unitName]) === dataSource) ? true : false;
+                    let isPrimary = (currentUnit_to_DataSource.get(person.data.currentUnit) === dataSource) ? true : false;
                     await domainUserHandler(person.data, person_ready_for_kartoffel, record, isPrimary, dataSource);
                 }
                 catch (err) {
