@@ -30,8 +30,8 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
             let identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
             if (identifier) {
                 const person = await axios.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
-                //**** WAITING FOR DOMAINUSER CRUD FOR SWITCHING BETWEEN PRAIMARY TO SECONDARY IF NEEDED****
-                await domainUserHandler(person.data, person_ready_for_kartoffel, record, false, dataSource);
+                let isPrimary = (currentUnit_to_DataSource.get(record[fn.aka.unitName]) === dataSource) ? true : false;
+                await domainUserHandler(person.data, person_ready_for_kartoffel, record, isPrimary, dataSource);
             }
             else {
                 logger.warn(`There is no identifier to the person: ${JSON.stringify(person_ready_for_kartoffel)}`);
