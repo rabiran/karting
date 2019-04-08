@@ -6,6 +6,7 @@ const logger = require('./logger');
 const domainUserHandler = require('./domainUserHandler');
 const identifierHandler = require('./identifierHandler');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
+const fn = require('../config/fieldNames');
 
 require('dotenv').config();
 /*
@@ -29,6 +30,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
             let identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
             if (identifier) {
                 const person = await axios.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
+                //**** WAITING FOR DOMAINUSER CRUD FOR SWITCHING BETWEEN PRAIMARY TO SECONDARY IF NEEDED****
                 await domainUserHandler(person.data, person_ready_for_kartoffel, record, false, dataSource);
             }
             else {
@@ -44,10 +46,11 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                 person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
                 try {
-                    let perosn = await axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
+                    let person = await axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     logger.info(`The person with the personalNumber: ${person.data.personalNumber || person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
-                    // add primary domain user for the new preson
-                    await domainUserHandler(person.data, person_ready_for_kartoffel, record, true, dataSource);
+                    // add domain user for the new preson 
+                    let isPrimary = (currentUnit_to_DataSource.get(record[fn.aka.unitName]) === dataSource) ? true : false;
+                    await domainUserHandler(person.data, person_ready_for_kartoffel, record, isPrimary, dataSource);
                 }
                 catch (err) {
                     let errMessage = err.response ? err.response.data : err.message;

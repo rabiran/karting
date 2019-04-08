@@ -91,25 +91,25 @@ const devSchedual = async () => {
          diffsHandler(esDiffs, "es", aka_data.all);
     });
     // get the new json from ads & save him on the server
-    let ads_Data = ads().then((adsDiff)=>{
-        diffsHandler(adsDiff, "ads", aka_data.all);
-    });
+    // let ads_Data = ads().then((adsDiff)=>{
+    //     diffsHandler(adsDiff, "ads", aka_data.all);
+    // });
     // get the new json from nn & save him on the server
-    let adNN_Data = adNN().then((adNNDiff)=>{
-        diffsHandler(adNNDiff, "adNN", aka_data.all);
-    });
+    // let adNN_Data = adNN().then((adNNDiff)=>{
+    //     diffsHandler(adNNDiff, "adNN", aka_data.all);
+    // });
     // get the new json from mm & save him on the server
-    let nvMM_Data = nvMM().then((nvMMDiffs) => {
-         diffsHandler(nvMMDiffs, "nvSQL", aka_data.all);
-    });
+    // let nvMM_Data = nvMM().then((nvMMDiffs) => {
+    //      diffsHandler(nvMMDiffs, "nvSQL", aka_data.all);
+    // });
     // get the new json from lmn & save him on the server
-    let nvLMN_Data = nvLMN().then((nvLMNDiff)=>{
-        diffsHandler(nvLMNDiff, "nvSQL", aka_data.all);
-    });
+    // let nvLMN_Data = nvLMN().then((nvLMNDiff)=>{
+    //     diffsHandler(nvLMNDiff, "nvSQL", aka_data.all);
+    // });
     // get the new json from mdn & save him on the server
-    let nvMDN_Data = nvMDN().then((nvMDNDiff)=>{
-        diffsHandler(nvMDNDiff, "nvSQL", aka_data.all);
-    });
+    // let nvMDN_Data = nvMDN().then((nvMDNDiff)=>{
+    //     diffsHandler(nvMDNDiff, "nvSQL", aka_data.all);
+    // });
 
 
     // update the person's fields that update in the last iteration of Karting
