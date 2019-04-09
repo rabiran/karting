@@ -29,7 +29,7 @@ module.exports = (updateData, path, previous_data_file_name, comparison_field) =
     }
 
     // Finds the differences between the last two " data" files 
-    const data_diff = diff(previous_data, updateData, comparison_field, { updateValues: 2 });
+    const data_diff = diff(previous_data, updateData, comparison_field, { updatedValues: 4 });
 
     return {
         added: data_diff.added,
