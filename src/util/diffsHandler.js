@@ -19,14 +19,6 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
 
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
-        // check if the current unit from aka belong to our orginization, if not the loop will continue to the next iteration
-        
-        
-        
-        if (!currentUnit_to_DataSource.get(record[fn.aka.unitName])){ continue;}
-
-
-
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         // Define the unique changes for each "dataSource"
         if (dataSource === "ads" && !person_ready_for_kartoffel.entityType) {
@@ -54,6 +46,11 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                 person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
                 try {
+                    // check if the current unit from aka belong to our orginization, if not the loop will continue to the next iteration
+                    if (!currentUnit_to_DataSource.get(person_ready_for_kartoffel.currentUnit) && person_ready_for_kartoffel.entityType === fn.entityTypeValue.s) {
+                        logger.warn(`Ignoring from this person because his currentUnit is not from ${fn.rootHierarchy}.  ${JSON.stringify(person_ready_for_kartoffel)}`);
+                        continue;
+                    }
                     let person = await axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     logger.info(`The person with the personalNumber: ${person.data.personalNumber || person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
                     // add domain user for the new preson 
