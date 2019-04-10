@@ -20,11 +20,8 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
-        // Define the unique changes for each "dataSource"
-        if (dataSource === "ads" && !person_ready_for_kartoffel.entityType) {
-            logger.warn(`To the person with the identifier: ${person_ready_for_kartoffel.mail} has not have "userPrincipalName" field at ads`);
-        };
-        // Checking if the pers on is already exist in Kartoffel and accept his object from Kartoffel
+
+        // Checking if the person is already exist in Kartoffel and accept his object
         try {
             // if the person is already exist in Kartoffel => only add secondary user.
             let identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
@@ -70,9 +67,36 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
     }
 }
 const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
-    // recognize the specific field that updated
+    for (let i = 0; i < diffsObj.length; i++) {
+        const record = diffsObj[i];
 
-    // like the visio
+        record[2].map((deepDiffRecord) => {
+            switch (deepDiffRecord.kind) {
+                case "N":
+                    console.log("N");
+                    break;
+                case "D":
+                    console.log("D");
+                    break;
+                case "E":
+                    console.log("E");
+                    break;
+                case "A":
+                    console.log("A");
+                    break;
+                default:
+                    // logger.warn(`the deepDiff kind of the updated person is not recognized ${JSON.stringify(deepDiffRecord)}`);
+                    break;
+
+
+            }
+        });
+
+
+
+
+    }
+
 }
 
 module.exports = (diffsObj, dataSource, aka_all_data) => {

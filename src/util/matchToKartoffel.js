@@ -366,6 +366,9 @@ module.exports = async (origin_obj, dataSource) => {
             break;
         case "ads":
             match_ads(obj);
+            if (!obj.entityType) {
+                logger.warn(`To the person with the identifier: ${obj.mail} has not have "userPrincipalName" field at ads`);
+            };
             break;
         case "adNN":
             match_adNN(obj);
