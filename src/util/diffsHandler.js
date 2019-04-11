@@ -68,28 +68,26 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
 }
 const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
     for (let i = 0; i < diffsObj.length; i++) {
-        const record = diffsObj[i];
-
-        record[2].map((deepDiffRecord) => {
+        const record = diffsObj[i][2];
+        record.map((deepDiffRecord) => {
+            let objForUpdate = {};
             switch (deepDiffRecord.kind) {
-                case "N":
+                case "N" :
                     console.log("N");
-                    break;
-                case "D":
-                    console.log("D");
+                    objForUpdate[deepDiffRecord.path[0]]= deepDiffRecord.rhs;
                     break;
                 case "E":
+                    objForUpdate[deepDiffRecord.path[0]]= deepDiffRecord.rhs;
                     console.log("E");
                     break;
-                case "A":
-                    console.log("A");
-                    break;
                 default:
-                    // logger.warn(`the deepDiff kind of the updated person is not recognized ${JSON.stringify(deepDiffRecord)}`);
+                    logger.warn(`the deepDiff kind of the updated person is not recognized ${JSON.stringify(deepDiffRecord)}`);
                     break;
 
 
             }
+            objForUpdate = await matchToKartoffel(objForUpdate, dataSource);
+            console.log(objForUpdate);
         });
 
 

@@ -7,7 +7,6 @@ const adNN = require('./adNN/adNN_syncData');
 const nvMM = require('./nvSql/mm_synchronizeData');
 const nvLMN = require('./nvSql/lmn_synchronizeData');
 const nvMDN = require('./nvSql/mdn_synchronizeData');
-const matchToKartoffel = require('./util/matchToKartoffel');
 const fn = require('./config/fieldNames');
 const p = require('./config/paths');
 const diffsHandler = require('./util/diffsHandler');
@@ -110,30 +109,6 @@ const devSchedual = async () => {
     // let nvMDN_Data = nvMDN().then((nvMDNDiff)=>{
     //     diffsHandler(nvMDNDiff, "nvSQL", aka_data.all);
     // });
-
-
-    // update the person's fields that update in the last iteration of Karting
-    for (aka_record of aka_data.updated) {
-        // Checking if the person already exist and accept his object from Kartoffel
-        await axios.get(`${p(aka_record[fn.aka.identityCard]).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`)
-            // if the person already exist in Kartoffel => only update the person.
-            .then(async (person) => {
-                let person_ready_for_kartoffel = matchToKartoffel(aka_record, "aka");
-                await axios.put(`${p(person.data.id).KARTOFFEL_UPDATE_PERSON_API}`, person_ready_for_kartoffel)
-                    .then(() => {
-                        logger.info(`The person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data successfully update in Kartoffel`);
-                    })
-                    .catch(err => {
-                        logger.warn(`The person with identityCard: ${person_ready_for_kartoffel.identityCard} from aka_raw_data not exist in Kartoffel. The Kartoffel message:"${err.response.data}"`);
-                    })
-            })
-
-            // if the person does not exist in Kartoffel => ignore from the record
-            .catch(err => {
-                let errorMessage = (err.response) ? err.response.data : err.message;
-                logger.warn(`Not update the person with identityCard: ${aka_record[fn.aka.identityCard]} from aka_raw_data. The error message:"${errorMessage}"`);
-            });
-    }
 
 
     //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
