@@ -1,4 +1,5 @@
 const p = require('../config/paths');
+const fn = require('../config/fieldNames');
 const matchToKartoffel = require('./matchToKartoffel');
 const axios = require('axios');
 const completeFromAka = require('./completeFromAka');
@@ -6,7 +7,7 @@ const logger = require('./logger');
 const domainUserHandler = require('./domainUserHandler');
 const identifierHandler = require('./identifierHandler');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
-const fn = require('../config/fieldNames');
+const updateSpecificFields = require("./updateSpecificFields");
 
 require('dotenv').config();
 /*
@@ -68,33 +69,23 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
 }
 const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
     for (let i = 0; i < diffsObj.length; i++) {
-        const record = diffsObj[i][2];
-        record.map((deepDiffRecord) => {
-            let objForUpdate = {};
-            switch (deepDiffRecord.kind) {
-                case "N" :
-                    console.log("N");
-                    objForUpdate[deepDiffRecord.path[0]]= deepDiffRecord.rhs;
-                    break;
-                case "E":
-                    objForUpdate[deepDiffRecord.path[0]]= deepDiffRecord.rhs;
-                    console.log("E");
-                    break;
-                default:
-                    logger.warn(`the deepDiff kind of the updated person is not recognized ${JSON.stringify(deepDiffRecord)}`);
-                    break;
-
-
+        const record = diffsObj[i];
+        if (dataSource === "aka") {
+            updateSpecificFields(record);
+        }
+        else {
+            let identifier = record[0][fn[dataSource].personalNumber] || record[0][fn[dataSource].identityCard];
+            let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
+            if (currentUnit_to_DataSource.get(akaRecord.currentUnit)=== dataSource){
+                //!!!!!! CHECK IF THE FIELD THAT UPDATE IS AKA SHIELD !!!!!
+                updateSpecificFields(record);
             }
-            objForUpdate = await matchToKartoffel(objForUpdate, dataSource);
-            console.log(objForUpdate);
-        });
-
-
-
-
+            else{
+                //!!!!! CHECK IF THE FIELD THAT UPDATE IS DOMAINUSER !!!!!
+                logger.warn(`The data about the person with the identifier ${identifier} updated but not saved in kartoffel because the dataSource '${dataSource}' is not match to the person's currentUnit '${currentUnit_to_DataSource.get(akaRecord.currentUnit)}'`);
+            }
+        }
     }
-
 }
 
 module.exports = (diffsObj, dataSource, aka_all_data) => {
