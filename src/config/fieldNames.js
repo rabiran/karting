@@ -33,6 +33,19 @@ module.exports = {
         domainSuffix:"@es",
         userName:"userName",
     },
+    excel: {
+        entityType: "entityType",
+        firstName: "firstName",
+        lastName: "lastName",
+        identityCard: "tz",
+        personalNumber: "mi",
+        rank: "rnk",
+        phone: "telephone",
+        mobilePhone: "telephone",
+        hierarchy: "hr",
+        mail: "mail",
+        job: "job"
+    },
     ads:{
         firstName: "KfirstName",
         lastName: "KlastName",
