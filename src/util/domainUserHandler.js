@@ -3,10 +3,20 @@ const p = require('../config/paths');
 const axios = require('axios');
 const logger = require('./logger');
 
-module.exports = async (person, person_ready_for_kartoffel, record, isPrimary, dataSource) => {
+
+/**
+ *This module create domainUser (primary or secondary) for person, using the unique properties of each dataSource
+ *
+ * @param {*} person The Person object that returned from kartoffel
+ * @param {*} record The raw object that coming from the dataSource
+ * @param {*} isPrimary Define if create primary or secondary domainUser
+ * @param {*} dataSource The dataSource of the object
+ * 
+ *  */
+module.exports = async (person, record, isPrimary, dataSource) => {
     let user_object = {
         personId: person.id,
-        uniqueID: person_ready_for_kartoffel.mail,
+        uniqueID: record[fn[dataSource].mail],
         isPrimary: isPrimary,
     };
 

@@ -29,7 +29,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
             if (identifier) {
                 const person = await axios.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
                 let isPrimary = (currentUnit_to_DataSource.get(person.data.currentUnit) === dataSource) ? true : false;
-                await domainUserHandler(person.data, person_ready_for_kartoffel, record, isPrimary, dataSource);
+                await domainUserHandler(person.data, record, isPrimary, dataSource);
             }
             else {
                 logger.warn(`There is no identifier to the person: ${JSON.stringify(person_ready_for_kartoffel)}`);
@@ -53,7 +53,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                     logger.info(`The person with the personalNumber: ${person.data.personalNumber || person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
                     // add domain user for the new preson 
                     let isPrimary = (currentUnit_to_DataSource.get(person.data.currentUnit) === dataSource) ? true : false;
-                    await domainUserHandler(person.data, person_ready_for_kartoffel, record, isPrimary, dataSource);
+                    await domainUserHandler(person.data, record, isPrimary, dataSource);
                 }
                 catch (err) {
                     let errMessage = err.response ? err.response.data : err.message;
@@ -71,22 +71,30 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
         if (dataSource === "aka") {
-            updateSpecificFields(record);
+            updateSpecificFields(record[2]);
         }
         else {
             let identifier = record[0][fn[dataSource].personalNumber] || record[0][fn[dataSource].identityCard];
             let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
-            if (currentUnit_to_DataSource.get(akaRecord.currentUnit)=== dataSource){
-                //!!!!!! CHECK IF THE FIELD THAT UPDATE IS AKA SHIELD !!!!!
-                updateSpecificFields(record);
+            if (currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) === dataSource) {
+                // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
+                updateSpecificFields(record[2].filter((deepDiffObj) => {
+                    let include = fn.akaRigid.includes(deepDiffObj.path.toString())
+                    include ? null : logger.warn(`The field '${deepDiffObj.path.toString()}' of the person with the identifier ${identifier} from the dataSource '${dataSource}' is not update because is rigid to Aka`);
+                    return !include;
+                }));
             }
-            else{
+            else {
                 //!!!!! CHECK IF THE FIELD THAT UPDATE IS DOMAINUSER !!!!!
+                // record[2].filter(deepDiffObj => return deepDiffObj.path.toString()==="")
                 logger.warn(`The data about the person with the identifier ${identifier} updated but not saved in kartoffel because the dataSource '${dataSource}' is not match to the person's currentUnit '${currentUnit_to_DataSource.get(akaRecord.currentUnit)}'`);
             }
         }
     }
 }
+
+
+
 
 module.exports = (diffsObj, dataSource, aka_all_data) => {
     //added the new person from es to Kartoffel

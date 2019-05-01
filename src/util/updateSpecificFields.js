@@ -1,5 +1,11 @@
-const updateSpecificFields = (record) => {
-    record[2].map(async (deepDiffRecord) => {
+
+
+/**
+ * This module accept an array that contain DeepDiff objects and build from them object for the PUT request to Kartoffel
+ * @param {*} deepDiffArray Array of DeepDiff objects  
+ */
+const updateSpecificFields = (deepDiffArray) => {
+    deepDiffArray.map(async (deepDiffRecord) => {
         let objForUpdate = {};
         switch (deepDiffRecord.kind) {
             case "N":
