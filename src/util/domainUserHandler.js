@@ -29,6 +29,7 @@ module.exports = async (person, record, isPrimary, dataSource) => {
     (dataSource === "es" && record[fn.es.userName]) ?
         user_object.uniqueID = `${record[fn.es.userName]}${fn.es.domainSuffix}` :
         logger.warn(`The user with the identifier ${person.identityCard || person.personalNumber} from ${dataSource} does not have ${fn.es.userName} field`);
+
     if (!user_object.uniqueID) {
         return;
     }
@@ -47,9 +48,9 @@ module.exports = async (person, record, isPrimary, dataSource) => {
 
     try {
         const user = await axios.post(p().KARTOFFEL_DOMAIN_USER_API, user_object);
-        logger.info(`Create the ${(isPrimary) ? "primary" : "secondary"} user ${user_object.uniqueID} to the person with the idetifier: ${user.data.personalNumber || user.data.identityCard} from ${dataSource} successfully.`);
+        logger.info(`Add ${(isPrimary) ? "primary" : "secondary"} user ${user_object.uniqueID} to the person with the idetifier: ${user.data.personalNumber || user.data.identityCard} from ${dataSource} successfully.`);
     } catch (err) {
-        logger.error(`Not create ${(isPrimary) ? "primary" : "secondary"} user to person with the identifier: ${person.mail} to the person with the idetifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${err.response.data}"`);
+        logger.error(`Not add ${(isPrimary) ? "primary" : "secondary"} user to person with the identifier: ${person.mail} to the person with the idetifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${err.response.data}"`);
     }
 
 } 

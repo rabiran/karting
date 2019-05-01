@@ -85,8 +85,14 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
                 }));
             }
             else {
-                //!!!!! CHECK IF THE FIELD THAT UPDATE IS DOMAINUSER !!!!!
-                // record[2].filter(deepDiffObj => return deepDiffObj.path.toString()==="")
+                // Add secondary domain user from the record if the required data exist
+                try {
+                    let person = await axios.get(P(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING);
+                    domainUserHandler(person, record, false, dataSource);
+                }
+                catch (err) {
+                    logger.err(`Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' when trying to add him dumainUser at update flow. The error message: "${err}"`);
+                }
                 logger.warn(`The data about the person with the identifier ${identifier} updated but not saved in kartoffel because the dataSource '${dataSource}' is not match to the person's currentUnit '${currentUnit_to_DataSource.get(akaRecord.currentUnit)}'`);
             }
         }
