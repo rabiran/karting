@@ -78,6 +78,7 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
         else {
             let identifier = record[0][fn[dataSource].personalNumber] || record[0][fn[dataSource].identityCard];
             let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
+            // Check if the dataSource of the record is the primary dataSource for the person
             if (currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) === dataSource) {
                 // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
                 updateSpecificFields(record[2].filter((deepDiffObj) => {

@@ -26,6 +26,6 @@ module.exports = pathsHandler = (param) => {
         KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API: `${kartoffelUrl}/api/organizationGroups/path/${param}`,
 
         // Kartoffel - domainUser
-        KARTOFFEL_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/domainUser`,
+        KARTOFFEL_ADD_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers`,
     }
 }
