@@ -17,7 +17,9 @@ require('dotenv').config();
  */
 
 const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
-
+    if (dataSource === "aka") {
+        return;
+    }
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
         let person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
