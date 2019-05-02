@@ -73,29 +73,33 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
         if (dataSource === "aka") {
-            updateSpecificFields(record[2]);
+            updateSpecificFields(record[2], dataSource);
         }
         else {
             let identifier = record[0][fn[dataSource].personalNumber] || record[0][fn[dataSource].identityCard];
             let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
+            // Get the person object from kartoffel for adding him domainUser
+            const person = await axios.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
+                .catch((err) => {
+                    logger.err(`Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' at update flow. The error message: "${err}"`);
+                });
+
             // Check if the dataSource of the record is the primary dataSource for the person
             if (currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) === dataSource) {
                 // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
-                updateSpecificFields(record[2].filter((deepDiffObj) => {
-                    let include = fn.akaRigid.includes(deepDiffObj.path.toString())
-                    include ? null : logger.warn(`The field '${deepDiffObj.path.toString()}' of the person with the identifier ${identifier} from the dataSource '${dataSource}' is not update because is rigid to Aka`);
+                let deepDiffForUpdate = record[2].filter((deepDiffObj) => {
+                    let include = fn.akaRigid.includes(deepDiffObj.path.toString());
+                    include ? logger.warn(`The field '${deepDiffObj.path.toString()}' of the person with the identifier ${identifier} from the dataSource '${dataSource}' is not update because is rigid to Aka`) : null;
                     return !include;
-                }));
+                })
+                if (deepDiffForUpdate.length > 0) {
+                    updateSpecificFields(deepDiffForUpdate, dataSource);
+                    await domainUserHandler(person.data, record, true, dataSource);
+                };
             }
             else {
-                // Add secondary domain user from the record if the required data exist
-                try {
-                    let person = await axios.get(P(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING);
-                    domainUserHandler(person, record, false, dataSource);
-                }
-                catch (err) {
-                    logger.err(`Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' when trying to add him dumainUser at update flow. The error message: "${err}"`);
-                }
+                // Add secondary domain user from the record (if the required data exist)
+                await domainUserHandler(person.data, record, false, dataSource);
                 logger.warn(`The data about the person with the identifier ${identifier} updated but not saved in kartoffel because the dataSource '${dataSource}' is not match to the person's currentUnit '${currentUnit_to_DataSource.get(akaRecord.currentUnit)}'`);
             }
         }
@@ -103,10 +107,8 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
 }
 
 
-
-
 module.exports = (diffsObj, dataSource, aka_all_data) => {
     //added the new person from es to Kartoffel
-    added(diffsObj.added, dataSource, aka_all_data, currentUnit_to_DataSource);
-    updated(diffsObj.updated, dataSource, aka_all_data, currentUnit_to_DataSource);
+    if (diffsObj.added.length > 0) { added(diffsObj.added, dataSource, aka_all_data, currentUnit_to_DataSource); }
+    if (diffsObj.updated.length > 0) { updated(diffsObj.updated, dataSource, aka_all_data, currentUnit_to_DataSource); }
 }

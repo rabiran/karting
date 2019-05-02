@@ -5,9 +5,7 @@ const axios = require('axios');
 const hierarchyHandler = require('./hierarchyHandler');
 const logger = require('./logger');
 require('dotenv').config();
-/*
-This module match the fields of given object (raw_data) to Kartoffel fields structure.
-*/
+
 
 const match_aka = (obj) => {
     const objKeys = Object.keys(obj);
@@ -251,14 +249,14 @@ const match_adNN = (obj) => {
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
 
                 // Getting job
-                if(obj[rawKey].includes("-")) {
-                    if(obj[rawKey].includes("\\")) {
-                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("\\") + 1).replace(/-/g,"").trim()
+                if (obj[rawKey].includes("-")) {
+                    if (obj[rawKey].includes("\\")) {
+                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("\\") + 1).replace(/-/g, "").trim()
                     } else {
-                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("/") + 1).replace(/-/g,"").trim()
+                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("/") + 1).replace(/-/g, "").trim()
                     }
-                    if(obj[rawKey].includes(obj[fn.adNN.fullName])) {
-                        job = job.replace(obj[fn.adNN.fullName],"").trim()
+                    if (obj[rawKey].includes(obj[fn.adNN.fullName])) {
+                        job = job.replace(obj[fn.adNN.fullName], "").trim()
                     }
                     obj.job = job
                 }
@@ -267,15 +265,15 @@ const match_adNN = (obj) => {
                 break;
             //personalNumber or identity card
             case fn.adNN.sAMAccountName:
-                if(obj[rawKey].toLowerCase().includes(fn.adNN.extension)) {
+                if (obj[rawKey].toLowerCase().includes(fn.adNN.extension)) {
                     uniqueNum = obj[rawKey].toLowerCase().replace(fn.adNN.extension, "")
-                 } else {
+                } else {
                     logger.warn(`User with id ${obj[rawKey]} is not ${fn.adNN.extension} extension`);
-                    break; 
-                 }
-                 if(validators(uniqueNum).identityCard) {
+                    break;
+                }
+                if (validators(uniqueNum).identityCard) {
                     obj.identityCard = uniqueNum;
-                } else if(validators().personalNumber.test(uniqueNum)){
+                } else if (validators().personalNumber.test(uniqueNum)) {
                     obj.personalNumber = uniqueNum;
                 }
 
@@ -334,13 +332,14 @@ const match_nv_sql = (obj) => {
     })
 };
 
-directGroupHandler = async (record, dataSource) => {
+
+directGroupHandler = async (record) => {
     hr = encodeURIComponent(record.hierarchy)
     let directGroup;
     await axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async (result) => {
             // This module accept person hierarchy and check if the hierarchy exit.
-            // If yes- the modue return the last hierarchy's objectID,
+            // If yes- the module return the last hierarchy's objectID,
             // else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
             let directGroupID = await hierarchyHandler(result.data, record.hierarchy);
             directGroup = directGroupID;
@@ -354,7 +353,14 @@ directGroupHandler = async (record, dataSource) => {
     return directGroup;
 };
 
-
+/**
+ *This module match the fields of given person object from the raw data to Kartoffel fields structure according to its dataSource 
+ *and build his hierarchy if needed 
+ * 
+ * @param {*} origin_obj raw object of person from specific dataSource
+ * @param {*} dataSource the dataSource of the raw person object
+ * @returns person object according to the structure of kartoffel
+ */
 module.exports = async (origin_obj, dataSource) => {
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
@@ -387,11 +393,8 @@ module.exports = async (origin_obj, dataSource) => {
 
 
     if (obj.hierarchy && dataSource !== "aka") {
-        obj.directGroup = await directGroupHandler(obj, dataSource);
+        obj.directGroup = await directGroupHandler(obj);
         delete obj.hierarchy;
-    }
-    else {
-        (dataSource !== "aka") ? logger.warn(`There is no hierarchy to the person: ${JSON.stringify(obj)}`) : null;
     }
 
     return obj;

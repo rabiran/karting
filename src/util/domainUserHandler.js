@@ -26,8 +26,7 @@ module.exports = async (person, record, isPrimary, dataSource) => {
     (dataSource === "nvSQL" && record[fn.nv.uniqueID]) ?
         user_object.uniqueID = record[fn.nv.uniqueID].toLowerCase() : null;
     (dataSource === "es" && record[fn.es.userName]) ?
-        user_object.uniqueID = `${record[fn.es.userName]}${fn.es.domainSuffix}` :
-        logger.warn(`The user with the identifier ${person.identityCard || person.personalNumber} from ${dataSource} does not have ${fn.es.userName} field`);
+        user_object.uniqueID = `${record[fn.es.userName]}${fn.es.domainSuffix}` : null;
 
     if (!user_object.uniqueID) {
         return;
