@@ -94,12 +94,13 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
                 })
                 if (deepDiffForUpdate.length > 0) {
                     updateSpecificFields(deepDiffForUpdate, dataSource, person.data);
-                    await domainUserHandler(person.data, record, true, dataSource);
+                    await domainUserHandler(person.data, record[1], true, dataSource);
                 };
             }
             else {
                 // Add secondary domain user from the record (if the required data exist)
-                await domainUserHandler(person.data, record, false, dataSource);
+                await domainUserHandler(person.data, record[1], false, dataSource);
+                // !!!NEED TO CHANGE THE LOG IF THE FIELD THAT UPDATED IS DOMAINUSER!!!
                 logger.warn(`The data about the person with the identifier ${identifier} updated but not saved in kartoffel because the dataSource '${dataSource}' is not match to the person's currentUnit '${currentUnit_to_DataSource.get(akaRecord.currentUnit)}'`);
             }
         }

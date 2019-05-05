@@ -25,13 +25,7 @@ const updateSpecificFields = (deepDiffArray, dataSource, person) => {
                 break;
         }
         objForUpdate = await matchToKartoffel(objForUpdate, dataSource);
-        
 
-        // // NEED TO POST THIS OBJECT TO KARTOFFEL
-        // console.log(objForUpdate);
-
-
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // Update the person object
         try {
             await axios.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate);
@@ -41,7 +35,6 @@ const updateSpecificFields = (deepDiffArray, dataSource, person) => {
             let errMessage = err.response ? err.response.data : err.message;
             logger.error(`Not update the person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${errMessage}" ${JSON.stringify(objForUpdate)}`);
         }
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     });
 }
