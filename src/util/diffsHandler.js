@@ -52,14 +52,14 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                         continue;
                     }
                     let person = await axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
-                    logger.info(`The person with the personalNumber: ${person.data.personalNumber || person.data.identityCard} from ${dataSource}_complete_data successfully insert to Kartoffel`);
+                    logger.info(`The person with the identifier: ${person.data.personalNumber || person.data.identityCard} from ${dataSource} successfully insert to Kartoffel`);
                     // add domain user for the new preson 
                     let isPrimary = (currentUnit_to_DataSource.get(person.data.currentUnit) === dataSource) ? true : false;
                     await domainUserHandler(person.data, record, isPrimary, dataSource);
                 }
                 catch (err) {
                     let errMessage = err.response ? err.response.data : err.message;
-                    logger.error(`Not insert the person with the personalNumber: ${person_ready_for_kartoffel.personalNumber || person_ready_for_kartoffel.identityCard} from ${dataSource}_complete_data to Kartoffel. The error message:"${errMessage}" ${JSON.stringify(record)}`);
+                    logger.error(`Not insert the person with the identifier: ${person_ready_for_kartoffel.personalNumber || person_ready_for_kartoffel.identityCard} from ${dataSource} to Kartoffel. The error message:"${errMessage}" ${JSON.stringify(record)}`);
                 }
             }
             else {
@@ -72,18 +72,18 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
 const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
+        let identifier = record[0][fn[dataSource].personalNumber] || record[0][fn[dataSource].identityCard];
+        // Get the person object from kartoffel
+        const person = await axios.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
+            .catch((err) => {
+                logger.err(`Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' at update flow. The error message: "${err}"`);
+            });
+
         if (dataSource === "aka") {
-            updateSpecificFields(record[2], dataSource);
+            updateSpecificFields(record[2], dataSource, person.data);
         }
         else {
-            let identifier = record[0][fn[dataSource].personalNumber] || record[0][fn[dataSource].identityCard];
             let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
-            // Get the person object from kartoffel for adding him domainUser
-            const person = await axios.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
-                .catch((err) => {
-                    logger.err(`Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' at update flow. The error message: "${err}"`);
-                });
-
             // Check if the dataSource of the record is the primary dataSource for the person
             if (currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) === dataSource) {
                 // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
@@ -93,7 +93,7 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
                     return !include;
                 })
                 if (deepDiffForUpdate.length > 0) {
-                    updateSpecificFields(deepDiffForUpdate, dataSource);
+                    updateSpecificFields(deepDiffForUpdate, dataSource, person.data);
                     await domainUserHandler(person.data, record, true, dataSource);
                 };
             }
