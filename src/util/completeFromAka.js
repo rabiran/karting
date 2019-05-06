@@ -7,21 +7,29 @@ This module add fields from aka to given object.
 
 const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
-    obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.currentUnit = akaRecord[fn.aka.unitName];
-}
-
-const complete_ads = (obj, akaRecord) => {
-    validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
     obj.firstName = akaRecord[fn.aka.firstName];
+    obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
     validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
     validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
+    
+}
+
+const complete_ads = (obj, akaRecord) => {
+    validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
+    obj.firstName = akaRecord[fn.aka.firstName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
+    obj.lastName = akaRecord[fn.aka.lastName];
+    obj.rank = akaRecord[fn.aka.rank];
+    validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
+    validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
+  
 }
 
 const complete_adNN = (obj, akaRecord) => {

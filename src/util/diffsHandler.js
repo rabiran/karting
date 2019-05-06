@@ -32,7 +32,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
             if (identifier) {
                 const person = await axios.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
 
-                let isPrimary = (currentUnit_to_DataSource.get(person.data.currentUnit) === dataSource) ? true : false;
+                let isPrimary = (currentUnit_to_DataSource.get(person.data.currentUnit) === dataSource);
                 if (isPrimary) {
                     let personFromKartoffel = {};
                     Object.keys(person.data).filter(key => { return fn.fieldsForKartoffel.includes(key) }).map(key => {
