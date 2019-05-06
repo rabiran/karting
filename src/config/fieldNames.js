@@ -74,5 +74,6 @@ module.exports = {
         minute: 54
     },
     akaRigid: ["clearance", "identityCard", "personalNumber", "firstName", "lastName", "dischargeDay", "rank", "address", "mobilePhone", "phone", "serviceType"],
+    fieldsForKartoffel: ['address', 'clearance', 'currentUnit', 'directGroup', 'dischargeDay', 'entityType', 'firstName', 'identityCard', 'job', 'lastName', 'mail', 'mobilePhone', 'personalNumber', 'phone', 'rank', 'serviceType'],
     kartoffelUrl: "http://localhost:3000",
 };

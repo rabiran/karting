@@ -28,12 +28,12 @@ const match_aka = (obj) => {
                 break;
             //identityCard
             case fn.aka.identityCard:
-                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
             case fn.aka.personalNumber:
-                obj.personalNumber = obj[rawKey];
+                obj.personalNumber = obj[rawKey].toString();
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //rank
@@ -95,12 +95,12 @@ const match_es = (obj) => {
                 break;
             //identityCard
             case fn.es.identityCard:
-                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString(): null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
             case fn.es.personalNumber:
-                obj.personalNumber = obj[rawKey];
+                obj.personalNumber = obj[rawKey].toString();
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //rank
@@ -207,8 +207,8 @@ const match_ads = (obj) => {
                         logger.warn(`Not inserted entity type for the user with the upn ${obj[rawKey]} from ads`);
                 }
                 let identityCardCandidate = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0];
-                (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate : null;
-                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0] : null;
+                (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate.toString() : null;
+                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0].toString() : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             default:
@@ -272,9 +272,9 @@ const match_adNN = (obj) => {
                     break;
                 }
                 if (validators(uniqueNum).identityCard) {
-                    obj.identityCard = uniqueNum;
+                    obj.identityCard = uniqueNum.toString();
                 } else if (validators().personalNumber.test(uniqueNum)) {
-                    obj.personalNumber = uniqueNum;
+                    obj.personalNumber = uniqueNum.toString();
                 }
 
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
@@ -317,12 +317,12 @@ const match_nv_sql = (obj) => {
                 break;
             //personalNumber
             case fn.nv.pn:
-                validators().personalNumber.test(obj[rawKey]) ? obj.personalNumber = obj[rawKey] : null;
+                validators().personalNumber.test(obj[rawKey]) ? obj.personalNumber = obj[rawKey].toString() : null;
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //identity vard
             case fn.nv.identityCard:
-                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             default:

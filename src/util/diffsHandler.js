@@ -8,6 +8,7 @@ const domainUserHandler = require('./domainUserHandler');
 const identifierHandler = require('./identifierHandler');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
 const updateSpecificFields = require("./updateSpecificFields");
+const diff = require("diff-arrays-of-objects");
 
 require('dotenv').config();
 /*
@@ -26,12 +27,26 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
 
         // Checking if the person is already exist in Kartoffel and accept his object
         try {
-            // if the person is already exist in Kartoffel => only add secondary user.
+            // check if the person already exist in Kartoffel, if exist then update his data according to "currentUnit" field
             let identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
             if (identifier) {
                 const person = await axios.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
+
                 let isPrimary = (currentUnit_to_DataSource.get(person.data.currentUnit) === dataSource) ? true : false;
-                await domainUserHandler(person.data, record, isPrimary, dataSource);
+                if (isPrimary) {
+                    let personFromKartoffel = {};
+                    Object.keys(person.data).filter(key => { return fn.fieldsForKartoffel.includes(key) }).map(key => {
+                        return personFromKartoffel[key] = person.data[key];
+                    });
+                    let KeyForComparison =
+                        Object.keys(personFromKartoffel).find(key => { return personFromKartoffel[key] == identifier });
+                    let objForUpdate = diff([personFromKartoffel], [person_ready_for_kartoffel], KeyForComparison, { updatedValues: 4 });
+                    if (objForUpdate.updated.length > 0) { updated(objForUpdate.updated, dataSource, aka_all_data, currentUnit_to_DataSource); }
+                }
+                else {
+                    await domainUserHandler(person.data, record, isPrimary, dataSource);
+                }
+
             }
             else {
                 logger.warn(`There is no identifier to the person: ${JSON.stringify(person_ready_for_kartoffel)}`);
@@ -72,7 +87,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
 const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
-        let identifier = record[0][fn[dataSource].personalNumber] || record[0][fn[dataSource].identityCard];
+        let identifier = record[0][fn[dataSource].personalNumber] || record[0][fn[dataSource].identityCard] || record[0].personalNumber || record[0].identityCard;
         // Get the person object from kartoffel
         const person = await axios.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
             .catch((err) => {
