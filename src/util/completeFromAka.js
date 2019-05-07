@@ -1,9 +1,6 @@
 const fn = require('../config/fieldNames');
 const validators = require('../config/validators');
 const logger = require('./logger');
-/*
-This module add fields from aka to given object.
-*/
 
 const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
@@ -60,7 +57,14 @@ const complete_nv = (obj, akaRecord) => {
     obj.entityType = fn.entityTypeValue.s;
 }
 
-
+/**
+ * This module add fields from aka dataSource to given object
+ *
+ * @param {*} obj Object of person
+ * @param {*} akaData Aka dataSource
+ * @param {*} dataSource The dataSource of the person object
+ * @returns Object of person with the data from aka
+ */
 module.exports = (obj, akaData, dataSource) => {
     let identifier = obj.personalNumber || obj.identityCard;
     if (identifier) {

@@ -95,7 +95,7 @@ const match_es = (obj) => {
                 break;
             //identityCard
             case fn.es.identityCard:
-                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString(): null;
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
@@ -332,18 +332,21 @@ const match_nv_sql = (obj) => {
     })
 };
 
-
+/**
+ * This module accept person object and check if his hierarchy exit.
+ * If yes- the module return the last hierarchy's objectID,
+ * else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
+ * 
+ * @param {*} record Object of person after suitable to kartoffel structure
+ * @returns objectID of the last hierarchy
+ */
 directGroupHandler = async (record) => {
     hr = encodeURIComponent(record.hierarchy)
     let directGroup;
     await axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async (result) => {
-            // This module accept person hierarchy and check if the hierarchy exit.
-            // If yes- the module return the last hierarchy's objectID,
-            // else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
             let directGroupID = await hierarchyHandler(result.data, record.hierarchy);
             directGroup = directGroupID;
-
         })
         .catch((err) => {
             let identifier = record.identityCard || record.uniqueId;
