@@ -1,7 +1,7 @@
 const excelToJson = require('convert-excel-to-json');
 
 const result = excelToJson({
-    sourceFile: 'src/config/extest.xlsx',
+    sourceFile: 'src/config/dataSourcesMap.xlsx',
     columnToKey: {
         A: 'es',
         B: 'nn',
