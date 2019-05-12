@@ -35,9 +35,9 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                 let isPrimary = (currentUnit_to_DataSource.get(person.data.currentUnit) === dataSource);
                 if (isPrimary) {
                     let personFromKartoffel = {};
-                    Object.keys(person.data).filter(key => { return fn.fieldsForKartoffel.includes(key) }).map(key => {
-                        return personFromKartoffel[key] = person.data[key];
-                    });
+                    Object.keys(person.data).map((key) => {
+                        fn.fieldsForRmoveFromKartoffel.includes(key) ? delete person.data[key] : null;
+                    })
                     let KeyForComparison =
                         Object.keys(personFromKartoffel).find(key => { return personFromKartoffel[key] == identifier });
                     let objForUpdate = diff([personFromKartoffel], [person_ready_for_kartoffel], KeyForComparison, { updatedValues: 4 });
@@ -87,16 +87,18 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
 const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
-        let identifier = record[0][fn[dataSource].personalNumber] || record[0][fn[dataSource].identityCard] || record[0].personalNumber || record[0].identityCard;
+        let identifier = record[1][fn[dataSource].personalNumber] || record[1][fn[dataSource].identityCard] || record[1].personalNumber || record[1].identityCard;
         // Get the person object from kartoffel
         const person = await axios.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
             .catch((err) => {
-                logger.err(`Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' at update flow. The error message: "${err}"`);
+                logger.error(`Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' at update flow. The error message: "${err}"`);
             });
-
+        if (!person) { 
+            continue; 
+        };
         if (dataSource === "aka") {
             updateSpecificFields(record[2], dataSource, person.data);
-        }
+        }               
         else {
             let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
             // Check if the dataSource of the record is the primary dataSource for the person

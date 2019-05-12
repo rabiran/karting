@@ -10,29 +10,27 @@ const logger = require('./logger');
  * @param {*} person Person object from Kartoffel
  */
 
-const updateSpecificFields = (deepDiffArray, dataSource, person) => {
-    deepDiffArray.map(async (deepDiffRecord) => {
-        let objForUpdate = {};
+const updateSpecificFields = async (deepDiffArray, dataSource, person) => {
+    let objForUpdate = {};
+    deepDiffArray.map((deepDiffRecord) => {
         if (deepDiffRecord.kind == "N" || deepDiffRecord.kind == "E") {
             objForUpdate[deepDiffRecord.path.toString()] = deepDiffRecord.rhs;
         }
         else {
             logger.warn(`the deepDiff kind of the updated person is not recognized -"${JSON.stringify(deepDiffRecord)}"`);
         }
-
-        objForUpdate = await matchToKartoffel(objForUpdate, dataSource);
-
-        // Update the person object
-        try {
-            await axios.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate);
-            logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate)}`);
-        }
-        catch (err) {
-            let errMessage = err.response ? err.response.data : err.message;
-            logger.error(`Not update the person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${errMessage}" ${JSON.stringify(objForUpdate)}`);
-        }
-
     });
+    objForUpdate = await matchToKartoffel(objForUpdate, dataSource);
+
+    // Update the person object
+    try {
+        objForUpdate ? await axios.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate) : null;
+        logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate)}`);
+    }
+    catch (err) {
+        let errMessage = err.response ? err.response.data : err.message;
+        logger.error(`Not update the person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${errMessage}" ${JSON.stringify(objForUpdate)}`);
+    }
 }
 
 module.exports = updateSpecificFields;
