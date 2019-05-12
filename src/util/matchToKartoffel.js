@@ -332,6 +332,78 @@ const match_nv_sql = (obj) => {
     })
 };
 
+const match_excel = (obj) => {
+    const objKeys = Object.keys(obj);
+    objKeys.map((rawKey) => {
+        switch (rawKey) {
+            //entityType
+            case fn.excel.entityType:
+                obj.entityType = obj[rawKey];
+                (rawKey === "entityType") ? null : delete obj[rawKey];
+                break;
+            //firstName
+            case fn.excel.firstName:
+                obj.firstName = obj[rawKey];
+                (rawKey === "firstName") ? null : delete obj[rawKey];
+                break;
+            //lastName
+            case fn.excel.lastName:
+                obj.lastName = obj[rawKey];
+                (rawKey === "lastName") ? null : delete obj[rawKey];
+                break;
+            //identityCard
+            case fn.excel.identityCard:
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
+                (rawKey === "identityCard") ? null : delete obj[rawKey];
+                break;
+            //personalNumber
+            case fn.excel.personalNumber:
+                obj.personalNumber = obj[rawKey];
+                (rawKey === "personalNumber") ? null : delete obj[rawKey];
+                break;
+            //rank
+            case fn.excel.rank:
+                obj.rank = obj[rawKey];
+                (rawKey === "rank") ? null : delete obj[rawKey];
+                break;
+            //phone
+            case fn.excel.phone:
+                validators().phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : delete obj[rawKey];
+                (rawKey === "phone") ? null : delete obj[rawKey];
+                break;
+            //mobilePhone       
+            case fn.excel.mobilePhone:
+                validators().mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
+                (rawKey === "mobilePhone") ? null : delete obj[rawKey];
+                break;
+            //hierarchy 
+            case fn.excel.hierarchy:
+                let hr = obj[rawKey].split('/');
+                if (hr[0] == "") {
+                    delete obj[rawKey];
+                    break;
+                }
+                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                obj.hierarchy = hr.join("/");
+                (rawKey === "hierarchy") ? null : delete obj[rawKey];
+                break;
+            //job 
+            case fn.excel.job:
+                obj.job = obj[rawKey];
+                (rawKey === "job") ? null : delete obj[rawKey];
+                break;
+            //mail 
+            case fn.excel.mail:
+                obj.mail = obj[rawKey];
+                (rawKey === "mail") ? null : delete obj[rawKey];
+                break;
+            // else
+            default:
+                delete obj[rawKey];
+        };
+    });
+};
+
 /**
  * This module accept person object and check if his hierarchy exit.
  * If yes- the module return the last hierarchy's objectID,
@@ -380,6 +452,9 @@ module.exports = async (origin_obj, dataSource) => {
             if (!obj.entityType) {
                 logger.warn(`To the person with the identifier: ${obj.mail} has not have "userPrincipalName" field at ads`);
             };
+            break;
+        case "excel":
+            match_excel(obj);
             break;
         case "adNN":
             match_adNN(obj);
