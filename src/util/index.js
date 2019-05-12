@@ -1,6 +1,0 @@
-export * from "./completeFromAka"
-export * from "./dataComparison"
-export * from "./diffsHandler"
-export * from "./hierarchyHandler"
-export * from "./matchToKartoffel"
-export * from "./saveAsFile"

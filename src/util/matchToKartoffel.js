@@ -5,9 +5,7 @@ const axios = require('axios');
 const hierarchyHandler = require('./hierarchyHandler');
 const logger = require('./logger');
 require('dotenv').config();
-/*
-This module match the fields of given object (raw_data) to Kartoffel fields structure.
-*/
+
 
 const match_aka = (obj) => {
     const objKeys = Object.keys(obj);
@@ -30,12 +28,12 @@ const match_aka = (obj) => {
                 break;
             //identityCard
             case fn.aka.identityCard:
-                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
             case fn.aka.personalNumber:
-                obj.personalNumber = obj[rawKey];
+                obj.personalNumber = obj[rawKey].toString();
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //rank
@@ -97,12 +95,12 @@ const match_es = (obj) => {
                 break;
             //identityCard
             case fn.es.identityCard:
-                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
             case fn.es.personalNumber:
-                obj.personalNumber = obj[rawKey];
+                obj.personalNumber = obj[rawKey].toString();
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //rank
@@ -209,8 +207,8 @@ const match_ads = (obj) => {
                         logger.warn(`Not inserted entity type for the user with the upn ${obj[rawKey]} from ads`);
                 }
                 let identityCardCandidate = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0];
-                (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate : null;
-                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0] : null;
+                (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate.toString() : null;
+                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0].toString() : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             default:
@@ -251,14 +249,14 @@ const match_adNN = (obj) => {
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
 
                 // Getting job
-                if(obj[rawKey].includes("-")) {
-                    if(obj[rawKey].includes("\\")) {
-                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("\\") + 1).replace(/-/g,"").trim()
+                if (obj[rawKey].includes("-")) {
+                    if (obj[rawKey].includes("\\")) {
+                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("\\") + 1).replace(/-/g, "").trim()
                     } else {
-                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("/") + 1).replace(/-/g,"").trim()
+                        job = obj[rawKey].substring(obj[rawKey].lastIndexOf("/") + 1).replace(/-/g, "").trim()
                     }
-                    if(obj[rawKey].includes(obj[fn.adNN.fullName])) {
-                        job = job.replace(obj[fn.adNN.fullName],"").trim()
+                    if (obj[rawKey].includes(obj[fn.adNN.fullName])) {
+                        job = job.replace(obj[fn.adNN.fullName], "").trim()
                     }
                     obj.job = job
                 }
@@ -267,16 +265,16 @@ const match_adNN = (obj) => {
                 break;
             //personalNumber or identity card
             case fn.adNN.sAMAccountName:
-                if(obj[rawKey].toLowerCase().includes(fn.adNN.extension)) {
+                if (obj[rawKey].toLowerCase().includes(fn.adNN.extension)) {
                     uniqueNum = obj[rawKey].toLowerCase().replace(fn.adNN.extension, "")
-                 } else {
+                } else {
                     logger.warn(`User with id ${obj[rawKey]} is not ${fn.adNN.extension} extension`);
-                    break; 
-                 }
-                 if(validators(uniqueNum).identityCard) {
-                    obj.identityCard = uniqueNum;
-                } else if(validators().personalNumber.test(uniqueNum)){
-                    obj.personalNumber = uniqueNum;
+                    break;
+                }
+                if (validators(uniqueNum).identityCard) {
+                    obj.identityCard = uniqueNum.toString();
+                } else if (validators().personalNumber.test(uniqueNum)) {
+                    obj.personalNumber = uniqueNum.toString();
                 }
 
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
@@ -319,12 +317,12 @@ const match_nv_sql = (obj) => {
                 break;
             //personalNumber
             case fn.nv.pn:
-                validators().personalNumber.test(obj[rawKey]) ? obj.personalNumber = obj[rawKey] : null;
+                validators().personalNumber.test(obj[rawKey]) ? obj.personalNumber = obj[rawKey].toString() : null;
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //identity vard
             case fn.nv.identityCard:
-                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             default:
@@ -406,17 +404,21 @@ const match_excel = (obj) => {
     });
 };
 
-directGroupHandler = async (record, dataSource) => {
+/**
+ * This module accept person object and check if his hierarchy exit.
+ * If yes- the module return the last hierarchy's objectID,
+ * else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
+ * 
+ * @param {*} record Object of person after suitable to kartoffel structure
+ * @returns objectID of the last hierarchy
+ */
+directGroupHandler = async (record) => {
     hr = encodeURIComponent(record.hierarchy)
     let directGroup;
     await axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async (result) => {
-            // This module accept person hierarchy and check if the hierarchy exit.
-            // If yes- the modue return the last hierarchy's objectID,
-            // else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
             let directGroupID = await hierarchyHandler(result.data, record.hierarchy);
             directGroup = directGroupID;
-
         })
         .catch((err) => {
             let identifier = record.identityCard || record.uniqueId;
@@ -426,7 +428,14 @@ directGroupHandler = async (record, dataSource) => {
     return directGroup;
 };
 
-
+/**
+ *This module match the fields of given person object from the raw data to Kartoffel fields structure according to its dataSource 
+ *and build his hierarchy if needed 
+ * 
+ * @param {*} origin_obj raw object of person from specific dataSource
+ * @param {*} dataSource the dataSource of the raw person object
+ * @returns person object according to the structure of kartoffel
+ */
 module.exports = async (origin_obj, dataSource) => {
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
@@ -440,6 +449,9 @@ module.exports = async (origin_obj, dataSource) => {
             break;
         case "ads":
             match_ads(obj);
+            if (!obj.entityType) {
+                logger.warn(`To the person with the identifier: ${obj.mail} has not have "userPrincipalName" field at ads`);
+            };
             break;
         case "excel":
             match_excel(obj);
@@ -459,11 +471,8 @@ module.exports = async (origin_obj, dataSource) => {
 
 
     if (obj.hierarchy && dataSource !== "aka") {
-        obj.directGroup = await directGroupHandler(obj, dataSource);
+        obj.directGroup = await directGroupHandler(obj);
         delete obj.hierarchy;
-    }
-    else {
-        (dataSource !== "aka") ? logger.warn(`There is no hierarchy to the person: ${JSON.stringify(obj)}`) : null;
     }
 
     return obj;

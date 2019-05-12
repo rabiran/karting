@@ -1,26 +1,32 @@
 const fn = require('../config/fieldNames');
 const validators = require('../config/validators');
 const logger = require('./logger');
-/*
-This module add fields from aka to given object.
-*/
 
 const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
-    obj.serviceType = akaRecord[fn.aka.serviceType];
-}
-
-const complete_ads = (obj, akaRecord) => {
-    validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
+    obj.currentUnit = akaRecord[fn.aka.unitName];
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
     obj.firstName = akaRecord[fn.aka.firstName];
+    obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
     validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
     validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
+    
+}
+
+const complete_ads = (obj, akaRecord) => {
+    validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
+    obj.firstName = akaRecord[fn.aka.firstName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
+    obj.lastName = akaRecord[fn.aka.lastName];
+    obj.rank = akaRecord[fn.aka.rank];
+    validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
+    validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
+  
 }
 
 const complete_adNN = (obj, akaRecord) => {
@@ -51,7 +57,14 @@ const complete_nv = (obj, akaRecord) => {
     obj.entityType = fn.entityTypeValue.s;
 }
 
-
+/**
+ * This module add fields from aka dataSource to given object
+ *
+ * @param {*} obj Object of person
+ * @param {*} akaData Aka dataSource
+ * @param {*} dataSource The dataSource of the person object
+ * @returns Object of person with the data from aka
+ */
 module.exports = (obj, akaData, dataSource) => {
     let identifier = obj.personalNumber || obj.identityCard;
     if (identifier) {

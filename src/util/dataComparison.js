@@ -2,16 +2,15 @@ const fs = require('fs');
 const diff = require("diff-arrays-of-objects");
 const logger = require('./logger');
 
-/*
-    Finds the differences between two "data" files 
-
-    the argument meanning:
-    updateData: the data that will compared
-    path: the location of the previous_data_file, without "/" at the end of the path
-    previous_datae: the previous data file's name
-    comparison_field: The fi_file_nameld by which the comparison will be made
-*/
-
+/**
+ * Finds the differences between two files of dataSources (array of objects)
+ *
+ * @param {*} updateData The new dataSource file
+ * @param {*} path The location of the previous dataSource file (without "/" at the end of the path)
+ * @param {*} previous_data_file_name The previous dataSource file's name
+ * @param {*} comparison_field The name of the filed by which the comparison will be made
+ * @returns Array of 4 arrays that present the results of the comparison: [added,updated,same,removed] 
+ */
 module.exports = (updateData, path, previous_data_file_name, comparison_field) => {
 
     // read the data from the previous_data_file
@@ -29,7 +28,7 @@ module.exports = (updateData, path, previous_data_file_name, comparison_field) =
     }
 
     // Finds the differences between the last two " data" files 
-    const data_diff = diff(previous_data, updateData, comparison_field, { updateValues: 2 });
+    const data_diff = diff(previous_data, updateData, comparison_field, { updatedValues: 4 });
 
     return {
         added: data_diff.added,

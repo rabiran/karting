@@ -2,15 +2,6 @@ const fs = require('fs');
 const moment = require("moment");
 const logger = require('./logger');
 const shell = require('shelljs');
-/*
-    This module save log to file with formt of date and time.
-
-    the argument meanning:
-    data:the data will be saved as file
-    path: the location of the data (archive folder need to be exist at this path), without "/" at the end of the path
-    actionDescription: descripton about the meanning of the logs, show at the log.
-*/
-const dataDir = 'data';
 
 // Create the log directory if it does not exist
 const pathHandler = (path) => {
@@ -19,7 +10,14 @@ const pathHandler = (path) => {
     }
 };
 
-
+/**
+ * This module save data as file with formt of description_date_time and returned the name of the last file that stored
+ *
+ * @param {*} data The data will be saved as file
+ * @param {*} path The location where the data will be stored (without "/" at the end of the path)
+ * @param {*} actionDescription Data description for the logs and the file's name
+ * @returns The name of the last file that stored
+ */
 module.exports = (data, path, actionDescription) => {
     pathHandler(path);
     pathHandler(`${path}/archive/`);

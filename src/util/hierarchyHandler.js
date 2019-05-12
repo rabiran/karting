@@ -2,10 +2,13 @@ const axios = require('axios');
 const p = require('../config/paths');
 const logger = require('./logger');
 
-// This module accept person's hierarchy and check if the hierarchy exist.
-// If yes- the module return the last hierarchy's objectID,
-// else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
-
+/**
+ * This module create the non exist hierarchies and return the objectID of the last hierarchy.
+ *
+ * @param {*} hierarchy_obj Object from Kartoffel that contain the name of the organizationGroups as keys and their ObjectID as values or null if they not exist
+ * @param {*} hierarchy The Hierarchies description concatenated by '/'
+ * @returns ObjectID of the last hierarchy
+ */
 module.exports = async (hierarchy_obj, hierarchy) => {
     let hierarchy_arr = hierarchy.split('/');
     let hierarchyAfterProcess;
