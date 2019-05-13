@@ -69,7 +69,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                     let person = await axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     logger.info(`The person with the identifier: ${person.data.personalNumber || person.data.identityCard} from ${dataSource} successfully insert to Kartoffel`);
                     // add domain user for the new preson 
-                    let isPrimary = (currentUnit_to_DataSource.get(person.data.currentUnit) === dataSource) ? true : false;
+                    let isPrimary = (currentUnit_to_DataSource.get(person.data.currentUnit) === dataSource);
                     await domainUserHandler(person.data, record, isPrimary, dataSource);
                 }
                 catch (err) {
