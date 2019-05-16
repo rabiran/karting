@@ -2,15 +2,16 @@ const matchToKartoffel = require('./matchToKartoffel');
 const axios = require('axios');
 const p = require('../config/paths');
 const logger = require('./logger');
+const fn = require('../config/fieldNames');
 
 /**
  * This module accept an array that contain DeepDiff objects and build from them object for the PUT request that send to Kartoffel
  * @param {*} deepDiffArray Array of DeepDiff objects 
  * @param {*} dataSource The source of the raw person object
  * @param {*} person Person object from Kartoffel
+ * @param {*} [akaRecord=null] Suitable object from AKA for complete fileds to the update's object
  */
-
-const updateSpecificFields = async (deepDiffArray, dataSource, person) => {
+const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord = null) => {
     let objForUpdate = {};
     deepDiffArray.map((deepDiffRecord) => {
         if (deepDiffRecord.kind == "N" || deepDiffRecord.kind == "E") {
@@ -21,6 +22,17 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person) => {
         }
     });
     objForUpdate = await matchToKartoffel(objForUpdate, dataSource);
+
+    deepDiffArray.map((deepDiffRecord) => {
+        if (fn[dataSource]["entityType"] === deepDiffRecord.path.toString() && deepDiffRecord.rhs === fn.entityTypeValue.s) {
+            objForUpdate.rank = akaRecord[fn.aka.rank];
+            objForUpdate.currentUnit = akaRecord[fn.aka.unitName];
+        }
+        if (fn[dataSource]["entityType"] === deepDiffRecord.path.toString() && deepDiffRecord.rhs === fn.entityTypeValue.c) {
+            objForUpdate.rank = null;
+            // objForUpdate.currentUnit = null;
+        }
+    });
 
     // Update the person object
     try {

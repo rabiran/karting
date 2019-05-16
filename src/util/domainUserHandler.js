@@ -36,11 +36,13 @@ module.exports = async (person, record, isPrimary, dataSource) => {
             return;
         }
         if (person.secondaryDomainUsers.length !== 0) {
-            person.secondaryDomainUsers.filter(sdu => {
+            let breaking = false;
+            person.secondaryDomainUsers.map(sdu => {
                 if (sdu.uniqueID === user_object.uniqueID) {
-                    return;
+                    return breaking = true;
                 }
             })
+            if (breaking){return;}
         }
     }
 

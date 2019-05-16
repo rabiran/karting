@@ -68,6 +68,11 @@ const match_aka = (obj) => {
                 obj.serviceType = obj[rawKey];
                 (rawKey === "serviceType") ? null : delete obj[rawKey];
                 break;
+            // currentUnit
+            case fn.aka.unitName:
+                obj.currentUnit = obj[rawKey];
+                (rawKey === "currentUnit") ? null : delete obj[rawKey];
+                break;
             default:
                 delete obj[rawKey];
         }
