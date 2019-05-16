@@ -63,9 +63,9 @@ module.exports = {
         identityCard: "id"
     },
     entityTypeValue: {
-        s: "digimon",
+        s: "tamar",
         sPrefix: "m",
-        c: "tamar",
+        c: "digimon",
         cPrefix: "d",
     },
     rootHierarchy: "wallmart",
@@ -73,7 +73,7 @@ module.exports = {
         hour: 12,
         minute: 54
     },
-    akaRigid: ["clearance", "identityCard", "personalNumber", "firstName", "lastName", "dischargeDay", "rank", "address", "mobilePhone", "phone", "serviceType"],
+    akaRigid: ["clearance", "identityCard", "personalNumber", "firstName", "lastName", "dischargeDay", "rank", "address", "mobilePhone", "phone", "serviceType","currentUnit"],
     fieldsForRmoveFromKartoffel: ["secondaryDomainUsers","alive","responsibility","_id","createdAt","updatedAt","primaryDomainUser","fullName","id","hierarchy"],
     kartoffelUrl: "http://localhost:3000",
 };
