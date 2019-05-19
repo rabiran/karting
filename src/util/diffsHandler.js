@@ -112,7 +112,9 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
             }
             // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
             let deepDiffForUpdate = record[2].filter((deepDiffObj) => {
-                let include = fn.akaRigid.includes(deepDiffObj.path.toString());
+                // if the person's object that will be updated passed through matchToKartoffel then the second expression will be the relevant, If not then the first expression will be relevant
+                let keyForCheck = Object.keys(fn[dataSource]).find(val=>{return fn[dataSource][val]==deepDiffObj.path.toString()}) || deepDiffObj.path.toString();
+                let include = fn.akaRigid.includes(keyForCheck);
                 include ? logger.warn(`The field '${deepDiffObj.path.toString()}' of the person with the identifier ${identifier} from the dataSource '${dataSource}' is not update because is rigid to Aka`) : null;
                 return !include;
             })
