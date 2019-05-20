@@ -93,10 +93,10 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
             .catch((err) => {
                 logger.error(`Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' at update flow. The error message: "${err}"`);
             });
-        person = person.data;
         if (!person) {
             continue;
         };
+        person = person.data;
         if (dataSource === "aka") {
             updateSpecificFields(record[2], dataSource, person, record[1]);
         }
