@@ -16,10 +16,10 @@ module.exports = async () => {
     // editing the aka data and squishing it to one object
     let aka_data = akaDataManipulate(aka_telephones_data.data, aka_employees_data.data);
     // save the new json as file in the server
-    let previous_aka_data_file_name = saveAsFile(aka_data, './data/aka', 'aka_raw_data');
+    let previous_aka_data_file_name = saveAsFile(aka_data, `./data/${fn.dataSources.aka}`, `${fn.dataSources.aka}_raw_data`);
 
     // get the delta between the two last JSONs
-    akaDiff = dataComparison(aka_data, "./data/aka/archive", previous_aka_data_file_name, fn.aka.personalNumber);
+    akaDiff = dataComparison(aka_data, `./data/${fn.dataSources.aka}/archive`, previous_aka_data_file_name, fn.aka.personalNumber);
     akaDiff.all = aka_data;
     return akaDiff;
 };

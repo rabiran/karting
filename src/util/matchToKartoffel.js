@@ -446,27 +446,27 @@ module.exports = async (origin_obj, dataSource) => {
     // delete the empty fields from the returned object
     Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null") ? delete obj[key] : null);
     switch (dataSource) {
-        case "aka":
+        case fn.dataSources.aka:
             match_aka(obj);
             break;
-        case "es":
+        case fn.dataSources.es:
             match_es(obj);
             break;
-        case "ads":
+        case fn.dataSources.ads:
             match_ads(obj);
             if (!obj.entityType) {
                 logger.warn(`To the person with the identifier: ${obj.mail} has not have "userPrincipalName" field at ads`);
             };
             break;
-        case "excel":
+        case fn.dataSources.excel:
             match_excel(obj);
             break;
-        case "adNN":
+        case fn.dataSources.adNN:
             match_adNN(obj);
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             delete obj[fn.adNN.fullName];
             break;
-        case "nvSQL":
+        case fn.dataSources.nvSQL:
             match_nv_sql(obj);
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
@@ -475,7 +475,7 @@ module.exports = async (origin_obj, dataSource) => {
     }
 
 
-    if (obj.hierarchy && dataSource !== "aka") {
+    if (obj.hierarchy && dataSource !== fn.dataSources.aka) {
         obj.directGroup = await directGroupHandler(obj);
         delete obj.hierarchy;
     }
