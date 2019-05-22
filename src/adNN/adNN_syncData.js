@@ -8,9 +8,9 @@ module.exports = async () => {
     // get the update data from the remote server
     let adNN_data = await axios.get(p().ADNN_API);
     // save the new json as file in the server
-    let previous_adNN_data_file_name = saveAsFile(adNN_data.data, './data/adNN', 'adNN_raw_data');
+    let previous_adNN_data_file_name = saveAsFile(adNN_data.data, `./data/${fn.dataSources.adNN}`, `${fn.dataSources.adNN}_raw_data`);
     // get the delta between the two last JSONs
-    adNNDiff = dataComparison(adNN_data.data, "./data/adnn/archive", previous_adNN_data_file_name, fn.adNN.upn);
+    adNNDiff = dataComparison(adNN_data.data, `./data/${fn.dataSources.adNN}/archive`, previous_adNN_data_file_name, fn.adNN.upn);
 
     return adNNDiff;
 }

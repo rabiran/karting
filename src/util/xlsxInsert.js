@@ -1,9 +1,10 @@
-const bodyParser = require("body-parser")
-      multer = require("multer")
-      XLSX = require("xlsx")
-      upload = multer()
+const bodyParser = require("body-parser");
+      multer = require("multer");
+      XLSX = require("xlsx");
+      upload = multer();
       diffsHandler = require('./diffsHandler');
-      express = require("express")
+      express = require("express");
+      fn = require('../config/fieldNames');
       router = express.Router();
 
 router.use(bodyParser.urlencoded({extended:true}))
@@ -33,7 +34,7 @@ router.post("/excel", upload.single("file"), (req,res) => {
                 }
                 excelUsers.push(currUser);
             }
-            diffsHandler({added: excelUsers}, "excel", null);
+            diffsHandler({added: excelUsers}, fn.dataSources.excel , null);
     
             res.send("ok");
         } else {

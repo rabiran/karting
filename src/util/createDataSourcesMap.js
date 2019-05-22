@@ -1,21 +1,22 @@
 const excelToJson = require('convert-excel-to-json');
+const fn = require('../config/fieldNames');
 
 const result = excelToJson({
     sourceFile: 'src/config/dataSourcesMap.xlsx',
     columnToKey: {
-        A: 'es',
-        B: 'nn',
-        C: "nv",
-        D: "ads"
+        A: fn.dataSources.es,
+        B: fn.dataSources.nn,
+        C: fn.dataSources.nv,
+        D: fn.dataSources.ads,
     }
 });
 
 const dataSourcesMap = new Map();
 result.dataSources.map((obj) => {
-    obj["es"] ? dataSourcesMap.set(obj["es"].replace(new RegExp("\"", 'g')," "), "es") : null;
-    obj["nn"] ? dataSourcesMap.set(obj["nn"].replace(new RegExp("\"", 'g')," "), "nn") : null;
-    obj["nv"] ? dataSourcesMap.set(obj["nv"].replace(new RegExp("\"", 'g')," "), "nv") : null;
-    obj["ads"] ? dataSourcesMap.set(obj["ads"].replace(new RegExp("\"", 'g')," "), "ads") : null;
+    obj[fn.dataSources.es] ? dataSourcesMap.set(obj[fn.dataSources.es].replace(new RegExp("\"", 'g')," "), fn.dataSources.es) : null;
+    obj[fn.dataSources.nn] ? dataSourcesMap.set(obj[fn.dataSources.nn].replace(new RegExp("\"", 'g')," "), fn.dataSources.nn) : null;
+    obj[fn.dataSources.nv] ? dataSourcesMap.set(obj[fn.dataSources.nv].replace(new RegExp("\"", 'g')," "), fn.dataSources.nv) : null;
+    obj[fn.dataSources.ads] ? dataSourcesMap.set(obj[fn.dataSources.ads].replace(new RegExp("\"", 'g')," "), fn.dataSources.ads) : null;
 })
 
 module.exports = dataSourcesMap;

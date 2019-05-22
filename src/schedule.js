@@ -13,10 +13,10 @@ const logger = require('./util/logger');
 
 require('dotenv').config();
 
-if(process.env.DATA_SOURCE == "excel") {
+if (process.env.DATA_SOURCE == fn.dataSources.excel) {
     const express = require("express")
-          app = express()
-          xls = require('./util/xlsxInsert');
+    app = express()
+    xls = require('./util/xlsxInsert');
     app.use(xls)
     app.listen(5000, () => console.log(`Example app listening on port 5000!`))
 }
@@ -25,7 +25,7 @@ if(process.env.DATA_SOURCE == "excel") {
 // const trialLog = schedule.scheduleJob(fn.runningTime,async()=>{
 //////////////MOCK-DELETE AT PRODACTION//////////////////////////////
 const devSchedual = async () => {
-/////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
 
     // check if the root hierarchy exist and adding it if not
     await axios.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
@@ -45,35 +45,35 @@ const devSchedual = async () => {
 
     // get the new json from aka & save him on the server
     let aka_data = await aka();
-    diffsHandler(aka_data, "aka", aka_data.all);
+    diffsHandler(aka_data, fn.dataSources.aka, aka_data.all);
 
     // get the new json from es & save him on the server
     let es_Data = es().then((esDiffs) => {
-         diffsHandler(esDiffs, "es", aka_data.all);
+        diffsHandler(esDiffs, fn.dataSources.es, aka_data.all);
     });
     // get the new json from ads & save him on the server
-    let ads_Data = ads().then((adsDiff)=>{
-        diffsHandler(adsDiff, "ads", aka_data.all);
+    let ads_Data = ads().then((adsDiff) => {
+        diffsHandler(adsDiff, fn.dataSources.ads, aka_data.all);
     });
     // get the new json from nn & save him on the server
-    let adNN_Data = adNN().then((adNNDiff)=>{
-        diffsHandler(adNNDiff, "adNN", aka_data.all);
+    let adNN_Data = adNN().then((adNNDiff) => {
+        diffsHandler(adNNDiff, fn.dataSources.adNN, aka_data.all);
     });
     // get the new json from mm & save him on the server
     let nvMM_Data = nvMM().then((nvMMDiffs) => {
-         diffsHandler(nvMMDiffs, "nvSQL", aka_data.all);
+        diffsHandler(nvMMDiffs, fn.dataSources.nvSQL, aka_data.all);
     });
     // get the new json from lmn & save him on the server
-    let nvLMN_Data = nvLMN().then((nvLMNDiff)=>{
-        diffsHandler(nvLMNDiff, "nvSQL", aka_data.all);
+    let nvLMN_Data = nvLMN().then((nvLMNDiff) => {
+        diffsHandler(nvLMNDiff, fn.dataSources.nvSQL, aka_data.all);
     });
     // get the new json from mdn & save him on the server
-    let nvMDN_Data = nvMDN().then((nvMDNDiff)=>{
-        diffsHandler(nvMDNDiff, "nvSQL", aka_data.all);
+    let nvMDN_Data = nvMDN().then((nvMDNDiff) => {
+        diffsHandler(nvMDNDiff, fn.dataSources.nvSQL, aka_data.all);
     });
 
 
-//////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
+    //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
 };
 devSchedual();
 ///////////////////////////////////////////////////////////////////////////

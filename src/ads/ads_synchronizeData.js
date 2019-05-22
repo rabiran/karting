@@ -8,9 +8,9 @@ module.exports = async () => {
     // get the update data from the remote server
     let ads_data = await axios.get(p().ADS_API);
     // save the new json as file in the server
-    let previous_ads_data_file_name = saveAsFile(ads_data.data, './data/ads', 'ads_raw_data');
+    let previous_ads_data_file_name = saveAsFile(ads_data.data, `./data/${fn.dataSources.ads}`, `${fn.dataSources.ads}_raw_data`);
     // get the delta between the two last JSONs
-    adsDiff = dataComparison(ads_data.data, "./data/ads/archive", previous_ads_data_file_name, fn.ads.sAMAccountName);
+    adsDiff = dataComparison(ads_data.data, `./data/${fn.dataSources.ads}/archive`, previous_ads_data_file_name, fn.ads.sAMAccountName);
 
     return adsDiff;
 }

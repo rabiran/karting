@@ -19,13 +19,13 @@ module.exports = async (person, record, isPrimary, dataSource) => {
         isPrimary: isPrimary,
     };
 
-    (dataSource === "ads" && record[fn.ads.sAMAccountName]) ?
+    (dataSource === fn.dataSources.ads && record[fn.ads.sAMAccountName]) ?
         user_object.uniqueID = `${record[fn.ads.sAMAccountName]}${fn.ads.domainSuffix}` : null;
-    (dataSource === "adNN" && record[fn.adNN.sAMAccountName]) ?
+    (dataSource === fn.dataSources.adNN && record[fn.adNN.sAMAccountName]) ?
         user_object.uniqueID = `${record[fn.adNN.sAMAccountName]}${fn.adNN.domainSuffix}` : null;
-    (dataSource === "nvSQL" && record[fn.nv.uniqueID]) ?
+    (dataSource === fn.dataSources.nvSQL && record[fn.nv.uniqueID]) ?
         user_object.uniqueID = record[fn.nv.uniqueID].toLowerCase() : null;
-    (dataSource === "es" && record[fn.es.userName]) ?
+    (dataSource === fn.dataSources.es && record[fn.es.userName]) ?
         user_object.uniqueID = `${record[fn.es.userName]}${fn.es.domainSuffix}` : null;
 
     if (!user_object.uniqueID) {

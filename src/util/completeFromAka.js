@@ -71,18 +71,18 @@ module.exports = (obj, akaData, dataSource) => {
         let akaRecord = akaData.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
         if (akaRecord) {
             switch (dataSource) {
-                case "es":
+                case fn.dataSources.es:
                     complete_es(obj, akaRecord);
                     break;
-                case "ads":
+                case fn.dataSources.ads:
                     if (obj.entityType === fn.entityTypeValue.c) { break; };
                     complete_ads(obj, akaRecord);
                     break;
-                case "adNN":
+                case fn.dataSources.adNN:
                     if (obj.entityType === fn.entityTypeValue.c) { break; };
                     complete_adNN(obj, akaRecord);
                     break;
-                case "nvSQL":
+                case fn.dataSources.nvSQL:
                     complete_nv(obj, akaRecord);
                     break;
                 default:
