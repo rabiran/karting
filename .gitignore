@@ -9,7 +9,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # config
-src\config\authParams.js
+src/config/authParams.js
 
 # Runtime data
 pids
