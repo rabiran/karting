@@ -10,6 +10,7 @@ const fn = require('./config/fieldNames');
 const p = require('./config/paths');
 const diffsHandler = require('./util/diffsHandler');
 const logger = require('./util/logger');
+const kartofelAxios = require('./auth/auth');
 
 require('dotenv').config();
 
@@ -25,15 +26,15 @@ if (process.env.DATA_SOURCE == fn.dataSources.excel) {
 // const trialLog = schedule.scheduleJob(fn.runningTime,async()=>{
 //////////////MOCK-DELETE AT PRODACTION//////////////////////////////
 const devSchedual = async () => {
-    /////////////////////////////////////////////////////////////////////////////
-
+  /////////////////////////////////////////////////////////////////////////////
+    
     // check if the root hierarchy exist and adding it if not
-    await axios.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
+    await kartofelAxios.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
             logger.info(`The root hierarchy "${result.data.name}" already exist in Kartoffel`);
         })
         .catch(async () => {
-            await axios.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy })
+            await kartofelAxios.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy })
                 .then((result) => {
                     logger.info(`Success to add the root hierarchy "${result.data.name}" to Kartoffel`);
                 })
