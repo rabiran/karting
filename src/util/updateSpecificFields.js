@@ -34,8 +34,13 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
         }
     });
 
-    // Update the person object
+    
     try {
+        // delete forbidden Fields To Update
+        for(let feild of fn.forbiddenFieldsToUpdate){
+            objForUpdate[feild]? delete objForUpdate[feild]:null;
+        }
+        // Update the person object
         objForUpdate ? await axios.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate) : null;
         logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate)}`);
     }
