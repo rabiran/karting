@@ -26,13 +26,24 @@ let result, accessToken;
 
 const getToken = async ()=>{
     if(!accessToken || accessToken.expired()){
-        result = await oauth2.clientCredentials.getToken(tokenConfig);
-        accessToken = oauth2.accessToken.create(result);
+      let count = 0;
+      let success = false;
+      while(count < 13 && !success) {
+        try {
+          result = await oauth2.clientCredentials.getToken(tokenConfig);
+          accessToken = oauth2.accessToken.create(result);  
+          success = true;
+        } catch (error) {
+          count ++;
+          sleep(15000);
+        }
+        
+      }
     }
     return accessToken.token.access_token;
 }
 
-    kartofelAxios = axios.create();
+    const kartofelAxios = axios.create();
     kartofelAxios.interceptors.request.use(async (config)=> {
         config.headers.Authorization = await getToken();
         return config;

@@ -1,8 +1,8 @@
 const matchToKartoffel = require('./matchToKartoffel');
-const axios = require('axios');
 const p = require('../config/paths');
 const logger = require('./logger');
 const fn = require('../config/fieldNames');
+const kartofelAxios = require('../auth/auth');
 
 /**
  * This module accept an array that contain DeepDiff objects and build from them object for the PUT request that send to Kartoffel
@@ -36,7 +36,7 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
 
     // Update the person object
     try {
-        objForUpdate ? await axios.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate) : null;
+        objForUpdate ? await kartofelAxios.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate) : null;
         logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate)}`);
     }
     catch (err) {
