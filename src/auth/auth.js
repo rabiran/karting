@@ -1,52 +1,75 @@
-const simpleOauth2 = require('simple-oauth2');
-const axios = require('axios');
-const authParams = require('../config/authParams');
+const axios = require("axios");
+const authParams = require("../config/authParams");
+const jwt = require("jsonwebtoken");
+const https = require("https");
 
-const credentials = {
-    client: {
-      id: authParams.clientId,
-      secret: authParams.ClientSecret,
-    },
-    auth: {
-      tokenHost: `${authParams.tokenHost}:${authParams.tokenPort}`,
-      tokenPath: authParams.tokenPath,
-    },
-    http: {
-        rejectUnauthorized: false
-    }
+class Auth {
+  /**
+   * 
+   * @param redisInstance - Redis instance to get\set token from redis service
+   */
+  static setRedis (redisInstance) {
+    Auth.redis = redisInstance;
   };
 
-const oauth2 = simpleOauth2.create(credentials);
-const tokenConfig = {
-    scope: authParams.scope.join(' '),
-    audience: authParams.audience,
-};
+  /**
+   * Return spike's publicKey
+   */
+  static async getPublicKey () {
+    return (await Auth.axiosSpike.get(authParams.publicKeyPath)).data;
+  }
 
-let result, accessToken;
-
-const getToken = async ()=>{
-    if(!accessToken || accessToken.expired()){
-      let count = 0;
-      let success = false;
-      while(count < 13 && !success) {
-        try {
-          result = await oauth2.clientCredentials.getToken(tokenConfig);
-          accessToken = oauth2.accessToken.create(result);  
-          success = true;
-        } catch (error) {
-          count ++;
-          sleep(15000);
-        }
-        
+  /**
+   * Return getToken from spike
+   */
+  static async getToken () {
+    let verifyToken;
+    if (!Auth.publicKey) {
+      Auth.publicKey = await Auth.getPublicKey();
+    }
+    if (!Auth.accessToken) {
+      Auth.accessToken = await Auth.redis.get(Auth.keyName);
+    }
+    try {
+      verifyToken = jwt.verify(Auth.accessToken, Auth.publicKey);
+    } catch (error) {
+      verifyToken = false;
+    }
+    if (!verifyToken) {
+      try {
+        Auth.accessToken = (await Auth.axiosSpike.post(authParams.tokenPath, {
+          grant_type: "client_credentials",
+          audience: authParams.audience,
+          scope: authParams.scope.join(' '),
+        })).data.access_token;
+        await Auth.redis.set(Auth.keyName, Auth.accessToken);
+      } catch (error) {
+        throw Error(error.message);
       }
     }
-    return accessToken.token.access_token;
+    return Auth.accessToken;
+  };
 }
 
-    const kartofelAxios = axios.create();
-    kartofelAxios.interceptors.request.use(async (config)=> {
-        config.headers.Authorization = await getToken();
-        return config;
-    });
+// Static params
+Auth.redis;
+Auth.publicKey;
+Auth.accessToken;
+Auth.keyName = "accessToken";
 
-    module.exports = kartofelAxios;
+// Axios instances 
+Auth.axiosSpike = axios.create({
+  baseURL: `${authParams.spikeHost}:${authParams.spikePort}`,
+  headers: {
+    Authorization: `Basic ${Buffer.from(`${authParams.clientId}:${authParams.ClientSecret}`).toString("base64")}`
+  },
+  httpsAgent: new https.Agent({rejectUnauthorized: false}),
+});
+
+Auth.axiosKartofel = axios.create();
+Auth.axiosKartofel.interceptors.request.use(async config => {
+  config.headers.Authorization = await Auth.getToken();
+  return config;
+});
+
+module.exports = Auth;

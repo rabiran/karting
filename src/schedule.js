@@ -1,4 +1,3 @@
-const axios = require('axios');
 const aka = require('./aka/aka_synchronizeData');
 const es = require('./es/es_synchronizeData');
 const ads = require('./ads/ads_synchronizeData');
@@ -10,9 +9,21 @@ const fn = require('./config/fieldNames');
 const p = require('./config/paths');
 const diffsHandler = require('./util/diffsHandler');
 const logger = require('./util/logger');
-const kartofelAxios = require('./auth/auth');
+const Auth = require('./auth/auth');
+const Redis = require("ioredis");
+const promisify = require('util').promisify;
+
+const redis = new Redis();
+
+redis.on("connect", function(){
+  console.log("Redis connect to service");
+})
+redis.on("error", function (err) {
+  throw Error("Error " + err);
+});
 
 require('dotenv').config();
+Auth.setRedis(redis);
 
 if (process.env.DATA_SOURCE == fn.dataSources.excel) {
     const express = require("express")
@@ -29,12 +40,12 @@ const devSchedual = async () => {
   /////////////////////////////////////////////////////////////////////////////
     
     // check if the root hierarchy exist and adding it if not
-    await kartofelAxios.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
+    await Auth.axiosKartofel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
             logger.info(`The root hierarchy "${result.data.name}" already exist in Kartoffel`);
         })
         .catch(async () => {
-            await kartofelAxios.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy })
+            await Auth.axiosKartofel.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy })
                 .then((result) => {
                     logger.info(`Success to add the root hierarchy "${result.data.name}" to Kartoffel`);
                 })
@@ -52,7 +63,7 @@ const devSchedual = async () => {
     let es_Data = es().then((esDiffs) => {
         diffsHandler(esDiffs, fn.dataSources.es, aka_data.all);
     });
-    // get the new json from ads & save him on the server
+   /*  // get the new json from ads & save him on the server
     let ads_Data = ads().then((adsDiff) => {
         diffsHandler(adsDiff, fn.dataSources.ads, aka_data.all);
     });
@@ -72,10 +83,14 @@ const devSchedual = async () => {
     let nvMDN_Data = nvMDN().then((nvMDNDiff) => {
         diffsHandler(nvMDNDiff, fn.dataSources.nvSQL, aka_data.all);
     });
-
+ */
 
     //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
 };
-devSchedual();
+// devSchedual();
+// redis.quit();
+
+[devSchedual, promisify(() => redis.quit())].reduce((prevFunc, nextFunc) => prevFunc.then(nextFunc), Promise.resolve());
+
 ///////////////////////////////////////////////////////////////////////////
 // });
