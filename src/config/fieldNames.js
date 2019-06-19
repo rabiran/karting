@@ -5,6 +5,9 @@ module.exports = {
         ads: "ads_name",
         adNN: "adNN_name",
         nvSQL: "nvSQL_name",
+        lmn: "lmn_name",
+        mdn:"mdn_name",
+        mm:"mm_name",
         excel: "excel",
     },
     aka_name: {
