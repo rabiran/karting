@@ -18,7 +18,7 @@ module.exports = pathsHandler = (param) => {
         KARTOFFEL_UPDATE_PERSON_API: `${kartoffelUrl}/api/persons/${param}`,
         KARTOFFEL_PERSON_API: `${kartoffelUrl}/api/persons/`,
         KARTOFFEL_PERSON_EXISTENCE_CHECKING: `${kartoffelUrl}/api/persons/identifier/${param}`,
-
+        KARTOFFEL_PERSON_ASSIGN_API : `${kartoffelUrl}/api/persons/${param}/assign`,
 
         // Kartoffel - group
         KARTOFFEL_ADDGROUP_API: `${kartoffelUrl}/api/organizationGroups/`,
