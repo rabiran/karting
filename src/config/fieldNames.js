@@ -1,13 +1,13 @@
 module.exports = {
     dataSources: {
-        aka: "aka",
-        es: "es",
-        ads: "ads",
-        adNN: "adNN",
-        nvSQL: "nvSQL",
+        aka: "aka_name",
+        es: "es_name",
+        ads: "ads_name",
+        adNN: "adNN_name",
+        nvSQL: "nvSQL_name",
         excel: "excel",
     },
-    aka: {
+    aka_name: {
         serviceType: "nstype",
         firstName: "firstName",
         lastName: "lastName",
@@ -23,7 +23,7 @@ module.exports = {
         unitName: "hr",
         telephoneType: "telephoneType",
     },
-    es: {
+    es_name: {
         entityType: "entity",
         firstName: "firstName",
         lastName: "lastName",
@@ -53,7 +53,7 @@ module.exports = {
         mail: "mail",
         job: "job"
     },
-    ads: {
+    ads_name: {
         firstName: "KfirstName",
         lastName: "KlastName",
         job: "Kjob",
@@ -63,7 +63,7 @@ module.exports = {
         sAMAccountName: "sAMAccountName",
         domainSuffix: "@ads",
     },
-    adNN: {
+    adNN_name: {
         firstName: "KfirstName",
         lastName: "KlastName",
         fullName: "Kjob",
@@ -74,7 +74,7 @@ module.exports = {
         extension: "nn",
         domainSuffix: "@adnn",
     },
-    nv: {
+    nvSQL_name: {
         firstName: "KfirstName",
         lastName: "KlastName",
         uniqueID: "unid",
