@@ -34,13 +34,12 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                 person = person.data;
                 let isPrimary = (currentUnit_to_DataSource.get(person.currentUnit) === dataSource);
                 if (isPrimary) {
-                    let personFromKartoffel = {};
                     Object.keys(person).map((key) => {
                         fn.fieldsForRmoveFromKartoffel.includes(key) ? delete person[key] : null;
                     })
                     let KeyForComparison = Object.keys(person).find(key => { return person[key] == identifier });
-                    let objForUpdate = diff([personFromKartoffel], [person_ready_for_kartoffel], KeyForComparison, { updatedValues: 4 });
-                    if (objForUpdate.updated.length > 0) { updated(objForUpdate.updated, dataSource, aka_all_data, currentUnit_to_DataSource); }
+                    let objForUpdate = diff([person], [person_ready_for_kartoffel], KeyForComparison, { updatedValues: 4 });
+                    if (objForUpdate.updated.length > 0) { updated(objForUpdate.updated, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = false); }
                 }
                 else {
                     await domainUserHandler(person, record, isPrimary, dataSource);
