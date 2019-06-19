@@ -136,6 +136,7 @@ const match_es = (obj, dataSource) => {
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr = hr.map((organizationName)=>{return organizationName.trim()});
                 obj.hierarchy = hr.join("/");
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
@@ -193,6 +194,7 @@ const match_ads = (obj, dataSource) => {
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr = hr.map((organizationName)=>{return organizationName.trim()});
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
@@ -250,6 +252,7 @@ const match_adNN = (obj, dataSource) => {
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr = hr.map((organizationName)=>{return organizationName.trim()});
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
 
@@ -313,6 +316,7 @@ const match_nv_sql = (obj, dataSource) => {
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr = hr.map((organizationName)=>{return organizationName.trim()});
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
 
@@ -390,6 +394,7 @@ const match_excel = (obj, dataSource) => {
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr = hr.map((organizationName)=>{return organizationName.trim()});
                 obj.hierarchy = hr.join("/");
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
