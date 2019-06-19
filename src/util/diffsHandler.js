@@ -83,7 +83,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
         }
     }
 }
-const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
+const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = true) => {
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
         let identifier = record[1][fn[dataSource].personalNumber] || record[1][fn[dataSource].identityCard] || record[1].personalNumber || record[1].identityCard;
@@ -102,7 +102,7 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
         else {
             let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
             // Check if the dataSource of the record is the primary dataSource for the person
-            if (akaRecord[fn.aka.unitName] && currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) !== dataSource) {
+            if ((akaRecord && akaRecord[fn.aka.unitName]) && currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) !== dataSource) {
                 // Add secondary domain user from the record (if the required data exist)
                 await domainUserHandler(person, record[1], false, dataSource);
                 logger.warn(`The fields "${record[2].map((obj) => { return `${obj.path.toString()},` })}" of the person from:'${dataSource}' with the identifier ${identifier} updated but not saved in kartoffel because the dataSource '${dataSource}' is not match to the person's currentUnit '${currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName])}'`);
