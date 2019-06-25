@@ -19,14 +19,14 @@ module.exports = async (person, record, isPrimary, dataSource) => {
         isPrimary: isPrimary,
     };
 
-    (dataSource === fn.dataSources.ads && record[fn.ads.sAMAccountName]) ?
-        user_object.uniqueID = `${record[fn.ads.sAMAccountName]}${fn.ads.domainSuffix}` : null;
-    (dataSource === fn.dataSources.adNN && record[fn.adNN.sAMAccountName]) ?
-        user_object.uniqueID = `${record[fn.adNN.sAMAccountName]}${fn.adNN.domainSuffix}` : null;
-    (dataSource === fn.dataSources.nvSQL && record[fn.nv.uniqueID]) ?
-        user_object.uniqueID = record[fn.nv.uniqueID].toLowerCase() : null;
-    (dataSource === fn.dataSources.es && record[fn.es.userName]) ?
-        user_object.uniqueID = `${record[fn.es.userName]}${fn.es.domainSuffix}` : null;
+    (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?
+        user_object.uniqueID = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
+    (dataSource === fn.dataSources.adNN && record[fn[dataSource].sAMAccountName]) ?
+        user_object.uniqueID = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
+    (dataSource === fn.dataSources.nvSQL && record[fn[dataSource].uniqueID]) ?
+        user_object.uniqueID = record[fn[dataSource].uniqueID].toLowerCase() : null;
+    (dataSource === fn.dataSources.es &&  record[fn[dataSource].userName]) ?
+        user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
 
     if (!user_object.uniqueID) {
         return;

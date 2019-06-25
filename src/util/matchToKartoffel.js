@@ -7,69 +7,69 @@ const logger = require('./logger');
 require('dotenv').config();
 
 
-const match_aka = (obj) => {
+const match_aka = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
             //entityType
-            case fn.aka.entityType:
+            case fn[dataSource].entityType:
                 obj.entityType = fn.entityTypeValue.s;
                 (rawKey === "entityType") ? null : delete obj[rawKey];
                 break;
             //firstName
-            case fn.aka.firstName:
+            case fn[dataSource].firstName:
                 obj.firstName = obj[rawKey];
                 (rawKey === "firstName") ? null : delete obj[rawKey];
                 break;
             //lastName
-            case fn.aka.lastName:
+            case fn[dataSource].lastName:
                 obj.lastName = obj[rawKey];
                 (rawKey === "lastName") ? null : delete obj[rawKey];
                 break;
             //identityCard
-            case fn.aka.identityCard:
+            case fn[dataSource].identityCard:
                 validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
-            case fn.aka.personalNumber:
+            case fn[dataSource].personalNumber:
                 obj.personalNumber = obj[rawKey].toString();
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //rank
-            case fn.aka.rank:
+            case fn[dataSource].rank:
                 obj.rank = obj[rawKey];
                 (rawKey === "rank") ? null : delete obj[rawKey];
                 break;
             //phone
-            case fn.aka.phone:
-                validators().phone.test(`${obj[fn.aka.areaCode]}-${obj[rawKey]}`) ? obj.phone = [`${obj[fn.aka.areaCode]}-${obj[rawKey]}`] : delete obj[rawKey];
-                delete obj[fn.aka.areaCode];
+            case fn[dataSource].phone:
+                validators().phone.test(`${obj[fn[dataSource].areaCode]}-${obj[rawKey]}`) ? obj.phone = [`${obj[fn[dataSource].areaCode]}-${obj[rawKey]}`] : delete obj[rawKey];
+                delete obj[fn[dataSource].areaCode];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             // mobilePhone       
-            case fn.aka.mobilePhone:
-                validators().mobilePhone.test(`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`) ? obj.mobilePhone = [`${obj[fn.aka.areaCodeMobile]}-${obj[rawKey]}`] : delete obj[rawKey];
-                delete obj[fn.aka.areaCodeMobile];
+            case fn[dataSource].mobilePhone:
+                validators().mobilePhone.test(`${obj[fn[dataSource].areaCodeMobile]}-${obj[rawKey]}`) ? obj.mobilePhone = [`${obj[fn[dataSource].areaCodeMobile]}-${obj[rawKey]}`] : delete obj[rawKey];
+                delete obj[fn[dataSource].areaCodeMobile];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
                 break;
             // dischargeDay
-            case fn.aka.dischargeDay:
+            case fn[dataSource].dischargeDay:
                 obj.dischargeDay = obj[rawKey];
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance 
-            case fn.aka.clearance:
+            case fn[dataSource].clearance:
                 obj.clearance = obj[rawKey];
                 (rawKey === "clearance") ? null : delete obj[rawKey];
                 break;
             // serviceType 
-            case fn.aka.serviceType:
+            case fn[dataSource].serviceType:
                 obj.serviceType = obj[rawKey];
                 (rawKey === "serviceType") ? null : delete obj[rawKey];
                 break;
             // currentUnit
-            case fn.aka.unitName:
+            case fn[dataSource].unitName:
                 obj.currentUnit = obj[rawKey];
                 (rawKey === "currentUnit") ? null : delete obj[rawKey];
                 break;
@@ -79,78 +79,79 @@ const match_aka = (obj) => {
     });
 }
 
-const match_es = (obj) => {
+const match_es = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
             //entityType
-            case fn.es.entityType:
+            case fn[dataSource].entityType:
                 obj.entityType = obj[rawKey];
                 (rawKey === "entityType") ? null : delete obj[rawKey];
                 break;
             //firstName
-            case fn.es.firstName:
+            case fn[dataSource].firstName:
                 obj.firstName = obj[rawKey];
                 (rawKey === "firstName") ? null : delete obj[rawKey];
                 break;
             //lastName
-            case fn.es.lastName:
+            case fn[dataSource].lastName:
                 obj.lastName = obj[rawKey];
                 (rawKey === "lastName") ? null : delete obj[rawKey];
                 break;
             //identityCard
-            case fn.es.identityCard:
+            case fn[dataSource].identityCard:
                 validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
-            case fn.es.personalNumber:
+            case fn[dataSource].personalNumber:
                 obj.personalNumber = obj[rawKey].toString();
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //rank
-            case fn.es.rank:
+            case fn[dataSource].rank:
                 obj.rank = obj[rawKey];
                 (rawKey === "rank") ? null : delete obj[rawKey];
                 break;
             //phone
-            case fn.es.phone:
+            case fn[dataSource].phone:
                 validators().phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             //mobilePhone       
-            case fn.es.mobilePhone:
+            case fn[dataSource].mobilePhone:
                 validators().mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
                 break;
             //dischargeDay
-            case fn.es.dischargeDay:
+            case fn[dataSource].dischargeDay:
                 obj.dischargeDay = obj[rawKey];
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             //hierarchy 
-            case fn.es.hierarchy:
+            case fn[dataSource].hierarchy:
                 let hr = obj[rawKey].split('/');
                 if (hr[0] == "") {
                     delete obj[rawKey];
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr = hr.map((organizationName)=>{return organizationName.trim()});
                 obj.hierarchy = hr.join("/");
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             //mail 
-            case fn.es.mail:
+            case fn[dataSource].mail:
                 obj.mail = obj[rawKey];
                 (rawKey === "mail") ? null : delete obj[rawKey];
                 break;
             //address 
-            case fn.es.address:
+            case fn[dataSource].address:
                 obj.address = obj[rawKey];
                 (rawKey === "address") ? null : delete obj[rawKey];
                 break;
             //job 
-            case fn.es.job:
+            case fn[dataSource].job:
                 obj.job = obj[rawKey];
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
@@ -161,44 +162,45 @@ const match_es = (obj) => {
     });
 };
 
-const match_ads = (obj) => {
+const match_ads = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
             //firstName
-            case fn.ads.firstName:
+            case fn[dataSource].firstName:
                 obj.firstName = obj[rawKey];
                 (rawKey === "firstName") ? null : delete obj[rawKey];
                 break;
             //lastName
-            case fn.ads.lastName:
+            case fn[dataSource].lastName:
                 obj.lastName = obj[rawKey];
                 (rawKey === "lastName") ? null : delete obj[rawKey];
                 break;
             //job
-            case fn.ads.job:
+            case fn[dataSource].job:
                 obj.job = obj[rawKey];
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             //mail
-            case fn.ads.mail:
+            case fn[dataSource].mail:
                 obj.mail = obj[rawKey];
                 (rawKey === "mail") ? null : delete obj[rawKey];
                 break;
             //hierarchy
-            case fn.ads.hierarchy:
+            case fn[dataSource].hierarchy:
                 let hr = obj[rawKey].substring(0, obj[rawKey].lastIndexOf('/')).trim().split('/');
                 if (hr[0] == "") {
                     delete obj[rawKey];
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr = hr.map((organizationName)=>{return organizationName.trim()});
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             //entityType,personalNumber/identityCard
-            case fn.ads.upn:
+            case fn[dataSource].upn:
                 let re = /[a-z]_|[a-z]/;
                 let upnPrefix = obj[rawKey].toLowerCase().match(re).toString();
                 switch (upnPrefix) {
@@ -223,33 +225,34 @@ const match_ads = (obj) => {
     })
 };
 
-const match_adNN = (obj) => {
+const match_adNN = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
             //firstName
-            case fn.adNN.firstName:
+            case fn[dataSource].firstName:
                 obj.firstName = obj[rawKey];
                 (rawKey === "firstName") ? null : delete obj[rawKey];
                 break;
             //lastName
-            case fn.adNN.lastName:
+            case fn[dataSource].lastName:
                 obj.lastName = obj[rawKey];
                 (rawKey === "lastName") ? null : delete obj[rawKey];
                 break;
             //mail
-            case fn.adNN.mail:
+            case fn[dataSource].mail:
                 obj.mail = obj[rawKey];
                 (rawKey === "mail") ? null : delete obj[rawKey];
                 break;
             //hierarchy and job
-            case fn.adNN.hierarchy:
+            case fn[dataSource].hierarchy:
                 let hr = obj[rawKey].includes("\\") ? obj[rawKey].substring(0, obj[rawKey].lastIndexOf('\\')).trim().split('\\') : obj[rawKey].substring(0, obj[rawKey].lastIndexOf('/')).trim().split('/');
                 if (hr[0] == "") {
                     delete obj[rawKey];
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr = hr.map((organizationName)=>{return organizationName.trim()});
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
 
@@ -260,8 +263,8 @@ const match_adNN = (obj) => {
                     } else {
                         job = obj[rawKey].substring(obj[rawKey].lastIndexOf("/") + 1).replace(/-/g, "").trim()
                     }
-                    if (obj[rawKey].includes(obj[fn.adNN.fullName])) {
-                        job = job.replace(obj[fn.adNN.fullName], "").trim()
+                    if (obj[rawKey].includes(obj[fn[dataSource].fullName])) {
+                        job = job.replace(obj[fn[dataSource].fullName], "").trim()
                     }
                     obj.job = job
                 }
@@ -269,11 +272,11 @@ const match_adNN = (obj) => {
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             //personalNumber or identity card
-            case fn.adNN.sAMAccountName:
-                if (obj[rawKey].toLowerCase().includes(fn.adNN.extension)) {
-                    uniqueNum = obj[rawKey].toLowerCase().replace(fn.adNN.extension, "")
+            case fn[dataSource].sAMAccountName:
+                if (obj[rawKey].toLowerCase().includes(fn[dataSource].extension)) {
+                    uniqueNum = obj[rawKey].toLowerCase().replace(fn[dataSource].extension, "")
                 } else {
-                    logger.warn(`User with id ${obj[rawKey]} is not ${fn.adNN.extension} extension`);
+                    logger.warn(`User with id ${obj[rawKey]} is not ${fn[dataSource].extension} extension`);
                     break;
                 }
                 if (validators(uniqueNum).identityCard) {
@@ -285,34 +288,35 @@ const match_adNN = (obj) => {
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             default:
-                (rawKey != "mail" && rawKey != fn.adNN.fullName) ? delete obj[rawKey] : null;
+                (rawKey != "mail" && rawKey != fn[dataSource].fullName) ? delete obj[rawKey] : null;
 
         }
     })
 };
 
-const match_nv_sql = (obj) => {
+const match_nv_sql = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
             //firstName
-            case fn.nv.firstName:
+            case fn[dataSource].firstName:
                 obj.firstName = obj[rawKey];
                 (rawKey === "firstName") ? null : delete obj[rawKey];
                 break;
             //lastName
-            case fn.nv.lastName:
+            case fn[dataSource].lastName:
                 obj.lastName = obj[rawKey];
                 (rawKey === "lastName") ? null : delete obj[rawKey];
                 break;
             //hierarchy
-            case fn.nv.hierarchy:
+            case fn[dataSource].hierarchy:
                 let hr = obj[rawKey].substring(0, obj[rawKey].lastIndexOf('/')).trim().split('/');
                 if (hr[0] == "") {
                     delete obj[rawKey];
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr = hr.map((organizationName)=>{return organizationName.trim()});
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
 
@@ -321,84 +325,86 @@ const match_nv_sql = (obj) => {
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             //personalNumber
-            case fn.nv.pn:
+            case fn[dataSource].pn:
                 validators().personalNumber.test(obj[rawKey]) ? obj.personalNumber = obj[rawKey].toString() : null;
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //identity vard
-            case fn.nv.identityCard:
+            case fn[dataSource].identityCard:
                 validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             default:
-                (rawKey != "mail" && rawKey != fn.adNN.fullName) ? delete obj[rawKey] : null;
+                // CHECK IF THAT COMMAND IS RELEVANT OR MISTAKE OF COPY PASTE
+                (rawKey != "mail" && rawKey != fn[dataSource].fullName) ? delete obj[rawKey] : null;
 
         }
     })
 };
 
-const match_excel = (obj) => {
+const match_excel = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
             //entityType
-            case fn.excel.entityType:
+            case fn[dataSource].entityType:
                 obj.entityType = obj[rawKey];
                 (rawKey === "entityType") ? null : delete obj[rawKey];
                 break;
             //firstName
-            case fn.excel.firstName:
+            case fn[dataSource].firstName:
                 obj.firstName = obj[rawKey];
                 (rawKey === "firstName") ? null : delete obj[rawKey];
                 break;
             //lastName
-            case fn.excel.lastName:
+            case fn[dataSource].lastName:
                 obj.lastName = obj[rawKey];
                 (rawKey === "lastName") ? null : delete obj[rawKey];
                 break;
             //identityCard
-            case fn.excel.identityCard:
+            case fn[dataSource].identityCard:
                 validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey] : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
-            case fn.excel.personalNumber:
+            case fn[dataSource].personalNumber:
                 obj.personalNumber = obj[rawKey];
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //rank
-            case fn.excel.rank:
+            case fn[dataSource].rank:
                 obj.rank = obj[rawKey];
                 (rawKey === "rank") ? null : delete obj[rawKey];
                 break;
             //phone
-            case fn.excel.phone:
+            case fn[dataSource].phone:
                 validators().phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
             //mobilePhone       
-            case fn.excel.mobilePhone:
+            case fn[dataSource].mobilePhone:
                 validators().mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
                 break;
             //hierarchy 
-            case fn.excel.hierarchy:
+            case fn[dataSource].hierarchy:
                 let hr = obj[rawKey].split('/');
                 if (hr[0] == "") {
                     delete obj[rawKey];
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr = hr.map((organizationName)=>{return organizationName.trim()});
                 obj.hierarchy = hr.join("/");
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             //job 
-            case fn.excel.job:
+            case fn[dataSource].job:
                 obj.job = obj[rawKey];
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             //mail 
-            case fn.excel.mail:
+            case fn[dataSource].mail:
                 obj.mail = obj[rawKey];
                 (rawKey === "mail") ? null : delete obj[rawKey];
                 break;
@@ -447,27 +453,27 @@ module.exports = async (origin_obj, dataSource) => {
     Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null") ? delete obj[key] : null);
     switch (dataSource) {
         case fn.dataSources.aka:
-            match_aka(obj);
+            match_aka(obj, dataSource);
             break;
         case fn.dataSources.es:
-            match_es(obj);
+            match_es(obj, dataSource);
             break;
         case fn.dataSources.ads:
-            match_ads(obj);
+            match_ads(obj, dataSource);
             if (!obj.entityType) {
                 logger.warn(`To the person with the identifier: ${obj.mail} has not have "userPrincipalName" field at ads`);
             };
             break;
         case fn.dataSources.excel:
-            match_excel(obj);
+            match_excel(obj, dataSource);
             break;
         case fn.dataSources.adNN:
-            match_adNN(obj);
+            match_adNN(obj, dataSource);
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
-            delete obj[fn.adNN.fullName];
+            delete obj[fn[dataSource].fullName];
             break;
         case fn.dataSources.nvSQL:
-            match_nv_sql(obj);
+            match_nv_sql(obj, dataSource);
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
         default:

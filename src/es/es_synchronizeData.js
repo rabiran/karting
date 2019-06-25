@@ -10,7 +10,7 @@ module.exports = async () => {
     // save the new json as file in the server
     let previous_es_data_file_name = saveAsFile(es_data.data, `./data/${fn.dataSources.es}`, `${fn.dataSources.es}_raw_data`);
     // get the delta between the two last JSONs
-    esDiff = dataComparison(es_data.data, `./data/${fn.dataSources.es}/archive`, previous_es_data_file_name, fn.es.identityCard);
+    esDiff = dataComparison(es_data.data, `./data/${fn.dataSources.es}/archive`, previous_es_data_file_name, fn[fn.dataSources.es].identityCard);
 
     return esDiff;
 

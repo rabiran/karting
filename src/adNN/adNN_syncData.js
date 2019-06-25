@@ -10,7 +10,7 @@ module.exports = async () => {
     // save the new json as file in the server
     let previous_adNN_data_file_name = saveAsFile(adNN_data.data, `./data/${fn.dataSources.adNN}`, `${fn.dataSources.adNN}_raw_data`);
     // get the delta between the two last JSONs
-    adNNDiff = dataComparison(adNN_data.data, `./data/${fn.dataSources.adNN}/archive`, previous_adNN_data_file_name, fn.adNN.upn);
+    adNNDiff = dataComparison(adNN_data.data, `./data/${fn.dataSources.adNN}/archive`, previous_adNN_data_file_name, fn[fn.dataSources.adNN].upn);
 
     return adNNDiff;
 }
