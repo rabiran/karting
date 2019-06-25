@@ -34,9 +34,14 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
         }
     });
 
-    // Update the person object
+    
     try {
-        objForUpdate ? await Auth.axiosKartofel.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate) : null;
+        // delete forbidden Fields To Update
+        for(let field of fn.forbiddenFieldsToUpdate){
+            objForUpdate[field]? delete objForUpdate[field]:null;
+        }
+        // Update the person object
+        objForUpdate ? await Auth.axiosKartoffel.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate) : null;
         logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate)}`);
     }
     catch (err) {

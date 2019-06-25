@@ -420,7 +420,7 @@ const match_excel = (obj) => {
 directGroupHandler = async (record) => {
     hr = encodeURIComponent(record.hierarchy)
     let directGroup;
-    await Auth.axiosKartofel.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
+    await Auth.axiosKartoffel.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async (result) => {
             let directGroupID = await hierarchyHandler(result.data, record.hierarchy);
             directGroup = directGroupID;

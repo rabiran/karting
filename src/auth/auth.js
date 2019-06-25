@@ -66,8 +66,8 @@ Auth.axiosSpike = axios.create({
   httpsAgent: new https.Agent({rejectUnauthorized: false}),
 });
 
-Auth.axiosKartofel = axios.create();
-Auth.axiosKartofel.interceptors.request.use(async config => {
+Auth.axiosKartoffel = axios.create();
+Auth.axiosKartoffel.interceptors.request.use(async config => {
   config.headers.Authorization = await Auth.getToken();
   return config;
 });

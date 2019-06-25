@@ -40,12 +40,12 @@ const devSchedual = async () => {
   /////////////////////////////////////////////////////////////////////////////
     
     // check if the root hierarchy exist and adding it if not
-    await Auth.axiosKartofel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
+    await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
             logger.info(`The root hierarchy "${result.data.name}" already exist in Kartoffel`);
         })
         .catch(async () => {
-            await Auth.axiosKartofel.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy })
+            await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy })
                 .then((result) => {
                     logger.info(`Success to add the root hierarchy "${result.data.name}" to Kartoffel`);
                 })

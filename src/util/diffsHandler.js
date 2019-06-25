@@ -30,7 +30,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
             // check if the person already exist in Kartoffel, if exist then update his data according to "currentUnit" field
             let identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
             if (identifier) {
-                let person = await Auth.axiosKartofel.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
+                let person = await Auth.axiosKartoffel.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
                 person = person.data;
                 let isPrimary = (currentUnit_to_DataSource.get(person.currentUnit) === dataSource);
                 if (isPrimary) {
@@ -65,7 +65,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                         logger.warn(`Ignoring from this person because his currentUnit is not from ${fn.rootHierarchy}.  ${JSON.stringify(person_ready_for_kartoffel)}`);
                         continue;
                     }
-                    let person = await Auth.axiosKartofel.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
+                    let person = await Auth.axiosKartoffel.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     person = person.data;
                     logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} successfully insert to Kartoffel`);
                     // add domain user for the new person 
@@ -89,7 +89,7 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
         const record = diffsObj[i];
         let identifier = record[1][fn[dataSource].personalNumber] || record[1][fn[dataSource].identityCard] || record[1].personalNumber || record[1].identityCard;
         // Get the person object from kartoffel
-        let person = await Auth.axiosKartofel.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
+        let person = await Auth.axiosKartoffel.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
             .catch((err) => {
                 logger.error(`Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' at update flow. The error message: "${err}"`);
             });
