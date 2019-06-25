@@ -117,7 +117,7 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
                 return !include;
             })
             if (deepDiffForUpdate.length > 0) {
-                updateSpecificFields(deepDiffForUpdate, dataSource, person, akaRecord);
+                updateSpecificFields(deepDiffForUpdate, dataSource, person, akaRecord,needMatchToKartoffel);
                 await domainUserHandler(person, record[1], true, dataSource);
             };
 
