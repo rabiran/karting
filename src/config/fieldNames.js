@@ -1,14 +1,17 @@
 module.exports = {
     dataSources: {
-        aka:"aka",
-        es: "es",
-        ads:"ads",
-        adNN:"adNN",
-        nvSQL:"nvSQL",
-        excel:"excel",
+        aka: "aka_name",
+        es: "es_name",
+        ads: "ads_name",
+        adNN: "adNN_name",
+        nvSQL: "nvSQL_name",
+        lmn: "lmn_name",
+        mdn:"mdn_name",
+        mm:"mm_name",
+        excel: "excel",
     },
-    aka: {
-        entityType: "nstype",
+    aka_name: {
+        serviceType: "nstype",
         firstName: "firstName",
         lastName: "lastName",
         identityCard: "tz",
@@ -22,9 +25,8 @@ module.exports = {
         clearance: "clearance",
         unitName: "hr",
         telephoneType: "telephoneType",
-        serviceType: "stype",
     },
-    es: {
+    es_name: {
         entityType: "entity",
         firstName: "firstName",
         lastName: "lastName",
@@ -54,7 +56,7 @@ module.exports = {
         mail: "mail",
         job: "job"
     },
-    ads: {
+    ads_name: {
         firstName: "KfirstName",
         lastName: "KlastName",
         job: "Kjob",
@@ -64,7 +66,7 @@ module.exports = {
         sAMAccountName: "sAMAccountName",
         domainSuffix: "@ads",
     },
-    adNN: {
+    adNN_name: {
         firstName: "KfirstName",
         lastName: "KlastName",
         fullName: "Kjob",
@@ -75,7 +77,7 @@ module.exports = {
         extension: "nn",
         domainSuffix: "@adnn",
     },
-    nv: {
+    nvSQL_name: {
         firstName: "KfirstName",
         lastName: "KlastName",
         uniqueID: "unid",
@@ -95,6 +97,7 @@ module.exports = {
         minute: 54
     },
     akaRigid: ["clearance", "identityCard", "personalNumber", "firstName", "lastName", "dischargeDay", "rank", "address", "mobilePhone", "phone", "serviceType", "currentUnit"],
+    forbiddenFieldsToUpdate: ["identityCard", "personalNumber","directGroup"],
     fieldsForRmoveFromKartoffel: ["secondaryDomainUsers", "alive", "responsibility", "_id", "createdAt", "updatedAt", "primaryDomainUser", "fullName", "id", "hierarchy"],
-    kartoffelUrl: "http://localhost:3000",
+    kartoffelUrl: "https://localhost:3000",
 };
