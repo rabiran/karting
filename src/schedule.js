@@ -16,10 +16,10 @@ const promisify = require('util').promisify;
 const redis = new Redis();
 
 redis.on("connect", function(){
-  console.log("Redis connect to service");
+  logger.info("Redis connect to service");
 })
 redis.on("error", function (err) {
-  throw Error("Error " + err);
+  logger.error(`Error from redis: ${err}`);
 });
 
 require('dotenv').config();
@@ -63,7 +63,7 @@ const devSchedual = async () => {
     let es_Data = es().then((esDiffs) => {
         diffsHandler(esDiffs, fn.dataSources.es, aka_data.all);
     });
-   /*  // get the new json from ads & save him on the server
+    // get the new json from ads & save him on the server
     let ads_Data = ads().then((adsDiff) => {
         diffsHandler(adsDiff, fn.dataSources.ads, aka_data.all);
     });
@@ -83,12 +83,10 @@ const devSchedual = async () => {
     let nvMDN_Data = nvMDN().then((nvMDNDiff) => {
         diffsHandler(nvMDNDiff, fn.dataSources.nvSQL, aka_data.all);
     });
- */
+
 
     //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
 };
-// devSchedual();
-// redis.quit();
 
 [devSchedual, promisify(() => redis.quit())].reduce((prevFunc, nextFunc) => prevFunc.then(nextFunc), Promise.resolve());
 
