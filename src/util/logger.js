@@ -1,6 +1,7 @@
 const { createLogger, format, transports } = require('winston');
 require('winston-daily-rotate-file');
 const fs = require('fs');
+const os = require('os');
 require('dotenv').config();
 
 const env = process.env.NODE_ENV || 'development';
@@ -43,6 +44,11 @@ const logger = createLogger({
     format.timestamp({
       format: 'YYYY-MM-DD HH:mm:ss'
     }),
+    format((info)=>{
+      info.service = "karting";
+      info.hostname = os.hostname();
+      return info
+    })(),
     format.json(),
   ),
   transports: [

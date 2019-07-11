@@ -1,16 +1,18 @@
 module.exports = {
     dataSources: {
-        aka: "aka_name",
+        // aka: "aka_name",
+        aka: "aka",
         es: "es_name",
         ads: "ads_name",
         adNN: "adNN_name",
         nvSQL: "nvSQL_name",
         lmn: "lmn_name",
-        mdn:"mdn_name",
-        mm:"mm_name",
+        mdn: "mdn_name",
+        mm: "mm_name",
         excel: "excel",
     },
-    aka_name: {
+    // aka_name: {
+    aka: {
         serviceType: "nstype",
         firstName: "firstName",
         lastName: "lastName",
@@ -97,7 +99,7 @@ module.exports = {
         minute: 54
     },
     akaRigid: ["clearance", "identityCard", "personalNumber", "firstName", "lastName", "dischargeDay", "rank", "address", "mobilePhone", "phone", "serviceType", "currentUnit"],
-    forbiddenFieldsToUpdate: ["identityCard", "personalNumber","directGroup"],
+    forbiddenFieldsToUpdate: ["identityCard", "personalNumber", "directGroup"],
     fieldsForRmoveFromKartoffel: ["secondaryDomainUsers", "alive", "responsibility", "_id", "createdAt", "updatedAt", "primaryDomainUser", "fullName", "id", "hierarchy"],
-    kartoffelUrl: "https://localhost:3000",
+    kartoffelUrl: "http://localhost:3000",
 };
