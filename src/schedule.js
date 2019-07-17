@@ -35,7 +35,7 @@ const devSchedual = (async () => {
       });
 
     redis.on("connect", async function(){
-        console.log("Redis connect to service");
+        logger.info("Redis connect to service");
         Auth.setRedis(redis);
         await GetDataAndInsertKartoffel();
         await redis.quit();
