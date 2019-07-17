@@ -25,7 +25,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "startDev": "node ./mocks/mocksGenerator.js & npm start",
-    "start": "node ./src/schedule.js"
+    "start": "node -r dotenv/config ./src/schedule.js"
   },
   "repository": {
     "type": "git",
