@@ -130,8 +130,8 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
 }
 
 
-module.exports = (diffsObj, dataSource, aka_all_data) => {
+module.exports = async (diffsObj, dataSource, aka_all_data) => {
     //added the new person from es to Kartoffel
-    if (diffsObj.added.length > 0) { added(diffsObj.added, dataSource, aka_all_data, currentUnit_to_DataSource); }
-    if (diffsObj.updated.length > 0) { updated(diffsObj.updated, dataSource, aka_all_data, currentUnit_to_DataSource); }
+    if (diffsObj.added.length > 0) { await added(diffsObj.added, dataSource, aka_all_data, currentUnit_to_DataSource); }
+    if (diffsObj.updated.length > 0) { await updated(diffsObj.updated, dataSource, aka_all_data, currentUnit_to_DataSource); }
 }

@@ -13,17 +13,8 @@ const Auth = require('./auth/auth');
 const Redis = require("ioredis");
 const promisify = require('util').promisify;
 
-const redis = new Redis();
-
-redis.on("connect", function(){
-  console.log("Redis connect to service");
-})
-redis.on("error", function (err) {
-  throw Error("Error " + err);
-});
-
 require('dotenv').config();
-Auth.setRedis(redis);
+// Auth.setRedis(redis);
 
 if (process.env.DATA_SOURCE == fn.dataSources.excel) {
     const express = require("express")
@@ -36,9 +27,24 @@ if (process.env.DATA_SOURCE == fn.dataSources.excel) {
 
 // const trialLog = schedule.scheduleJob(fn.runningTime,async()=>{
 //////////////MOCK-DELETE AT PRODACTION//////////////////////////////
-const devSchedual = async () => {
+const devSchedual = (async () => {
   /////////////////////////////////////////////////////////////////////////////
-    
+    const redis = new Redis();
+
+    redis.on("connect", async function(){
+        console.log("Redis connect to service");
+        Auth.setRedis(redis);
+    })
+    redis.on("error", function (err) {
+        logger.error("Failed to connect to Redis. error message: " + err.message);
+    });
+    redis.on("end", function () {
+        logger.info("The connection to Radis is closed");
+    });    
+
+    // If the connection to Redis fails, do nothing
+    if(redis.status !== 'connect') return;
+
     // check if the root hierarchy exist and adding it if not
     await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
@@ -57,40 +63,39 @@ const devSchedual = async () => {
 
     // get the new json from aka & save him on the server
     let aka_data = await aka();
-    diffsHandler(aka_data, fn.dataSources.aka, aka_data.all);
+    await diffsHandler(aka_data, fn.dataSources.aka, aka_data.all);
 
     // get the new json from es & save him on the server
-    let es_Data = es().then((esDiffs) => {
-        diffsHandler(esDiffs, fn.dataSources.es, aka_data.all);
-    });
-   /*  // get the new json from ads & save him on the server
-    let ads_Data = ads().then((adsDiff) => {
-        diffsHandler(adsDiff, fn.dataSources.ads, aka_data.all);
-    });
-    // get the new json from nn & save him on the server
-    let adNN_Data = adNN().then((adNNDiff) => {
-        diffsHandler(adNNDiff, fn.dataSources.adNN, aka_data.all);
-    });
-    // get the new json from mm & save him on the server
-    let nvMM_Data = nvMM().then((nvMMDiffs) => {
-        diffsHandler(nvMMDiffs, fn.dataSources.nvSQL, aka_data.all);
-    });
-    // get the new json from lmn & save him on the server
-    let nvLMN_Data = nvLMN().then((nvLMNDiff) => {
-        diffsHandler(nvLMNDiff, fn.dataSources.nvSQL, aka_data.all);
-    });
-    // get the new json from mdn & save him on the server
-    let nvMDN_Data = nvMDN().then((nvMDNDiff) => {
-        diffsHandler(nvMDNDiff, fn.dataSources.nvSQL, aka_data.all);
-    });
- */
+    let es_Data = await es();
+    await diffsHandler(es_Data, fn.dataSources.es, aka_data.all);
 
+    // get the new json from ads & save him on the server
+    let ads_Data = await ads();
+    await diffsHandler(ads_Data, fn.dataSources.ads, aka_data.all);
+
+ /*    // get the new json from nn & save him on the server
+    let adNN_Data = await adNN();
+    await diffsHandler(adNN_Data, fn.dataSources.adNN, aka_data.all);
+
+    // get the new json from mm & save him on the server
+    let nvMM_Data = await nvMM();
+    await diffsHandler(nvMM_Data, fn.dataSources.nvSQL, aka_data.all);
+
+    // get the new json from lmn & save him on the server
+    let nvLMN_Data = await nvLMN();
+    await diffsHandler(nvLMN_Data, fn.dataSources.nvSQL, aka_data.all);
+
+    // get the new json from mdn & save him on the server
+    let nvMDN_Data = nvMDN();
+    await diffsHandler(nvMDN_Data, fn.dataSources.nvSQL, aka_data.all); */
+ 
+    await redis.quit();
     //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
-};
+})();
 // devSchedual();
 // redis.quit();
 
-[devSchedual, promisify(() => redis.quit())].reduce((prevFunc, nextFunc) => prevFunc.then(nextFunc), Promise.resolve());
+// [devSchedual, promisify(() => redis.quit())].reduce((prevFunc, nextFunc) => prevFunc.then(nextFunc), Promise.resolve());
 
 ///////////////////////////////////////////////////////////////////////////
 // });
