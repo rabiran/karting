@@ -11,7 +11,7 @@ const diffsHandler = require('./util/diffsHandler');
 const logger = require('./util/logger');
 const Auth = require('./auth/auth');
 const Redis = require("ioredis");
-const promisify = require('util').promisify;
+const schedule = require('node-schedule');
 
 require('dotenv').config();
 
@@ -23,16 +23,15 @@ if (process.env.DATA_SOURCE == fn.dataSources.excel) {
     app.listen(5000, () => console.log(`Example app listening on port 5000!`))
 }
 
+const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : 
+                            new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 
-// const trialLog = schedule.scheduleJob(fn.runningTime,async()=>{
-//////////////MOCK-DELETE AT PRODACTION//////////////////////////////
-const devSchedual = (async () => {
-  /////////////////////////////////////////////////////////////////////////////
-  const redis = new Redis({
+const trialLog = schedule.scheduleJob(scheduleTime ,async()=>{
+    const redis = new Redis({
         retryStrategy: function(times) {
-            return times <= 3 ? 1000 : "stop reconnecting";
+            return times <= 3 ? times * 1000 : "stop reconnecting";
         }
-      });
+    });
 
     redis.on("connect", async function(){
         logger.info("Redis connect to service");
@@ -44,14 +43,11 @@ const devSchedual = (async () => {
         logger.error("Failed to connect to Redis. error message: " + err.message);
     });
     redis.on("end", function () {
-        logger.info("The connection to Radis is closed");
+        logger.info("The connection to Redis is closed");
     });    
-
-    //////////////////////MOCK-DELETE AT PRODACTION//////////////////////////////
-})();
+});
 
 const GetDataAndInsertKartoffel = async ()=> {
-    // if (redis.status !== "connect") return;
     // check if the root hierarchy exist and adding it if not
     await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
@@ -96,8 +92,3 @@ const GetDataAndInsertKartoffel = async ()=> {
     let nvMDN_Data = nvMDN();
     await diffsHandler(nvMDN_Data, fn.dataSources.nvSQL, aka_data.all); */
 }; 
-
-// [devSchedual, promisify(() => redis.quit())].reduce((prevFunc, nextFunc) => prevFunc.then(nextFunc), Promise.resolve());
-
-///////////////////////////////////////////////////////////////////////////
-// });
