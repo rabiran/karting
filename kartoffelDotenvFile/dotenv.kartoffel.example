@@ -1,0 +1,22 @@
+NODE_ENV=dev
+
+MONGODB_URI=mongodb://mongo:27017/kartoffel
+MONGODB_TEST_URI=mongodb://localhost:27017/kartoffel_test
+
+SESSION_SECRET=
+PORT =3000
+
+ENABLE_AUTH = true
+
+# not requierd
+CLIENT_ID=
+CLIENT_SECRET=
+
+# jwt auth
+JWT_AUDIENCE=
+JWT_ISSUER=
+# BASE + KEY_PATH should return the public key
+JWT_PUBLIC_KEY_BASE_URL=
+JWT_PUBLIC_KEY_PATH=
+JWT_PUBLIC_KEY_PORT= 
+

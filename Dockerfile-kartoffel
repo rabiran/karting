@@ -1,0 +1,15 @@
+FROM alpine:latest as clone
+RUN apk update
+RUN apk upgrade
+RUN apk add git
+RUN git clone https://github.com/rabiran/Kartoffel
+COPY kartoffelDotenvFile/.env /Kartoffel/.env
+
+FROM node:10.13-alpine AS build
+copy --from=clone /Kartoffel /Kartoffel
+WORKDIR /Kartoffel
+RUN npm install
+RUN npm run build
+
+EXPOSE 3000
+CMD npm run serve
