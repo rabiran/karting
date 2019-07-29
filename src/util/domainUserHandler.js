@@ -50,7 +50,8 @@ module.exports = async (person, record, isPrimary, dataSource) => {
         const user = await axios.post(p(person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
         logger.info(`Add ${(isPrimary) ? "primary" : "secondary"} user ${user_object.uniqueID} to the person with the idetifier: ${user.data.personalNumber || user.data.identityCard} from ${dataSource} successfully.`);
     } catch (err) {
-        logger.error(`Not add ${(isPrimary) ? "primary" : "secondary"} user to person with the identifier: ${person.mail} to the person with the idetifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${err.response.data.message}"`);
+        let errMessage = err.response ? err.response.data.message : err.message;
+        logger.error(`Not add ${(isPrimary) ? "primary" : "secondary"} user to person with the identifier: ${person.mail} to the person with the idetifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${errMessage}"`);
     }
 
 } 
