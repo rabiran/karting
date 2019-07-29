@@ -62,7 +62,7 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
         logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate)}`);
     }
     catch (err) {
-        let errMessage = err.response ? err.response.data : err.message;
+        let errMessage = err.response ? err.response.data.message : err.message;
         logger.error(`Not update the person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${errMessage}" ${JSON.stringify(objForUpdate)}`);
     }
 }
