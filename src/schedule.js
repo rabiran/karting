@@ -26,7 +26,7 @@ if (process.env.DATA_SOURCE == fn.dataSources.excel) {
 const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : 
                             new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 
-const trialLog = schedule.scheduleJob(scheduleTime ,async()=>{
+schedule.scheduleJob(scheduleTime ,async()=>{
     const redis = new Redis({
         retryStrategy: function(times) {
             return times <= 3 ? times * 1000 : "stop reconnecting";
@@ -35,19 +35,15 @@ const trialLog = schedule.scheduleJob(scheduleTime ,async()=>{
 
     redis.on("connect", async function(){
         logger.info("Redis connect to service");
-        Auth.setRedis(redis);
-        await GetDataAndInsertKartoffel();
-        await redis.quit();
+        Auth.setRedis(redis);    
     })   
     redis.on("error", function (err) {        
         logger.error("Failed to connect to Redis. error message: " + err.message);
     });
     redis.on("end", function () {
         logger.info("The connection to Redis is closed");
-    });    
-});
-
-const GetDataAndInsertKartoffel = async ()=> {
+    });
+    
     // check if the root hierarchy exist and adding it if not
     await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
@@ -66,29 +62,22 @@ const GetDataAndInsertKartoffel = async ()=> {
 
     // get the new json from aka & save him on the server
     let aka_data = await aka();
-    await diffsHandler(aka_data, fn.dataSources.aka, aka_data.all);
 
-    // get the new json from es & save him on the server
-    let es_Data = await es();
-    await diffsHandler(es_Data, fn.dataSources.es, aka_data.all);
+    await Promise.all([
+        GetDataAndProcess(fn.dataSources.aka, aka_data),
+        GetDataAndProcess(fn.dataSources.es, aka_data, es),
+        GetDataAndProcess(fn.dataSources.ads, aka_data, ads),
+        GetDataAndProcess(fn.dataSources.adNN, aka_data, adNN),
+        GetDataAndProcess(fn.dataSources.nvSQL, aka_data, nvMM),
+        GetDataAndProcess(fn.dataSources.nvSQL, aka_data, nvLMN),
+        GetDataAndProcess(fn.dataSources.nvSQL, aka_data, nvMDN)
+    ]);
 
-    // get the new json from ads & save him on the server
-    let ads_Data = await ads();
-    await diffsHandler(ads_Data, fn.dataSources.ads, aka_data.all);
+    if(redis && redis.status === 'connect') redis.quit();
+});
 
- /*    // get the new json from nn & save him on the server
-    let adNN_Data = await adNN();
-    await diffsHandler(adNN_Data, fn.dataSources.adNN, aka_data.all);
 
-    // get the new json from mm & save him on the server
-    let nvMM_Data = await nvMM();
-    await diffsHandler(nvMM_Data, fn.dataSources.nvSQL, aka_data.all);
-
-    // get the new json from lmn & save him on the server
-    let nvLMN_Data = await nvLMN();
-    await diffsHandler(nvLMN_Data, fn.dataSources.nvSQL, aka_data.all);
-
-    // get the new json from mdn & save him on the server
-    let nvMDN_Data = nvMDN();
-    await diffsHandler(nvMDN_Data, fn.dataSources.nvSQL, aka_data.all); */
-}; 
+const GetDataAndProcess = async (dataSource, akaData, func) => {
+    let data = func ? await func() : akaData;
+    await diffsHandler(data, dataSource, akaData.all);
+}
