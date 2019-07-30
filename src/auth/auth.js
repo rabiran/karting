@@ -29,7 +29,7 @@ class Auth {
       Auth.publicKey = await Auth.getPublicKey();
     }
     if (!Auth.accessToken) {
-      Auth.accessToken = redis && redis.status === 'connect' ? await Auth.redis.get(Auth.keyName) : null;
+      Auth.accessToken = Auth.redis && Auth.redis.status === 'ready' ? await Auth.redis.get(Auth.keyName) : null;
     }
     try {
       verifyToken = jwt.verify(Auth.accessToken, Auth.publicKey);
@@ -43,7 +43,7 @@ class Auth {
           audience: authParams.audience,
           scope: authParams.scope.join(' '),
         })).data.access_token;
-        if(redis && redis.status === 'connect') {
+        if(Auth.redis && Auth.redis.status === 'ready') {
           await Auth.redis.set(Auth.keyName, Auth.accessToken);
           logger.info('Success to set access token in redis');
         }
