@@ -26,7 +26,7 @@ if (process.env.DATA_SOURCE == fn.dataSources.excel) {
 const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : 
                             new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 
-const trialLog = schedule.scheduleJob(scheduleTime ,async()=>{
+schedule.scheduleJob(scheduleTime ,async()=>{
     const redis = new Redis({
         retryStrategy: function(times) {
             return times <= 3 ? times * 1000 : "stop reconnecting";
@@ -35,19 +35,15 @@ const trialLog = schedule.scheduleJob(scheduleTime ,async()=>{
 
     redis.on("connect", async function(){
         logger.info("Redis connect to service");
-        Auth.setRedis(redis);
-        await GetDataAndInsertKartoffel(redis);
-        await redis.quit();
+        Auth.setRedis(redis);    
     })   
     redis.on("error", function (err) {        
         logger.error("Failed to connect to Redis. error message: " + err.message);
     });
     redis.on("end", function () {
         logger.info("The connection to Redis is closed");
-    });    
-});
-
-const GetDataAndInsertKartoffel = async (redis)=> {
+    });
+    
     // check if the root hierarchy exist and adding it if not
     await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
@@ -77,8 +73,9 @@ const GetDataAndInsertKartoffel = async (redis)=> {
         GetDataAndProcess(fn.dataSources.nvSQL, aka_data, nvMDN)
     ]);
 
-    redis.quit();
-}; 
+    if(redis && redis.status === 'connect') redis.quit();
+});
+
 
 const GetDataAndProcess = async (dataSource, akaData, func) => {
     let data = func ? await func() : akaData;

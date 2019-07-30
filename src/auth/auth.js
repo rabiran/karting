@@ -29,7 +29,7 @@ class Auth {
       Auth.publicKey = await Auth.getPublicKey();
     }
     if (!Auth.accessToken) {
-      Auth.accessToken = await Auth.redis.get(Auth.keyName);
+      Auth.accessToken = redis && redis.status === 'connect' ? await Auth.redis.get(Auth.keyName) : null;
     }
     try {
       verifyToken = jwt.verify(Auth.accessToken, Auth.publicKey);
@@ -43,8 +43,10 @@ class Auth {
           audience: authParams.audience,
           scope: authParams.scope.join(' '),
         })).data.access_token;
-        await Auth.redis.set(Auth.keyName, Auth.accessToken);
-        logger.info('Success to set access token in redis');
+        if(redis && redis.status === 'connect') {
+          await Auth.redis.set(Auth.keyName, Auth.accessToken);
+          logger.info('Success to set access token in redis');
+        }
       } catch (error) {
         logger.error(`Error from spike: ${error.message}`);
       }
