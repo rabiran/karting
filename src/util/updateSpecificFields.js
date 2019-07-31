@@ -40,6 +40,18 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
     });
 
     try {
+        if (objForUpdate.directGroup) {
+            let updateDirectGroup = {	
+                group: objForUpdate.directGroup	
+            };	
+            try {	
+                await axios.put(p(person.id).KARTOFFEL_PERSON_ASSIGN_API, updateDirectGroup);	
+                logger.info(`The directGroup of the person with the identifier:${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate.directGroup)}`);	
+            }	
+            catch(err){	
+                logger.error(`Failed to update directGroup for ${person.personalNumber || person.identityCard} from ${dataSource}`)	
+            }	
+        }
         // delete forbidden Fields To Update
         for (let field of fn.forbiddenFieldsToUpdate) {
             objForUpdate[field] ? delete objForUpdate[field] : null;
