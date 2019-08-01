@@ -12,6 +12,7 @@ const logger = require('./util/logger');
 const Auth = require('./auth/auth');
 const Redis = require("ioredis");
 const schedule = require('node-schedule');
+const PromiseAllWithFails = require('./util/promiseAllWithFails');
 
 require('dotenv').config();
 
@@ -63,7 +64,7 @@ schedule.scheduleJob(scheduleTime ,async()=>{
     // get the new json from aka & save him on the server
     let aka_data = await aka();
 
-    await Promise.all([
+    await PromiseAllWithFails([
         GetDataAndProcess(fn.dataSources.aka, aka_data),
         GetDataAndProcess(fn.dataSources.es, aka_data, es),
         GetDataAndProcess(fn.dataSources.ads, aka_data, ads),
@@ -76,8 +77,14 @@ schedule.scheduleJob(scheduleTime ,async()=>{
     if(redis && redis.status === 'ready') redis.quit();
 });
 
-
+/**
+ * 
+ * @param {*} dataSource - The source of the data 
+ * @param {*} akaData - The aka data to complete data information
+ * @param {*} func - The function thet give data from data source
+ */
 const GetDataAndProcess = async (dataSource, akaData, func) => {
+    // In case datasource is aka, I get data before function and therefore not need to get data again
     let data = func ? await func() : akaData;
     await diffsHandler(data, dataSource, akaData.all);
 }
