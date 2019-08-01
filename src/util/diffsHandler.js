@@ -72,12 +72,12 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                     await domainUserHandler(person, record, isPrimary, dataSource);
                 }
                 catch (err) {
-                    let errMessage = err.response ? err.response.data : err.message;
+                    let errMessage = err.response ? err.response.data.message : err.message;
                     logger.error(`Not insert the person with the identifier: ${person_ready_for_kartoffel.personalNumber || person_ready_for_kartoffel.identityCard} from ${dataSource} to Kartoffel. The error message:"${errMessage}" ${JSON.stringify(record)}`);
                 }
             }
             else {
-                let errMessage = err.response ? err.response.data : err.message;
+                let errMessage = err.response ? err.response.data.message : err.message;
                 logger.error(`The person with the identifier: ${identifier} from ${dataSource}_raw_data not found in Kartoffel. The error message:"${errMessage}"`);
             };
         }
