@@ -1,0 +1,10 @@
+FROM node:10.13-alpine
+
+copy /mocks/mocksServer.js /myApp/mocksServer.js
+copy /mocks/mocksFiles /myApp/mocksFiles
+
+WORKDIR /myApp
+RUN npm install express
+
+EXPOSE 3001
+CMD node mocksServer.js

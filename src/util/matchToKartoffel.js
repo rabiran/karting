@@ -1,9 +1,9 @@
 const fn = require("../config/fieldNames");
 const validators = require('../config/validators');
 const p = require("../config/paths");
-const axios = require('axios');
 const hierarchyHandler = require('./hierarchyHandler');
 const logger = require('./logger');
+const Auth = require('../auth/auth');
 require('dotenv').config();
 
 
@@ -426,7 +426,7 @@ const match_excel = (obj, dataSource) => {
 directGroupHandler = async (record) => {
     hr = encodeURIComponent(record.hierarchy)
     let directGroup;
-    await axios.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
+    await Auth.axiosKartoffel.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async (result) => {
             let directGroupID = await hierarchyHandler(result.data, record.hierarchy);
             directGroup = directGroupID;

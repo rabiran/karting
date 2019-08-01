@@ -1,8 +1,7 @@
 const fn = require('../config/fieldNames');
 const p = require('../config/paths');
-const axios = require('axios');
 const logger = require('./logger');
-
+const Auth = require('../auth/auth');
 
 /**
  *This module create domainUser (primary or secondary) for person, using the unique properties of each dataSource
@@ -47,7 +46,7 @@ module.exports = async (person, record, isPrimary, dataSource) => {
     }
 
     try {
-        const user = await axios.post(p(person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
+        const user = await Auth.axiosKartoffel.post(p(person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
         logger.info(`Add ${(isPrimary) ? "primary" : "secondary"} user ${user_object.uniqueID} to the person with the idetifier: ${user.data.personalNumber || user.data.identityCard} from ${dataSource} successfully.`);
     } catch (err) {
         logger.error(`Not add ${(isPrimary) ? "primary" : "secondary"} user to person with the identifier: ${person.mail} to the person with the idetifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${err.response.data}"`);

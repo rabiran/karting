@@ -1,7 +1,6 @@
 const p = require('../config/paths');
 const fn = require('../config/fieldNames');
 const matchToKartoffel = require('./matchToKartoffel');
-const axios = require('axios');
 const completeFromAka = require('./completeFromAka');
 const logger = require('./logger');
 const domainUserHandler = require('./domainUserHandler');
@@ -9,6 +8,7 @@ const identifierHandler = require('./identifierHandler');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
 const updateSpecificFields = require("./updateSpecificFields");
 const diff = require("diff-arrays-of-objects");
+const Auth = require('../auth/auth');
 
 require('dotenv').config();
 /*
@@ -30,7 +30,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
             // check if the person already exist in Kartoffel, if exist then update his data according to "currentUnit" field
             let identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
             if (identifier) {
-                let person = await axios.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
+                let person = await Auth.axiosKartoffel.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
                 person = person.data;
                 let isPrimary = (currentUnit_to_DataSource.get(person.currentUnit) === dataSource);
                 if (isPrimary) {
@@ -64,7 +64,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                         logger.warn(`Ignoring from this person because his currentUnit is not from ${fn.rootHierarchy}.  ${JSON.stringify(person_ready_for_kartoffel)}`);
                         continue;
                     }
-                    let person = await axios.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
+                    let person = await Auth.axiosKartoffel.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     person = person.data;
                     logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} successfully insert to Kartoffel`);
                     // add domain user for the new person 
@@ -88,7 +88,7 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
         const record = diffsObj[i];
         let identifier = record[1][fn[dataSource].personalNumber] || record[1][fn[dataSource].identityCard] || record[1].personalNumber || record[1].identityCard;
         // Get the person object from kartoffel
-        let person = await axios.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
+        let person = await Auth.axiosKartoffel.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
             .catch((err) => {
                 logger.error(`Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' at update flow. The error message: "${err}"`);
             });
@@ -129,8 +129,9 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
 }
 
 
-module.exports = (diffsObj, dataSource, aka_all_data) => {
-    //added the new person from es to Kartoffel
-    if (diffsObj.added.length > 0) { added(diffsObj.added, dataSource, aka_all_data, currentUnit_to_DataSource); }
-    if (diffsObj.updated.length > 0) { updated(diffsObj.updated, dataSource, aka_all_data, currentUnit_to_DataSource); }
+module.exports = async (diffsObj, dataSource, aka_all_data) => {
+    return Promise.all([
+        added(diffsObj.added, dataSource, aka_all_data, currentUnit_to_DataSource),
+        updated(diffsObj.updated, dataSource, aka_all_data, currentUnit_to_DataSource)
+    ]);
 }

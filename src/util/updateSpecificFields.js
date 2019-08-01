@@ -1,8 +1,8 @@
 const matchToKartoffel = require('./matchToKartoffel');
-const axios = require('axios');
 const p = require('../config/paths');
 const logger = require('./logger');
 const fn = require('../config/fieldNames');
+const Auth = require('../auth/auth');
 
 /**
  * This module accept an array that contain DeepDiff objects and build from them object for the PUT request that send to Kartoffel
@@ -41,24 +41,23 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
 
     try {
         if (objForUpdate.directGroup) {
-            let updateDirectGroup = {
-                group: objForUpdate.directGroup
-            };
-            try {
-                await axios.put(p(person.id).KARTOFFEL_PERSON_ASSIGN_API, updateDirectGroup);
-                logger.info(`The directGroup of the person with the identifier:${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate.directGroup)}`);
-            }
-            catch(err){
-                logger.error(`Failed to update directGroup for ${person.personalNumber || person.identityCard} from ${dataSource}`)
-            }
+            let updateDirectGroup = {	
+                group: objForUpdate.directGroup	
+            };	
+            try {	
+                await axios.put(p(person.id).KARTOFFEL_PERSON_ASSIGN_API, updateDirectGroup);	
+                logger.info(`The directGroup of the person with the identifier:${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate.directGroup)}`);	
+            }	
+            catch(err){	
+                logger.error(`Failed to update directGroup for ${person.personalNumber || person.identityCard} from ${dataSource}`)	
+            }	
         }
-
         // delete forbidden Fields To Update
         for (let field of fn.forbiddenFieldsToUpdate) {
             objForUpdate[field] ? delete objForUpdate[field] : null;
         }
         // Update the person object
-        objForUpdate ? await axios.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate) : null;
+        objForUpdate ? await Auth.axiosKartoffel.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate) : null;
         logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate)}`);
     }
     catch (err) {
