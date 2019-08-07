@@ -90,7 +90,7 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
         // Get the person object from kartoffel
         let person = await Auth.axiosKartoffel.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
             .catch((err) => {
-                logger.log((() => { return dataSource === fn.dataSources.aka ? "warn" : "error" })(), `Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' at update flow. The error message: "${err}"`)
+                logger.log(dataSource === fn.dataSources.aka ? "warn" : "error" , `Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' at update flow. The error message: "${err}"`)
             });
         if (!person) {
             continue;
