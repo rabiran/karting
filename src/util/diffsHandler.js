@@ -59,11 +59,6 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                 person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
                 try {
-                    // check if the current unit from aka belong to our orginization, if not the loop will continue to the next iteration
-                    if (person_ready_for_kartoffel.currentUnit && !currentUnit_to_DataSource.get(person_ready_for_kartoffel.currentUnit) && person_ready_for_kartoffel.entityType === fn.entityTypeValue.s) {
-                        logger.warn(`Ignoring from this person because his currentUnit is not from ${fn.rootHierarchy}.  ${JSON.stringify(person_ready_for_kartoffel)}`);
-                        continue;
-                    }
                     let person = await Auth.axiosKartoffel.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     person = person.data;
                     logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} successfully insert to Kartoffel`);
