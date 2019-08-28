@@ -1,10 +1,4 @@
-const aka = require('./aka/aka_synchronizeData');
-const es = require('./es/es_synchronizeData');
-const ads = require('./ads/ads_synchronizeData');
-const adNN = require('./adNN/adNN_syncData');
-const nvMM = require('./nvSql/mm_synchronizeData');
-const nvLMN = require('./nvSql/lmn_synchronizeData');
-const nvMDN = require('./nvSql/mdn_synchronizeData');
+const dataSync = require('./util/data_synchronizeData');
 const fn = require('./config/fieldNames');
 const p = require('./config/paths');
 const diffsHandler = require('./util/diffsHandler');
@@ -24,8 +18,7 @@ if (process.env.DATA_SOURCE == fn.dataSources.excel) {
     app.listen(5000, () => console.log(`Example app listening on port 5000!`))
 }
 
-const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : 
-                            new Date().setMilliseconds(new Date().getMilliseconds() + 200);
+const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 
 schedule.scheduleJob(scheduleTime ,async()=>{
     const redis = new Redis({
@@ -62,16 +55,16 @@ schedule.scheduleJob(scheduleTime ,async()=>{
         });
 
     // get the new json from aka & save him on the server
-    let aka_data = await aka();
+    let aka_data = await dataSync();
 
     await PromiseAllWithFails([
         GetDataAndProcess(fn.dataSources.aka, aka_data),
-        GetDataAndProcess(fn.dataSources.es, aka_data, es),
-        GetDataAndProcess(fn.dataSources.ads, aka_data, ads),
-        GetDataAndProcess(fn.dataSources.adNN, aka_data, adNN),
-        GetDataAndProcess(fn.dataSources.nvSQL, aka_data, nvMM),
-        GetDataAndProcess(fn.dataSources.nvSQL, aka_data, nvLMN),
-        GetDataAndProcess(fn.dataSources.nvSQL, aka_data, nvMDN)
+        GetDataAndProcess(fn.dataSources.es, aka_data, dataSync),
+        GetDataAndProcess(fn.dataSources.ads, aka_data, dataSync),
+        GetDataAndProcess(fn.dataSources.adNN, aka_data, dataSync),
+        GetDataAndProcess(fn.dataSources.lmn, aka_data, dataSync),
+        GetDataAndProcess(fn.dataSources.mdn, aka_data, dataSync),
+        GetDataAndProcess(fn.dataSources.mm, aka_data, dataSync)
     ]);
 
     if(redis && redis.status === 'ready') redis.quit();
@@ -85,6 +78,6 @@ schedule.scheduleJob(scheduleTime ,async()=>{
  */
 const GetDataAndProcess = async (dataSource, akaData, func) => {
     // In case datasource is aka, I get data before function and therefore not need to get data again
-    let data = func ? await func() : akaData;
+    let data = func ? await func(dataSource) : akaData;
     await diffsHandler(data, dataSource, akaData.all);
 }

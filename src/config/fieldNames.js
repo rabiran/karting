@@ -26,7 +26,8 @@ module.exports = {
         dischargeDay: "rld",
         clearance: "clearance",
         unitName: "hr",
-        telephoneType: "telephoneType",
+        telephoneType: "telephoneType", 
+        uniqeFieldForDeepDiff: "mi"
     },
     es_name: {
         entityType: "entity",
@@ -44,6 +45,7 @@ module.exports = {
         job: "tf",
         domainSuffix: "@es",
         userName: "userName",
+        uniqeFieldForDeepDiff: "tz"
     },
     excel: {
         entityType: "entityType",
@@ -67,6 +69,7 @@ module.exports = {
         hierarchy: "hierarchy",
         sAMAccountName: "sAMAccountName",
         domainSuffix: "@ads",
+        uniqeFieldForDeepDiff: "sAMAccountName"
     },
     adNN_name: {
         firstName: "KfirstName",
@@ -78,6 +81,7 @@ module.exports = {
         sAMAccountName: "sAMAccountName",
         extension: "nn",
         domainSuffix: "@adnn",
+        uniqeFieldForDeepDiff: "userPrincipalName"
     },
     nvSQL_name: {
         firstName: "KfirstName",
@@ -85,7 +89,8 @@ module.exports = {
         uniqueID: "unid",
         hierarchy: "hierarchy",
         pn: "pn",
-        identityCard: "id"
+        identityCard: "id",
+        uniqeFieldForDeepDiff: "unid"
     },
     entityTypeValue: {
         s: "tamar",
