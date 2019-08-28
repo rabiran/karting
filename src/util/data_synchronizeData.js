@@ -16,9 +16,9 @@ module.exports = async (dataSource) => {
     }
     // get the update data from the remote server
     else { data = await axios.get(p()[`${dataSource}_API`]); }
-    // save the new json as file in the server
+    // save the new json as file in the server and get the name of the kast file
     let previous_data_file_name = saveAsFile(data.data, `./data/${dataSource}`, `${`${dataSource}`}_raw_data`);
-    // get the delta between the two last JSONs
+    // get the diffs between the two last JSONs
     dataDiff = dataComparison(data.data, `./data/${dataSource}/archive`, previous_data_file_name, fn[fn.dataSources.adNN].upn);
     dataSource === fn.dataSources.aka ? dataDiff.all = data : null;
 
