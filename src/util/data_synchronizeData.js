@@ -15,11 +15,14 @@ module.exports = async (dataSource) => {
         data = akaDataManipulate(aka_telephones_data.data, aka_employees_data.data);
     }
     // get the update data from the remote server
-    else { data = await axios.get(p()[`${dataSource}_API`]); }
+    else {
+        data = await axios.get(p()[`${dataSource}_API`]);
+        data = data.data;
+    }
     // save the new json as file in the server and get the name of the kast file
-    let previous_data_file_name = saveAsFile(data.data, `./data/${dataSource}`, `${`${dataSource}`}_raw_data`);
+    let previous_data_file_name = saveAsFile(data, `./data/${dataSource}`, `${dataSource}_raw_data`);
     // get the diffs between the two last JSONs
-    dataDiff = dataComparison(data.data, `./data/${dataSource}/archive`, previous_data_file_name, fn[fn.dataSources.adNN].upn);
+    dataDiff = dataComparison(data, `./data/${dataSource}/archive`, previous_data_file_name, fn[dataSource].uniqeFieldForDeepDiff);
     dataSource === fn.dataSources.aka ? dataDiff.all = data : null;
 
     return dataDiff;
