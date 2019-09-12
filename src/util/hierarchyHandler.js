@@ -28,7 +28,7 @@ module.exports = async (hierarchy_obj, hierarchy) => {
 
                 })
                 .catch((error) => {
-                    logger.error(`failed to add the hierarchy "${hierarchyAfterProcess}" to Kartoffel. the error message: "${error.response.data}"`);
+                    logger.error(`failed to add the hierarchy "${hierarchyAfterProcess}" to Kartoffel. the error message: "${error.response.data.message}"`);
                 })
         }
 
