@@ -49,7 +49,8 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
                 logger.info(`The directGroup of the person with the identifier:${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate.directGroup)}`);	
             }	
             catch(err){	
-                logger.error(`Failed to update directGroup for ${person.personalNumber || person.identityCard} from ${dataSource}`)	
+                let errMessage = err.response ? err.response.data.message : err.message;
+                logger.error(`Failed to update directGroup for ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${errMessage}" ${JSON.stringify(objForUpdate)}`);	
             }	
         }
         // delete forbidden Fields To Update
