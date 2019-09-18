@@ -471,7 +471,9 @@ module.exports = async (origin_obj, dataSource) => {
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             delete obj[fn[dataSource].fullName];
             break;
-        case fn.dataSources.nvSQL:
+        case fn.dataSources.mdn:
+        case fn.dataSources.mm:
+        case fn.dataSources.lmn:
             match_nv_sql(obj, dataSource);
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
