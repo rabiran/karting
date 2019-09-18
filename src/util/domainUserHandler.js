@@ -22,9 +22,9 @@ module.exports = async (person, record, isPrimary, dataSource) => {
         user_object.uniqueID = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
     (dataSource === fn.dataSources.adNN && record[fn[dataSource].sAMAccountName]) ?
         user_object.uniqueID = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
-    (dataSource === fn.dataSources.nvSQL && record[fn[dataSource].uniqueID]) ?
+    (dataSource === (fn.dataSources.mdn || fn.dataSources.mm || fn.dataSources.lmn) && record[fn[dataSource].uniqueID]) ?
         user_object.uniqueID = record[fn[dataSource].uniqueID].toLowerCase() : null;
-    (dataSource === fn.dataSources.es &&  record[fn[dataSource].userName]) ?
+    (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
         user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
 
     if (!user_object.uniqueID) {
@@ -41,7 +41,7 @@ module.exports = async (person, record, isPrimary, dataSource) => {
                     return breaking = true;
                 }
             })
-            if (breaking){return;}
+            if (breaking) { return; }
         }
     }
 
