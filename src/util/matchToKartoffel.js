@@ -281,7 +281,7 @@ const match_adNN = (obj, dataSource) => {
                 }
                 if (validators(uniqueNum).identityCard) {
                     obj.identityCard = uniqueNum.toString();
-                } else if (validators().personalNumber.test(uniqueNum)) {
+                } else {
                     obj.personalNumber = uniqueNum.toString();
                 }
 
@@ -326,7 +326,7 @@ const match_nv_sql = (obj, dataSource) => {
                 break;
             //personalNumber
             case fn[dataSource].pn:
-                validators().personalNumber.test(obj[rawKey]) ? obj.personalNumber = obj[rawKey].toString() : null;
+                obj.personalNumber = obj[rawKey].toString();
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //identity card
