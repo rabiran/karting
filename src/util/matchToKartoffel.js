@@ -136,7 +136,7 @@ const match_es = (obj, dataSource) => {
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
-                hr = hr.map((organizationName)=>{return organizationName.trim()});
+                hr = hr.map((organizationName) => { return organizationName.trim() });
                 obj.hierarchy = hr.join("/");
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
@@ -194,7 +194,7 @@ const match_ads = (obj, dataSource) => {
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
-                hr = hr.map((organizationName)=>{return organizationName.trim()});
+                hr = hr.map((organizationName) => { return organizationName.trim() });
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
@@ -252,7 +252,7 @@ const match_adNN = (obj, dataSource) => {
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
-                hr = hr.map((organizationName)=>{return organizationName.trim()});
+                hr = hr.map((organizationName) => { return organizationName.trim() });
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
 
@@ -316,7 +316,7 @@ const match_nv_sql = (obj, dataSource) => {
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
-                hr = hr.map((organizationName)=>{return organizationName.trim()});
+                hr = hr.map((organizationName) => { return organizationName.trim() });
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
 
@@ -329,14 +329,13 @@ const match_nv_sql = (obj, dataSource) => {
                 validators().personalNumber.test(obj[rawKey]) ? obj.personalNumber = obj[rawKey].toString() : null;
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
-            //identity vard
+            //identity card
             case fn[dataSource].identityCard:
                 validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             default:
-                // CHECK IF THAT COMMAND IS RELEVANT OR MISTAKE OF COPY PASTE
-                (rawKey != "mail" && rawKey != fn[dataSource].fullName) ? delete obj[rawKey] : null;
+                delete obj[rawKey];
 
         }
     })
@@ -394,7 +393,7 @@ const match_excel = (obj, dataSource) => {
                     break;
                 }
                 hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
-                hr = hr.map((organizationName)=>{return organizationName.trim()});
+                hr = hr.map((organizationName) => { return organizationName.trim() });
                 obj.hierarchy = hr.join("/");
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
