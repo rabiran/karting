@@ -12,7 +12,7 @@ const complete_es = (obj, akaRecord) => {
     obj.rank = akaRecord[fn.aka.rank];
     validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
     validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
-    
+
 }
 
 const complete_ads = (obj, akaRecord) => {
@@ -26,7 +26,7 @@ const complete_ads = (obj, akaRecord) => {
     obj.rank = akaRecord[fn.aka.rank];
     validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
     validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
-  
+
 }
 
 const complete_adNN = (obj, akaRecord) => {
@@ -82,7 +82,9 @@ module.exports = (obj, akaData, dataSource) => {
                     if (obj.entityType === fn.entityTypeValue.c) { break; };
                     complete_adNN(obj, akaRecord);
                     break;
-                case fn.dataSources.nvSQL:
+                case fn.dataSources.mdn:
+                case fn.dataSources.mm:
+                case fn.dataSources.lmn:
                     complete_nv(obj, akaRecord);
                     break;
                 default:
