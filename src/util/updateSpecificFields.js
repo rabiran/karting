@@ -3,7 +3,7 @@ const p = require('../config/paths');
 const logger = require('./logger');
 const fn = require('../config/fieldNames');
 const Auth = require('../auth/auth');
-
+const axios = require('axios');
 /**
  * This module accept an array that contain DeepDiff objects and build from them object for the PUT request that send to Kartoffel
  * @param {*} deepDiffArray Array of DeepDiff objects 
