@@ -5,6 +5,8 @@ const saveAsFile = require('../util/saveAsFile');
 const dataComparison = require('../util/dataComparison');
 const akaDataManipulate = require('./akaDataManipulate');
 
+axios.defaults.headers.common['authorization'] = process.env.SOURCES_TOKEN;
+
 module.exports = async (dataSource) => {
     let data;
     if (dataSource === fn.dataSources.aka) {
