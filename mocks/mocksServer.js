@@ -2,8 +2,7 @@ let express = require("express")
 let app = express()
 let port = 3001
 
-app.use((req, res, next) => {
-    // if (req.headers['Authorization'] === process.env.SOURCES_TOKEN) {
+app.use((req, res, next) => {  
     if (req.headers['authorization'] === "123") {
         next()
     }
