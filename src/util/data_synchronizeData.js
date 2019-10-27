@@ -4,6 +4,7 @@ const axios = require("axios");
 const saveAsFile = require('../util/saveAsFile');
 const dataComparison = require('../util/dataComparison');
 const akaDataManipulate = require('./akaDataManipulate');
+const logger = require('./logger');
 
 axios.defaults.headers.common['authorization'] = process.env.SOURCES_TOKEN;
 
@@ -18,7 +19,9 @@ module.exports = async (dataSource) => {
     }
     // get the update data from the remote server
     else {
-        data = await axios.get(p()[`${dataSource}_API`]);
+        data = await axios.get(p()[`${dataSource}_API`]).catch(err=>{
+            logger.error(`Failed to get data from '${dataSource}' API. The error is: ${err.message}`);
+        });
         data = data.data;
     }
     // save the new json as file in the server and get the name of the kast file

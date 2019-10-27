@@ -105,6 +105,6 @@ module.exports = {
     },
     akaRigid: ["clearance", "identityCard", "personalNumber", "firstName", "lastName", "dischargeDay", "rank", "address", "mobilePhone", "phone", "serviceType", "currentUnit"],
     forbiddenFieldsToUpdate: ["identityCard", "personalNumber", "directGroup"],
-    fieldsForRmoveFromKartoffel: ["secondaryDomainUsers", "alive", "responsibility", "_id", "createdAt", "updatedAt", "primaryDomainUser", "fullName", "id", "hierarchy"],
+    fieldsForRmoveFromKartoffel: ["domainUsers", "alive", "responsibility", "_id", "createdAt", "updatedAt", "fullName", "id", "hierarchy"],
     kartoffelUrl: "http://localhost:3000",
 };
