@@ -29,7 +29,7 @@ schedule.scheduleJob(scheduleTime ,async()=>{
 
     redis.on("connect", async function(){
         logger.info("Redis connect to service");
-        Auth.setRedis(redis);    
+        Auth.setRedis(redis);
     })   
     redis.on("error", function (err) {        
         logger.error("Failed to connect to Redis. error message: " + err.message);
