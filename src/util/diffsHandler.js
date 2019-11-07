@@ -42,7 +42,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                     if (objForUpdate.updated.length > 0) { updated(objForUpdate.updated, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = false); }
                 }
                 else {
-                    await domainUserHandler(person, record, isPrimary, dataSource);
+                    await domainUserHandler(person, record, dataSource);
                 }
 
             }
@@ -50,7 +50,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                 logger.warn(`There is no identifier to the person: ${JSON.stringify(person_ready_for_kartoffel)}`);
             }
         }
-        // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding primary user    
+        // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding user    
         catch (err) {
             // check if the perosn not exist in Kartoffel (404 status), or if there is another error
             if (err.response.status === 404) {
@@ -63,8 +63,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                     person = person.data;
                     logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} successfully insert to Kartoffel`);
                     // add domain user for the new person 
-                    let isPrimary = (currentUnit_to_DataSource.get(person.currentUnit) === dataSource);
-                    await domainUserHandler(person, record, isPrimary, dataSource);
+                    await domainUserHandler(person, record, dataSource);
                 }
                 catch (err) {
                     let errMessage = err.response ? err.response.data.message : err.message;
@@ -98,8 +97,8 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
             let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
             // Check if the dataSource of the record is the primary dataSource for the person
             if ((akaRecord && akaRecord[fn.aka.unitName]) && currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) !== dataSource) {
-                // Add secondary domain user from the record (if the required data exist)
-                await domainUserHandler(person, record[1], false, dataSource);
+                // Add domain user from the record (if the required data exist)
+                await domainUserHandler(person, record[1], dataSource);
                 logger.warn(`The fields "${record[2].map((obj) => { return `${obj.path.toString()},` })}" of the person from:'${dataSource}' with the identifier ${identifier} updated but not saved in kartoffel because the dataSource '${dataSource}' is not match to the person's currentUnit '${currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName])}'`);
                 continue;
             }
@@ -113,7 +112,7 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
             })
             if (deepDiffForUpdate.length > 0) {
                 updateSpecificFields(deepDiffForUpdate, dataSource, person, akaRecord, needMatchToKartoffel);
-                await domainUserHandler(person, record[1], true, dataSource);
+                await domainUserHandler(person, record[1], dataSource);
             };
 
 
