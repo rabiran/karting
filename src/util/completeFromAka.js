@@ -10,6 +10,7 @@ const complete_es = (obj, akaRecord) => {
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
+    obj.personalNumber = akaRecord[fn.aka.personalNumber];
     validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
     validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
 
