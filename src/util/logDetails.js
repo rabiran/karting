@@ -51,14 +51,10 @@ const getHandler = {
 };
 
 // Execute override get on messageLog object 
-module.exports = {
-    ...(
-        Object.keys(messageLog).reduce(
-            (prevObj, currKey) => { 
-                prevObj[currKey] = new Proxy(messageLog[currKey], getHandler);
-                return prevObj;
-            },
-            {}
-        )
-    )
-};
+module.exports =  Object.keys(messageLog).reduce(
+                    (prevObj, currKey) => { 
+                        prevObj[currKey] = new Proxy(messageLog[currKey], getHandler);
+                        return prevObj;
+                    },
+                    {}
+                );
