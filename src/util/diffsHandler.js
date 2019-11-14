@@ -43,7 +43,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                     if (objForUpdate.updated.length > 0) { updated(objForUpdate.updated, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = false); }
                 }
                 else {
-                    await domainUserHandler(person, record, isPrimary, dataSource);
+                    await domainUserHandler(person, record, dataSource);
                 }
 
             }
@@ -51,7 +51,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                 sendLog(logLevel.warn, logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON, JSON.stringify(person_ready_for_kartoffel));                
             }
         }
-        // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding primary user    
+        // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding user    
         catch (err) {
             // check if the perosn not exist in Kartoffel (404 status), or if there is another error
             if (err.response.status === 404) {
@@ -64,8 +64,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                     person = person.data;
                     sendLog(logLevel.info, logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL, person.personalNumber || person.identityCard, dataSource);                    
                     // add domain user for the new person 
-                    let isPrimary = (currentUnit_to_DataSource.get(person.currentUnit) === dataSource);
-                    await domainUserHandler(person, record, isPrimary, dataSource);
+                    await domainUserHandler(person, record, dataSource);
                 }
                 catch (err) {
                     let errMessage = err.response ? err.response.data.message : err.message;
@@ -100,9 +99,9 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
             let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
             // Check if the dataSource of the record is the primary dataSource for the person
             if ((akaRecord && akaRecord[fn.aka.unitName]) && currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) !== dataSource) {
-                // Add secondary domain user from the record (if the required data exist)
-                await domainUserHandler(person, record[1], false, dataSource);
-                sendLog(logLevel.warn, logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL, record[2].map((obj) => { return `${obj.path.toString()},` }), dataSource, identifier, dataSource, currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]));                
+                // Add domain user from the record (if the required data exist)
+                await domainUserHandler(person, record[1], dataSource);
+                sendLog(logLevel.warn, logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL, record[2].map((obj) => { return `${obj.path.toString()},` }), dataSource, identifier, dataSource, currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]));                                
                 continue;
             }
             // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
@@ -115,7 +114,7 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
             })
             if (deepDiffForUpdate.length > 0) {
                 updateSpecificFields(deepDiffForUpdate, dataSource, person, akaRecord, needMatchToKartoffel);
-                await domainUserHandler(person, record[1], true, dataSource);
+                await domainUserHandler(person, record[1], dataSource);
             };
 
 

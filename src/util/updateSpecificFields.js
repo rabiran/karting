@@ -45,9 +45,9 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
             let updateDirectGroup = {	
                 group: objForUpdate.directGroup	
             };	
-            try {	
-                await axios.put(p(person.id).KARTOFFEL_PERSON_ASSIGN_API, updateDirectGroup);
-                sendLog(logLevel.info, logDetails.info.INF_UPDATE_DIRECT_GROUP_TO_PERSON, person.personalNumber || person.identityCard, dataSource, JSON.stringify(objForUpdate.directGroup));	                
+            try {	               
+                await Auth.axiosKartoffel.put(p(person.id).KARTOFFEL_PERSON_ASSIGN_API, updateDirectGroup);	
+                sendLog(logLevel.info, logDetails.info.INF_UPDATE_DIRECT_GROUP_TO_PERSON, person.personalNumber || person.identityCard, dataSource, JSON.stringify(objForUpdate.directGroup));                
             }	
             catch(err){	
                 let errMessage = err.response ? err.response.data.message : err.message;
