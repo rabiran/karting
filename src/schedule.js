@@ -7,7 +7,7 @@ const Auth = require('./auth/auth');
 const Redis = require("ioredis");
 const schedule = require('node-schedule');
 const PromiseAllWithFails = require('./util/promiseAllWithFails');
-const {logDetails} = require('./util/logDetails');
+const logDetails = require('./util/logDetails');
 require('dotenv').config();
 
 if (process.env.DATA_SOURCE == fn.dataSources.excel) {
