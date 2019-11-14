@@ -1,4 +1,5 @@
-const logger = require('./logger');
+const {sendLog, logLevel} = require('./logger');
+const logDetails = require('../util/logDetails');
 const validators = require('../config/validators');
 
 /**
@@ -14,7 +15,7 @@ module.exports = (person) => {
         // delete the empty fields from the returned object
         Object.keys(person).forEach((key) => {
             if (!person[key] || person[key] === "null") {
-                logger.warn(`The identifier fields of the person ${person.personalNumber || person.identityCard} are equals, the '${key}' field was deleted`);
+                sendLog(logLevel.warn, logDetails.warn.WRN_IDENTIFIER_FIELD_REDUNDANT, person.personalNumber || person.identityCard, key);                
                 delete person[key];
             }
         });

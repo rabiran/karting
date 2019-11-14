@@ -1,5 +1,6 @@
 const p = require('../config/paths');
-const logger = require('./logger');
+const {sendLog, logLevel} = require('./logger');
+const logDetails = require('../util/logDetails');
 const Auth = require('../auth/auth');
 
 /**
@@ -24,11 +25,10 @@ module.exports = async (hierarchy_obj, hierarchy) => {
             await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, new_group)
                 .then((result) => {
                     hierarchy_obj[hierarchyAfterProcess] = result.data.id;
-                    logger.info(`success to add the hierarchy "${hierarchyAfterProcess}" to Kartoffel`);
-
+                    sendLog(logLevel.info, logDetails.info.INF_ADD_HIERARCHY, hierarchyAfterProcess);                    
                 })
                 .catch((error) => {
-                    logger.error(`failed to add the hierarchy "${hierarchyAfterProcess}" to Kartoffel. the error message: "${error.response.data.message}"`);
+                    sendLog(logLevel.error, logDetails.error.ERR_ADD_HIERARCHY, hierarchyAfterProcess, error.response.data.message);                    
                 })
         }
 

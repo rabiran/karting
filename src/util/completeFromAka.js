@@ -1,6 +1,7 @@
 const fn = require('../config/fieldNames');
 const validators = require('../config/validators');
-const logger = require('./logger');
+const {sendLog, logLevel} = require('./logger');
+const logDetails = require('../util/logDetails');
 
 const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
@@ -88,11 +89,11 @@ module.exports = (obj, akaData, dataSource) => {
                     complete_nv(obj, akaRecord);
                     break;
                 default:
-                    logger.error(`'dataSource' variable must be attached to 'completeFromAka' function`);
+                    sendLog(logLevel.error, logDetails.error.ERR_DATA_SOURC);                    
             }
         }
         else {
-            logger.warn(`The person with the identifier ${identifier} from ${dataSource} not complete from aka`);
+            sendLog(logLevel.warn, logDetails.warn.WRN_COMPLETE_AKA, identifier, dataSource);            
         }
     }
 

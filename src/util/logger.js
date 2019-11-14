@@ -1,4 +1,4 @@
-const { createLogger, format, transports } = require('winston');
+const { createLogger, format, transports, config } = require('winston');
 require('winston-daily-rotate-file');
 const fs = require('fs');
 const os = require('os');
@@ -38,15 +38,20 @@ const consoleTransport = new transports.Console({
 
 
 const logger = createLogger({
+  levels: config.npm.levels,
   // change level if in dev environment versus production
   level: env === 'development' ? 'verbose' : 'info',
   format: format.combine(
     format.timestamp({
       format: 'YYYY-MM-DD HH:mm:ss'
     }),
+    format.splat(),
+    format.simple(),
     format((info)=>{
       info.service = "karting";
-      info.hostname = os.hostname();
+      info.hostname = os.hostname();      
+      info.title = (info.meta) ? info.meta.title : "Unknown message";
+      delete info.meta;
       return info
     })(),
     format.json(),
@@ -58,4 +63,14 @@ const logger = createLogger({
   ]
 });
 
-module.exports = logger;
+const levelString = Object.keys(config.npm.levels);
+
+const sendLog = (level, logDetails, ...params) => {
+  const {title, message} = logDetails;  
+  logger.log(levelString[level], message, ...params, {title});
+};
+
+module.exports = {
+  sendLog,
+  logLevel: config.npm.levels,
+};

@@ -1,6 +1,7 @@
 const matchToKartoffel = require('./matchToKartoffel');
 const p = require('../config/paths');
-const logger = require('./logger');
+const {sendLog, logLevel} = require('./logger');
+const logDetails = require('../util/logDetails');
 const fn = require('../config/fieldNames');
 const Auth = require('../auth/auth');
 const axios = require('axios');
@@ -18,13 +19,13 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
             objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
         }
         else {
-            logger.warn(`the deepDiff kind of the updated person is not recognized -"${JSON.stringify(deepDiffRecord)}"`);
+            sendLog(logLevel.warn, logDetails.warn.WRN_KIND_DEEPDIFF_NOT_RECOGNIZED, JSON.stringify(deepDiffRecord));            
         }
     });
     // when person from 'diffsHandler-added' come to update they already passed through 'matchToKartoffel' 
     // and if the them sending again to 'matchToKartoffel' the keys of the object will be deleted
     if (needMatchToKartoffel) {
-        objForUpdate = await matchToKartoffel(objForUpdate, dataSource);
+        objForUpdate = await matchToKartoffel(objForUpdate, dataSource);        
     }
 
 
@@ -45,12 +46,12 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
                 group: objForUpdate.directGroup	
             };	
             try {	
-                await axios.put(p(person.id).KARTOFFEL_PERSON_ASSIGN_API, updateDirectGroup);	
-                logger.info(`The directGroup of the person with the identifier:${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate.directGroup)}`);	
+                await axios.put(p(person.id).KARTOFFEL_PERSON_ASSIGN_API, updateDirectGroup);
+                sendLog(logLevel.info, logDetails.info.INF_UPDATE_DIRECT_GROUP_TO_PERSON, person.personalNumber || person.identityCard, dataSource, JSON.stringify(objForUpdate.directGroup));	                
             }	
             catch(err){	
                 let errMessage = err.response ? err.response.data.message : err.message;
-                logger.error(`Failed to update directGroup for ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${errMessage}" ${JSON.stringify(objForUpdate)}`);	
+                sendLog(logLevel.error, logDetails.error.ERR_UPDATE_DIRECT_GROUP_TO_PERSON, person.personalNumber || person.identityCard, dataSource, errMessage, JSON.stringify(objForUpdate));                
             }	
         }
         // delete forbidden Fields To Update
@@ -59,11 +60,11 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
         }
         // Update the person object
         objForUpdate ? await Auth.axiosKartoffel.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate) : null;
-        logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} update successfully. ${JSON.stringify(objForUpdate)}`);
+        sendLog(logLevel.info, logDetails.info.INF_UPDATE_PERSON_IN_KARTOFFEL, person.personalNumber || person.identityCard, dataSource, JSON.stringify(objForUpdate));        
     }
     catch (err) {
         let errMessage = err.response ? err.response.data.message : err.message;
-        logger.error(`Not update the person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${errMessage}" ${JSON.stringify(objForUpdate)}`);
+        sendLog(logLevel.error, logDetails.error.ERR_UPDATE_PERSON_IN_KARTOFFEL, person.personalNumber || person.identityCard, dataSource, errMessage, JSON.stringify(objForUpdate));        
     }
 }
 

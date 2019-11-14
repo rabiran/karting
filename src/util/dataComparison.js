@@ -1,6 +1,7 @@
 const fs = require('fs');
 const diff = require("diff-arrays-of-objects");
-const logger = require('./logger');
+const {sendLog, logLevel} = require('./logger');
+const logDetails = require('../util/logDetails');
 
 /**
  * Finds the differences between two files of dataSources (array of objects)
@@ -22,7 +23,7 @@ module.exports = (updateData, path, previous_data_file_name, comparison_field) =
             if (previous_data_file_name === undefined) {
                 previous_data = [];
             } else {
-                logger.error(`Reading the previous data file:"${previous_data_file_name}" failed. The error message: "${err.message}"`);
+                sendLog(logLevel.error, logDetails.error.ERR_READ_PREVIOUS_DATA_FILE, previous_data_file_name, err.message);                
             }
         }
     }

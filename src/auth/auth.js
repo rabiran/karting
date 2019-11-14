@@ -2,7 +2,8 @@ const axios = require("axios");
 const authParams = require("../config/authParams");
 const jwt = require("jsonwebtoken");
 const https = require("https");
-const logger = require('../util/logger');
+const { logLevel, sendLog } = require('../util/logger');
+const logDetails = require('../util/logDetails');
 
 class Auth {
   /**
@@ -45,10 +46,10 @@ class Auth {
         })).data.access_token;
         if(Auth.redis && Auth.redis.status === 'ready') {
           await Auth.redis.set(Auth.keyName, Auth.accessToken);
-          logger.info('Success to set access token in redis');
+          sendLog(logLevel.info, logDetails.info.INF_SET_TOKEN);
         }
       } catch (error) {
-        logger.error(`Error from spike: ${error.message}`);
+          sendLog(logLevel.error, logDetails.error.ERR_SPIKE_TOKEN, error.message);
       }
     }
     return Auth.accessToken;
