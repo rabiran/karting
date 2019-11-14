@@ -2,7 +2,8 @@ const fn = require("../config/fieldNames");
 const validators = require('../config/validators');
 const p = require("../config/paths");
 const hierarchyHandler = require('./hierarchyHandler');
-const logger = require('./logger');
+const {sendLog, logLevel} = require('./logger');
+const logDetails = require('../util/logDetails');
 const Auth = require('../auth/auth');
 require('dotenv').config();
 
@@ -211,7 +212,7 @@ const match_ads = (obj, dataSource) => {
                         obj.entityType = fn.entityTypeValue.s;
                         break;
                     default:
-                        logger.warn(`Not inserted entity type for the user with the upn ${obj[rawKey]} from ads`);
+                        sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);                        
                 }
                 let identityCardCandidate = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0];
                 (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate.toString() : null;
@@ -276,7 +277,7 @@ const match_adNN = (obj, dataSource) => {
                 if (obj[rawKey].toLowerCase().includes(fn[dataSource].extension)) {
                     uniqueNum = obj[rawKey].toLowerCase().replace(fn[dataSource].extension, "")
                 } else {
-                    logger.warn(`User with id ${obj[rawKey]} is not ${fn[dataSource].extension} extension`);
+                    sendLog(logLevel.warn, logDetails.warn.WRN_USER_NOT_EXTENTION, obj[rawKey], fn[dataSource].extension);                    
                     break;
                 }
                 if (validators(uniqueNum).identityCard) {
@@ -433,7 +434,7 @@ directGroupHandler = async (record) => {
         .catch((err) => {
             let identifier = record.identityCard || record.uniqueId;
             let errorMessage = (err.response) ? err.response.data.message : err.message;
-            logger.error(`Faild to add directGroup to the person with the identityCard: ${identifier}. The error message:"${errorMessage}"`);
+            sendLog(logLevel.error, logDetails.error.ERR_ADD_DIRECT_GROUP_TO_PERSON, identifier, errorMessage);            
         });
     return directGroup;
 };
@@ -460,7 +461,7 @@ module.exports = async (origin_obj, dataSource) => {
         case fn.dataSources.ads:
             match_ads(obj, dataSource);
             if (!obj.entityType) {
-                logger.warn(`To the person with the identifier: ${obj.mail} has not have "userPrincipalName" field at ads`);
+                sendLog(logLevel.warn, logDetails.warn.WRN_PERSON_HAS_NOT_HAVE_USERPRINCIPALNAME, obj.mail);                
             };
             break;
         case fn.dataSources.excel:
@@ -478,7 +479,7 @@ module.exports = async (origin_obj, dataSource) => {
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
         default:
-            logger.error("'dataSource' variable must be attached to 'matchToKartoffel' function");
+            sendLog(logLevel.error, logDetails.error.ERR_UNIDENTIFIED_DATA_SOURCE);            
     }
 
 

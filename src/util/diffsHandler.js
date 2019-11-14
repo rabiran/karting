@@ -2,7 +2,8 @@ const p = require('../config/paths');
 const fn = require('../config/fieldNames');
 const matchToKartoffel = require('./matchToKartoffel');
 const completeFromAka = require('./completeFromAka');
-const logger = require('./logger');
+const {sendLog, logLevel} = require('./logger');
+const logDetails = require('../util/logDetails');
 const domainUserHandler = require('./domainUserHandler');
 const identifierHandler = require('./identifierHandler');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
@@ -47,7 +48,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
 
             }
             else {
-                logger.warn(`There is no identifier to the person: ${JSON.stringify(person_ready_for_kartoffel)}`);
+                sendLog(logLevel.warn, logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON, JSON.stringify(person_ready_for_kartoffel));                
             }
         }
         // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding user    
@@ -61,18 +62,18 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                 try {
                     let person = await Auth.axiosKartoffel.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     person = person.data;
-                    logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} successfully insert to Kartoffel`);
+                    sendLog(logLevel.info, logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL, person.personalNumber || person.identityCard, dataSource);                    
                     // add domain user for the new person 
                     await domainUserHandler(person, record, dataSource);
                 }
                 catch (err) {
                     let errMessage = err.response ? err.response.data.message : err.message;
-                    logger.error(`Not insert the person with the identifier: ${person_ready_for_kartoffel.personalNumber || person_ready_for_kartoffel.identityCard} from ${dataSource} to Kartoffel. The error message:"${errMessage}" ${JSON.stringify(record)}`);
+                    sendLog(logLevel.error, logDetails.error.ERR_INSERT_PERSON, person_ready_for_kartoffel.personalNumber || person_ready_for_kartoffel.identityCard, dataSource, errMessage, JSON.stringify(record));                    
                 }
             }
             else {
                 let errMessage = err.response ? err.response.data.message : err.message;
-                logger.error(`The person with the identifier: ${identifier} from ${dataSource}_raw_data not found in Kartoffel. The error message:"${errMessage}"`);
+                sendLog(logLevel.error, logDetails.error.ERR_ADD_FUNCTION_PERSON_NOT_FOUND, identifier, dataSource, errMessage);
             };
         }
     }
@@ -84,7 +85,8 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
         // Get the person object from kartoffel
         let person = await Auth.axiosKartoffel.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
             .catch((err) => {
-                logger.log(dataSource === fn.dataSources.aka ? "warn" : "error" , `Failed to get data from Kartoffel about the person with the identifier ${identifier} from '${dataSource}' at update flow. The error message: "${err}"`);
+                const level = dataSource === fn.dataSources.aka ? logLevel.warn : logLevel.error;
+                sendLog(level, logDetails.warn.WRN_ERR_UPDATE_FUNC_PERSON_NOT_FOUND, identifier, dataSource, err);
             });
         if (!person) {
             continue;
@@ -99,15 +101,15 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
             if ((akaRecord && akaRecord[fn.aka.unitName]) && currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) !== dataSource) {
                 // Add domain user from the record (if the required data exist)
                 await domainUserHandler(person, record[1], dataSource);
-                logger.warn(`The fields "${record[2].map((obj) => { return `${obj.path.toString()},` })}" of the person from:'${dataSource}' with the identifier ${identifier} updated but not saved in kartoffel because the dataSource '${dataSource}' is not match to the person's currentUnit '${currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName])}'`);
+                sendLog(logLevel.warn, logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL, record[2].map((obj) => { return `${obj.path.toString()},` }), dataSource, identifier, dataSource, currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]));                                
                 continue;
             }
             // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
             let deepDiffForUpdate = record[2].filter((deepDiffObj) => {
                 // if the person's object that will be updated passed through matchToKartoffel then the second expression will be the relevant, If not then the first expression will be relevant
                 let keyForCheck = Object.keys(fn[dataSource]).find(val => { return fn[dataSource][val] == deepDiffObj.path.toString() }) || deepDiffObj.path.toString();
-                let include = fn.akaRigid.includes(keyForCheck);
-                include ? logger.warn(`The field '${deepDiffObj.path.toString()}' of the person with the identifier ${identifier} from the dataSource '${dataSource}' is not update because is rigid to Aka`) : null;
+                let include = fn.akaRigid.includes(keyForCheck);                
+                include ? sendLog(logLevel.warn, logDetails.warn.WRN_AKA_FIELD_RIGID, deepDiffObj.path.toString(), identifier, dataSource) : null;
                 return !include;
             })
             if (deepDiffForUpdate.length > 0) {
