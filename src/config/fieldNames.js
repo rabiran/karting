@@ -43,7 +43,7 @@ module.exports = {
         mail: "mail",
         address: "adr",
         job: "tf",
-        domainSuffix: "@es",
+        domainSuffix: "@jello.com",
         userName: "userName",
         uniqeFieldForDeepDiff: "tz"
     },
@@ -68,7 +68,7 @@ module.exports = {
         upn: "userPrincipalName",
         hierarchy: "hierarchy",
         sAMAccountName: "sAMAccountName",
-        domainSuffix: "@ads",
+        domainSuffix: "@rabiran.com",
         uniqeFieldForDeepDiff: "sAMAccountName"
     },
     adNN_name: {

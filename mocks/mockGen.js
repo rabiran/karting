@@ -12,9 +12,9 @@ let adUsers = [];
 let esUsers = [];
 
 // Generating mi and tz lists
-for (let i = 0; i < 250; i++) {
-    let tz = faker.random.number({'min': 10000000,'max': 99999999}) * 10;
-    tzs.push(tz += utils.createCheckDigit(tz));
+for (let i = 0; i < 300; i++) {
+    let tz = faker.random.number({'min': 10000000,'max': 99999999});
+    tzs.push(tz += utils.createCheckDigit(tz).toString());
     
     mis.push(faker.random.number({'min': 100000,'max': 999999999}))
 }
@@ -23,7 +23,7 @@ fs.writeFileSync("./lists/miList.json", JSON.stringify(mis))
 fs.writeFileSync("./lists/tzList.json", JSON.stringify(tzs))
 
 
-// Generating employee and teelephones objects
+// Generating employee and teelephones objects for aka
 for (let i = 0; i < 300; i++) {
     employees.push({
     "firstName": faker.name.firstName(),
@@ -78,8 +78,8 @@ for (let i = 0; i < 50; i++) {
     user.stype = utils.randomElement(dataTypes.SERVICE_TYPE);
     user.firstName = faker.name.firstName();
     user.lastName = faker.name.lastName();
-    let thisTz = faker.random.number({'min': 10000000,'max': 99999999}) * 10;
-    user.tz = utils.randomElement([thisTz + utils.createCheckDigit(thisTz), tzs[250 + i]]);
+    let thisTz = faker.random.number({'min': 10000000,'max': 99999999});
+    user.tz = utils.randomElement([thisTz + utils.createCheckDigit(thisTz).toString(), tzs[250 + i]]);
     
     if (user.tz === tzs[250 + i]) {
         user.mi = mis[250 + i];

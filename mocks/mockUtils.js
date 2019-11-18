@@ -6,7 +6,7 @@ module.exports = {
             return accumulator += digitWeight > 9 ? digitWeight - 9 : digitWeight;
         }, 0);
 
-        return 10 - (rawCheckDigit % 10);
+        return rawCheckDigit % 10 ? 10 - (rawCheckDigit % 10) : 0;
     },
     randomElement: (array) => {
         return array[Math.floor(Math.random() * array.length)]
