@@ -15,8 +15,8 @@ let esUsers = [];
 for (let i = 0; i < 300; i++) {
     let tz = faker.random.number({'min': 10000000,'max': 99999999});
     tzs.push(tz += utils.createCheckDigit(tz).toString());
-    
-    mis.push(faker.random.number({'min': 100000,'max': 999999999}))
+
+    mis.push(faker.random.number({'min': 100000,'max': 999999999}));
 }
 
 fs.writeFileSync("./lists/miList.json", JSON.stringify(mis))
@@ -80,7 +80,7 @@ for (let i = 0; i < 50; i++) {
     user.lastName = faker.name.lastName();
     let thisTz = faker.random.number({'min': 10000000,'max': 99999999});
     user.tz = utils.randomElement([thisTz + utils.createCheckDigit(thisTz).toString(), tzs[250 + i]]);
-    
+
     if (user.tz === tzs[250 + i]) {
         user.mi = mis[250 + i];
         user.entity = dataTypes.ENTITY_TYPE[2];
@@ -94,7 +94,7 @@ for (let i = 0; i < 50; i++) {
     }
 
     user.vphone = faker.random.number({'min': 1000, "max": 9999}).toString();
-    user.cphone = faker.random.number({'min': 50, 'max': 59}) + "-" + 
+    user.cphone = faker.random.number({'min': 50, 'max': 59}) + "-" +
                   faker.random.number({'min': 1000000, 'max': 9999999});
     user.mail = faker.internet.email().split('@')[0] + '@' + dataTypes.DOMAIN_MAP[2][0];
     user.hr = faker.lorem.word() + "/" + faker.lorem.word() + "/" + faker.lorem.word();
@@ -104,7 +104,7 @@ for (let i = 0; i < 50; i++) {
     esUsers.push(user);
 }
 
-fs.writeFileSync("./mocksFiles/getAkaEmployees.json", JSON.stringify(employees))
-fs.writeFileSync("./mocksFiles/getAkaTelephone.json", JSON.stringify(telephones))
-fs.writeFileSync("./mocksFiles/AD.json", JSON.stringify(adUsers))
-fs.writeFileSync("./mocksFiles/eightsocks.json", JSON.stringify(esUsers))
+fs.writeFileSync("./mocksFiles/getAkaEmployees.json", JSON.stringify(employees));
+fs.writeFileSync("./mocksFiles/getAkaTelephone.json", JSON.stringify(telephones));
+fs.writeFileSync("./mocksFiles/AD.json", JSON.stringify(adUsers));
+fs.writeFileSync("./mocksFiles/eightsocks.json", JSON.stringify(esUsers));
