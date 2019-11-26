@@ -30,14 +30,14 @@ schedule.scheduleJob(scheduleTime ,async()=>{
     redis.on("connect", async function(){
         logger.info("Redis connect to service");
         Auth.setRedis(redis);
-    })   
-    redis.on("error", function (err) {        
+    })
+    redis.on("error", function (err) {
         logger.error("Failed to connect to Redis. error message: " + err.message);
     });
     redis.on("end", function () {
         logger.info("The connection to Redis is closed");
     });
-    
+
     // check if the root hierarchy exist and adding it if not
     await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
@@ -71,8 +71,8 @@ schedule.scheduleJob(scheduleTime ,async()=>{
 });
 
 /**
- * 
- * @param {*} dataSource - The source of the data 
+ *
+ * @param {*} dataSource - The source of the data
  * @param {*} akaData - The aka data to complete data information
  * @param {*} func - The function thet give data from data source
  */
