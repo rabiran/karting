@@ -26,7 +26,7 @@ module.exports = {
         dischargeDay: "rld",
         clearance: "clearance",
         unitName: "hr",
-        telephoneType: "telephoneType", 
+        telephoneType: "telephoneType",
         uniqeFieldForDeepDiff: "mi"
     },
     es_name: {
@@ -93,7 +93,7 @@ module.exports = {
         uniqeFieldForDeepDiff: "unid"
     },
     entityTypeValue: {
-        s: "tamar",
+        s: "agumon",
         sPrefix: "m",
         c: "digimon",
         cPrefix: "d",
