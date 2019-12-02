@@ -13,9 +13,7 @@ let esUsers = [];
 
 // Generating mi and tz lists
 for (let i = 0; i < 300; i++) {
-    let tz = faker.random.number({'min': 10000000,'max': 99999999});
     tzs.push(utils.generateID());
-
     mis.push(faker.random.number({'min': 100000,'max': 999999999}));
 }
 
@@ -34,13 +32,14 @@ for (let i = 0; i < 300; i++) {
     "rnk": utils.randomElement(dataTypes.RANK),
     "nstype": utils.randomElement(dataTypes.SERVICE_TYPE),
     "rld": faker.date.between(faker.date.future(10),
-                              faker.date.past(10)).toISOString().split('T')[0] + " 00:00:00.0",
+                              faker.date.past(10)).toISOString().split('T')[0] +
+                              " 00:00:00.0",
     "hr": utils.randomElement(dataTypes.UNIT)
     })
     telephones.push({
         "mi": mi[i],
-        "telephone": faker.random.number({'min': 1000000,'max': 9999999}),
-        "ktelephone": faker.random.number({'min': 10,'max': 59}),
+        "telephone": utils.generateNumberBody().toString(),
+        "ktelephone": utils.generateNumberPrefix().toString(),
         "telephoneType": faker.random.number({'min': 1,'max': 2})
     })
 }
@@ -52,7 +51,9 @@ for (let i = 0; i < 150; i++) {
     ad.KlastName = employees[i].lastName;
     const job = faker.name.jobTitle();
     ad.userPrincipalName = "M" + employees[i].mi;
-    ad.hierarchy = faker.lorem.word() + "/" + faker.lorem.word() + "/" + faker.lorem.word() + "/" +
+    ad.hierarchy = faker.lorem.word() + "/" +
+                   faker.lorem.word() + "/" +
+                   faker.lorem.word() + "/" +
                    job + " - " + ad.KfirstName + " " + ad.KlastName;
     ad.sAMAccountName = faker.internet.email().split('@')[0];
     ad.mail = ad.sAMAccountName + "@" + dataTypes.DOMAIN_MAP[0][0];
@@ -65,10 +66,10 @@ for (let i = 0; i < 100; i++) {
     ad.KfirstName = faker.name.firstName();
     ad.KlastName = faker.name.lastName();
     const job = faker.name.jobTitle();
-
-    const tz = faker.random.number({'min': 10000000,'max': 99999999});
     ad.userPrincipalName = "D" + utils.generateID();
-    ad.hierarchy = faker.lorem.word() + "/" + faker.lorem.word() + "/" + faker.lorem.word() + "/" +
+    ad.hierarchy = faker.lorem.word() + "/" +
+                   faker.lorem.word() + "/" +
+                   faker.lorem.word() + "/" +
                    job + " - " + ad.KfirstName + " " + ad.KlastName;
     ad.sAMAccountName = faker.internet.email().split('@')[0];
     ad.mail = ad.sAMAccountName + "@" + dataTypes.DOMAIN_MAP[0][0];
@@ -96,8 +97,7 @@ for (let i = 0; i < 50; i++) {
     }
 
     user.vphone = faker.random.number({'min': 1000, "max": 9999}).toString();
-    user.cphone = faker.random.number({'min': 50, 'max': 59}) + "-" +
-                  faker.random.number({'min': 1000000, 'max': 9999999});
+    user.cphone = utils.generateNumberPrefix() + "-" + utils.generateNumberBody();
                   user.hr = faker.lorem.word() + "/" +
                   faker.lorem.word() + "/" +
                   faker.lorem.word();

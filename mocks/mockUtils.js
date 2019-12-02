@@ -17,12 +17,13 @@ const faker = require('faker');
     generateID: () => {
         const tz = faker.random.number({'min': 10000000,'max': 99999999}).toString();
         return tz + utils.createCheckDigit(tz);
+    },
+    generateNumberBody: () => {
+        return faker.random.number({'min': 1000000,'max': 9999999});
+    },
+    generateNumberPrefix: () => {
+        return faker.random.number({'min': 50,'max': 59});
     }
 }
-
-// utils.generateID = () => {
-//     const tz = faker.random.number({'min': 10000000,'max': 99999999}).toString();
-//     return tz + utils.createCheckDigit(tz);
-// }
 
 module.exports = utils;
