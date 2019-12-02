@@ -1,6 +1,7 @@
 const fn = require('../config/fieldNames');
 const p = require('../config/paths');
-const logger = require('./logger');
+const {sendLog, logLevel} = require('./logger');
+const logDetails = require('../util/logDetails');
 const Auth = require('../auth/auth');
 
 /**
@@ -42,10 +43,9 @@ module.exports = async (person, record, dataSource) => {
 
     try {
         const user = await Auth.axiosKartoffel.post(p(person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
-        logger.info(`Add the domain user '${user_object.uniqueID}' to the person with the idetifier: ${user.data.personalNumber || user.data.identityCard} from ${dataSource} successfully.`);
+        sendLog(logLevel.info, logDetails.info.INF_ADD_DOMAIN_USER, user_object.uniqueID, user.data.personalNumber || user.data.identityCard, dataSource);
     } catch (err) {
         let errMessage = err.response ? err.response.data.message : err.message;
-        logger.error(`Not add domain user to person with the identifier: ${person.mail} to the person with the idetifier: ${person.personalNumber || person.identityCard} from ${dataSource}. The error message:"${errMessage}"`);
+        sendLog(logLevel.error, logDetails.error.ERR_ADD_DOMAIN_USER, person.mail, person.personalNumber || person.identityCard, dataSource, errMessage);        
     }
-
 } 

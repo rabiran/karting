@@ -2,12 +2,12 @@ const dataSync = require('./util/data_synchronizeData');
 const fn = require('./config/fieldNames');
 const p = require('./config/paths');
 const diffsHandler = require('./util/diffsHandler');
-const logger = require('./util/logger');
+const { sendLog, logLevel } = require('./util/logger');
 const Auth = require('./auth/auth');
 const Redis = require("ioredis");
 const schedule = require('node-schedule');
 const PromiseAllWithFails = require('./util/promiseAllWithFails');
-
+const logDetails = require('./util/logDetails');
 require('dotenv').config();
 
 if (process.env.DATA_SOURCE == fn.dataSources.excel) {
@@ -28,29 +28,29 @@ schedule.scheduleJob(scheduleTime ,async()=>{
     });
 
     redis.on("connect", async function(){
-        logger.info("Redis connect to service");
+        sendLog(logLevel.info, logDetails.info.INF_CONNECT_REDIS);
         Auth.setRedis(redis);
     })
     redis.on("error", function (err) {
-        logger.error("Failed to connect to Redis. error message: " + err.message);
+        sendLog(logLevel.error, logDetails.error.ERR_CONNECTION_REDIS, err.message);
     });
     redis.on("end", function () {
-        logger.info("The connection to Redis is closed");
+        sendLog(logLevel.info, logDetails.info.INF_CLOSED_REDIS);
     });
 
     // check if the root hierarchy exist and adding it if not
     await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
-            logger.info(`The root hierarchy "${result.data.name}" already exist in Kartoffel`);
+            sendLog(logLevel.info, logDetails.info.INF_ROOT_EXSIST, result.data.name);
         })
         .catch(async () => {
             await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy })
                 .then((result) => {
-                    logger.info(`Success to add the root hierarchy "${result.data.name}" to Kartoffel`);
+                    sendLog(logLevel.info, logDetails.info.INF_ADD_ROOT, result.data.name);
                 })
                 .catch((err) => {
                     let errorMessage = (err.response) ? err.response.data.message : err.message;
-                    logger.error(`Failed to add the root hierarchy to Kartoffel. the error message: "${errorMessage}"`);
+                    sendLog(logLevel.error, logDetails.error.ERR_ADD_ROOT, errorMessage);
                 })
         });
 

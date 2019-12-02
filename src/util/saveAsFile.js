@@ -1,6 +1,7 @@
 const fs = require('fs');
 const moment = require("moment");
-const logger = require('./logger');
+const {sendLog, logLevel} = require('./logger');
+const logDetails = require('../util/logDetails');
 const shell = require('shelljs');
 
 // Create the log directory if it does not exist
@@ -25,16 +26,16 @@ module.exports = (data, path, actionDescription) => {
     const files = fs.readdirSync(`${path}/`);
     try {
         fs.writeFileSync(`${path}/${actionDescription}_${dateAndTime}.log`, JSON.stringify(data))
-        logger.info(`The ${actionDescription} from ${dateAndTime} successfully saved`);
+        sendLog(logLevel.info, logDetails.info.INF_SAVE_NEW_DATA_FILE, actionDescription, dateAndTime);        
         files.map(file => {
             if (file != `${actionDescription}_${dateAndTime}.log` && file != 'archive' && file != 'completeData') {
                 fs.renameSync(`${path}/${file}`, `${path}/archive/${file}`);
-                logger.info(`${file} successfully moved to the archive`);
+                sendLog(logLevel.info, logDetails.info.INF_MOVE_FILE_TO_ARCHIVE, file);                
             }
         })
     }
     catch (err) {
-        logger.error(`Error at save ${actionDescription}_${dateAndTime}.log file. The error message:${err.message}`);
+        sendLog(logLevel.error, logDetails.error.ERR_SAVE_DATA_FILE, actionDescription, dateAndTime, err.message);        
         return err.message;
     };
 
