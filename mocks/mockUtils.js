@@ -1,4 +1,6 @@
-module.exports = {
+const faker = require('faker');
+
+ const utils = {
     createCheckDigit: (param) => {
         const rawCheckDigit = param.toString().split('').reduce((accumulator, currChar, currIndex) => {
             let digitWeight = Number(currChar) * ((currIndex % 2) + 1);
@@ -8,7 +10,19 @@ module.exports = {
 
         return rawCheckDigit % 10 ? 10 - (rawCheckDigit % 10) : 0;
     },
+
     randomElement: (array) => {
         return array[Math.floor(Math.random() * array.length)]
+    },
+    generateID: () => {
+        const tz = faker.random.number({'min': 10000000,'max': 99999999}).toString();
+        return tz + utils.createCheckDigit(tz);
     }
 }
+
+// utils.generateID = () => {
+//     const tz = faker.random.number({'min': 10000000,'max': 99999999}).toString();
+//     return tz + utils.createCheckDigit(tz);
+// }
+
+module.exports = utils;

@@ -30,11 +30,5 @@ module.exports = async (dataSource) => {
     dataDiff = dataComparison(data, `./data/${dataSource}/archive`, previous_data_file_name, fn[dataSource].uniqeFieldForDeepDiff);
     dataSource === fn.dataSources.aka ? dataDiff.all = data : null;
 
-    // if (process.env.NEW_FEAT_MODE) {
-    //     dataDiff.added = [ ...dataDiff.added, ...dataDiff.updated, ...dataDiff.same];
-    //     dataDiff.same = [];
-    //     dataDiff.updated = [];
-    // }
-
     return dataDiff;
 }

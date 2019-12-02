@@ -14,7 +14,7 @@ let esUsers = [];
 // Generating mi and tz lists
 for (let i = 0; i < 300; i++) {
     let tz = faker.random.number({'min': 10000000,'max': 99999999});
-    tzs.push(tz += utils.createCheckDigit(tz).toString());
+    tzs.push(utils.generateID());
 
     mis.push(faker.random.number({'min': 100000,'max': 999999999}));
 }
@@ -23,7 +23,7 @@ fs.writeFileSync("./lists/miList.json", JSON.stringify(mis))
 fs.writeFileSync("./lists/tzList.json", JSON.stringify(tzs))
 
 
-// Generating employee and teelephones objects for aka
+// Generating employee and telephones objects for aka
 for (let i = 0; i < 300; i++) {
     employees.push({
     "firstName": faker.name.firstName(),
@@ -33,7 +33,8 @@ for (let i = 0; i < 300; i++) {
     "clearance": faker.random.number({'min': 0,'max': 10}),
     "rnk": utils.randomElement(dataTypes.RANK),
     "nstype": utils.randomElement(dataTypes.SERVICE_TYPE),
-    "rld": faker.date.between(faker.date.future(10), faker.date.past(10)).toISOString().split('T')[0],
+    "rld": faker.date.between(faker.date.future(10),
+                              faker.date.past(10)).toISOString().split('T')[0] + " 00:00:00.0",
     "hr": utils.randomElement(dataTypes.UNIT)
     })
     telephones.push({
@@ -49,10 +50,10 @@ for (let i = 0; i < 150; i++) {
     let ad = {}
     ad.KfirstName = employees[i].firstName;
     ad.KlastName = employees[i].lastName;
-    ad.Kjob = faker.name.jobTitle();
+    const job = faker.name.jobTitle();
     ad.userPrincipalName = "M" + employees[i].mi;
     ad.hierarchy = faker.lorem.word() + "/" + faker.lorem.word() + "/" + faker.lorem.word() + "/" +
-                      ad.Kjob + " - " + ad.KfirstName + " " + ad.KlastName;
+                   job + " - " + ad.KfirstName + " " + ad.KlastName;
     ad.sAMAccountName = faker.internet.email().split('@')[0];
     ad.mail = ad.sAMAccountName + "@" + dataTypes.DOMAIN_MAP[0][0];
     adUsers.push(ad);
@@ -63,12 +64,12 @@ for (let i = 0; i < 100; i++) {
     let ad = {}
     ad.KfirstName = faker.name.firstName();
     ad.KlastName = faker.name.lastName();
-    ad.Kjob = faker.name.jobTitle();
+    const job = faker.name.jobTitle();
 
     const tz = faker.random.number({'min': 10000000,'max': 99999999});
-    ad.userPrincipalName = "D" + tz + utils.createCheckDigit(tz).toString();//valid id
+    ad.userPrincipalName = "D" + utils.generateID();
     ad.hierarchy = faker.lorem.word() + "/" + faker.lorem.word() + "/" + faker.lorem.word() + "/" +
-                      ad.Kjob + " - " + ad.KfirstName + " " + ad.KlastName;
+                   job + " - " + ad.KfirstName + " " + ad.KlastName;
     ad.sAMAccountName = faker.internet.email().split('@')[0];
     ad.mail = ad.sAMAccountName + "@" + dataTypes.DOMAIN_MAP[0][0];
     adUsers.push(ad)
@@ -80,8 +81,7 @@ for (let i = 0; i < 50; i++) {
     user.stype = utils.randomElement(dataTypes.SERVICE_TYPE);
     user.firstName = faker.name.firstName();
     user.lastName = faker.name.lastName();
-    let thisTz = faker.random.number({'min': 10000000,'max': 99999999});
-    user.tz = utils.randomElement([thisTz + utils.createCheckDigit(thisTz).toString(), tzs[250 + i]]);
+    user.tz = utils.randomElement([utils.generateID(), tzs[250 + i]]);
 
     if (user.tz === tzs[250 + i]) {
         user.mi = mis[250 + i];
@@ -98,7 +98,9 @@ for (let i = 0; i < 50; i++) {
     user.vphone = faker.random.number({'min': 1000, "max": 9999}).toString();
     user.cphone = faker.random.number({'min': 50, 'max': 59}) + "-" +
                   faker.random.number({'min': 1000000, 'max': 9999999});
-                  user.hr = faker.lorem.word() + "/" + faker.lorem.word() + "/" + faker.lorem.word();
+                  user.hr = faker.lorem.word() + "/" +
+                  faker.lorem.word() + "/" +
+                  faker.lorem.word();
     user.tf = faker.name.jobType();
     user.userName = faker.internet.userName(user.firstName, user.lastName);
     user.mail = user.userName + '@' + dataTypes.DOMAIN_MAP[2][0];

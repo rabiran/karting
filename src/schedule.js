@@ -61,10 +61,10 @@ schedule.scheduleJob(scheduleTime ,async()=>{
         GetDataAndProcess(fn.dataSources.aka, aka_data),
         GetDataAndProcess(fn.dataSources.es, aka_data, dataSync),
         GetDataAndProcess(fn.dataSources.ads, aka_data, dataSync),
-        // GetDataAndProcess(fn.dataSources.adNN, aka_data, dataSync),
-        // GetDataAndProcess(fn.dataSources.lmn, aka_data, dataSync),
-        // GetDataAndProcess(fn.dataSources.mdn, aka_data, dataSync),
-        // GetDataAndProcess(fn.dataSources.mm, aka_data, dataSync)
+        GetDataAndProcess(fn.dataSources.adNN, aka_data, dataSync),
+        GetDataAndProcess(fn.dataSources.lmn, aka_data, dataSync),
+        GetDataAndProcess(fn.dataSources.mdn, aka_data, dataSync),
+        GetDataAndProcess(fn.dataSources.mm, aka_data, dataSync)
     ]);
 
     if(redis && redis.status === 'ready') redis.quit();
