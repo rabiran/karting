@@ -51,7 +51,7 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                 sendLog(logLevel.warn, logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON, JSON.stringify(person_ready_for_kartoffel));                
             }
         }
-        // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding user    
+        // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding user
         catch (err) {
             // check if the perosn not exist in Kartoffel (404 status), or if there is another error
             if (err.response.status === 404) {
@@ -62,8 +62,13 @@ const added = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSour
                 try {
                     let person = await Auth.axiosKartoffel.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     person = person.data;
+<<<<<<< HEAD
+                    logger.info(`The person with the identifier: ${person.personalNumber || person.identityCard} from ${dataSource} successfully insert to Kartoffel`);
+                    // add domain user for the new person
+=======
                     sendLog(logLevel.info, logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL, person.personalNumber || person.identityCard, dataSource);                    
                     // add domain user for the new person 
+>>>>>>> cff43a6343e16d249658dfeef31c38600f555239
                     await domainUserHandler(person, record, dataSource);
                 }
                 catch (err) {
@@ -122,6 +127,7 @@ const updated = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSo
 
         }
     }
+
 }
 
 

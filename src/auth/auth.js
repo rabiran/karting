@@ -7,7 +7,7 @@ const logDetails = require('../util/logDetails');
 
 class Auth {
   /**
-   * 
+   *
    * @param redisInstance - Redis instance to get\set token from redis service
    */
   static setRedis (redisInstance) {
@@ -62,7 +62,7 @@ Auth.publicKey;
 Auth.accessToken;
 Auth.keyName = "accessToken";
 
-// Axios instances 
+// Axios instances
 Auth.axiosSpike = axios.create({
   baseURL: `${authParams.spikeHost}:${authParams.spikePort}`,
   headers: {

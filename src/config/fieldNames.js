@@ -26,7 +26,7 @@ module.exports = {
         dischargeDay: "rld",
         clearance: "clearance",
         unitName: "hr",
-        telephoneType: "telephoneType", 
+        telephoneType: "telephoneType",
         uniqeFieldForDeepDiff: "mi"
     },
     es_name: {
@@ -43,7 +43,7 @@ module.exports = {
         mail: "mail",
         address: "adr",
         job: "tf",
-        domainSuffix: "@es",
+        domainSuffix: "@jello.com",
         userName: "userName",
         uniqeFieldForDeepDiff: "tz"
     },
@@ -68,7 +68,7 @@ module.exports = {
         upn: "userPrincipalName",
         hierarchy: "hierarchy",
         sAMAccountName: "sAMAccountName",
-        domainSuffix: "@ads",
+        domainSuffix: "@rabiran.com",
         uniqeFieldForDeepDiff: "sAMAccountName"
     },
     adNN_name: {
@@ -93,7 +93,7 @@ module.exports = {
         uniqeFieldForDeepDiff: "unid"
     },
     entityTypeValue: {
-        s: "tamar",
+        s: "agumon",
         sPrefix: "m",
         c: "digimon",
         cPrefix: "d",

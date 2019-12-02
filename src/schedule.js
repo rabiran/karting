@@ -29,28 +29,28 @@ schedule.scheduleJob(scheduleTime ,async()=>{
 
     redis.on("connect", async function(){
         sendLog(logLevel.info, logDetails.info.INF_CONNECT_REDIS);
-        Auth.setRedis(redis);    
-    })   
-    redis.on("error", function (err) {        
+        Auth.setRedis(redis);
+    })
+    redis.on("error", function (err) {
         sendLog(logLevel.error, logDetails.error.ERR_CONNECTION_REDIS, err.message);
     });
     redis.on("end", function () {
         sendLog(logLevel.info, logDetails.info.INF_CLOSED_REDIS);
     });
-    
+
     // check if the root hierarchy exist and adding it if not
     await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
-            sendLog(logLevel.info, logDetails.info.INF_ROOT_EXSIST, result.data.name);            
+            sendLog(logLevel.info, logDetails.info.INF_ROOT_EXSIST, result.data.name);
         })
         .catch(async () => {
             await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy })
                 .then((result) => {
-                    sendLog(logLevel.info, logDetails.info.INF_ADD_ROOT, result.data.name);                                
+                    sendLog(logLevel.info, logDetails.info.INF_ADD_ROOT, result.data.name);
                 })
                 .catch((err) => {
                     let errorMessage = (err.response) ? err.response.data.message : err.message;
-                    sendLog(logLevel.error, logDetails.error.ERR_ADD_ROOT, errorMessage);                    
+                    sendLog(logLevel.error, logDetails.error.ERR_ADD_ROOT, errorMessage);
                 })
         });
 
@@ -71,8 +71,8 @@ schedule.scheduleJob(scheduleTime ,async()=>{
 });
 
 /**
- * 
- * @param {*} dataSource - The source of the data 
+ *
+ * @param {*} dataSource - The source of the data
  * @param {*} akaData - The aka data to complete data information
  * @param {*} func - The function thet give data from data source
  */
