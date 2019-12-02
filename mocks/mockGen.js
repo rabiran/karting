@@ -38,8 +38,8 @@ for (let i = 0; i < 300; i++) {
     })
     telephones.push({
         "mi": mi[i],
-        "telephone": utils.generateNumberBody().toString(),
-        "ktelephone": utils.generateNumberPrefix().toString(),
+        "telephone": utils.generateNumberBody(),
+        "ktelephone": utils.generateNumberPrefix(),
         "telephoneType": faker.random.number({'min': 1,'max': 2})
     })
 }

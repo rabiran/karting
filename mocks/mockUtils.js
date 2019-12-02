@@ -19,10 +19,10 @@ const faker = require('faker');
         return tz + utils.createCheckDigit(tz);
     },
     generateNumberBody: () => {
-        return faker.random.number({'min': 1000000,'max': 9999999});
+        return faker.random.number({'min': 1000000,'max': 9999999}).toString();
     },
     generateNumberPrefix: () => {
-        return faker.random.number({'min': 50,'max': 59});
+        return faker.random.number({'min': 50,'max': 59}).toString();
     }
 }
 
