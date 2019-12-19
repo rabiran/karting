@@ -14,7 +14,7 @@ let esUsers = [];
 // Generating mi and tz lists
 for (let i = 0; i < 300; i++) {
     tzs.push(utils.generateID());
-    mis.push(faker.random.number({'min': 100000,'max': 999999999}));
+    mis.push(faker.random.number({'min': 100000,'max': 999999999}).toString());
 }
 
 fs.writeFileSync("./lists/miList.json", JSON.stringify(mis))
@@ -24,24 +24,24 @@ fs.writeFileSync("./lists/tzList.json", JSON.stringify(tzs))
 // Generating employee and telephones objects for aka
 for (let i = 0; i < 300; i++) {
     employees.push({
-    "firstName": faker.name.firstName(),
-    "lastName": faker.name.lastName(),
-    "tz": tz[i],
-    "mi": mi[i],
-    "clearance": faker.random.number({'min': 0,'max': 10}),
-    "rnk": utils.randomElement(dataTypes.RANK),
-    "nstype": utils.randomElement(dataTypes.SERVICE_TYPE),
-    "rld": faker.date.between(faker.date.future(10),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    tz: tzs[i],
+    mi: mis[i],
+    clearance: faker.random.number({'min': 0,'max': 10}).toString(),
+    rnk: utils.randomElement(dataTypes.RANK),
+    nstype: utils.randomElement(dataTypes.SERVICE_TYPE),
+    rld: faker.date.between(faker.date.future(10),
                               faker.date.past(10)).toISOString().split('T')[0] +
                               " 00:00:00.0",
-    "hr": utils.randomElement(dataTypes.UNIT)
+    hr: utils.randomElement(dataTypes.UNIT)
     })
     telephones.push({
-        "mi": mi[i],
-        "telephone": utils.generateNumberBody(),
-        "ktelephone": utils.generateNumberPrefix(),
-        "telephoneType": faker.random.number({'min': 1,'max': 2})
-    })
+        mi: mi[i],
+        telephone: utils.generateNumberBody(),
+        ktelephone: utils.generateNumberPrefix(),
+        telephoneType: faker.random.number({'min': 1,'max': 2})
+    });
 }
 
 // Generating AD employees objects
@@ -49,8 +49,8 @@ for (let i = 0; i < 150; i++) {
     let ad = {}
     ad.KfirstName = employees[i].firstName;
     ad.KlastName = employees[i].lastName;
-    const job = faker.name.jobTitle();
     ad.userPrincipalName = "M" + employees[i].mi;
+    const job = faker.name.jobTitle();
     ad.hierarchy = faker.lorem.word() + "/" +
                    faker.lorem.word() + "/" +
                    faker.lorem.word() + "/" +
@@ -58,6 +58,8 @@ for (let i = 0; i < 150; i++) {
     ad.sAMAccountName = faker.internet.email().split('@')[0];
     ad.mail = ad.sAMAccountName + "@" + dataTypes.DOMAIN_MAP[0][0];
     adUsers.push(ad);
+    // change the matched aka record's hr to ads unit type
+    employees[i].hr = utils.randomElement(dataTypes.ADS_UNIT);
   }
 
 // Generating AD unemployee objects
@@ -76,21 +78,28 @@ for (let i = 0; i < 100; i++) {
     adUsers.push(ad)
 }
 
-// Generating es employee objects
+// Generating es employee/unemployee objects
 for (let i = 0; i < 50; i++) {
     let user = {};
-    user.stype = utils.randomElement(dataTypes.SERVICE_TYPE);
-    user.firstName = faker.name.firstName();
-    user.lastName = faker.name.lastName();
     user.tz = utils.randomElement([utils.generateID(), tzs[250 + i]]);
 
+    // employee
     if (user.tz === tzs[250 + i]) {
+        user.stype = employees[250 + i].nstype;
+        user.firstName = employees[250 + i].firstName;
+        user.lastName = employees[250 + i].lastName;
         user.mi = mis[250 + i];
         user.entity = dataTypes.ENTITY_TYPE[1];
         user.rnk = utils.randomElement(dataTypes.RANK);
         user.rld = employees[250 + i].rld;
+        // change the matched aka record's hr to es unit type
+        employees[250 + i].hr = utils.randomElement(dataTypes.ES_UNIT);
+    // unemployee
     } else {
+        user.stype = utils.randomElement(dataTypes.SERVICE_TYPE);
         user.mi = user.tz;
+        user.firstName = faker.name.firstName();
+        user.lastName = faker.name.lastName();
         user.entity = dataTypes.ENTITY_TYPE[0];
         user.rnk = null;
         user.rld = null;

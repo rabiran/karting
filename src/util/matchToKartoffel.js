@@ -48,7 +48,7 @@ const match_aka = (obj, dataSource) => {
                 delete obj[fn[dataSource].areaCode];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
-            // mobilePhone       
+            // mobilePhone
             case fn[dataSource].mobilePhone:
                 validators().mobilePhone.test(`${obj[fn[dataSource].areaCodeMobile]}-${obj[rawKey]}`) ? obj.mobilePhone = [`${obj[fn[dataSource].areaCodeMobile]}-${obj[rawKey]}`] : delete obj[rawKey];
                 delete obj[fn[dataSource].areaCodeMobile];
@@ -59,12 +59,12 @@ const match_aka = (obj, dataSource) => {
                 obj.dischargeDay = obj[rawKey];
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
-            // clearance 
+            // clearance
             case fn[dataSource].clearance:
                 obj.clearance = obj[rawKey];
                 (rawKey === "clearance") ? null : delete obj[rawKey];
                 break;
-            // serviceType 
+            // serviceType
             case fn[dataSource].serviceType:
                 obj.serviceType = obj[rawKey];
                 (rawKey === "serviceType") ? null : delete obj[rawKey];
@@ -109,7 +109,7 @@ const match_es = (obj, dataSource) => {
                 obj.personalNumber = obj[rawKey].toString();
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
-            //rank
+            // rank
             case fn[dataSource].rank:
                 obj.rank = obj[rawKey];
                 (rawKey === "rank") ? null : delete obj[rawKey];
@@ -119,7 +119,7 @@ const match_es = (obj, dataSource) => {
                 validators().phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
-            //mobilePhone       
+            //mobilePhone
             case fn[dataSource].mobilePhone:
                 validators().mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
@@ -129,7 +129,7 @@ const match_es = (obj, dataSource) => {
                 obj.dischargeDay = obj[rawKey];
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
-            //hierarchy 
+            //hierarchy
             case fn[dataSource].hierarchy:
                 let hr = obj[rawKey].split('/');
                 if (hr[0] == "") {
@@ -141,17 +141,17 @@ const match_es = (obj, dataSource) => {
                 obj.hierarchy = hr.join("/");
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
-            //mail 
+            //mail
             case fn[dataSource].mail:
                 obj.mail = obj[rawKey];
                 (rawKey === "mail") ? null : delete obj[rawKey];
                 break;
-            //address 
+            //address
             case fn[dataSource].address:
                 obj.address = obj[rawKey];
                 (rawKey === "address") ? null : delete obj[rawKey];
                 break;
-            //job 
+            //job
             case fn[dataSource].job:
                 obj.job = obj[rawKey];
                 (rawKey === "job") ? null : delete obj[rawKey];
@@ -212,7 +212,7 @@ const match_ads = (obj, dataSource) => {
                         obj.entityType = fn.entityTypeValue.s;
                         break;
                     default:
-                        sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);                        
+                        sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
                 }
                 let identityCardCandidate = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0];
                 (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate.toString() : null;
@@ -277,7 +277,7 @@ const match_adNN = (obj, dataSource) => {
                 if (obj[rawKey].toLowerCase().includes(fn[dataSource].extension)) {
                     uniqueNum = obj[rawKey].toLowerCase().replace(fn[dataSource].extension, "")
                 } else {
-                    sendLog(logLevel.warn, logDetails.warn.WRN_USER_NOT_EXTENTION, obj[rawKey], fn[dataSource].extension);                    
+                    sendLog(logLevel.warn, logDetails.warn.WRN_USER_NOT_EXTENTION, obj[rawKey], fn[dataSource].extension);
                     break;
                 }
                 if (validators(uniqueNum).identityCard) {
@@ -381,12 +381,12 @@ const match_excel = (obj, dataSource) => {
                 validators().phone.test(obj[rawKey]) ? obj.phone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "phone") ? null : delete obj[rawKey];
                 break;
-            //mobilePhone       
+            //mobilePhone
             case fn[dataSource].mobilePhone:
                 validators().mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
                 (rawKey === "mobilePhone") ? null : delete obj[rawKey];
                 break;
-            //hierarchy 
+            //hierarchy
             case fn[dataSource].hierarchy:
                 let hr = obj[rawKey].split('/');
                 if (hr[0] == "") {
@@ -398,12 +398,12 @@ const match_excel = (obj, dataSource) => {
                 obj.hierarchy = hr.join("/");
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
-            //job 
+            //job
             case fn[dataSource].job:
                 obj.job = obj[rawKey];
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
-            //mail 
+            //mail
             case fn[dataSource].mail:
                 obj.mail = obj[rawKey];
                 (rawKey === "mail") ? null : delete obj[rawKey];
@@ -419,7 +419,7 @@ const match_excel = (obj, dataSource) => {
  * This module accept person object and check if his hierarchy exit.
  * If yes- the module return the last hierarchy's objectID,
  * else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
- * 
+ *
  * @param {*} record Object of person after suitable to kartoffel structure
  * @returns objectID of the last hierarchy
  */
@@ -434,15 +434,15 @@ directGroupHandler = async (record) => {
         .catch((err) => {
             let identifier = record.identityCard || record.uniqueId;
             let errorMessage = (err.response) ? err.response.data.message : err.message;
-            sendLog(logLevel.error, logDetails.error.ERR_ADD_DIRECT_GROUP_TO_PERSON, identifier, errorMessage);            
+            sendLog(logLevel.error, logDetails.error.ERR_ADD_DIRECT_GROUP_TO_PERSON, identifier, errorMessage);
         });
     return directGroup;
 };
 
 /**
- *This module match the fields of given person object from the raw data to Kartoffel fields structure according to its dataSource 
- *and build his hierarchy if needed 
- * 
+ *This module match the fields of given person object from the raw data to Kartoffel fields structure according to its dataSource
+ *and build his hierarchy if needed
+ *
  * @param {*} origin_obj raw object of person from specific dataSource
  * @param {*} dataSource the dataSource of the raw person object
  * @returns person object according to the structure of kartoffel
@@ -461,7 +461,7 @@ module.exports = async (origin_obj, dataSource) => {
         case fn.dataSources.ads:
             match_ads(obj, dataSource);
             if (!obj.entityType) {
-                sendLog(logLevel.warn, logDetails.warn.WRN_PERSON_HAS_NOT_HAVE_USERPRINCIPALNAME, obj.mail);                
+                sendLog(logLevel.warn, logDetails.warn.WRN_PERSON_HAS_NOT_HAVE_USERPRINCIPALNAME, obj.mail);
             };
             break;
         case fn.dataSources.excel:
@@ -479,7 +479,7 @@ module.exports = async (origin_obj, dataSource) => {
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
         default:
-            sendLog(logLevel.error, logDetails.error.ERR_UNIDENTIFIED_DATA_SOURCE);            
+            sendLog(logLevel.error, logDetails.error.ERR_UNIDENTIFIED_DATA_SOURCE);
     }
 
 
