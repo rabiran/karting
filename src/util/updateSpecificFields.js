@@ -4,8 +4,8 @@ const {sendLog, logLevel} = require('./logger');
 const logDetails = require('../util/logDetails');
 const fn = require('../config/fieldNames');
 const Auth = require('../auth/auth');
-const _ = require('lodash');
-const axios = require('axios');
+const isObjectEmpty = require('./isObjectEmpty');
+
 /**
  * This module accept an array that contain DeepDiff objects and build from them object for the PUT request that send to Kartoffel
  * @param {*} deepDiffArray Array of DeepDiff objects
@@ -59,8 +59,8 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
         for (let field of fn.forbiddenFieldsToUpdate) {
             objForUpdate[field] ? delete objForUpdate[field] : null;
         }
-        // Update the person object if the objForUpdate is empty
-        if (!(Object.entries(objForUpdate).length === 0 && objForUpdate.constructor === Object)) {
+        // Update the person object if the objForUpdate is NOT empty
+        if (!isObjectEmpty(objForUpdate)) {
             await Auth.axiosKartoffel.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate);
             sendLog(logLevel.info, logDetails.info.INF_UPDATE_PERSON_IN_KARTOFFEL, person.personalNumber || person.identityCard, dataSource, JSON.stringify(objForUpdate));
         }

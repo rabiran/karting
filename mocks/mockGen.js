@@ -1,9 +1,12 @@
 const fs = require("fs");
 const faker = require('faker');
-const mi = require("./lists/miList.json");
-const tz = require("./lists/tzList.json");
 const utils = require("./mockUtils");
 const dataTypes = require("./lists/dataTypesList");
+const akaAmount = 300;
+const ADAmount = 250;
+const ADEmployeesAmount = ADAmount - 100;
+const ADUnemployeesAmount = ADAmount - ADEmployeesAmount;
+const esAmount = 50;
 let mis = [];
 let tzs = [];
 let employees = [];
@@ -12,17 +15,13 @@ let adUsers = [];
 let esUsers = [];
 
 // Generating mi and tz lists
-for (let i = 0; i < 300; i++) {
+for (let i = 0; i < akaAmount; i++) {
     tzs.push(utils.generateID());
     mis.push(faker.random.number({'min': 100000,'max': 999999999}).toString());
 }
 
-fs.writeFileSync("./lists/miList.json", JSON.stringify(mis))
-fs.writeFileSync("./lists/tzList.json", JSON.stringify(tzs))
-
-
 // Generating employee and telephones objects for aka
-for (let i = 0; i < 300; i++) {
+for (let i = 0; i < akaAmount; i++) {
     employees.push({
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -37,7 +36,7 @@ for (let i = 0; i < 300; i++) {
     hr: utils.randomElement(dataTypes.UNIT)
     })
     telephones.push({
-        mi: mi[i],
+        mi: mis[i],
         telephone: utils.generateNumberBody(),
         ktelephone: utils.generateNumberPrefix(),
         telephoneType: faker.random.number({'min': 1,'max': 2})
@@ -45,7 +44,7 @@ for (let i = 0; i < 300; i++) {
 }
 
 // Generating AD employees objects
-for (let i = 0; i < 150; i++) {
+for (let i = 0; i < ADEmployeesAmount; i++) {
     let ad = {}
     ad.KfirstName = employees[i].firstName;
     ad.KlastName = employees[i].lastName;
@@ -63,7 +62,7 @@ for (let i = 0; i < 150; i++) {
   }
 
 // Generating AD unemployee objects
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < ADUnemployeesAmount; i++) {
     let ad = {}
     ad.KfirstName = faker.name.firstName();
     ad.KlastName = faker.name.lastName();
@@ -79,16 +78,16 @@ for (let i = 0; i < 100; i++) {
 }
 
 // Generating es employee/unemployee objects
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < esAmount; i++) {
     let user = {};
     user.tz = utils.randomElement([utils.generateID(), tzs[250 + i]]);
 
     // employee
-    if (user.tz === tzs[250 + i]) {
-        user.stype = employees[250 + i].nstype;
-        user.firstName = employees[250 + i].firstName;
-        user.lastName = employees[250 + i].lastName;
-        user.mi = mis[250 + i];
+    if (user.tz === tzs[ADAmount + i]) {
+        user.stype = employees[ADAmount + i].nstype;
+        user.firstName = employees[ADAmount + i].firstName;
+        user.lastName = employees[ADAmount + i].lastName;
+        user.mi = mis[ADAmount + i];
         user.entity = dataTypes.ENTITY_TYPE[1];
         user.rnk = utils.randomElement(dataTypes.RANK);
         user.rld = employees[250 + i].rld;

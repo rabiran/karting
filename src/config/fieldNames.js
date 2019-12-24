@@ -9,7 +9,7 @@ module.exports = {
     lmn: "lmn_name",
     mdn: "mdn_name",
     mm: "mm_name",
-    excel: "excel"
+    excel: "excel",
   },
   // aka_name: {
   aka: {
@@ -27,7 +27,7 @@ module.exports = {
       clearance: "clearance",
       unitName: "hr",
       telephoneType: "telephoneType",
-      uniqeFieldForDeepDiff: "mi"
+      uniqeFieldForDeepDiff: "mi",
   },
   es_name: {
       entityType: "entity",
@@ -45,7 +45,7 @@ module.exports = {
       job: "tf",
       domainSuffix: "@jello.com",
       userName: "userName",
-      uniqeFieldForDeepDiff: "tz"
+      uniqeFieldForDeepDiff: "tz",
   },
   excel: {
       entityType: "entityType",
@@ -58,7 +58,7 @@ module.exports = {
       mobilePhone: "telephone",
       hierarchy: "hr",
       mail: "mail",
-      job: "job"
+      job: "job",
   },
   ads_name: {
       firstName: "KfirstName",
@@ -69,7 +69,7 @@ module.exports = {
       hierarchy: "hierarchy",
       sAMAccountName: "sAMAccountName",
       domainSuffix: "@rabiran.com",
-      uniqeFieldForDeepDiff: "sAMAccountName"
+      uniqeFieldForDeepDiff: "sAMAccountName",
   },
   adNN_name: {
       firstName: "KfirstName",
@@ -81,7 +81,7 @@ module.exports = {
       sAMAccountName: "sAMAccountName",
       extension: "nn",
       domainSuffix: "@adnn",
-      uniqeFieldForDeepDiff: "userPrincipalName"
+      uniqeFieldForDeepDiff: "userPrincipalName",
   },
   nvSQL_name: {
       firstName: "KfirstName",
@@ -90,23 +90,23 @@ module.exports = {
       hierarchy: "hierarchy",
       pn: "pn",
       identityCard: "id",
-      uniqeFieldForDeepDiff: "unid"
+      uniqeFieldForDeepDiff: "unid",
   },
   entityTypeValue: {
       s: "agumon",
       sPrefix: "m",
       c: "digimon",
-      cPrefix: "d"
+      cPrefix: "d",
   },
   rootHierarchy: "wallmart",
   runningTime: {
       hour: 12,
-      minute: 54
+      minute: 54,
   },
   recoveryRunningTime: {
       date: 10,
       hour: 0,
-      minute: 54
+      minute: 54,
   },
   akaRigid: [
       "clearance",
@@ -120,7 +120,7 @@ module.exports = {
       "mobilePhone",
       "phone",
       "serviceType",
-      "currentUnit"
+      "currentUnit",
   ],
   forbiddenFieldsToUpdate: ["identityCard", "personalNumber", "directGroup"],
   fieldsForRmoveFromKartoffel: [
@@ -134,5 +134,9 @@ module.exports = {
       "id",
       "hierarchy"
   ],
-  kartoffelUrl: "http://localhost:3000"
+  runnigTypes: {
+      dailyRun: 'daily_run',
+      recoveryRun: 'recovery_run',
+  },
+  kartoffelUrl: "http://localhost:3000",
 };

@@ -10,6 +10,7 @@ require('dotenv').config();
  */
 
 module.exports = async (diffsObj, dataSource, aka_all_data) => {
+    // promise all with fails
     return Promise.all([
         added(diffsObj.added, dataSource, aka_all_data, currentUnit_to_DataSource),
         updated(diffsObj.updated, dataSource, aka_all_data, currentUnit_to_DataSource)

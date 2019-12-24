@@ -5,6 +5,7 @@ const hierarchyHandler = require('./hierarchyHandler');
 const {sendLog, logLevel} = require('./logger');
 const logDetails = require('../util/logDetails');
 const Auth = require('../auth/auth');
+const formatAkaDateToKartoffel = require('./formatAkaDateToKartoffel');
 require('dotenv').config();
 
 
@@ -56,7 +57,7 @@ const match_aka = (obj, dataSource) => {
                 break;
             // dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                obj.dischargeDay = formatAkaDateToKartoffel(obj[rawKey]);
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance

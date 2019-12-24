@@ -1,5 +1,4 @@
 const fs = require('fs');
-const moment = require("moment");
 const {sendLog, logLevel} = require('./logger');
 const logDetails = require('../util/logDetails');
 const shell = require('shelljs');
@@ -19,32 +18,32 @@ const pathHandler = (path) => {
  * @param {*} actionDescription Data description for the logs and the file's name
  * @returns The name of the last file that stored
  */
-module.exports = (data, path, actionDescription) => {
+module.exports = (data, path, actionDescription, dateAndTime) => {
     pathHandler(path);
     pathHandler(`${path}/archive/`);
-    const dateAndTime = moment(new Date()).format("DD.MM.YYYY__HH.mm");
+
     const files = fs.readdirSync(`${path}/`);
+
     try {
         fs.writeFileSync(`${path}/${actionDescription}_${dateAndTime}.log`, JSON.stringify(data))
-        sendLog(logLevel.info, logDetails.info.INF_SAVE_NEW_DATA_FILE, actionDescription, dateAndTime);        
+        sendLog(logLevel.info, logDetails.info.INF_SAVE_NEW_DATA_FILE, actionDescription, dateAndTime);
         files.map(file => {
-            if (file != `${actionDescription}_${dateAndTime}.log` && file != 'archive' && file != 'completeData') {
+            if (file != `${actionDescription}_${dateAndTime}.log` && file != 'archive') {
                 fs.renameSync(`${path}/${file}`, `${path}/archive/${file}`);
-                sendLog(logLevel.info, logDetails.info.INF_MOVE_FILE_TO_ARCHIVE, file);                
+                sendLog(logLevel.info, logDetails.info.INF_MOVE_FILE_TO_ARCHIVE, file);
             }
         })
     }
     catch (err) {
-        sendLog(logLevel.error, logDetails.error.ERR_SAVE_DATA_FILE, actionDescription, dateAndTime, err.message);        
+        sendLog(logLevel.error, logDetails.error.ERR_SAVE_DATA_FILE, actionDescription, dateAndTime, err.message);
         return err.message;
     };
+    // let lastJsonName = files[files.length - 1]
+    // // solve the problem that if runnig the module twice at same time on the clock
+    // if (files[files.length - 1] === `${actionDescription}_${dateAndTime}.log` || files[files.length - 1] === 'archive') {
+    //     const completeFiles = fs.readdirSync(`${path}/archive/`);
+    //     lastJsonName = (completeFiles[completeFiles.length - 1]);
+    // }
 
-    // solve the problem that if runnig the module twice at same time on the clock
-    let lastJsonName = files[files.length - 1]
-    if (files[files.length - 1] === `${actionDescription}_${dateAndTime}.log` || files[files.length - 1] === 'archive') {
-        const completeFiles = fs.readdirSync(`${path}/archive/`);
-        lastJsonName = (completeFiles[completeFiles.length - 1]);
-    }
-
-    return lastJsonName;
+    // return lastJsonName;
 }

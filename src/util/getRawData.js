@@ -4,8 +4,18 @@ const axios = require("axios");
 const akaDataManipulate = require('./akaDataManipulate');
 const {sendLog, logLevel} = require('./logger');
 const logDetails = require('./logDetails');
+const saveAsFile = require('./saveAsFile');
+const moment = require("moment");
 
-module.exports = async (dataSource) => {
+/**
+ * Get data raw data from data source
+ *
+ *
+ * @param {string} dataSource = which data source to get data from
+ * @param {string} runType - the current runnig type
+ * @param {Date} dateAndTime - when the data was called
+ */
+module.exports = async (dataSource, runType, dateAndTime) => {
     let data;
     if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server
@@ -26,6 +36,9 @@ module.exports = async (dataSource) => {
         });
         data = data.data;
     }
+
+    // save the new json as file in the server and get the name of the kast file
+    saveAsFile(data, `./data/${dataSource}`, `${runType}_${dataSource}_raw_data`, dateAndTime);
 
     return data;
 }

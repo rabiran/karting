@@ -12,12 +12,15 @@ const Auth = require('../../auth/auth');
 
 require('dotenv').config();
 
-/*
- * diffsObj - object that contain the results of diffs checking (added,updated,same,removed & all)
- * dataSourceperson_ready_for_kartoffel - string the express the name of the data source
- * aka_all_data - object that contain all the recent data from aka
+/**
+ * Take new object and add it to kartoffel
+ *
+ * @param {*} diffsObj - represnts the changes from last data
+ * @param {*} dataSource - the data source which the data came from
+ * @param {*} aka_all_data - all the data from aka data source (for compilation)
+ * @param {*} currentUnit_to_DataSource - a map of all units from each data source
+ * @param {*} needMatchToKartoffel - a flag to tell if the current object needs a match to kartoffel's format
  */
-
 module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = true) => {
     if (dataSource === fn.dataSources.aka) {
         return;

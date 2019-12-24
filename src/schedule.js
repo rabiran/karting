@@ -12,44 +12,28 @@ const getRawData = require('./util/getRawData');
 const matchToKartoffel = require('./util/matchToKartoffel');
 const compareToKartoffel = require('./util/recoveryUtils/compareToKartoffel');
 const akaRecovery = require('./util/recoveryUtils/akaRecovery');
+const moment = require('moment');
+let recovery = require('./util/recoveryUtils/recovery');
 
 require('dotenv').config();
 const scheduleRecoveryTime = process.env.NODE_ENV === 'production' ? fn.recoveryRunningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 
-
-if (process.env.DATA_SOURCE == fn.dataSources.excel) {
-    const express = require("express");
-    app = express();
-    xls = require('./util/xlsxInsert');
-    app.use(xls);
-    app.listen(5000, () => console.log(`Example app listening on port 5000!`));
-}
-
+// This flow compare the new data against kartoffel's data - making the data more reliable,
+// and prevent gaps
 schedule.scheduleJob(scheduleRecoveryTime, async () => {
-    let akaData = await getRawData(fn.dataSources.aka);
-    akaRecovery(akaData);
+    let akaData = await getRawData(fn.dataSources.aka, fn.runnigTypes.recoveryRun, moment(new Date()).format("DD.MM.YYYY__HH.mm"));
+    await akaRecovery(akaData);
+    recovery = recovery.bind(this, akaData);
 
-    const esData = await getRawData(fn.dataSources.es);
-    const adsData = await getRawData(fn.dataSources.ads);
-    const adnnData = await getRawData(fn.dataSources.adNN);
-    const lmnData = await getRawData(fn.dataSources.lmn);
-    const mdnData = await getRawData(fn.dataSources.mdn);
-    const mmData = await getRawData(fn.dataSources.mm);
-
-    const adjustEsData = await Promise.all(esData.map(async person => await matchToKartoffel(person, fn.dataSources.es)));
-    const adjustAdsData = await Promise.all(adsData.map(async person => await matchToKartoffel(person, fn.dataSources.ads)));
-    const adjustAdnnData = await Promise.all(adnnData.map(async person => await matchToKartoffel(person, fn.dataSources.adNN)));
-    const adjustLmnData = await Promise.all(lmnData.map(async person => await matchToKartoffel(person, fn.dataSources.lmn)));
-    const adjustMdnData = await Promise.all(mdnData.map(async person => await matchToKartoffel(person, fn.dataSources.mdn)));
-    const adjustMmData = await Promise.all(mmData.map(async person => await matchToKartoffel(person, fn.dataSources.mm)));
-
-    compareToKartoffel(adjustEsData, fn.dataSources.es, akaData);
-    compareToKartoffel(adjustAdsData, fn.dataSources.ads, akaData);
-    compareToKartoffel(adjustAdnnData, fn.dataSources.adNN, akaData);
-    compareToKartoffel(adjustLmnData, fn.dataSources.lmn, akaData);
-    compareToKartoffel(adjustMdnData, fn.dataSources.mdn, akaData);
-    compareToKartoffel(adjustMmData, fn.dataSources.mm, akaData);
+    PromiseAllWithFails([
+        recovery(fn.dataSources.es),
+        recovery(fn.dataSources.ads),
+        recovery(fn.dataSources.adNN),
+        recovery(fn.dataSources.lmn),
+        recovery(fn.dataSources.mdn),
+        recovery(fn.dataSources.mm)
+    ]);
 });
 
 schedule.scheduleJob(scheduleTime ,async () => {
@@ -87,16 +71,16 @@ schedule.scheduleJob(scheduleTime ,async () => {
         });
 
     // get the new json from aka & save him on the server
-    let aka_data = await dataSync(fn.dataSources.aka);
+    let aka_data = await dataSync(fn.dataSources.aka, fn.runnigTypes.dailyRun);
 
     await PromiseAllWithFails([
         GetDataAndProcess(fn.dataSources.aka, aka_data),
         GetDataAndProcess(fn.dataSources.es, aka_data, dataSync),
         GetDataAndProcess(fn.dataSources.ads, aka_data, dataSync),
-        GetDataAndProcess(fn.dataSources.adNN, aka_data, dataSync),
-        GetDataAndProcess(fn.dataSources.lmn, aka_data, dataSync),
-        GetDataAndProcess(fn.dataSources.mdn, aka_data, dataSync),
-        GetDataAndProcess(fn.dataSources.mm, aka_data, dataSync)
+        // GetDataAndProcess(fn.dataSources.adNN, aka_data, dataSync),
+        // GetDataAndProcess(fn.dataSources.lmn, aka_data, dataSync),
+        // GetDataAndProcess(fn.dataSources.mdn, aka_data, dataSync),
+        // GetDataAndProcess(fn.dataSources.mm, aka_data, dataSync)
     ]);
 
     if(redis && redis.status === 'ready') redis.quit();
@@ -110,6 +94,6 @@ schedule.scheduleJob(scheduleTime ,async () => {
  */
 const GetDataAndProcess = async (dataSource, akaData, func) => {
     // In case datasource is aka, I get data before function and therefore not need to get data again
-    let data = func ? await func(dataSource) : akaData;
+    let data = func ? await func(dataSource, fn.runnigTypes.dailyRun) : akaData;
     await diffsHandler(data, dataSource, akaData.all);
 }

@@ -14,7 +14,8 @@ messageLog = {
         ERR_SAVE_DATA_FILE: 'Error at save %s_%s.log file. The error message: %s',
         ERR_UPDATE_DIRECT_GROUP_TO_PERSON: 'Failed to update directGroup for %s from %s. The error message:"%s" %s',
         ERR_UPDATE_PERSON_IN_KARTOFFEL: 'Not update the person with the identifier: %s from %s. The error message:"%s" %s',
-        ERR_GET_RAW_DATA: 'Failed to get data from %s API. The error is: %s'
+        ERR_GET_RAW_DATA: 'Failed to get data from %s API. The error is: %s',
+        ERR_GET_ALL_FROM_KARTOFFEL: 'Failed to get data from Kartoffel, in % The error message is: %s',
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
