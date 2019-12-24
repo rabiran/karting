@@ -16,7 +16,7 @@ require('dotenv').config();
  * @param {Map} currentUnit_to_DataSource - map of all the units from each data source
  * @param {boolean} needMatchToKartoffel - if the diffsObj needs match to kaertoffel
  */
-let a = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = true) => {
+module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = true) => {
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
         let identifier = record[1][fn[dataSource].personalNumber] || record[1][fn[dataSource].identityCard] || record[1].personalNumber || record[1].identityCard;
