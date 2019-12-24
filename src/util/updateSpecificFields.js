@@ -4,7 +4,7 @@ const {sendLog, logLevel} = require('./logger');
 const logDetails = require('../util/logDetails');
 const fn = require('../config/fieldNames');
 const Auth = require('../auth/auth');
-const isObjectEmpty = require('./isObjectEmpty');
+const isObjectEmpty = require('./generalUtils/isObjectEmpty');
 
 /**
  * This module accept an array that contain DeepDiff objects and build from them object for the PUT request that send to Kartoffel

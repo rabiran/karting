@@ -3,7 +3,11 @@ const {sendLog, logLevel} = require('./logger');
 const logDetails = require('../util/logDetails');
 const shell = require('shelljs');
 
-// Create the log directory if it does not exist
+/**
+ * Create the log directory if it does not exist
+ *
+ * @param {string} path - the path for the new directory
+ */
 const pathHandler = (path) => {
     if (!fs.existsSync(path)) {
         shell.mkdir('-p', path);
@@ -13,9 +17,9 @@ const pathHandler = (path) => {
 /**
  * This module save data as file with formt of description_date_time and returned the name of the last file that stored
  *
- * @param {*} data The data will be saved as file
- * @param {*} path The location where the data will be stored (without "/" at the end of the path)
- * @param {*} actionDescription Data description for the logs and the file's name
+ * @param {Object} data The data will be saved as file
+ * @param {string} path The location where the data will be stored (without "/" at the end of the path)
+ * @param {string} actionDescription Data description for the logs and the file's name
  * @returns The name of the last file that stored
  */
 module.exports = (data, path, actionDescription, dateAndTime) => {
@@ -38,12 +42,4 @@ module.exports = (data, path, actionDescription, dateAndTime) => {
         sendLog(logLevel.error, logDetails.error.ERR_SAVE_DATA_FILE, actionDescription, dateAndTime, err.message);
         return err.message;
     };
-    // let lastJsonName = files[files.length - 1]
-    // // solve the problem that if runnig the module twice at same time on the clock
-    // if (files[files.length - 1] === `${actionDescription}_${dateAndTime}.log` || files[files.length - 1] === 'archive') {
-    //     const completeFiles = fs.readdirSync(`${path}/archive/`);
-    //     lastJsonName = (completeFiles[completeFiles.length - 1]);
-    // }
-
-    // return lastJsonName;
 }

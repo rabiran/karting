@@ -23,9 +23,6 @@ module.exports = async (dataSource, runnigType) => {
         lastJsonName = (completeFiles[completeFiles.length - 1]);
     }
 
-
-    // save the new json as file in the server and get the name of the kast file
-    // saveAsFile(data, path, actionDescription);
     // get the diffs between the two last JSONs
     dataDiff = dataComparison(data, `./data/${dataSource}/archive`, lastJsonName, fn[dataSource].uniqeFieldForDeepDiff);
     dataSource === fn.dataSources.aka ? dataDiff.all = data : null;

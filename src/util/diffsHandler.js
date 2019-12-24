@@ -1,6 +1,7 @@
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
 const added = require('./diffsHandlerUtils/addedDataHandler');
 const updated = require('./diffsHandlerUtils/updatedDataHandler');
+const PromiseAllWithFails = require('./generalUtils/promiseAllWithFails');
 
 require('dotenv').config();
 /*
@@ -10,8 +11,7 @@ require('dotenv').config();
  */
 
 module.exports = async (diffsObj, dataSource, aka_all_data) => {
-    // promise all with fails
-    return Promise.all([
+    return PromiseAllWithFails([
         added(diffsObj.added, dataSource, aka_all_data, currentUnit_to_DataSource),
         updated(diffsObj.updated, dataSource, aka_all_data, currentUnit_to_DataSource)
     ]);

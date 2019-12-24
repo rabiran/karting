@@ -9,7 +9,6 @@ module.exports = {
     lmn: "lmn_name",
     mdn: "mdn_name",
     mm: "mm_name",
-    excel: "excel",
   },
   // aka_name: {
   aka: {
@@ -46,19 +45,6 @@ module.exports = {
       domainSuffix: "@jello.com",
       userName: "userName",
       uniqeFieldForDeepDiff: "tz",
-  },
-  excel: {
-      entityType: "entityType",
-      firstName: "firstName",
-      lastName: "lastName",
-      identityCard: "tz",
-      personalNumber: "mi",
-      rank: "rnk",
-      phone: "telephone",
-      mobilePhone: "telephone",
-      hierarchy: "hr",
-      mail: "mail",
-      job: "job",
   },
   ads_name: {
       firstName: "KfirstName",

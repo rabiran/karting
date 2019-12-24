@@ -5,7 +5,7 @@ const hierarchyHandler = require('./hierarchyHandler');
 const {sendLog, logLevel} = require('./logger');
 const logDetails = require('../util/logDetails');
 const Auth = require('../auth/auth');
-const formatAkaDateToKartoffel = require('./formatAkaDateToKartoffel');
+const formatAkaDateToKartoffel = require('./generalUtils/formatAkaDateToKartoffel');
 require('dotenv').config();
 
 
