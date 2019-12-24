@@ -6,21 +6,38 @@ const { sendLog, logLevel } = require('./util/logger');
 const Auth = require('./auth/auth');
 const Redis = require("ioredis");
 const schedule = require('node-schedule');
-const PromiseAllWithFails = require('./util/promiseAllWithFails');
+const PromiseAllWithFails = require('./util/generalUtils/promiseAllWithFails');
 const logDetails = require('./util/logDetails');
+const getRawData = require('./util/getRawData');
+const akaRecovery = require('./util/recoveryUtils/akaRecovery');
+const moment = require('moment');
+let recovery = require('./util/recoveryUtils/recovery');
+
 require('dotenv').config();
-
-if (process.env.DATA_SOURCE == fn.dataSources.excel) {
-    const express = require("express")
-    app = express()
-    xls = require('./util/xlsxInsert');
-    app.use(xls)
-    app.listen(5000, () => console.log(`Example app listening on port 5000!`))
-}
-
+const scheduleRecoveryTime = process.env.NODE_ENV === 'production' ? fn.recoveryRunningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 
-schedule.scheduleJob(scheduleTime ,async()=>{
+// This flow compare the new data against kartoffel's data - making the data more reliable,
+// and prevent gaps
+schedule.scheduleJob(scheduleRecoveryTime, async () => {
+    let akaData = await getRawData(fn.dataSources.aka, fn.runnigTypes.recoveryRun, moment(new Date()).format("DD.MM.YYYY__HH.mm"));
+
+    recovery = recovery.bind(this, akaData);
+
+    PromiseAllWithFails([
+        // More about akaRecovery in src\util\recoveryUtils\akaRecovery.js,
+        // at the comment section
+        akaRecovery(akaData),
+        recovery(fn.dataSources.es),
+        recovery(fn.dataSources.ads),
+        recovery(fn.dataSources.adNN),
+        recovery(fn.dataSources.lmn),
+        recovery(fn.dataSources.mdn),
+        recovery(fn.dataSources.mm)
+    ]);
+});
+
+schedule.scheduleJob(scheduleTime ,async () => {
     const redis = new Redis({
         retryStrategy: function(times) {
             return times <= 3 ? times * 1000 : "stop reconnecting";
@@ -55,7 +72,7 @@ schedule.scheduleJob(scheduleTime ,async()=>{
         });
 
     // get the new json from aka & save him on the server
-    let aka_data = await dataSync(fn.dataSources.aka);
+    let aka_data = await dataSync(fn.dataSources.aka, fn.runnigTypes.dailyRun);
 
     await PromiseAllWithFails([
         GetDataAndProcess(fn.dataSources.aka, aka_data),
@@ -74,10 +91,10 @@ schedule.scheduleJob(scheduleTime ,async()=>{
  *
  * @param {*} dataSource - The source of the data
  * @param {*} akaData - The aka data to complete data information
- * @param {*} func - The function thet give data from data source
+ * @param {*} func - The function thet get and compare data from data source
  */
 const GetDataAndProcess = async (dataSource, akaData, func) => {
     // In case datasource is aka, I get data before function and therefore not need to get data again
-    let data = func ? await func(dataSource) : akaData;
+    let data = func ? await func(dataSource, fn.runnigTypes.dailyRun) : akaData;
     await diffsHandler(data, dataSource, akaData.all);
 }

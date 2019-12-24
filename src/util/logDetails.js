@@ -1,6 +1,6 @@
 messageLog = {
     error: {
-        ERR_CONNECTION_REDIS: 'Failed to connect to Redis. error message: %s',    
+        ERR_CONNECTION_REDIS: 'Failed to connect to Redis. error message: %s',
         ERR_SPIKE_TOKEN: 'Error from spike: %s',
         ERR_ADD_ROOT: 'Failed to add the root hierarchy to Kartoffel. the error message: %s',
         ERR_DATA_SOURCE: '"dataSource" variable must be attached to "completeFromAka" function',
@@ -12,8 +12,10 @@ messageLog = {
         ERR_ADD_DIRECT_GROUP_TO_PERSON: 'Faild to add directGroup to the person with the identityCard: %s. The error message:"%s"',
         ERR_UNIDENTIFIED_DATA_SOURCE: '"dataSource" variable must be attached to "matchToKartoffel" function',
         ERR_SAVE_DATA_FILE: 'Error at save %s_%s.log file. The error message: %s',
-        ERR_UPDATE_DIRECT_GROUP_TO_PERSON: 'Failed to update directGroup for %s from %s. The error message:"%s" %s', 
+        ERR_UPDATE_DIRECT_GROUP_TO_PERSON: 'Failed to update directGroup for %s from %s. The error message:"%s" %s',
         ERR_UPDATE_PERSON_IN_KARTOFFEL: 'Not update the person with the identifier: %s from %s. The error message:"%s" %s',
+        ERR_GET_RAW_DATA: 'Failed to get data from %s API. The error is: %s',
+        ERR_GET_ALL_FROM_KARTOFFEL: 'Failed to get data from Kartoffel, in % The error message is: %s',
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
@@ -25,7 +27,7 @@ messageLog = {
         WRN_NOT_INSERTED_ENTITY_TYPE: 'Not inserted entity type for the user with the upn %s from ads',
         WRN_USER_NOT_EXTENTION: 'User with id %s is not %s extension',
         WRN_PERSON_HAS_NOT_HAVE_USERPRINCIPALNAME: 'To the person with the identifier: %s has not have "userPrincipalName" field at ads',
-        WRN_KIND_DEEPDIFF_NOT_RECOGNIZED: 'the deepDiff kind of the updated person is not recognized -"%s"', 
+        WRN_KIND_DEEPDIFF_NOT_RECOGNIZED: 'the deepDiff kind of the updated person is not recognized -"%s"',
     },
     info: {
         INF_CONNECT_REDIS:'Redis connect to service',
@@ -36,7 +38,7 @@ messageLog = {
         INF_ADD_PERSON_TO_KARTOFFEL: 'The person with the identifier: %s from %s successfully insert to Kartoffel',
         INF_ADD_DOMAIN_USER: 'Add the domain user "%s" to the person with the idetifier: %s from %s successfully.',
         INF_ADD_HIERARCHY: 'success to add the hierarchy "%s" to Kartoffel',
-        INF_SAVE_NEW_DATA_FILE: 'The %s from %s successfully saved', 
+        INF_SAVE_NEW_DATA_FILE: 'The %s from %s successfully saved',
         INF_MOVE_FILE_TO_ARCHIVE: '%s successfully moved to the archive',
         INF_UPDATE_DIRECT_GROUP_TO_PERSON: 'The directGroup of the person with the identifier:%s from %s update successfully. %s',
         INF_UPDATE_PERSON_IN_KARTOFFEL: 'The person with the identifier: %s from %s update successfully. %s',
@@ -50,9 +52,9 @@ const getHandler = {
     },
 };
 
-// Execute override get on messageLog object 
+// Execute override get on messageLog object
 module.exports =  Object.keys(messageLog).reduce(
-                    (prevObj, currKey) => { 
+                    (prevObj, currKey) => {
                         prevObj[currKey] = new Proxy(messageLog[currKey], getHandler);
                         return prevObj;
                     },
