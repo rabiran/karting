@@ -32,7 +32,7 @@ module.exports = async (akaData) => {
         const personKeys = Object.keys(person);
 
         personKeys.forEach((key) => {
-            fn.fieldsForRmoveFromKartoffel.includes(key) ? delete person[key] : null;
+            fn.fieldsForRmoveFromKartoffel.includes(key) && key != 'id' ? delete person[key] : null;
         });
     });
 
@@ -44,8 +44,6 @@ module.exports = async (akaData) => {
         let matchedAka;
 
         if (akaRecord) {
-            akaRecord.rld = formatAkaDateToKartoffel(akaRecord.rld);
-
             matchedAka = await matchToKartoffel(akaRecord, fn.dataSources.aka);
             diffsObject = diff([person], [matchedAka], comparisonField, { updatedValues: 4 });
             if (!isObjectEmpty(diffsObject.updated[0])) {
@@ -53,13 +51,4 @@ module.exports = async (akaData) => {
             }
         }
     });
-}
-
-function formatAkaDateToKartoffel(date) {
-    let dateArray;
-    if (date) {
-        dateArray = date.split(' ');
-    }
-
-    return dateArray[0] + 'T' + dateArray[1] + '00Z';
 }
