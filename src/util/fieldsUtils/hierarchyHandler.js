@@ -1,7 +1,7 @@
-const p = require('../config/paths');
-const {sendLog, logLevel} = require('./logger');
-const logDetails = require('../util/logDetails');
-const Auth = require('../auth/auth');
+const p = require('../../config/paths');
+const {sendLog, logLevel} = require('../logger');
+const logDetails = require('../../util/logDetails');
+const Auth = require('../../auth/auth');
 
 /**
  * This module create the non exist hierarchies and return the objectID of the last hierarchy.

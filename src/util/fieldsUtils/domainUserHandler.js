@@ -1,8 +1,8 @@
-const fn = require('../config/fieldNames');
-const p = require('../config/paths');
-const {sendLog, logLevel} = require('./logger');
-const logDetails = require('../util/logDetails');
-const Auth = require('../auth/auth');
+const fn = require('../../config/fieldNames');
+const p = require('../../config/paths');
+const {sendLog, logLevel} = require('../logger');
+const logDetails = require('../logDetails');
+const Auth = require('../../auth/auth');
 
 /**
  *This module create domainUser for person, using the unique properties of each dataSource

@@ -1,6 +1,6 @@
-const {sendLog, logLevel} = require('./logger');
-const logDetails = require('../util/logDetails');
-const validators = require('../config/validators');
+const {sendLog, logLevel} = require('../logger');
+const logDetails = require('../logDetails');
+const validators = require('../../config/validators');
 
 /**
  * This module checking if the personalNumber & the identityCard of specific person are equal 

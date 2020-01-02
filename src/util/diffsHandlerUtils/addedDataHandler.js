@@ -1,13 +1,13 @@
 const matchToKartoffel = require('../matchToKartoffel');
 const completeFromAka = require('../completeFromAka');
-const identifierHandler = require('../identifierHandler');
+const identifierHandler = require('../fieldsUtils/identifierHandler');
 const diff = require("diff-arrays-of-objects");
 const updated = require('./updatedDataHandler')
 const p = require('../../config/paths');
 const fn = require('../../config/fieldNames');
 const {sendLog, logLevel} = require('../logger');
 const logDetails = require('../logDetails');
-const domainUserHandler = require('../domainUserHandler');
+const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const Auth = require('../../auth/auth');
 
 require('dotenv').config();

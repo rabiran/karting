@@ -2,7 +2,7 @@ const p = require('../../config/paths');
 const fn = require('../../config/fieldNames');
 const {sendLog, logLevel} = require('../logger');
 const logDetails = require('../logDetails');
-const domainUserHandler = require('../domainUserHandler');
+const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const updateSpecificFields = require('../updateSpecificFields');
 const Auth = require('../../auth/auth');
 

@@ -1,7 +1,7 @@
 const fn = require("../config/fieldNames");
 const validators = require('../config/validators');
 const p = require("../config/paths");
-const hierarchyHandler = require('./hierarchyHandler');
+const hierarchyHandler = require('./fieldsUtils/hierarchyHandler');
 const {sendLog, logLevel} = require('./logger');
 const logDetails = require('../util/logDetails');
 const Auth = require('../auth/auth');
