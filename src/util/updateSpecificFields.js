@@ -90,25 +90,3 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
 }
 
 module.exports = updateSpecificFields;
-
-
-/**
- * Returns the updated fields between old and new person.
- * 
- * @param {Object} deepDiffRecord 
- * @param {Object} oldPerson 
- * @param {Object} objForUpdate 
- */
-function changeHandler(deepDiffRecord, oldPerson, objForUpdate) {
-    if (deepDiffRecord.path[0] == 'phone' || deepDiffRecord.path[0] == 'mobilePhone') { // if the change is phone and its edited, then turn it into array and push things to it
-        objForUpdate[deepDiffRecord.path[0]] = [];
-        objForUpdate[deepDiffRecord.path[0]].push(deepDiffRecord.rhs);
-
-        oldPerson.phone.map(o=>{
-            if(!objForUpdate[deepDiffRecord.path[0]].includes(o))
-                objForUpdate[deepDiffRecord.path[0]].push(o);
-        });
-    }
-    else
-        objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
-}
