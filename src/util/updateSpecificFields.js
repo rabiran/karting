@@ -40,16 +40,6 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
                 break;
             }
         }
-        // if (deepDiffRecord.kind == "E" || deepDiffRecord.kind == "N" || (deepDiffRecord.kind == "A" && deepDiffRecord.item.kind=="N")) { 
-            
-        //     // if(deepDiffRecord.kind == "A")
-        //     // confused? https://github.com/flitbit/diff
-        //     let item = (deepDiffRecord.kind == 'A' && (deepDiffRecord.item.kind == 'N')) ? 
-        //                {...deepDiffRecord.item, path: deepDiffRecord.path} : {deepDiffRecord};
-        //     mergeArrays(item, person, objForUpdate);
-        // } else {
-        //     sendLog(logLevel.warn, logDetails.warn.WRN_KIND_DEEPDIFF_NOT_RECOGNIZED, JSON.stringify(deepDiffRecord));
-        // }
     });
     // when person from 'diffsHandler-added' come to update they already passed through 'matchToKartoffel'
     // and if the them sending again to 'matchToKartoffel' the keys of the object will be deleted
