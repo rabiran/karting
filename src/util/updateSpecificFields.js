@@ -5,9 +5,10 @@ const logDetails = require('../util/logDetails');
 const fn = require('../config/fieldNames');
 const Auth = require('../auth/auth');
 const isObjectEmpty = require('./generalUtils/isObjectEmpty');
-
+const mergeArrays = require('./generalUtils/mergeArrays');
 /**
  * This module accept an array that contain DeepDiff objects and build from them object for the PUT request that send to Kartoffel
+ *
  * @param {*} deepDiffArray Array of DeepDiff objects
  * @param {*} dataSource The source of the raw person object
  * @param {*} person Person object from Kartoffel
@@ -16,11 +17,31 @@ const isObjectEmpty = require('./generalUtils/isObjectEmpty');
 const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord = null, needMatchToKartoffel = true) => {
     let objForUpdate = {};
     deepDiffArray.map((deepDiffRecord) => {
-        if (deepDiffRecord.kind == "N" || deepDiffRecord.kind == "E") {
-            objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
-        }
-        else {
-            sendLog(logLevel.warn, logDetails.warn.WRN_KIND_DEEPDIFF_NOT_RECOGNIZED, JSON.stringify(deepDiffRecord));
+        switch(deepDiffRecord.kind) {
+            case "N":{
+                objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
+                break;
+            }
+            case "E":{
+                if (deepDiffRecord.path[0] == 'phone' || deepDiffRecord.path[0] == 'mobilePhone')
+                    objForUpdate[deepDiffRecord.path[0]] = mergeArrays([deepDiffRecord.rhs], person[deepDiffRecord.path[0]]);
+                else
+                    objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
+                break;
+            }
+            case "A":{
+                if(deepDiffRecord.item.kind=="N") {
+                    objForUpdate[deepDiffRecord.path[0]] = mergeArrays([deepDiffRecord.item.rhs], person[deepDiffRecord.path[0]]);
+                    break;
+                }
+
+                sendLog(logLevel.warn, logDetails.warn.WRN_KIND_DEEPDIFF_NOT_RECOGNIZED, JSON.stringify(deepDiffRecord));
+                break;
+            }
+            default:{
+                sendLog(logLevel.warn, logDetails.warn.WRN_KIND_DEEPDIFF_NOT_RECOGNIZED, JSON.stringify(deepDiffRecord));
+                break;
+            }
         }
     });
     // when person from 'diffsHandler-added' come to update they already passed through 'matchToKartoffel'
@@ -34,10 +55,7 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
         if (fn[dataSource]["entityType"] === deepDiffRecord.path.toString() && deepDiffRecord.rhs === fn.entityTypeValue.s) {
             objForUpdate.rank = akaRecord[fn.aka.rank];
             objForUpdate.currentUnit = akaRecord[fn.aka.unitName];
-        }
-        if (fn[dataSource]["entityType"] === deepDiffRecord.path.toString() && deepDiffRecord.rhs === fn.entityTypeValue.c) {
-            objForUpdate.rank = null;
-            // objForUpdate.currentUnit = null;
+            diffsObject = diff([person], [matchedAka], comparisonField, { updatedValues: 4 });
         }
     });
 

@@ -2,6 +2,7 @@ const fn = require('../config/fieldNames');
 const validators = require('../config/validators');
 const {sendLog, logLevel} = require('./logger');
 const logDetails = require('../util/logDetails');
+const mergeArrays = require('./generalUtils/mergeArrays');
 
 const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
@@ -12,9 +13,10 @@ const complete_es = (obj, akaRecord) => {
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
-    validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
-    validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
-
+    const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
+    const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
+    phonesValueHandler(obj, akaRecordPhone, "phone");
+    phonesValueHandler(obj, akaRecordMobilePhone, "mobilePhone");
 }
 
 const complete_ads = (obj, akaRecord) => {
@@ -26,8 +28,10 @@ const complete_ads = (obj, akaRecord) => {
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
-    validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
-    validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
+    const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
+    const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
+    phonesValueHandler(obj, akaRecordPhone, "phone");
+    phonesValueHandler(obj, akaRecordMobilePhone, "mobilePhone");
 
 }
 
@@ -36,13 +40,15 @@ const complete_adNN = (obj, akaRecord) => {
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
-    validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
-    validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
     obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.entityType = fn.entityTypeValue.s;
+    const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
+    const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
+    phonesValueHandler(obj, akaRecordPhone, "phone");
+    phonesValueHandler(obj, akaRecordMobilePhone, "mobilePhone");
 }
 
 const complete_nv = (obj, akaRecord) => {
@@ -50,13 +56,28 @@ const complete_nv = (obj, akaRecord) => {
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
-    validators().phone.test(`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`) ? obj.phone = [`${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`] : null;
-    validators().mobilePhone.test(`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`) ? obj.mobilePhone = [`${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`] : null;
     obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.entityType = fn.entityTypeValue.s;
+    const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
+    const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
+    phonesValueHandler(obj, akaRecordPhone, "phone");
+    phonesValueHandler(obj, akaRecordMobilePhone, "mobilePhone");
+}
+
+/**
+ * Assigns to person, either phone or mobile phone as an array, if they are valid.
+ *
+ * @param {Object : Person} person - the person object (the obj)
+ * @param {String} phone - akarecord[mobilephone / phone]
+ * @param {RegExp} validator - validators().[mobilephone / phone]
+ * @param {String} phoneType - "phone" / "mobilePhone"
+ */
+function phonesValueHandler(person, phone, phoneType) {
+    if (validators()[phoneType].test(phone))
+        person[phoneType] ? person[phoneType] = mergeArrays([phone], person[phoneType]) : person[phoneType] = [phone];
 }
 
 /**
@@ -90,11 +111,11 @@ module.exports = (obj, akaData, dataSource) => {
                     complete_nv(obj, akaRecord);
                     break;
                 default:
-                    sendLog(logLevel.error, logDetails.error.ERR_DATA_SOURC);                    
+                    sendLog(logLevel.error, logDetails.error.ERR_DATA_SOURC);
             }
         }
         else {
-            sendLog(logLevel.warn, logDetails.warn.WRN_COMPLETE_AKA, identifier, dataSource);            
+            sendLog(logLevel.warn, logDetails.warn.WRN_COMPLETE_AKA, identifier, dataSource);
         }
     }
 
