@@ -8,6 +8,7 @@ const isObjectEmpty = require('./generalUtils/isObjectEmpty');
 const mergeArrays = require('./generalUtils/mergeArrays');
 /**
  * This module accept an array that contain DeepDiff objects and build from them object for the PUT request that send to Kartoffel
+ *
  * @param {*} deepDiffArray Array of DeepDiff objects
  * @param {*} dataSource The source of the raw person object
  * @param {*} person Person object from Kartoffel
@@ -16,7 +17,6 @@ const mergeArrays = require('./generalUtils/mergeArrays');
 const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord = null, needMatchToKartoffel = true) => {
     let objForUpdate = {};
     deepDiffArray.map((deepDiffRecord) => {
-        //|| (deepDiffRecord.kind == "A" && (deepDiffRecord.path[0] == 'phone' || deepDiffRecord.path[0] == 'mobilePhone') && deepDiffRecord.item.kind == 'N')
         switch(deepDiffRecord.kind) {
             case "N":{
                 objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
@@ -53,10 +53,6 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
             objForUpdate.rank = akaRecord[fn.aka.rank];
             objForUpdate.currentUnit = akaRecord[fn.aka.unitName];
             diffsObject = diff([person], [matchedAka], comparisonField, { updatedValues: 4 });
-        }
-        if (fn[dataSource]["entityType"] === deepDiffRecord.path.toString() && deepDiffRecord.rhs === fn.entityTypeValue.c) {
-            objForUpdate.rank = null;
-            // objForUpdate.currentUnit = null;
         }
     });
 

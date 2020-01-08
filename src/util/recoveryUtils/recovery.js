@@ -6,6 +6,11 @@ const fn = require('../../config/fieldNames');
 
 module.exports = async (akaData, dataSource) => {
     const dataFromDataSource = await getRawData(dataSource, fn.runnigTypes.recoveryRun, moment(new Date()).format("DD.MM.YYYY__HH.mm"));
-    const adjustData = await Promise.all(dataFromDataSource.map(async person => await matchToKartoffel(person, dataSource)));
+
+    let adjustData = [];
+    for (let i = 0; i < dataFromDataSource.length; i++) {
+        adjustData.push(await matchToKartoffel(dataFromDataSource[i], dataSource));
+    }
+
     await compareToKartoffel(adjustData, dataSource, akaData);
 }
