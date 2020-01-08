@@ -4,13 +4,13 @@ const p = require('./config/paths');
 const diffsHandler = require('./util/diffsHandler');
 const { sendLog, logLevel } = require('./util/logger');
 const Auth = require('./auth/auth');
-const Redis = require("ioredis");
 const schedule = require('node-schedule');
 const PromiseAllWithFails = require('./util/generalUtils/promiseAllWithFails');
 const logDetails = require('./util/logDetails');
 const getRawData = require('./util/getRawData');
 const akaRecovery = require('./util/recoveryUtils/akaRecovery');
 const moment = require('moment');
+const connectToRedis = require('./util/generalUtils/connectToRedis');
 let recovery = require('./util/recoveryUtils/recovery');
 
 require('dotenv').config();
@@ -18,9 +18,9 @@ const scheduleRecoveryTime = process.env.NODE_ENV === 'production' ? fn.recovery
 const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 
 // This flow compare the new data against kartoffel's data - making the data more reliable,
-// // and prevent gaps
+// and prevent gaps
 schedule.scheduleJob(scheduleRecoveryTime, async () => {
-    const redis = redisConnect();
+    const redis = connectToRedis();
 
     // check if the root hierarchy exist and adding it if not
     await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
@@ -57,7 +57,7 @@ schedule.scheduleJob(scheduleRecoveryTime, async () => {
 
 
 schedule.scheduleJob(scheduleTime ,async () => {
-    const redis = await redisConnect();
+    const redis = await connectToRedis();
 
     // check if the root hierarchy exist and adding it if not
     await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
@@ -76,7 +76,7 @@ schedule.scheduleJob(scheduleTime ,async () => {
     });
 
     // get the new json from aka & save him on the server
-    let aka_data = dataSync(fn.dataSources.aka, fn.runnigTypes.dailyRun);
+    let aka_data = await dataSync(fn.dataSources.aka, fn.runnigTypes.dailyRun);
 
     await PromiseAllWithFails([
         GetDataAndProcess(fn.dataSources.aka, aka_data),
@@ -101,28 +101,4 @@ const GetDataAndProcess = async (dataSource, akaData, func) => {
     // In case datasource is aka, I get data before function and therefore not need to get data again
     let data = func ? await func(dataSource, fn.runnigTypes.dailyRun) : akaData;
     await diffsHandler(data, dataSource, akaData.all);
-}
-
-/**
- * Connect TO redis to get token
- */
-function redisConnect(){
-    const redis = new Redis({
-        retryStrategy: function(times) {
-            return times <= 3 ? times * 1000 : "stop reconnecting";
-        }
-    });
-
-    redis.on("connect", async function(){
-        sendLog(logLevel.info, logDetails.info.INF_CONNECT_REDIS);
-        Auth.setRedis(redis);
-    })
-    redis.on("error", function (err) {
-        sendLog(logLevel.error, logDetails.error.ERR_CONNECTION_REDIS, err.message);
-    });
-    redis.on("end", function () {
-        sendLog(logLevel.info, logDetails.info.INF_CLOSED_REDIS);
-    });
-
-    return redis;
 }

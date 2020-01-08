@@ -42,6 +42,7 @@ class Auth {
         Auth.accessToken = (await Auth.axiosSpike.post(authParams.tokenPath, {
           grant_type: "client_credentials",
           audience: authParams.audience,
+          scope: authParams.scope.join(' '),
         })).data.access_token;
         if(Auth.redis && Auth.redis.status === 'ready') {
           await Auth.redis.set(Auth.keyName, Auth.accessToken);
@@ -77,6 +78,3 @@ Auth.axiosKartoffel.interceptors.request.use(async config => {
 });
 
 module.exports = Auth;
-
-
-// scope: authParams.scope.join(' ')

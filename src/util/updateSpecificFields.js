@@ -34,6 +34,9 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
                     objForUpdate[deepDiffRecord.path[0]] = mergeArrays([deepDiffRecord.item.rhs], person[deepDiffRecord.path[0]]);
                     break;
                 }
+
+                sendLog(logLevel.warn, logDetails.warn.WRN_KIND_DEEPDIFF_NOT_RECOGNIZED, JSON.stringify(deepDiffRecord));
+                break;
             }
             default:{
                 sendLog(logLevel.warn, logDetails.warn.WRN_KIND_DEEPDIFF_NOT_RECOGNIZED, JSON.stringify(deepDiffRecord));
