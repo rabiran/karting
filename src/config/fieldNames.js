@@ -9,6 +9,7 @@ module.exports = {
     lmn: "lmn_name",
     mdn: "mdn_name",
     mm: "mm_name",
+    city: "city_name"
   },
   // aka_name: {
   aka: {
