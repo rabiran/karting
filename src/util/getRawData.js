@@ -5,7 +5,6 @@ const akaDataManipulate = require('./akaDataManipulate');
 const {sendLog, logLevel} = require('./logger');
 const logDetails = require('./logDetails');
 const saveAsFile = require('./saveAsFile');
-const moment = require("moment");
 
 /**
  * Get data raw data from data source

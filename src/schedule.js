@@ -49,7 +49,8 @@ schedule.scheduleJob(scheduleRecoveryTime, async () => {
         recovery(fn.dataSources.adNN),
         recovery(fn.dataSources.lmn),
         recovery(fn.dataSources.mdn),
-        recovery(fn.dataSources.mm)
+        recovery(fn.dataSources.mm),
+        recovery(fn.dataSources.city),
     ]);
 
     if(redis && redis.status === 'ready') redis.quit();
@@ -85,7 +86,8 @@ schedule.scheduleJob(scheduleTime ,async () => {
         GetDataAndProcess(fn.dataSources.adNN, aka_data, dataSync),
         GetDataAndProcess(fn.dataSources.lmn, aka_data, dataSync),
         GetDataAndProcess(fn.dataSources.mdn, aka_data, dataSync),
-        GetDataAndProcess(fn.dataSources.mm, aka_data, dataSync)
+        GetDataAndProcess(fn.dataSources.mm, aka_data, dataSync),
+        GetDataAndProcess(fn.dataSources.city, aka_data, dataSync),
     ]);
 
     if(redis && redis.status === 'ready') redis.quit();
