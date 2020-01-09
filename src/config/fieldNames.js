@@ -9,6 +9,7 @@ module.exports = {
     lmn: "lmn_name",
     mdn: "mdn_name",
     mm: "mm_name",
+    city: "city_name",
   },
   // aka_name: {
   aka: {
@@ -77,6 +78,28 @@ module.exports = {
       pn: "pn",
       identityCard: "id",
       uniqeFieldForDeepDiff: "unid",
+  },
+  city_name: {
+    identityCard: 'idNumber',
+    firstName: 'firstName',
+    lastName: 'lastName',
+    identityCard: 'tz',
+    rank: 'rank',
+    dischargeDay: 'rld',
+    clearance: 'clearance',
+    currentUnit: 'department',
+    serviceType: 'stype',
+    mobilePhone: 'telephone',
+    personalNumber: 'personalNumber',
+    mail: 'mail',
+    job: 'job',
+    hierarchy: 'hr',
+    domainUsers: 'domUser',
+    entityTypePrefix: {
+        s: ['e', 'l', 'i'],
+        c: ['g', 'j'],
+        gu: ['m'],
+    }
   },
   entityTypeValue: {
       s: "agumon",

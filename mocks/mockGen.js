@@ -2,17 +2,23 @@ const fs = require("fs");
 const faker = require('faker');
 const utils = require("./mockUtils");
 const dataTypes = require("./lists/dataTypesList");
-const akaAmount = 300;
+const miriTypes = require("./lists/miriTypes");
+
+const akaAmount = 400;
 const ADAmount = 250;
 const ADEmployeesAmount = ADAmount - 100;
 const ADUnemployeesAmount = ADAmount - ADEmployeesAmount;
 const esAmount = 50;
+const miriAmount = 100;
+const miriAkaStart = ADAmount + esAmount;
+
 let mis = [];
 let tzs = [];
 let employees = [];
 let telephones = [];
 let adUsers = [];
 let esUsers = [];
+let miriUsers = [];
 
 // Generating mi and tz lists
 for (let i = 0; i < akaAmount; i++) {
@@ -116,7 +122,44 @@ for (let i = 0; i < esAmount; i++) {
     esUsers.push(user);
 }
 
+for (let i = 0; i < miriAmount; i++) {
+    let miriUser = {};
+    miriUser.domUser = utils.randomElement(miriTypes.idPrefixes) +
+                  faker.random.number({'min': 100000,'max': 999999999}).toString() +
+                  '@' + utils.randomElement([dataTypes.DOMAIN_MAP[4][0],
+                                         dataTypes.DOMAIN_MAP[4][0],
+                                         dataTypes.DOMAIN_MAP[4][0],
+                                         dataTypes.DOMAIN_MAP[5][0],
+                                         dataTypes.DOMAIN_MAP[6][0]]);
+    miriUser.telephone = '0' + utils.generateNumberPrefix() + utils.generateNumberBody();
+    miriUser.clearance = faker.random.number({'min': 1, 'max': 5});
+    miriUser.firstName = faker.name.firstName();
+    miriUser.lastName = faker.name.firstName();
+    miriUser.mail = utils.randomElement(['לא ידוע',
+                                   'לא ידוע',
+                                   null,
+                                   null,
+                                   "",
+                                   "",
+                                   faker.internet.email().split('@')[0] + '@' + miriTypes.miriMail]);
+    miriUser.tz = utils.randomElement([utils.generateID(), '', 'לא ידוע', null]);
+    miriUser.personalNumber = utils.randomElement([mis[miriAkaStart + i], '', 'לא ידוע', null]);
+    miriUser.rank = utils.randomElement(dataTypes.RANK);
+    miriUser.rls = utils.randomElement([faker.date.between(faker.date.future(10), faker.date.past(10)).toISOString().split('T')[0] + " 00:00:00.0"], null, "", 'לא ידוע');
+    miriUser.job = faker.name.jobTitle();
+    miriUser.department = faker.commerce.department();
+    miriUser.stype = '';
+    miriUser.hr = utils.randomElement([faker.lorem.word() + "/" +
+                  faker.lorem.word() + "/" +
+                  faker.lorem.word() + "/" +
+                  faker.lorem.word(), `${miriUser.firstName} ${miriUser.lastName}`, null, ""]);
+    miriUser.compnay = utils.randomElement([...miriTypes.rootHierarchy, "", null, 'לא ידוע']);
+    miriUser.isPortalUser = utils.randomElement([true, false]);
+    miriUsers.push(miriUser);
+}
+
 fs.writeFileSync("./mocksFiles/getAkaEmployees.json", JSON.stringify(employees));
 fs.writeFileSync("./mocksFiles/getAkaTelephone.json", JSON.stringify(telephones));
 fs.writeFileSync("./mocksFiles/AD.json", JSON.stringify(adUsers));
 fs.writeFileSync("./mocksFiles/eightsocks.json", JSON.stringify(esUsers));
+fs.writeFileSync("./mocksFiles/city.json", JSON.stringify(miriUsers));
