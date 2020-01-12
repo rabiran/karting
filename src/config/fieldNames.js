@@ -99,13 +99,15 @@ module.exports = {
             s: ['e', 'l', 'i'],
             c: ['g', 'j'],
             gu: ['m'],
-        }
+        },
+        rootHierarchy:"compnay"
     },
     entityTypeValue: {
         s: "agumon",
         sPrefix: "m",
         c: "digimon",
         cPrefix: "d",
+        gu:"tamar",
     },
     rootHierarchy: {
         ourCompany: "wallmart",

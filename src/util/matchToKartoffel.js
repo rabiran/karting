@@ -345,6 +345,26 @@ const match_nv_sql = (obj, dataSource) => {
 
 const match_city = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
+    // initialize variables for hierarchy matching and define default hierarchy
+    obj.hierarchy = fn[dataSource].rootHierarchy;
+    let company = fn[dataSource].company ? obj[fn[dataSource].company] : "";
+    let hierarchy = fn[dataSource].hierarchy ? obj[fn[dataSource].hierarchy] : "";
+    // initialize values for identityCard & personalNumber
+    let defaultIdentifier = fn[dataSource].domainUsers ? obj[fn[dataSource].domainUsers] : "";
+    let rawEntityType;
+    defaultIdentifier = Array.from(defaultIdentifier).forEach((char, index) => {
+        if (Number.isInteger(char) && index === 0) {
+            return false
+        }
+        if ((!Number.isInteger(char)) && index === 1) {
+            return false
+        }
+        if (index === 1) { rawEntityType = char };
+        if (!Number.isInteger(char)) {
+            return defaultIdentifier.substring(1, index + 1)
+        }
+    })
+    // suitable the structure of the fieds to kartoffel standart
     objKeys.map((rawKey) => {
         switch (rawKey) {
             //firstName
@@ -401,33 +421,39 @@ const match_city = (obj, dataSource) => {
             case fn[dataSource].job:
                 obj.job = obj[rawKey];
                 (rawKey === "job") ? null : delete obj[rawKey];
-                break;              
+                break;
             //hierarchy
             case fn[dataSource].hierarchy:
-                let hr = obj[rawKey].substring(0, obj[rawKey].lastIndexOf('/')).trim().split('/');
-                if (hr[0] == "") {
-                    delete obj[rawKey];
-                    break;
-                }
-                hr[0] === fn.rootHierarchy.ourCompany ? null : hr.unshift(fn.rootHierarchy.ourCompany.ourCompany);
-                hr = hr.map((organizationName) => { return organizationName.trim() });
-                obj.hierarchy = hr.join("/");
-                obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
-
-                // Getting job
-                obj.job = obj[rawKey].substring(obj[rawKey].lastIndexOf("/") + 1);
+                // NOT FORGET DELETE JOB IF EXIST!!
+                let root = fn[dataSource].rootHierarchy;
+                obj.hierarchy = `${root}/${company ? company + '/' : null}${hierarchy ? hierarchy : null}`;
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
-            // //personalNumber
-            // case fn[dataSource].personalNumber:
-            //     obj.personalNumber = obj[rawKey].toString();
-            //     (rawKey === "personalNumber") ? null : delete obj[rawKey];
-            //     break;
-            // //identity card
-            // case fn[dataSource].identityCard:
-            //     validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
-            //     (rawKey === "identityCard") ? null : delete obj[rawKey];
-            // break;
+            // entityType & and default identityCard / personlNumber
+            case fn[dataSource].domainUsers:
+                if (fn[dataSource].entityTypePrefix.s.includes(rawEntityType)) {
+                    obj.entityType = fn.entityTypeValue.s;
+                }
+                else if (fn[dataSource].entityTypePrefix.c.includes(rawEntityType)) {
+                    obj.entityType = fn.entityTypeValue.c;
+                }
+                else if (fn[dataSource].entityTypePrefix.gu.includes(rawEntityType)) {
+                    obj.entityType = fn.entityTypeValue.gu;
+                }
+                if (!obj.hasOwnProperty('identityCard') || !obj.hasOwnProperty('personalNumber')) {
+                    validators(defaultIdentifier).identityCard ? obj.identityCard = defaultIdentifier : obj.personalNumber = defaultIdentifier;
+                }
+                break;
+            //identityCard
+            case fn[dataSource].identityCard:
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
+                (rawKey === "identityCard") ? null : delete obj[rawKey];
+                break;
+            //personalNumber
+            case fn[dataSource].personalNumber:
+                obj.personalNumber = obj[rawKey];
+                (rawKey === "personalNumber") ? null : delete obj[rawKey];
+                break;
             default:
                 delete obj[rawKey];
 
@@ -470,7 +496,7 @@ directGroupHandler = async (record) => {
 module.exports = async (origin_obj, dataSource) => {
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
-    Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null") ? delete obj[key] : null);
+    Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null" || obj[key] === "לא ידוע") ? delete obj[key] : null);
     switch (dataSource) {
         case fn.dataSources.aka:
             match_aka(obj, dataSource);
