@@ -100,7 +100,8 @@ module.exports = {
             c: ['g', 'j'],
             gu: ['m'],
         },
-        rootHierarchy:"compnay"
+        rootHierarchy: "city",
+        company: "compnay",
     },
     entityTypeValue: {
         s: "agumon",
