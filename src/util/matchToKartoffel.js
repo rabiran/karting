@@ -347,8 +347,8 @@ const match_city = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     // initialize variables for hierarchy matching and define default hierarchy
     obj.hierarchy = fn[dataSource].rootHierarchy;
-    let company = fn[dataSource].company ? obj[fn[dataSource].company] : "";
-    let hierarchy = fn[dataSource].hierarchy ? obj[fn[dataSource].hierarchy] : "";
+    let company = obj[fn[dataSource].company] ? obj[fn[dataSource].company] : "";
+    let hierarchy = obj[fn[dataSource].hierarchy] ? obj[fn[dataSource].hierarchy] : "";
     // initialize values for identityCard & personalNumber
     let defaultIdentifier = fn[dataSource].domainUsers ? obj[fn[dataSource].domainUsers] : "";
     let rawEntityType;

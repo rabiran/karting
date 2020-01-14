@@ -95,12 +95,13 @@ module.exports = {
         job: 'job',
         hierarchy: 'hr',
         domainUsers: 'domUser',
+        compnay: 'company',
         entityTypePrefix: {
             s: ['e', 'l', 'i'],
             c: ['g', 'j'],
             gu: ['m'],
         },
-        rootHierarchy:"compnay"
+        rootHierarchy: 'compnay',
     },
     entityTypeValue: {
         s: "agumon",
