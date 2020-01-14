@@ -6,6 +6,8 @@ const { sendLog, logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const Auth = require('../auth/auth');
 const formatAkaDateToKartoffel = require('./fieldsUtils/formatAkaDateToKartoffel');
+const isNumeric = require('./generalUtils/isNumeric');
+const isStrContains = require('./generalUtils/strignContains');
 require('dotenv').config();
 
 
@@ -349,21 +351,6 @@ const match_city = (obj, dataSource) => {
     obj.hierarchy = fn[dataSource].rootHierarchy;
     let company = obj[fn[dataSource].company] ? obj[fn[dataSource].company] : "";
     let hierarchy = obj[fn[dataSource].hierarchy] ? obj[fn[dataSource].hierarchy] : "";
-    // initialize values for identityCard & personalNumber
-    let defaultIdentifier = fn[dataSource].domainUsers ? obj[fn[dataSource].domainUsers] : "";
-    let rawEntityType;
-    defaultIdentifier = Array.from(defaultIdentifier).forEach((char, index) => {
-        if (Number.isInteger(char) && index === 0) {
-            return false
-        }
-        if ((!Number.isInteger(char)) && index === 1) {
-            return false
-        }
-        if (index === 1) { rawEntityType = char };
-        if (!Number.isInteger(char)) {
-            return defaultIdentifier.substring(1, index + 1)
-        }
-    })
     // suitable the structure of the fieds to kartoffel standart
     objKeys.map((rawKey) => {
         switch (rawKey) {
@@ -423,14 +410,48 @@ const match_city = (obj, dataSource) => {
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             //hierarchy
+            case fn[dataSource].profession:
+                if (!obj[fn[dataSource].job]) {
+                    obj.job = obj[rawKey];
+                }
+                
+                delete obj[rawKey];
+                break;
             case fn[dataSource].hierarchy:
-                // NOT FORGET DELETE JOB IF EXIST!!
-                let root = fn[dataSource].rootHierarchy;
-                obj.hierarchy = `${root}/${company ? company + '/' : null}${hierarchy ? hierarchy : null}`;
+                let hr = obj[rawKey].replace('\\', '/');
+                if (hr.includes('/')) {
+                    hr = hr.split('/').map(unit => unit.trim());
+
+                    for(const [index, value] of hr.entries()) {
+                        if (isStrContains(value, [`${obj[fn[dataSource].firstName]} ${obj[fn[dataSource].lastName]}`, '-', ''])) {
+                            hr.splice(index);
+                            break;                            
+                        }
+                    }
+
+                    hr = hr.join('/');
+                }
+
+                obj.hierarchy = `${fn.rootHierarchy.city}${company ? '/' + company : null}${hr ? '/' + hr : null}`;
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             // entityType & and default identityCard / personlNumber
             case fn[dataSource].domainUsers:
+                // initialize values for identityCard & personalNumber
+                let rawEntityType;
+                for (const [index, char] of Array.from(obj[rawKey]).entries()) {
+                    if ((index === 0 && isNumeric(char)) ||
+                        (index === 1 && !isNumeric(char))) {
+                        break;
+                    }
+                    if (index === 0) {
+                        rawEntityType = char;
+                    } else if (!isNumeric(char)) {
+                        defaultIdentifier = defaultIdentifier.substring(1, index + 1);
+                        break;
+                    }
+                }
+                // set the entityType
                 if (fn[dataSource].entityTypePrefix.s.includes(rawEntityType)) {
                     obj.entityType = fn.entityTypeValue.s;
                 }
@@ -440,10 +461,15 @@ const match_city = (obj, dataSource) => {
                 else if (fn[dataSource].entityTypePrefix.gu.includes(rawEntityType)) {
                     obj.entityType = fn.entityTypeValue.gu;
                 }
-                if (!obj.hasOwnProperty('identityCard') || !obj.hasOwnProperty('personalNumber')) {
+                // set identityCard || personlNumber if needed
+                if (!obj.hasOwnProperty('identityCard') ||
+                    !obj.hasOwnProperty('personalNumber') ||
+                    !obj.hasOwnProperty(fn[dataSource].identityCard) ||
+                    !obj.hasOwnProperty(fn[dataSource].identityCard)) {
                     validators(defaultIdentifier).identityCard ? obj.identityCard = defaultIdentifier : obj.personalNumber = defaultIdentifier;
                 }
-                break;
+                delete obj[rawKey];
+                break; 
             //identityCard
             case fn[dataSource].identityCard:
                 validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;

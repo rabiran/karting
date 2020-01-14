@@ -93,6 +93,7 @@ module.exports = {
         personalNumber: 'personalNumber',
         mail: 'mail',
         job: 'job',
+        profession: 'profession',
         hierarchy: 'hr',
         domainUsers: 'domUser',
         compnay: 'company',
@@ -101,7 +102,7 @@ module.exports = {
             c: ['g', 'j'],
             gu: ['m'],
         },
-        rootHierarchy: 'compnay',
+        company: "compnay",
     },
     entityTypeValue: {
         s: "agumon",

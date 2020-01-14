@@ -13,8 +13,16 @@ const Auth = require('../../auth/auth');
  * 
  *  */
 module.exports = async (person, record, dataSource) => {
+    let dataSourceName = dataSource;
+    if ([fn.dataSources.lmn, 
+         fn.dataSources.mdn, 
+         fn.dataSources.mm].includes(dataSource)) {
+            dataSourceName = 'Nova';
+         }
+
     let user_object = {
         uniqueID: record[fn[dataSource].mail],
+        dataSource: dataSourceName,
     };
 
     (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?
@@ -25,11 +33,11 @@ module.exports = async (person, record, dataSource) => {
         user_object.uniqueID = record[fn[dataSource].uniqueID].toLowerCase() : null;
     (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
         user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
+    (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ? user_object.uniqueID = `${person[fn[dataSource].domainUsers]}`: null;
 
     if (!user_object.uniqueID) {
         return;
-    }
-    else {
+    } else {
         if (person.domainUsers.length > 0) {
             let breaking = false;
             person.domainUsers.map(du => {
