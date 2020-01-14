@@ -7,6 +7,7 @@ const logDetails = require('../util/logDetails');
 const Auth = require('../auth/auth');
 const formatAkaDateToKartoffel = require('./fieldsUtils/formatAkaDateToKartoffel');
 const isNumeric = require('./generalUtils/isNumeric');
+const isStrContains = require('./generalUtils/strignContains');
 require('dotenv').config();
 
 
@@ -409,10 +410,29 @@ const match_city = (obj, dataSource) => {
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             //hierarchy
+            case fn[dataSource].profession:
+                if (!obj[fn[dataSource].job]) {
+                    obj.job = obj[rawKey];
+                }
+                
+                delete obj[rawKey];
+                break;
             case fn[dataSource].hierarchy:
-                // NOT FORGET DELETE JOB IF EXIST!!
-                // NOT FORGET CHECK IF THERE IS "/" IN HIERARCHY FROM CITY
-                obj.hierarchy = `${fn[dataSource].rootHierarchy}/${company ? company + '/' : null}${hierarchy ? hierarchy : null}`;
+                let hr = obj[rawKey].replace('\\', '/');
+                if (hr.includes('/')) {
+                    hr = hr.split('/').map(unit => unit.trim());
+
+                    for(const [index, value] of hr.entries()) {
+                        if (isStrContains(value, [`${obj[fn[dataSource].firstName]} ${obj[fn[dataSource].lastName]}`, '-', ''])) {
+                            hr.splice(index);
+                            break;                            
+                        }
+                    }
+
+                    hr = hr.join('/');
+                }
+
+                obj.hierarchy = `${fn.rootHierarchy.city}${company ? '/' + company : null}${hr ? '/' + hr : null}`;
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             // entityType & and default identityCard / personlNumber

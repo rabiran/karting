@@ -93,14 +93,15 @@ module.exports = {
         personalNumber: 'personalNumber',
         mail: 'mail',
         job: 'job',
+        profession: 'profession',
         hierarchy: 'hr',
         domainUsers: 'domUser',
+        compnay: 'company',
         entityTypePrefix: {
             s: ['e', 'l', 'i'],
             c: ['g', 'j'],
             gu: ['m'],
         },
-        rootHierarchy: "city",
         company: "compnay",
     },
     entityTypeValue: {
