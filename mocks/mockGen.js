@@ -153,7 +153,7 @@ for (let i = 0; i < miriAmount; i++) {
                   faker.lorem.word() + "/" +
                   faker.lorem.word() + "/" +
                   faker.lorem.word(), `${miriUser.firstName} ${miriUser.lastName}`, null, ""]);
-    miriUser.compnay = utils.randomElement([...miriTypes.rootHierarchy, "", null, 'לא ידוע']);
+    miriUser.company = utils.randomElement([...miriTypes.rootHierarchy, "", null, 'לא ידוע']);
     miriUser.isPortalUser = utils.randomElement([true, false]);
     miriUsers.push(miriUser);
 }
