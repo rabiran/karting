@@ -439,6 +439,7 @@ const match_city = (obj, dataSource) => {
             case fn[dataSource].domainUsers:
                 // initialize values for identityCard & personalNumber
                 let rawEntityType;
+                let defaultIdentifier;
                 for (const [index, char] of Array.from(obj[rawKey]).entries()) {
                     if ((index === 0 && isNumeric(char)) ||
                         (index === 1 && !isNumeric(char))) {
@@ -447,7 +448,7 @@ const match_city = (obj, dataSource) => {
                     if (index === 0) {
                         rawEntityType = char;
                     } else if (!isNumeric(char)) {
-                        defaultIdentifier = defaultIdentifier.substring(1, index + 1);
+                        defaultIdentifier = obj[rawKey].substring(1, index);
                         break;
                     }
                 }
