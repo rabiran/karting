@@ -409,13 +409,13 @@ const match_city = (obj, dataSource) => {
                 obj.job = obj[rawKey];
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
-                case fn[dataSource].profession:
-                    if (!obj[fn[dataSource].job]) {
-                        obj.job = obj[rawKey];
-                    }
+            case fn[dataSource].profession:
+                if (!obj[fn[dataSource].job]) {
+                    obj.job = obj[rawKey];
+                }
 
-                    delete obj[rawKey];
-                    break;
+                delete obj[rawKey];
+                break;
             //hierarchy
             case fn[dataSource].hierarchy:
                 let hr = obj[rawKey].replace('\\', '/');
