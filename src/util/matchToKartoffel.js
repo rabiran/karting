@@ -348,7 +348,7 @@ const match_nv_sql = (obj, dataSource) => {
 const match_city = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     // initialize variables for hierarchy matching and define default hierarchy
-    obj.hierarchy = fn.rootHierarchy.city;
+    obj.hierarchy = `${fn.rootHierarchy.city}${obj.company ? '/' + obj.company : ''}`;
     let company = obj[fn[dataSource].company] ? obj[fn[dataSource].company] : "";
     let hierarchy = obj[fn[dataSource].hierarchy] ? obj[fn[dataSource].hierarchy] : "";
     // suitable the structure of the fieds to kartoffel standart
@@ -409,14 +409,14 @@ const match_city = (obj, dataSource) => {
                 obj.job = obj[rawKey];
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
+                case fn[dataSource].profession:
+                    if (!obj[fn[dataSource].job]) {
+                        obj.job = obj[rawKey];
+                    }
+
+                    delete obj[rawKey];
+                    break;
             //hierarchy
-            case fn[dataSource].profession:
-                if (!obj[fn[dataSource].job]) {
-                    obj.job = obj[rawKey];
-                }
-                
-                delete obj[rawKey];
-                break;
             case fn[dataSource].hierarchy:
                 let hr = obj[rawKey].replace('\\', '/');
                 if (hr.includes('/')) {
@@ -425,14 +425,14 @@ const match_city = (obj, dataSource) => {
                     for(const [index, value] of hr.entries()) {
                         if (isStrContains(value, [`${obj[fn[dataSource].firstName]} ${obj[fn[dataSource].lastName]}`, '-', ''])) {
                             hr.splice(index);
-                            break;                            
+                            break;
                         }
                     }
 
                     hr = hr.join('/');
                 }
 
-                obj.hierarchy = `${fn.rootHierarchy.city}${company ? '/' + company : null}${hr ? '/' + hr : null}`;
+                obj.hierarchy = `${fn.rootHierarchy.city}${company ? '/' + company : ''}${hr ? '/' + hr : ''}`;
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             // entityType & and default identityCard / personlNumber
@@ -470,7 +470,7 @@ const match_city = (obj, dataSource) => {
                     validators(defaultIdentifier).identityCard ? obj.identityCard = defaultIdentifier : obj.personalNumber = defaultIdentifier;
                 }
                 delete obj[rawKey];
-                break; 
+                break;
             //identityCard
             case fn[dataSource].identityCard:
                 validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
