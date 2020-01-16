@@ -51,13 +51,11 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                     let KeyForComparison = Object.keys(person).find(key => { return person[key] == identifier });
                     let objForUpdate = diff([person], [person_ready_for_kartoffel], KeyForComparison, { updatedValues: 4 });
                     if (objForUpdate.updated.length > 0) { updated(objForUpdate.updated, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = false); }
-                }
-                else {
+                } else {
                     await domainUserHandler(person, record, dataSource);
                 }
 
-            }
-            else {
+            } else {
                 sendLog(logLevel.warn, logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON, JSON.stringify(person_ready_for_kartoffel));
             }
         }
@@ -73,15 +71,16 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                     let person = await Auth.axiosKartoffel.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     person = person.data;
                     sendLog(logLevel.info, logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL, person.personalNumber || person.identityCard, dataSource);
-                    // add domain user for the new person
-                    await domainUserHandler(person, record, dataSource);
-                }
-                catch (err) {
+                    // for goalUser domainUsers already created in matchToKartoffel
+                    if (!person.entityType === fn.entityTypeValue.gu) {
+                        // add domain user for the new person
+                        await domainUserHandler(person, record, dataSource);
+                    }
+                } catch (err) {
                     let errMessage = err.response ? err.response.data.message : err.message;
                     sendLog(logLevel.error, logDetails.error.ERR_INSERT_PERSON, person_ready_for_kartoffel.personalNumber || person_ready_for_kartoffel.identityCard, dataSource, errMessage, JSON.stringify(record));
                 }
-            }
-            else {
+            } else {
                 let errMessage = err.response ? err.response.data.message : err.message;
                 sendLog(logLevel.error, logDetails.error.ERR_ADD_FUNCTION_PERSON_NOT_FOUND, identifier, dataSource, errMessage);
             };

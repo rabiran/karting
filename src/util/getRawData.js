@@ -5,7 +5,6 @@ const akaDataManipulate = require('./akaDataManipulate');
 const {sendLog, logLevel} = require('./logger');
 const logDetails = require('./logDetails');
 const saveAsFile = require('./saveAsFile');
-const moment = require("moment");
 
 /**
  * Get data raw data from data source
@@ -20,10 +19,10 @@ module.exports = async (dataSource, runType, dateAndTime) => {
     if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server
         let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API).catch(err => {
-            console.log(err);
+            sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
         });
         let aka_employees_data = await axios.get(p().AKA_EMPLOYEES_API).catch(err => {
-            console.log(err);
+            sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
         });
 
         // editing the aka data and squishing it to one object

@@ -1,6 +1,6 @@
 const fn = require('../config/fieldNames');
 const validators = require('../config/validators');
-const {sendLog, logLevel} = require('./logger');
+const { sendLog, logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const mergeArrays = require('./generalUtils/mergeArrays');
 
@@ -12,6 +12,7 @@ const complete_es = (obj, akaRecord) => {
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
+    obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
@@ -28,6 +29,8 @@ const complete_ads = (obj, akaRecord) => {
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
+    obj.entityType = fn.entityTypeValue.s;
+    obj.personalNumber = akaRecord[fn.aka.personalNumber];
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -45,6 +48,7 @@ const complete_adNN = (obj, akaRecord) => {
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.entityType = fn.entityTypeValue.s;
+    obj.personalNumber = akaRecord[fn.aka.personalNumber];
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -60,6 +64,24 @@ const complete_nv = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
+    obj.entityType = fn.entityTypeValue.s;
+    obj.personalNumber = akaRecord[fn.aka.personalNumber];
+    const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
+    const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
+    phonesValueHandler(obj, akaRecordPhone, "phone");
+    phonesValueHandler(obj, akaRecordMobilePhone, "mobilePhone");
+}
+
+const complete_city = (obj, akaRecord) => {
+    validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
+    obj.firstName = akaRecord[fn.aka.firstName];
+    obj.lastName = akaRecord[fn.aka.lastName];
+    obj.rank = akaRecord[fn.aka.rank];
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
+    obj.clearance = akaRecord[fn.aka.clearance];
+    obj.currentUnit = akaRecord[fn.aka.unitName];
+    obj.serviceType = akaRecord[fn.aka.serviceType];
+    obj.personalNumber = akaRecord[fn.aka.personalNumber];
     obj.entityType = fn.entityTypeValue.s;
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
@@ -104,6 +126,10 @@ module.exports = (obj, akaData, dataSource) => {
                 case fn.dataSources.adNN:
                     if (obj.entityType === fn.entityTypeValue.c) { break; };
                     complete_adNN(obj, akaRecord);
+                    break;
+                case fn.dataSources.city:
+                    if (obj.entityType === fn.entityTypeValue.gu) { break; };
+                    complete_city(obj, akaRecord);
                     break;
                 case fn.dataSources.mdn:
                 case fn.dataSources.mm:

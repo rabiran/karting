@@ -10,11 +10,12 @@ const Auth = require('../../auth/auth');
  * @param {*} person The Person object that returned from kartoffel
  * @param {*} record The raw object that coming from the dataSource
  * @param {*} dataSource The dataSource of the object
- * 
+ *
  *  */
 module.exports = async (person, record, dataSource) => {
     let user_object = {
         uniqueID: record[fn[dataSource].mail],
+        dataSource,
     };
 
     (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?
@@ -25,11 +26,11 @@ module.exports = async (person, record, dataSource) => {
         user_object.uniqueID = record[fn[dataSource].uniqueID].toLowerCase() : null;
     (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
         user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
+    (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ? user_object.uniqueID = `${record[fn[dataSource].domainUsers]}`: null;
 
     if (!user_object.uniqueID) {
         return;
-    }
-    else {
+    } else {
         if (person.domainUsers.length > 0) {
             let breaking = false;
             person.domainUsers.map(du => {
@@ -46,6 +47,6 @@ module.exports = async (person, record, dataSource) => {
         sendLog(logLevel.info, logDetails.info.INF_ADD_DOMAIN_USER, user_object.uniqueID, user.data.personalNumber || user.data.identityCard, dataSource);
     } catch (err) {
         let errMessage = err.response ? err.response.data.message : err.message;
-        sendLog(logLevel.error, logDetails.error.ERR_ADD_DOMAIN_USER, person.mail, person.personalNumber || person.identityCard, dataSource, errMessage);        
+        sendLog(logLevel.error, logDetails.error.ERR_ADD_DOMAIN_USER, person.mail, person.personalNumber || person.identityCard, dataSource, errMessage);
     }
-} 
+}

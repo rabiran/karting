@@ -23,12 +23,12 @@ schedule.scheduleJob(scheduleRecoveryTime, async () => {
     const redis = connectToRedis();
 
     // check if the root hierarchy exist and adding it if not
-    await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
+    await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy.ourCompany)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
             sendLog(logLevel.info, logDetails.info.INF_ROOT_EXSIST, result.data.name);
         })
         .catch(async () => {
-            await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy })
+            await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy.ourCompany })
                 .then((result) => {
                     sendLog(logLevel.info, logDetails.info.INF_ADD_ROOT, result.data.name);
                 })
@@ -49,23 +49,24 @@ schedule.scheduleJob(scheduleRecoveryTime, async () => {
         recovery(fn.dataSources.adNN),
         recovery(fn.dataSources.lmn),
         recovery(fn.dataSources.mdn),
-        recovery(fn.dataSources.mm)
+        recovery(fn.dataSources.mm),
+        recovery(fn.dataSources.city),
     ]);
 
     if(redis && redis.status === 'ready') redis.quit();
 });
 
 
-schedule.scheduleJob(scheduleTime ,async () => {
+schedule.scheduleJob(scheduleTime, async () => {
     const redis = await connectToRedis();
 
     // check if the root hierarchy exist and adding it if not
-    await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
+    await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy.ourCompany)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
         .then((result) => {
             sendLog(logLevel.info, logDetails.info.INF_ROOT_EXSIST, result.data.name);
         })
         .catch(async () => {
-            await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy })
+            await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy.ourCompany })
                 .then((result) => {
                     sendLog(logLevel.info, logDetails.info.INF_ADD_ROOT, result.data.name);
                 })
@@ -85,7 +86,8 @@ schedule.scheduleJob(scheduleTime ,async () => {
         GetDataAndProcess(fn.dataSources.adNN, aka_data, dataSync),
         GetDataAndProcess(fn.dataSources.lmn, aka_data, dataSync),
         GetDataAndProcess(fn.dataSources.mdn, aka_data, dataSync),
-        GetDataAndProcess(fn.dataSources.mm, aka_data, dataSync)
+        GetDataAndProcess(fn.dataSources.mm, aka_data, dataSync),
+        GetDataAndProcess(fn.dataSources.city, aka_data, dataSync),
     ]);
 
     if(redis && redis.status === 'ready') redis.quit();

@@ -2,7 +2,7 @@ let express = require("express")
 let app = express()
 let port = 3001
 
-app.use((req, res, next) => {  
+app.use((req, res, next) => {
     if (req.headers['authorization'] === "123") {
         next()
     }
@@ -29,6 +29,10 @@ app.get("/getAD/s", (req, res) => {
 
 app.get("/getAD/NN", (req, res) => {
     res.json(require("./mocksFiles/AD.json"))
+})
+
+app.get("/getCity", (req, res) => {
+    res.json(require("./mocksFiles/city.json"))
 })
 
 app.listen(port, () => console.log("mocksGenerator server run on port:" + port))

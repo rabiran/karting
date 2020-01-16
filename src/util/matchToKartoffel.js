@@ -2,10 +2,12 @@ const fn = require("../config/fieldNames");
 const validators = require('../config/validators');
 const p = require("../config/paths");
 const hierarchyHandler = require('./fieldsUtils/hierarchyHandler');
-const {sendLog, logLevel} = require('./logger');
+const { sendLog, logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const Auth = require('../auth/auth');
 const formatAkaDateToKartoffel = require('./fieldsUtils/formatAkaDateToKartoffel');
+const isNumeric = require('./generalUtils/isNumeric');
+const isStrContains = require('./generalUtils/strignContains');
 require('dotenv').config();
 
 
@@ -137,7 +139,7 @@ const match_es = (obj, dataSource) => {
                     delete obj[rawKey];
                     break;
                 }
-                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr[0] === fn.rootHierarchy.ourCompany ? null : hr.unshift(fn.rootHierarchy.ourCompany);
                 hr = hr.map((organizationName) => { return organizationName.trim() });
                 obj.hierarchy = hr.join("/");
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
@@ -195,7 +197,7 @@ const match_ads = (obj, dataSource) => {
                     delete obj[rawKey];
                     break;
                 }
-                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr[0] === fn.rootHierarchy.ourCompany ? null : hr.unshift(fn.rootHierarchy.ourCompany);
                 hr = hr.map((organizationName) => { return organizationName.trim() });
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
@@ -253,7 +255,7 @@ const match_adNN = (obj, dataSource) => {
                     delete obj[rawKey];
                     break;
                 }
-                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr[0] === fn.rootHierarchy.ourCompany ? null : hr.unshift(fn.rootHierarchy.ourCompany);
                 hr = hr.map((organizationName) => { return organizationName.trim() });
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
@@ -317,7 +319,7 @@ const match_nv_sql = (obj, dataSource) => {
                     delete obj[rawKey];
                     break;
                 }
-                hr[0] === fn.rootHierarchy ? null : hr.unshift(fn.rootHierarchy);
+                hr[0] === fn.rootHierarchy.ourCompany ? null : hr.unshift(fn.rootHierarchy.ourCompany);
                 hr = hr.map((organizationName) => { return organizationName.trim() });
                 obj.hierarchy = hr.join("/");
                 obj.hierarchy = obj.hierarchy.replace(new RegExp('\u{200f}', 'g'), '');
@@ -335,6 +337,155 @@ const match_nv_sql = (obj, dataSource) => {
             case fn[dataSource].identityCard:
                 validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
+                break;
+            default:
+                delete obj[rawKey];
+
+        }
+    })
+};
+
+const match_city = (obj, dataSource) => {
+    const objKeys = Object.keys(obj);
+    // initialize variables for hierarchy matching and define default hierarchy
+    const defaultHierarchy = `${fn.rootHierarchy.city}${obj.company ? '/' + obj.company : ''}`;
+    obj.hierarchy = defaultHierarchy;
+    let company = obj[fn[dataSource].company] ? obj[fn[dataSource].company] : '';
+    // suitable the structure of the fieds to kartoffel standart
+    objKeys.map((rawKey) => {
+        switch (rawKey) {
+            //firstName
+            case fn[dataSource].firstName:
+                obj.firstName = obj[rawKey];
+                (rawKey === "firstName") ? null : delete obj[rawKey];
+                break;
+            //lastName
+            case fn[dataSource].lastName:
+                obj.lastName = obj[rawKey];
+                (rawKey === "lastName") ? null : delete obj[rawKey];
+                break;
+            //rank
+            case fn[dataSource].rank:
+                obj.rank = obj[rawKey];
+                (rawKey === "rank") ? null : delete obj[rawKey];
+                break;
+            // dischargeDay
+            case fn[dataSource].dischargeDay:
+                obj.dischargeDay = obj[rawKey];
+                (rawKey === "dischargeDay") ? null : delete obj[rawKey];
+                break;
+            // clearance
+            case fn[dataSource].clearance:
+                obj.clearance = obj[rawKey];
+                (rawKey === "clearance") ? null : delete obj[rawKey];
+                break;
+            // currentUnit
+            case fn[dataSource].currentUnit:
+                obj.currentUnit = obj[rawKey];
+                (rawKey === "currentUnit") ? null : delete obj[rawKey];
+                break;
+            // serviceType
+            case fn[dataSource].serviceType:
+                obj.serviceType = obj[rawKey];
+                (rawKey === "serviceType") ? null : delete obj[rawKey];
+                break;
+            //mobilePhone
+            case fn[dataSource].mobilePhone:
+                validators().mobilePhone.test(obj[rawKey]) ? obj.mobilePhone = [obj[rawKey]] : delete obj[rawKey];
+                (rawKey === "mobilePhone") ? null : delete obj[rawKey];
+                break;
+            //address
+            case fn[dataSource].address:
+                obj.address = obj[rawKey];
+                (rawKey === "address") ? null : delete obj[rawKey];
+                break;
+            //mail
+            case fn[dataSource].mail:
+                obj.mail = obj[rawKey];
+                (rawKey === "mail") ? null : delete obj[rawKey];
+                break;
+            //job
+            case fn[dataSource].job:
+                obj.job = obj[rawKey];
+                (rawKey === "job") ? null : delete obj[rawKey];
+                break;
+            case fn[dataSource].profession:
+                if (!obj[fn[dataSource].job]) {
+                    obj.job = obj[rawKey];
+                }
+
+                delete obj[rawKey];
+                break;
+            //hierarchy
+            case fn[dataSource].hierarchy:
+                let hr = obj[rawKey].replace('\\', '/');
+                if (hr.includes('/')) {
+                    hr = hr.split('/').map(unit => unit.trim());
+
+                    for(const [index, value] of hr.entries()) {
+                        if (isStrContains(value, [`${obj[fn[dataSource].firstName]} ${obj[fn[dataSource].lastName]}`, '-']) && value) {
+                            hr.splice(index);
+                            break;
+                        }
+                    }
+
+                    hr = hr.join('/');
+                }
+
+                obj.hierarchy = `${defaultHierarchy}${hr ? '/' + hr : ''}`;
+                (rawKey === "hierarchy") ? null : delete obj[rawKey];
+                break;
+            // entityType & and default identityCard / personlNumber
+            case fn[dataSource].domainUsers:
+                // initialize values for identityCard & personalNumber
+                let rawEntityType;
+                let defaultIdentifier;
+                for (const [index, char] of Array.from(obj[rawKey]).entries()) {
+                    if ((index === 0 && isNumeric(char)) ||
+                        (index === 1 && !isNumeric(char))) {
+                        break;
+                    }
+                    if (index === 0) {
+                        rawEntityType = char;
+                    } else if (!isNumeric(char)) {
+                        defaultIdentifier = obj[rawKey].substring(1, index);
+                        break;
+                    }
+                }
+                // set the entityType
+                if (fn[dataSource].entityTypePrefix.s.includes(rawEntityType)) {
+                    obj.entityType = fn.entityTypeValue.s;
+                }
+                else if (fn[dataSource].entityTypePrefix.c.includes(rawEntityType)) {
+                    obj.entityType = fn.entityTypeValue.c;
+                }
+                else if (fn[dataSource].entityTypePrefix.gu.includes(rawEntityType)) {
+                    obj.entityType = fn.entityTypeValue.gu;
+                    obj.domainUsers = [
+                      {
+                        uniqueID: obj[fn[dataSource].domainUsers],
+                        dataSource
+                      }
+                    ];
+                }
+                // set identityCard || personlNumber if needed
+                if (!obj.hasOwnProperty('identityCard') ||
+                    !obj.hasOwnProperty('personalNumber') ||
+                    !obj.hasOwnProperty(fn[dataSource].identityCard) ||
+                    !obj.hasOwnProperty(fn[dataSource].personalNumber)) {
+                    validators(defaultIdentifier).identityCard ? obj.identityCard = defaultIdentifier : obj.personalNumber = defaultIdentifier;
+                }
+                delete obj[rawKey];
+                break;
+            //identityCard
+            case fn[dataSource].identityCard:
+                validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
+                (rawKey === "identityCard") ? null : delete obj[rawKey];
+                break;
+            //personalNumber
+            case fn[dataSource].personalNumber:
+                obj.personalNumber = obj[rawKey];
+                (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             default:
                 delete obj[rawKey];
@@ -378,7 +529,7 @@ directGroupHandler = async (record) => {
 module.exports = async (origin_obj, dataSource) => {
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
-    Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null") ? delete obj[key] : null);
+    Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null" || obj[key] === "לא ידוע") ? delete obj[key] : null);
     switch (dataSource) {
         case fn.dataSources.aka:
             match_aka(obj, dataSource);
@@ -392,9 +543,6 @@ module.exports = async (origin_obj, dataSource) => {
                 sendLog(logLevel.warn, logDetails.warn.WRN_PERSON_HAS_NOT_HAVE_USERPRINCIPALNAME, obj.mail);
             };
             break;
-        case fn.dataSources.excel:
-            match_excel(obj, dataSource);
-            break;
         case fn.dataSources.adNN:
             match_adNN(obj, dataSource);
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
@@ -405,6 +553,9 @@ module.exports = async (origin_obj, dataSource) => {
         case fn.dataSources.lmn:
             match_nv_sql(obj, dataSource);
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
+            break;
+        case fn.dataSources.city:
+            match_city(obj, dataSource);
             break;
         default:
             sendLog(logLevel.error, logDetails.error.ERR_UNIDENTIFIED_DATA_SOURCE);
