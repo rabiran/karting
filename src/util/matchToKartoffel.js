@@ -348,9 +348,9 @@ const match_nv_sql = (obj, dataSource) => {
 const match_city = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     // initialize variables for hierarchy matching and define default hierarchy
-    obj.hierarchy = `${fn.rootHierarchy.city}${obj.company ? '/' + obj.company : ''}`;
-    let company = obj[fn[dataSource].company] ? obj[fn[dataSource].company] : "";
-    let hierarchy = obj[fn[dataSource].hierarchy] ? obj[fn[dataSource].hierarchy] : "";
+    const defaultHierarchy = `${fn.rootHierarchy.city}${obj.company ? '/' + obj.company : ''}`;
+    obj.hierarchy = defaultHierarchy;
+    let company = obj[fn[dataSource].company] ? obj[fn[dataSource].company] : '';
     // suitable the structure of the fieds to kartoffel standart
     objKeys.map((rawKey) => {
         switch (rawKey) {
@@ -423,7 +423,7 @@ const match_city = (obj, dataSource) => {
                     hr = hr.split('/').map(unit => unit.trim());
 
                     for(const [index, value] of hr.entries()) {
-                        if (isStrContains(value, [`${obj[fn[dataSource].firstName]} ${obj[fn[dataSource].lastName]}`, '-', ''])) {
+                        if (isStrContains(value, [`${obj[fn[dataSource].firstName]} ${obj[fn[dataSource].lastName]}`, '-']) && value) {
                             hr.splice(index);
                             break;
                         }
@@ -432,7 +432,7 @@ const match_city = (obj, dataSource) => {
                     hr = hr.join('/');
                 }
 
-                obj.hierarchy = `${fn.rootHierarchy.city}${company ? '/' + company : ''}${hr ? '/' + hr : ''}`;
+                obj.hierarchy = `${defaultHierarchy}${hr ? '/' + hr : ''}`;
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             // entityType & and default identityCard / personlNumber
@@ -472,7 +472,7 @@ const match_city = (obj, dataSource) => {
                 if (!obj.hasOwnProperty('identityCard') ||
                     !obj.hasOwnProperty('personalNumber') ||
                     !obj.hasOwnProperty(fn[dataSource].identityCard) ||
-                    !obj.hasOwnProperty(fn[dataSource].identityCard)) {
+                    !obj.hasOwnProperty(fn[dataSource].personalNumber)) {
                     validators(defaultIdentifier).identityCard ? obj.identityCard = defaultIdentifier : obj.personalNumber = defaultIdentifier;
                 }
                 delete obj[rawKey];

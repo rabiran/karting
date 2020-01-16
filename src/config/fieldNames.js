@@ -80,7 +80,6 @@ module.exports = {
         uniqeFieldForDeepDiff: "unid",
     },
     city_name: {
-        identityCard: 'idNumber',
         firstName: 'firstName',
         lastName: 'lastName',
         identityCard: 'tz',
@@ -102,7 +101,6 @@ module.exports = {
             c: ['g', 'j'],
             gu: ['m'],
         },
-        company: "compnay",
         uniqeFieldForDeepDiff: 'domUser',
     },
     entityTypeValue: {

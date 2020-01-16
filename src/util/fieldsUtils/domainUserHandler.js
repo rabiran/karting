@@ -13,16 +13,9 @@ const Auth = require('../../auth/auth');
  *
  *  */
 module.exports = async (person, record, dataSource) => {
-    let dataSourceName = dataSource;
-    if ([fn.dataSources.lmn,
-         fn.dataSources.mdn,
-         fn.dataSources.mm].includes(dataSource)) {
-            dataSourceName = 'Nova';
-         }
-
     let user_object = {
         uniqueID: record[fn[dataSource].mail],
-        dataSource: dataSourceName,
+        dataSource,
     };
 
     (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?

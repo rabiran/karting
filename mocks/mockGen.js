@@ -145,8 +145,25 @@ for (let i = 0; i < miriAmount; i++) {
     miriUser.tz = utils.randomElement([utils.generateID(), '', 'לא ידוע', null]);
     miriUser.personalNumber = utils.randomElement([mis[miriAkaStart + i], '', 'לא ידוע', null]);
     miriUser.rank = utils.randomElement(dataTypes.RANK);
-    miriUser.rld = utils.randomElement([faker.date.between(faker.date.future(10), faker.date.past(10)).toISOString().split('T')[0] + " 00:00:00.0"], null, "", 'לא ידוע');
+    miriUser.rld = utils.randomElement(
+      [
+        faker.date
+          .between(faker.date.future(10), faker.date.past(10))
+          .toISOString()
+          .split("T")[0] + " 00:00:00.0"
+      ],
+      null,
+      "",
+      "לא ידוע"
+    );
     miriUser.job = faker.name.jobTitle();
+    miriUser.profession = utils.randomElement([
+      faker.name.jobType(),
+      faker.name.jobType(),
+      "",
+      "לא ידוע",
+      "null"
+    ]);
     miriUser.department = faker.commerce.department();
     miriUser.stype = '';
     miriUser.hr = utils.randomElement([faker.lorem.word() + "/" +
