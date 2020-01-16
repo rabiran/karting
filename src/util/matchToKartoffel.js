@@ -461,6 +461,12 @@ const match_city = (obj, dataSource) => {
                 }
                 else if (fn[dataSource].entityTypePrefix.gu.includes(rawEntityType)) {
                     obj.entityType = fn.entityTypeValue.gu;
+                    obj.domainUsers = [
+                      {
+                        uniqueID: obj[fn[dataSource].domainUsers],
+                        dataSource
+                      }
+                    ];
                 }
                 // set identityCard || personlNumber if needed
                 if (!obj.hasOwnProperty('identityCard') ||

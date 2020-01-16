@@ -103,6 +103,7 @@ module.exports = {
             gu: ['m'],
         },
         company: "compnay",
+        uniqeFieldForDeepDiff: 'domUser',
     },
     entityTypeValue: {
         s: "agumon",
