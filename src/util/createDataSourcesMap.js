@@ -8,6 +8,7 @@ const result = excelToJson({
         B: fn.dataSources.nn,
         C: fn.dataSources.nv,
         D: fn.dataSources.ads,
+        E: fn.dataSources.city,
     }
 });
 
@@ -17,6 +18,7 @@ result.dataSources.map((obj) => {
     obj[fn.dataSources.nn] ? dataSourcesMap.set(obj[fn.dataSources.nn].replace(new RegExp("\"", 'g')," "), fn.dataSources.nn) : null;
     obj[fn.dataSources.nv] ? dataSourcesMap.set(obj[fn.dataSources.nv].replace(new RegExp("\"", 'g')," "), fn.dataSources.nv) : null;
     obj[fn.dataSources.ads] ? dataSourcesMap.set(obj[fn.dataSources.ads].replace(new RegExp("\"", 'g')," "), fn.dataSources.ads) : null;
+    obj[fn.dataSources.city] ? dataSourcesMap.set(obj[fn.dataSources.city].replace(new RegExp("\"", 'g')," "), fn.dataSources.city) : null;
 })
 
 module.exports = dataSourcesMap;

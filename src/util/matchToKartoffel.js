@@ -405,16 +405,13 @@ const match_city = (obj, dataSource) => {
                 (rawKey === "mail") ? null : delete obj[rawKey];
                 break;
             //job
-            case fn[dataSource].job:
-                obj.job = obj[rawKey];
-                (rawKey === "job") ? null : delete obj[rawKey];
-                break;
             case fn[dataSource].profession:
-                if (!obj[fn[dataSource].job]) {
-                    obj.job = obj[rawKey];
+            case fn[dataSource].job:
+                if (!obj.job) {
+                    obj.job = obj[fn[dataSource].job] || obj[fn[dataSource].profession];
                 }
 
-                delete obj[rawKey];
+                (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             //hierarchy
             case fn[dataSource].hierarchy:
