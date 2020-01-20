@@ -21,7 +21,7 @@ require('dotenv').config();
  * @param {*} currentUnit_to_DataSource - a map of all units from each data source
  * @param {*} needMatchToKartoffel - a flag to tell if the current object needs a match to kartoffel's format
  */
-module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = true) => {
+module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffelForAdded = true) => {
     if (dataSource === fn.dataSources.aka) {
         return;
     }
@@ -29,7 +29,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         const record = diffsObj[i];
         let person_ready_for_kartoffel;
 
-        if (needMatchToKartoffel) {
+        if (needMatchToKartoffelForAdded) {
             person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         } else {
             person_ready_for_kartoffel = record;

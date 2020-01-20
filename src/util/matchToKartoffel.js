@@ -380,7 +380,7 @@ const match_city = (obj, dataSource) => {
                 break;
             // currentUnit
             case fn[dataSource].currentUnit:
-                obj.currentUnit = obj[rawKey];
+                obj.currentUnit = obj[rawKey].toString().replace(new RegExp("\"", 'g')," ");
                 (rawKey === "currentUnit") ? null : delete obj[rawKey];
                 break;
             // serviceType
@@ -464,13 +464,17 @@ const match_city = (obj, dataSource) => {
                       }
                     ];
                 }
-                // set identityCard || personlNumber if needed
-                if (!obj.hasOwnProperty('identityCard') ||
-                    !obj.hasOwnProperty('personalNumber') ||
-                    !obj.hasOwnProperty(fn[dataSource].identityCard) ||
-                    !obj.hasOwnProperty(fn[dataSource].personalNumber)) {
-                    validators(defaultIdentifier).identityCard ? obj.identityCard = defaultIdentifier : obj.personalNumber = defaultIdentifier;
+
+                if (obj.entityType !== fn.entityTypeValue.gu) {
+                    // set identityCard || personlNumber if needed
+                    if (!obj.hasOwnProperty('identityCard') ||
+                        !obj.hasOwnProperty('personalNumber') ||
+                        !obj.hasOwnProperty(fn[dataSource].identityCard) ||
+                        !obj.hasOwnProperty(fn[dataSource].personalNumber)) {
+                        validators(defaultIdentifier).identityCard ? obj.identityCard = defaultIdentifier : obj.personalNumber = defaultIdentifier;
+                    }
                 }
+
                 delete obj[rawKey];
                 break;
             //identityCard
@@ -552,6 +556,10 @@ module.exports = async (origin_obj, dataSource) => {
             break;
         case fn.dataSources.city:
             match_city(obj, dataSource);
+            if (obj.entityType === fn.entityTypeValue.gu) {
+                obj.personalNumber ? delete obj['personalNumber'] : null;
+                obj.identityCard ? delete obj['identityCard'] : null;
+            }
             break;
         default:
             sendLog(logLevel.error, logDetails.error.ERR_UNIDENTIFIED_DATA_SOURCE);
