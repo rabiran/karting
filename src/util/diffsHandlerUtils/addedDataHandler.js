@@ -72,7 +72,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                     person = person.data;
                     sendLog(logLevel.info, logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL, person.personalNumber || person.identityCard, dataSource);
                     // for goalUser domainUsers already created in matchToKartoffel
-                    if (!person.entityType === fn.entityTypeValue.gu) {
+                    if (person.entityType !== fn.entityTypeValue.gu) {
                         // add domain user for the new person
                         await domainUserHandler(person, record, dataSource);
                     }

@@ -350,7 +350,6 @@ const match_city = (obj, dataSource) => {
     // initialize variables for hierarchy matching and define default hierarchy
     const defaultHierarchy = `${fn.rootHierarchy.city}${obj.company ? '/' + obj.company : ''}`;
     obj.hierarchy = defaultHierarchy;
-    let company = obj[fn[dataSource].company] ? obj[fn[dataSource].company] : '';
     // suitable the structure of the fieds to kartoffel standart
     objKeys.map((rawKey) => {
         switch (rawKey) {
@@ -415,12 +414,12 @@ const match_city = (obj, dataSource) => {
                 break;
             //hierarchy
             case fn[dataSource].hierarchy:
-                let hr = obj[rawKey].replace('\\', '/');
+                let hr = obj[rawKey].replace('\\', '/');                
                 if (hr.includes('/')) {
                     hr = hr.split('/').map(unit => unit.trim());
 
-                    for(const [index, value] of hr.entries()) {
-                        if (isStrContains(value, [`${obj[fn[dataSource].firstName]} ${obj[fn[dataSource].lastName]}`, '-']) && value) {
+                    for (const [index, value] of hr.entries()) {
+                        if (isStrContains(value, [`${obj[fn[dataSource].firstName]} ${obj[fn[dataSource].lastName]}`, '-']) || !value) {
                             hr.splice(index);
                             break;
                         }
@@ -429,7 +428,7 @@ const match_city = (obj, dataSource) => {
                     hr = hr.join('/');
                 }
 
-                obj.hierarchy = `${defaultHierarchy}${hr ? '/' + hr : ''}`;
+                obj.hierarchy = `${defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             // entityType & and default identityCard / personlNumber
@@ -437,7 +436,7 @@ const match_city = (obj, dataSource) => {
                 // initialize values for identityCard & personalNumber
                 let rawEntityType;
                 let defaultIdentifier;
-                for (const [index, char] of Array.from(obj[rawKey]).entries()) {
+                for (const [index, char] of Array.from(obj[rawKey].toLowerCase()).entries()) {
                     if ((index === 0 && isNumeric(char)) ||
                         (index === 1 && !isNumeric(char))) {
                         break;

@@ -108,7 +108,7 @@ module.exports = {
         sPrefix: "m",
         c: "digimon",
         cPrefix: "d",
-        gu:"tamar",
+        gu: "tamar",
     },
     rootHierarchy: {
         ourCompany: "wallmart",
