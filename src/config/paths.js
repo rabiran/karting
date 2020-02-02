@@ -2,7 +2,7 @@ const fn = require('./fieldNames');
 
 const kartoffelUrl = fn.kartoffelUrl;
 
-module.exports = pathsHandler = (param) => {
+module.exports = pathsHandler = (param, param2) => {
     return {
         // Data source
         AKA_TELEPHONES_API: "http://localhost:3001/getAkaTelephone",
@@ -20,6 +20,7 @@ module.exports = pathsHandler = (param) => {
         KARTOFFEL_PERSON_API: `${kartoffelUrl}/api/persons/`,
         KARTOFFEL_PERSON_EXISTENCE_CHECKING: `${kartoffelUrl}/api/persons/identifier/${param}`,
         KARTOFFEL_PERSON_ASSIGN_API : `${kartoffelUrl}/api/persons/${param}/assign`,
+        KARTOFFEL_PERSON_BY_DOMAIN_USER: `${kartoffelUrl}/api/persons/domainUser/${param}`,
 
         // Kartoffel - group
         KARTOFFEL_ADDGROUP_API: `${kartoffelUrl}/api/organizationGroups/`,
@@ -28,5 +29,6 @@ module.exports = pathsHandler = (param) => {
 
         // Kartoffel - domainUser
         KARTOFFEL_ADD_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers`,
+        KARTOFFEL_DELETE_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers/${param2}`
     }
 }
