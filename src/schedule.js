@@ -90,7 +90,7 @@ schedule.scheduleJob(scheduleTime, async () => {
         GetDataAndProcess(fn.dataSources.city, aka_data, dataSync),
     ]);
 
-    if(redis && redis.status === 'ready') redis.quit();
+    if (redis && redis.status === 'ready') redis.quit();
 });
 
 /**

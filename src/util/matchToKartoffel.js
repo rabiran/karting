@@ -414,7 +414,7 @@ const match_city = (obj, dataSource) => {
                 break;
             //hierarchy
             case fn[dataSource].hierarchy:
-                let hr = obj[rawKey].replace('\\', '/');                
+                let hr = obj[rawKey].replace('\\', '/');
                 if (hr.includes('/')) {
                     hr = hr.split('/').map(unit => unit.trim());
 
@@ -436,7 +436,7 @@ const match_city = (obj, dataSource) => {
                 // initialize values for identityCard & personalNumber
                 let rawEntityType;
                 let defaultIdentifier;
-                for (const [index, char] of Array.from(obj[rawKey].toLowerCase()).entries()) {
+                for (const [index, char] of Array.from(obj[rawKey].toLowerCase().trim().entries())) {
                     if ((index === 0 && isNumeric(char)) ||
                         (index === 1 && !isNumeric(char))) {
                         break;

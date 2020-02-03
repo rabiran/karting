@@ -16,6 +16,7 @@ messageLog = {
         ERR_UPDATE_PERSON_IN_KARTOFFEL: 'Not update the person with the identifier: %s from %s. The error message:"%s" %s',
         ERR_GET_RAW_DATA: 'Failed to get data from %s API. The error is: %s',
         ERR_GET_ALL_FROM_KARTOFFEL: 'Failed to get data from Kartoffel, in % The error message is: %s',
+        ERR_TRANSFER_DOMAIN_USER: 'Failed to transfer domain user: %s FROM person with identifier: %s TO person with identifier: %s from data source %s'
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
@@ -40,8 +41,10 @@ messageLog = {
         INF_ADD_HIERARCHY: 'success to add the hierarchy "%s" to Kartoffel',
         INF_SAVE_NEW_DATA_FILE: 'The %s from %s successfully saved',
         INF_MOVE_FILE_TO_ARCHIVE: '%s successfully moved to the archive',
-        INF_UPDATE_DIRECT_GROUP_TO_PERSON: 'The directGroup of the person with the identifier:%s from %s update successfully. %s',
+        INF_UPDATE_DIRECT_GROUP_TO_PERSON: 'The directGroup of the person with the identifier: %s from %s update successfully. %s',
         INF_UPDATE_PERSON_IN_KARTOFFEL: 'The person with the identifier: %s from %s update successfully. %s',
+        INF_DELETE_DOMAIN_USER: 'The domain user %s successfully removed from the person with identifier: %s',
+        INF_TRANSFER_DOMAIN_USER: 'The domain user: %s successfully transfer FROM person with identifier: %s TO the person with identifier: %s from %s',
     },
 };
 
