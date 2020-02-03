@@ -47,7 +47,7 @@ module.exports = async (person, record, dataSource) => {
         sendLog(logLevel.info, logDetails.info.INF_ADD_DOMAIN_USER, user_object.uniqueID, user.data.personalNumber || user.data.identityCard, dataSource);
     } catch (err) {
         let errMessage = err.response ? err.response.data.message : err.message;
-        
+
         // if the domain user was transfer from one person to another
         if (err.response &&
             err.response.data &&
@@ -60,13 +60,15 @@ module.exports = async (person, record, dataSource) => {
                     const deletedDomainUser = (await Auth.axiosKartoffel.delete(`${p(personToDeleteFrom.id, user_object.uniqueID).KARTOFFEL_DELETE_DOMAIN_USER_API}`)).data;
                     sendLog(logLevel.info, logDetails.info.INF_DELETE_DOMAIN_USER, deletedDomainUser, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard);
 
-                    personToDeleteFrom = (await Auth.axiosKartoffel.put(p(personToDeleteFrom.id).KARTOFFEL_UPDATE_PERSON_API, { mail: null })).data;
-                    sendLog(logLevel.info, logDetails.info.INF_UPDATE_PERSON_IN_KARTOFFEL, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, dataSource, JSON.stringify(personToDeleteFrom));
+                    if (personToDeleteFrom.mail === user_object.uniqueID) {
+                        personToDeleteFrom = (await Auth.axiosKartoffel.put(p(personToDeleteFrom.id).KARTOFFEL_UPDATE_PERSON_API, { mail: null })).data;
+                        sendLog(logLevel.info, logDetails.info.INF_UPDATE_PERSON_IN_KARTOFFEL, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, dataSource, JSON.stringify(personToDeleteFrom));
+                    }
 
                     user = (await Auth.axiosKartoffel.post(p(person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object)).data;
                     sendLog(logLevel.info, logDetails.info.INF_TRANSFER_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, user.personalNumber || user.identityCard, dataSource);
                 } catch (err) {
-                    sendLog(logLevel.error, logDetails.ERR_TRASFER_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, person.personalNumber || person.identityCard, dataSource)
+                    sendLog(logLevel.error, logDetails.ERR_TRANSFER_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, person.personalNumber || person.identityCard, dataSource)
                 }
         } else {
             sendLog(logLevel.error, logDetails.error.ERR_ADD_DOMAIN_USER, person.mail, person.personalNumber || person.identityCard, dataSource, errMessage);

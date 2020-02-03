@@ -16,7 +16,7 @@ messageLog = {
         ERR_UPDATE_PERSON_IN_KARTOFFEL: 'Not update the person with the identifier: %s from %s. The error message:"%s" %s',
         ERR_GET_RAW_DATA: 'Failed to get data from %s API. The error is: %s',
         ERR_GET_ALL_FROM_KARTOFFEL: 'Failed to get data from Kartoffel, in % The error message is: %s',
-        ERR_TRASFER_DOMAIN_USER: 'Failed to transfer domain user: %s FROM person with identifier: %s TO person with identifier: %s from data source %s'
+        ERR_TRANSFER_DOMAIN_USER: 'Failed to transfer domain user: %s FROM person with identifier: %s TO person with identifier: %s from data source %s'
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
