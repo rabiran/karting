@@ -436,7 +436,7 @@ const match_city = (obj, dataSource) => {
                 // initialize values for identityCard & personalNumber
                 let rawEntityType;
                 let defaultIdentifier;
-                for (const [index, char] of Array.from(obj[rawKey].toLowerCase().trim().entries())) {
+                for (const [index, char] of Array.from(obj[rawKey].toLowerCase().trim()).entries()) {
                     if ((index === 0 && isNumeric(char)) ||
                         (index === 1 && !isNumeric(char))) {
                         break;
