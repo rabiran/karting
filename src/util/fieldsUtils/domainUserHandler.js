@@ -14,7 +14,7 @@ const Auth = require('../../auth/auth');
  *  */
 module.exports = async (person, record, dataSource) => {
     let user_object = {
-        uniqueID: record[fn[dataSource].mail].toLowerCase(),
+        uniqueID: record[fn[dataSource].mail],
         dataSource,
     };
 
@@ -43,6 +43,7 @@ module.exports = async (person, record, dataSource) => {
     }
 
     try {
+        user_object.uniqueID = user_object.uniqueID.toLowerCase();
         let user = await Auth.axiosKartoffel.post(p(person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
         sendLog(logLevel.info, logDetails.info.INF_ADD_DOMAIN_USER, user_object.uniqueID, user.data.personalNumber || user.data.identityCard, dataSource);
     } catch (err) {
