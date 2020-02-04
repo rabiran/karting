@@ -14,7 +14,7 @@ const Auth = require('../../auth/auth');
  *  */
 module.exports = async (person, record, dataSource) => {
     let user_object = {
-        uniqueID: record[fn[dataSource].mail],
+        uniqueID: record[fn[dataSource].mail].toLowerCase(),
         dataSource,
     };
 
@@ -26,7 +26,7 @@ module.exports = async (person, record, dataSource) => {
         user_object.uniqueID = record[fn[dataSource].uniqueID].toLowerCase() : null;
     (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
         user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
-    (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ? user_object.uniqueID = `${record[fn[dataSource].domainUsers]}`: null;
+    (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ? user_object.uniqueID = `${record[fn[dataSource].domainUsers].toLowerCase()}`: null;
 
     if (!user_object.uniqueID) {
         return;

@@ -459,7 +459,7 @@ const match_city = (obj, dataSource) => {
                     obj.entityType = fn.entityTypeValue.gu;
                     obj.domainUsers = [
                       {
-                        uniqueID: obj[fn[dataSource].domainUsers],
+                        uniqueID: obj[fn[dataSource].domainUsers].toLowerCase(),
                         dataSource
                       }
                     ];
