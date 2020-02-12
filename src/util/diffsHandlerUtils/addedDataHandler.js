@@ -58,10 +58,14 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                 try {
                     person = (await Auth.axiosKartoffel.get(path)).data;
                 } catch (err) {
-                    if (person_ready_for_kartoffel.entityType != fn.entityTypeValue.gu &&
+                    // Check if the Person not found due his identityCard - that doesn't exist in kartoffel,
+                    // and if it possible to try again with the personalNumber
+                    if (
+                        err.response.status === 404 &&
+                        person_ready_for_kartoffel.entityType != fn.entityTypeValue.gu &&
                         person_ready_for_kartoffel.identityCard &&
-                        person_ready_for_kartoffel.personalNumber &&
-                        err.response.status === 404) {
+                        person_ready_for_kartoffel.personalNumber
+                    ) {
                         identifier = person_ready_for_kartoffel.personalNumber;
                         path = p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
                         person = (await Auth.axiosKartoffel.get(path)).data;
