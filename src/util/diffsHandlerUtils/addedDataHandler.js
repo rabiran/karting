@@ -5,7 +5,7 @@ const diff = require("diff-arrays-of-objects");
 const updated = require('./updatedDataHandler')
 const p = require('../../config/paths');
 const fn = require('../../config/fieldNames');
-const {sendLog, logLevel} = require('../logger');
+const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const Auth = require('../../auth/auth');
@@ -25,9 +25,13 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
     if (dataSource === fn.dataSources.aka) {
         return;
     }
+
     for (let i = 0; i < diffsObj.length; i++) {
         const record = diffsObj[i];
         let person_ready_for_kartoffel;
+        let path;
+        let person;
+        let identifier;
 
         if (needMatchToKartoffelForAdded) {
             person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
@@ -35,13 +39,41 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
             person_ready_for_kartoffel = record;
         }
 
+        if (person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
+            identifier = person_ready_for_kartoffel.domainUsers[0].uniqueID;
+            path = p(identifier).KARTOFFEL_DOMAIN_USER_API;
+        } else if (person_ready_for_kartoffel.entityType === fn.entityTypeValue.s ||
+            person_ready_for_kartoffel.entityType === fn.entityTypeValue.c) {
+            identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
+            path = p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
+        } else {
+            sendLog(logLevel.warn, logDetails.warn.WRN_UNRECOGNIZED_ENTITY_TYPE, JSON.stringify(person_ready_for_kartoffel), dataSource);
+            continue;
+        }
+
         // Checking if the person is already exist in Kartoffel and accept his object
         try {
             // check if the person already exist in Kartoffel, if exist then update his data according to "currentUnit" field
-            let identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
             if (identifier) {
-                let person = await Auth.axiosKartoffel.get(`${p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING}`);
-                person = person.data;
+                try {
+                    person = (await Auth.axiosKartoffel.get(path)).data;
+                } catch (err) {
+                    // Check if the Person not found due his identityCard - that doesn't exist in kartoffel,
+                    // and if it possible to try again with the personalNumber
+                    if (
+                        err.response.status === 404 &&
+                        person_ready_for_kartoffel.entityType != fn.entityTypeValue.gu &&
+                        person_ready_for_kartoffel.identityCard &&
+                        person_ready_for_kartoffel.personalNumber
+                    ) {
+                        identifier = person_ready_for_kartoffel.personalNumber;
+                        path = p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
+                        person = (await Auth.axiosKartoffel.get(path)).data;
+                    } else {
+                        throw err;
+                    }
+                }
+
                 let isPrimary = (currentUnit_to_DataSource.get(person.currentUnit) === dataSource);
 
                 if (isPrimary) {

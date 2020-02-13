@@ -56,7 +56,6 @@ schedule.scheduleJob(scheduleRecoveryTime, async () => {
     if(redis && redis.status === 'ready') redis.quit();
 });
 
-
 schedule.scheduleJob(scheduleTime, async () => {
     const redis = await connectToRedis();
 
