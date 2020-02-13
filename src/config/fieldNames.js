@@ -102,6 +102,11 @@ module.exports = {
             gu: ['m'],
         },
         uniqeFieldForDeepDiff: 'domUser',
+        tags: 'tags',
+        userTags: {
+            transportable: 'transportable',
+            information: 'information',
+        }
     },
     entityTypeValue: {
         s: "agumon",

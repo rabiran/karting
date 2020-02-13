@@ -555,6 +555,21 @@ module.exports = async (origin_obj, dataSource) => {
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
         case fn.dataSources.city:
+            let isTransportable = false;
+            let isInformative = false;
+
+            for (let i = 0; i < obj[fn.city_name.tags] ? obj[fn.city_name.tags].length : 0; i++) {
+                if (obj[fn.city_name.tags][i].name === fn.city_name.userTags.transportable) {
+                    isTransportable = true;
+                } else if (obj[fn.city_name.tags][i].name === fn.city_name.userTags.information) {
+                    isInformative = true;
+                }
+            }
+
+            if (isInformative && !isTransportable) {
+                break;
+            }
+
             match_city(obj, dataSource);
             if (obj.entityType === fn.entityTypeValue.gu) {
                 obj.personalNumber ? delete obj['personalNumber'] : null;
