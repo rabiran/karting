@@ -1,7 +1,6 @@
 const fn = require('../config/fieldNames');
 const axios = require("axios");
 const moment = require('moment');
-const saveAsFile = require('../util/saveAsFile');
 const dataComparison = require('../util/dataComparison');
 const getRawData = require('./getRawData');
 const fs = require('fs');

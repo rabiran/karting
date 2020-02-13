@@ -32,7 +32,8 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         let path;
         let person;
         let identifier;
-
+        
+        // in Recovery flow don't need matchToKartoffel
         if (needMatchToKartoffelForAdded) {
             person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
         } else {
@@ -86,13 +87,11 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                 } else {
                     await domainUserHandler(person, record, dataSource);
                 }
-
             } else {
                 sendLog(logLevel.warn, logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON, JSON.stringify(person_ready_for_kartoffel));
             }
-        }
         // if the person does not exist in Kartoffel => complete the data from aka (if exist), add him to specific hierarchy & adding user
-        catch (err) {
+        } catch (err) {
             // check if the perosn not exist in Kartoffel (404 status), or if there is another error
             if (err.response.status === 404) {
                 // complete the data from aka (if exist):
