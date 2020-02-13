@@ -124,7 +124,6 @@ module.exports = (obj, akaData, dataSource) => {
                     complete_ads(obj, akaRecord);
                     break;
                 case fn.dataSources.adNN:
-                    if (obj.entityType === fn.entityTypeValue.c) { break; };
                     complete_adNN(obj, akaRecord);
                     break;
                 case fn.dataSources.city:
