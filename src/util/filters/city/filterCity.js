@@ -1,7 +1,7 @@
 const byTags = require('./byTags');
 
 /**
- * Filter by city persons
+ * Filter city records
  *
  * @param {Object} records - all the raw data from the data source
  */
