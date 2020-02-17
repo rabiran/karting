@@ -5,6 +5,7 @@ const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const updateSpecificFields = require('../updateSpecificFields');
 const Auth = require('../../auth/auth');
+const recordsFilter = require('../recordsFilter');
 
 require('dotenv').config();
 
@@ -17,8 +18,14 @@ require('dotenv').config();
  * @param {boolean} needMatchToKartoffel - if the diffsObj needs match to kaertoffel
  */
 module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = true) => {
-    for (let i = 0; i < diffsObj.length; i++) {
-        const record = diffsObj[i];
+    let records = diffsObj;
+
+    if (needMatchToKartoffel) {
+        records = recordsFilter(records);
+    }
+
+    for (let i = 0; i < records.length; i++) {
+        const record = records[i];
         let identifier = record[1][fn[dataSource].personalNumber] || record[1][fn[dataSource].identityCard] || record[1].personalNumber || record[1].identityCard;
         // Get the person object from kartoffel
         let person = await Auth.axiosKartoffel.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
