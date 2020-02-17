@@ -557,11 +557,11 @@ module.exports = async (origin_obj, dataSource) => {
         case fn.dataSources.city:
             let isTransportable = false;
             let isInformative = false;
-
-            for (let i = 0; i < obj[fn.city_name.tags] ? obj[fn.city_name.tags].length : 0; i++) {
-                if (obj[fn.city_name.tags][i].name === fn.city_name.userTags.transportable) {
+            let tagsLength = obj[fn[fn.dataSources.city].tags] ? obj[fn[fn.dataSources.city].tags].length : 0;
+            for (let i = 0; i < tagsLength; i++) {
+                if (obj[fn[fn.dataSources.city].tags][i].name === fn[fn.dataSources.city].userTags.transportable) {
                     isTransportable = true;
-                } else if (obj[fn.city_name.tags][i].name === fn.city_name.userTags.information) {
+                } else if (obj[fn[fn.dataSources.city].tags][i].name === fn[fn.dataSources.city].userTags.information) {
                     isInformative = true;
                 }
             }

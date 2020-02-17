@@ -1,3 +1,5 @@
+const fn = require('../../src/config/fieldNames')
+
 module.exports = {
   RANK: ["unknown", "rookie", "champion", "ultimate", "mega"],
 
@@ -14,9 +16,17 @@ module.exports = {
     ["donatelo.turtle.com", "turtle"],
     ["rafael.turtle.com", "turtle"],
   ],
-  
+
   SERVICE_TYPE: ["A", "B", "C", "D", "E", "F", "G", "H"],
   UNIT: ["gondor", "mordor", "wallmart", "valhalla"],
   ES_UNIT: ["es1", "es2", "es3", "es4", "es5", "es6"],
   ADS_UNIT: ["ads1", "ads2", "ads3", "ads4", "ads5", "ads6"],
+  MIRI_TAGS: [
+    {
+      name: fn[fn.dataSources.city].userTags.transportable
+    },
+    {
+      name: fn[fn.dataSources.city].userTags.information
+    },
+  ]
 };
