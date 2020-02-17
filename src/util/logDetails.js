@@ -30,6 +30,7 @@ messageLog = {
         WRN_PERSON_HAS_NOT_HAVE_USERPRINCIPALNAME: 'To the person with the identifier: %s has not have "userPrincipalName" field at ads',
         WRN_KIND_DEEPDIFF_NOT_RECOGNIZED: 'the deepDiff kind of the updated person is not recognized -"%s"',
         WRN_UNRECOGNIZED_ENTITY_TYPE: 'There is no entity type for the person %s from %s',
+        WRN_IRRELEVANT_TAGS: 'Irrelevant tags for the record %s from %s'
     },
     info: {
         INF_CONNECT_REDIS:'Redis connect to service',

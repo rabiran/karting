@@ -9,6 +9,7 @@ const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const Auth = require('../../auth/auth');
+const recordsFilter = require('../recordsFilter');
 
 require('dotenv').config();
 
@@ -26,13 +27,19 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         return;
     }
 
-    for (let i = 0; i < diffsObj.length; i++) {
-        const record = diffsObj[i];
+    let records = diffsObj;
+
+    if (needMatchToKartoffelForAdded) {
+        records = recordsFilter(diffsObj, dataSource);
+    }
+
+    for (let i = 0; i < records.length; i++) {
+        const record = records[i];
         let person_ready_for_kartoffel;
         let path;
         let person;
         let identifier;
-        
+
         // in Recovery flow don't need matchToKartoffel
         if (needMatchToKartoffelForAdded) {
             person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
