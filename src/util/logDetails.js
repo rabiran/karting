@@ -5,7 +5,7 @@ messageLog = {
         ERR_ADD_ROOT: 'Failed to add the root hierarchy to Kartoffel. the error message: %s',
         ERR_DATA_SOURCE: '"dataSource" variable must be attached to "completeFromAka" function',
         ERR_READ_PREVIOUS_DATA_FILE: 'Reading the previous data file: %s failed. The error message: %s',
-        ERR_INSERT_PERSON: 'Not insert the person with the identifier: %s from %s to Kartoffel. The error message:"%s" %s',
+        ERR_INSERT_PERSON: 'Not insert the person with the identifier: %s from %s to Kartoffel. The error message: "%s" %s',
         ERR_ADD_FUNCTION_PERSON_NOT_FOUND: 'The person with the identifier: %s from %s_raw_data not found in Kartoffel. The error message:"%s"',
         ERR_ADD_DOMAIN_USER: 'Not add the domain user: %s to the person with the idetifier: %s from %s. The error message:"%s"',
         ERR_ADD_HIERARCHY: 'failed to add the hierarchy "%s" to Kartoffel. the error message: "%s"',

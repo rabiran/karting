@@ -66,11 +66,11 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
             };
             try {
                 await Auth.axiosKartoffel.put(p(person.id).KARTOFFEL_PERSON_ASSIGN_API, updateDirectGroup);
-                sendLog(logLevel.info, logDetails.info.INF_UPDATE_DIRECT_GROUP_TO_PERSON, person.personalNumber || person.identityCard, dataSource, JSON.stringify(objForUpdate.directGroup));
+                sendLog(logLevel.info, logDetails.info.INF_UPDATE_DIRECT_GROUP_TO_PERSON, person.personalNumber || person.identityCard || person.domainUsers[0].uniqeID, dataSource, JSON.stringify(objForUpdate.directGroup));
             }
             catch(err){
                 let errMessage = err.response ? err.response.data.message : err.message;
-                sendLog(logLevel.error, logDetails.error.ERR_UPDATE_DIRECT_GROUP_TO_PERSON, person.personalNumber || person.identityCard, dataSource, errMessage, JSON.stringify(objForUpdate));
+                sendLog(logLevel.error, logDetails.error.ERR_UPDATE_DIRECT_GROUP_TO_PERSON, person.personalNumber || person.identityCard || person.domainUsers[0].uniqeID, dataSource, errMessage, JSON.stringify(objForUpdate));
             }
         }
         // delete forbidden Fields To Update
@@ -80,11 +80,11 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
         // Update the person object if the objForUpdate is NOT empty
         if (!isObjectEmpty(objForUpdate)) {
             await Auth.axiosKartoffel.put(p(person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate);
-            sendLog(logLevel.info, logDetails.info.INF_UPDATE_PERSON_IN_KARTOFFEL, person.personalNumber || person.identityCard, dataSource, JSON.stringify(objForUpdate));
+            sendLog(logLevel.info, logDetails.info.INF_UPDATE_PERSON_IN_KARTOFFEL, person.personalNumber || person.identityCard || person.domainUsers[0].uniqeID, dataSource, JSON.stringify(objForUpdate));
         }
     } catch (err) {
         let errMessage = err.response ? err.response.data.message : err.message;
-        sendLog(logLevel.error, logDetails.error.ERR_UPDATE_PERSON_IN_KARTOFFEL, person.personalNumber || person.identityCard, dataSource, errMessage, JSON.stringify(objForUpdate));
+        sendLog(logLevel.error, logDetails.error.ERR_UPDATE_PERSON_IN_KARTOFFEL, person.personalNumber || person.identityCard || person.domainUsers[0].uniqeID, dataSource, errMessage, JSON.stringify(objForUpdate));
     }
 }
 
