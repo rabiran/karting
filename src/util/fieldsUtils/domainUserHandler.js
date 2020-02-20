@@ -58,8 +58,8 @@ module.exports = async (person, record, dataSource) => {
             err.response.data.name.includes('ValidationError')) {
                 try {
                     let personToDeleteFrom = (await Auth.axiosKartoffel.get(`${p(user_object.uniqueID).KARTOFFEL_PERSON_BY_DOMAIN_USER}`)).data;
-                    const deletedDomainUser = (await Auth.axiosKartoffel.delete(`${p(personToDeleteFrom.id, user_object.uniqueID).KARTOFFEL_DELETE_DOMAIN_USER_API}`)).data;
-                    sendLog(logLevel.info, logDetails.info.INF_DELETE_DOMAIN_USER, JSON.stringify(deletedDomainUser), personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard);
+                    await Auth.axiosKartoffel.delete(`${p(personToDeleteFrom.id, user_object.uniqueID).KARTOFFEL_DELETE_DOMAIN_USER_API}`);
+                    sendLog(logLevel.info, logDetails.info.INF_DELETE_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard);
 
                     if (personToDeleteFrom.mail === user_object.uniqueID) {
                         personToDeleteFrom = (await Auth.axiosKartoffel.put(p(personToDeleteFrom.id).KARTOFFEL_UPDATE_PERSON_API, { mail: null })).data;
