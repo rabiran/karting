@@ -55,7 +55,6 @@ const updateSpecificFields = async (deepDiffArray, dataSource, person, akaRecord
         if (fn[dataSource]["entityType"] === deepDiffRecord.path.toString() && deepDiffRecord.rhs === fn.entityTypeValue.s) {
             objForUpdate.rank = akaRecord[fn.aka.rank];
             objForUpdate.currentUnit = akaRecord[fn.aka.unitName];
-            diffsObject = diff([person], [matchedAka], comparisonField, { updatedValues: 4 });
         }
     });
 

@@ -22,7 +22,7 @@ const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : ne
 try {
     schedule.scheduleJob(scheduleRecoveryTime, async () => {
         const redis = connectToRedis();
-    
+
         // check if the root hierarchy exist and adding it if not
         await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy.ourCompany)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
             .then((result) => {
@@ -38,11 +38,11 @@ try {
                         sendLog(logLevel.error, logDetails.error.ERR_ADD_ROOT, errorMessage);
                     })
             });
-    
+
         let akaData = await getRawData(fn.dataSources.aka, fn.runnigTypes.recoveryRun, moment(new Date()).format("DD.MM.YYYY__HH.mm"));
-    
+
         recovery = recovery.bind(this, akaData);
-    
+
         await PromiseAllWithFails([
             akaRecovery(akaData),
             recovery(fn.dataSources.es),
@@ -53,7 +53,7 @@ try {
             recovery(fn.dataSources.mm),
             recovery(fn.dataSources.city),
         ]);
-    
+
         if(redis && redis.status === 'ready') redis.quit();
     });
 } catch (err) {
@@ -63,7 +63,7 @@ try {
 try {
     schedule.scheduleJob(scheduleTime, async () => {
         const redis = await connectToRedis();
-    
+
         // check if the root hierarchy exist and adding it if not
         await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy.ourCompany)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
             .then((result) => {
@@ -79,10 +79,10 @@ try {
                         sendLog(logLevel.error, logDetails.error.ERR_ADD_ROOT, errorMessage);
                     })
         });
-    
+
         // get the new json from aka & save him on the server
         let aka_data = await dataSync(fn.dataSources.aka, fn.runnigTypes.dailyRun);
-    
+
         await PromiseAllWithFails([
             GetDataAndProcess(fn.dataSources.aka, aka_data),
             GetDataAndProcess(fn.dataSources.es, aka_data, dataSync),
@@ -93,7 +93,7 @@ try {
             GetDataAndProcess(fn.dataSources.mm, aka_data, dataSync),
             GetDataAndProcess(fn.dataSources.city, aka_data, dataSync),
         ]);
-    
+
         if (redis && redis.status === 'ready') redis.quit();
     });
 } catch (err) {
