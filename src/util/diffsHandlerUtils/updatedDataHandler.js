@@ -58,9 +58,9 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                 return !include;
             })
             if (deepDiffForUpdate.length > 0) {
-                updateSpecificFields(deepDiffForUpdate, dataSource, person, akaRecord, needMatchToKartoffel);
-                await domainUserHandler(person, record[1], dataSource);
+                await updateSpecificFields(deepDiffForUpdate, dataSource, person, akaRecord, needMatchToKartoffel);
             };
+            await domainUserHandler(person, record[1], dataSource);
         }
     }
 }
