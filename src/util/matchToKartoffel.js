@@ -205,14 +205,24 @@ const match_ads = (obj, dataSource) => {
                 break;
             //entityType,personalNumber/identityCard
             case fn[dataSource].upn:
-                let re = /[a-z]_|[a-z]/;
-                let upnPrefix = obj[rawKey].toLowerCase().match(re).toString();
+
+                let upnPrefix = '';
+                for (let char of obj[fn[dataSource].upn].toLowerCase().trim()) {
+                    if (isNumeric(char) == false) {
+                        upnPrefix = upnPrefix + char;
+                    } else {
+                        break;
+                    }
+                }
                 switch (upnPrefix) {
-                    case fn.entityTypeValue.cPrefix:
+                    case fn[dataSource].cPrefix:
                         obj.entityType = fn.entityTypeValue.c;
                         break;
-                    case fn.entityTypeValue.sPrefix:
+                    case fn[dataSource].sPrefix:
                         obj.entityType = fn.entityTypeValue.s;
+                        break;
+                    case fn[dataSource].guPrefix:
+                        obj.entityType = fn.entityTypeValue.gu;
                         break;
                     default:
                         sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
@@ -380,7 +390,7 @@ const match_city = (obj, dataSource) => {
                 break;
             // currentUnit
             case fn[dataSource].currentUnit:
-                obj.currentUnit = obj[rawKey].toString().replace(new RegExp("\"", 'g')," ");
+                obj.currentUnit = obj[rawKey].toString().replace(new RegExp("\"", 'g'), " ");
                 (rawKey === "currentUnit") ? null : delete obj[rawKey];
                 break;
             // serviceType
@@ -458,10 +468,10 @@ const match_city = (obj, dataSource) => {
                 else if (fn[dataSource].entityTypePrefix.gu.includes(rawEntityType)) {
                     obj.entityType = fn.entityTypeValue.gu;
                     obj.domainUsers = [
-                      {
-                        uniqueID: obj[fn[dataSource].domainUsers].toLowerCase(),
-                        dataSource
-                      }
+                        {
+                            uniqueID: obj[fn[dataSource].domainUsers].toLowerCase(),
+                            dataSource
+                        }
                     ];
                 }
 
