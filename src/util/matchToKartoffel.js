@@ -223,6 +223,12 @@ const match_ads = (obj, dataSource) => {
                         break;
                     case fn[dataSource].guPrefix:
                         obj.entityType = fn.entityTypeValue.gu;
+                        obj.domainUsers = [
+                            {
+                                uniqueID: `${obj[fn[dataSource].domainPrefixField].toLowerCase()}${fn[dataSource].domainSuffix}`,
+                                dataSource
+                            }
+                        ];
                         break;
                     default:
                         sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
