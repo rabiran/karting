@@ -6,6 +6,8 @@ const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const updateSpecificFields = require('../updateSpecificFields');
 const Auth = require('../../auth/auth');
 const recordsFilter = require('../recordsFilter');
+const trycatch = require('../generalUtils/trycatch');
+const findPerson = require('./findPerson');
 
 require('dotenv').config();
 
@@ -28,11 +30,22 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         const record = records[i];
         let identifier = record[1][fn[dataSource].personalNumber] || record[1][fn[dataSource].identityCard] || record[1].personalNumber || record[1].identityCard;
         // Get the person object from kartoffel
-        let person = await Auth.axiosKartoffel.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
-            .catch((err) => {
+        // let person = await Auth.axiosKartoffel.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
+        //     .catch((err) => {
+        //         const level = dataSource === fn.dataSources.aka ? logLevel.warn : logLevel.error;
+        //         sendLog(level, logDetails.warn.WRN_ERR_UPDATE_FUNC_PERSON_NOT_FOUND, identifier, dataSource, err);
+        //     });
+
+        let person = await findPerson(
+            identifier,
+            record[1][fn[dataSource].personalNumber] || record[1].personalNumber,
+            record[1][fn[dataSource].identityCard] || record[1].identityCard,
+            'KARTOFFEL_PERSON_EXISTENCE_CHECKING',
+            err => {
                 const level = dataSource === fn.dataSources.aka ? logLevel.warn : logLevel.error;
                 sendLog(level, logDetails.warn.WRN_ERR_UPDATE_FUNC_PERSON_NOT_FOUND, identifier, dataSource, err);
-            });
+            }
+        );
         if (!person) {
             continue;
         };
