@@ -114,13 +114,14 @@ module.exports = (obj, akaData, dataSource) => {
     let identifier = obj.personalNumber || obj.identityCard;
     if (identifier) {
         let akaRecord = akaData.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
+        console.log(JSON.stringify(akaRecord))
+        console.log(JSON.stringify(obj))
         if (akaRecord) {
             switch (dataSource) {
                 case fn.dataSources.es:
                     complete_es(obj, akaRecord);
                     break;
                 case fn.dataSources.ads:
-                    if (obj.entityType === fn.entityTypeValue.c) { break; };
                     complete_ads(obj, akaRecord);
                     break;
                 case fn.dataSources.adNN:

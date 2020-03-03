@@ -29,12 +29,6 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         let identifier = record[1][fn[dataSource].personalNumber] || record[1][fn[dataSource].identityCard] || record[1].personalNumber || record[1].identityCard;
-        // Get the person object from kartoffel
-        // let person = await Auth.axiosKartoffel.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
-        //     .catch((err) => {
-        //         const level = dataSource === fn.dataSources.aka ? logLevel.warn : logLevel.error;
-        //         sendLog(level, logDetails.warn.WRN_ERR_UPDATE_FUNC_PERSON_NOT_FOUND, identifier, dataSource, err);
-        //     });
 
         let person = await findPerson(
             identifier,
@@ -46,14 +40,14 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                 sendLog(level, logDetails.warn.WRN_ERR_UPDATE_FUNC_PERSON_NOT_FOUND, identifier, dataSource, err);
             }
         );
+
         if (!person) {
             continue;
         };
-        person = person.data;
+
         if (dataSource === fn.dataSources.aka) {
             updateSpecificFields(record[2], dataSource, person, record[1]);
-        }
-        else {
+        } else {
             let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
             // Check if the dataSource of the record is the primary dataSource for the person
             if ((akaRecord && akaRecord[fn.aka.unitName]) && currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) !== dataSource) {

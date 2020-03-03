@@ -5,14 +5,13 @@ const p = require('../../config/paths')
 /**
  * Try to find the person from api, with both identifiers
  *
- * @param {*} identifier
- * @param {*} personalNumber
- * @param {*} identityCard
- * @param {*} pathField
- * @param {*} handleErr
+ * @param { string } identifier
+ * @param { string } personalNumber
+ * @param { identityCard } identityCard
+ * @param { string } pathField
+ * @param { Function } handleErr
  */
 async function findPerson(identifier, personalNumber, identityCard, pathField, handleErr) {
-    let person;
     let newIdentifier = identifier === personalNumber ? identityCard : personalNumber;
 
     let tryResult = await trycatch(() => Auth.axiosKartoffel.get(p(identifier)[pathField]));
@@ -31,9 +30,7 @@ async function findPerson(identifier, personalNumber, identityCard, pathField, h
             }
     }
 
-    person = tryResult.result.data;
-
-    return person;
+    return tryResult.result.data;
 }
 
 module.exports = findPerson;

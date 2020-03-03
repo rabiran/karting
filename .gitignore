@@ -1,6 +1,9 @@
 #data
 data
 
+# mocks files
+mocks/mocksFiles/
+
 # Logs
 logs
 *.log

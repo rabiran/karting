@@ -10,6 +10,7 @@ const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const Auth = require('../../auth/auth');
 const recordsFilter = require('../recordsFilter');
+const findPerson = require('./findPerson');
 
 require('dotenv').config();
 
@@ -54,6 +55,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
             person_ready_for_kartoffel.entityType === fn.entityTypeValue.c) {
             identifier = person_ready_for_kartoffel.identityCard || person_ready_for_kartoffel.personalNumber;
             path = p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
+            person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource);
         } else {
             sendLog(logLevel.warn, logDetails.warn.WRN_UNRECOGNIZED_ENTITY_TYPE, JSON.stringify(record), dataSource);
             continue;
@@ -74,7 +76,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                         person_ready_for_kartoffel.identityCard &&
                         person_ready_for_kartoffel.personalNumber
                     ) {
-                        identifier = person_ready_for_kartoffel.personalNumber;
+                        identifier = identifier === person_ready_for_kartoffel.personalNumber ? person_ready_for_kartoffel.identityCard : person_ready_for_kartoffel.personalNumber;
                         path = p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
                         person = (await Auth.axiosKartoffel.get(path)).data;
                     } else {
