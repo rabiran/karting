@@ -1,11 +1,10 @@
-const p = require('../../config/paths');
 const fn = require('../../config/fieldNames');
-const {sendLog, logLevel} = require('../logger');
+const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const updateSpecificFields = require('../updateSpecificFields');
-const Auth = require('../../auth/auth');
 const recordsFilter = require('../recordsFilter');
+const findPerson = require('./findPerson');
 
 require('dotenv').config();
 
@@ -27,20 +26,25 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         let identifier = record[1][fn[dataSource].personalNumber] || record[1][fn[dataSource].identityCard] || record[1].personalNumber || record[1].identityCard;
-        // Get the person object from kartoffel
-        let person = await Auth.axiosKartoffel.get(p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING)
-            .catch((err) => {
+
+        let person = await findPerson(
+            identifier,
+            record[1][fn[dataSource].personalNumber] || record[1].personalNumber,
+            record[1][fn[dataSource].identityCard] || record[1].identityCard,
+            'KARTOFFEL_PERSON_EXISTENCE_CHECKING',
+            err => {
                 const level = dataSource === fn.dataSources.aka ? logLevel.warn : logLevel.error;
                 sendLog(level, logDetails.warn.WRN_ERR_UPDATE_FUNC_PERSON_NOT_FOUND, identifier, dataSource, err);
-            });
+            }
+        );
+
         if (!person) {
             continue;
         };
-        person = person.data;
+
         if (dataSource === fn.dataSources.aka) {
             updateSpecificFields(record[2], dataSource, person, record[1]);
-        }
-        else {
+        } else {
             let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
             // Check if the dataSource of the record is the primary dataSource for the person
             if ((akaRecord && akaRecord[fn.aka.unitName]) && currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) !== dataSource) {
@@ -57,9 +61,11 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                 include ? sendLog(logLevel.warn, logDetails.warn.WRN_AKA_FIELD_RIGID, deepDiffObj.path.toString(), identifier, dataSource) : null;
                 return !include;
             })
+                                                                                                         
             if (deepDiffForUpdate.length > 0) {
                 await updateSpecificFields(deepDiffForUpdate, dataSource, person, akaRecord, needMatchToKartoffel);
             };
+
             await domainUserHandler(person, record[1], dataSource);
         }
     }
