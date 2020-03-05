@@ -6,7 +6,7 @@ messageLog = {
         ERR_DATA_SOURCE: '"dataSource" variable must be attached to "completeFromAka" function',
         ERR_READ_PREVIOUS_DATA_FILE: 'Reading the previous data file: %s failed. The error message: %s',
         ERR_INSERT_PERSON: 'Not insert the person with the identifier: %s from %s to Kartoffel. The error message: "%s" %s',
-        ERR_ADD_FUNCTION_PERSON_NOT_FOUND: 'The person with the identifier: %s from %s_raw_data not found in Kartoffel. The error message:"%s"',
+        ERR_ADD_FUNCTION_PERSON_NOT_FOUND: 'The person with the identifier: %s from %s_raw_data not found in Kartoffel at added flow. The error message:"%s"',
         ERR_ADD_DOMAIN_USER: 'Not add the domain user: %s to the person with the idetifier: %s from %s. The error message:"%s"',
         ERR_ADD_HIERARCHY: 'failed to add the hierarchy "%s" to Kartoffel. the error message: "%s"',
         ERR_ADD_DIRECT_GROUP_TO_PERSON: 'Faild to add directGroup to the person with the identityCard: %s. The error message:"%s"',
@@ -18,6 +18,7 @@ messageLog = {
         ERR_GET_ALL_FROM_KARTOFFEL: 'Failed to get data from Kartoffel, in % The error message is: %s',
         ERR_TRANSFER_DOMAIN_USER: 'Failed to transfer domain user: %s FROM person with identifier: %s TO person with identifier: %s from data source %s',
         ERR_UN_HANDLED_ERROR: 'FATAL ERORR!!! on %s. the error is: %s',
+        ERR_UNKNOWN_ERROR: 'Unknown Error at %s flow',
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
