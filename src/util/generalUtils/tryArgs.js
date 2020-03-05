@@ -2,7 +2,7 @@ const trycatch = require('./trycatch');
 
 async function tryArgs(func, ...args) {
 
-    let lastErr = new Error('tryAgs function did not get any arguments');
+    let lastErr = new Error('tryArgs function did not get any arguments');
 
     for (const argument of args) {
         let { result, err } = await trycatch(func, argument);

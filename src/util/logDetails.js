@@ -18,7 +18,9 @@ messageLog = {
         ERR_GET_ALL_FROM_KARTOFFEL: 'Failed to get data from Kartoffel, in % The error message is: %s',
         ERR_TRANSFER_DOMAIN_USER: 'Failed to transfer domain user: %s FROM person with identifier: %s TO person with identifier: %s from data source %s',
         ERR_UN_HANDLED_ERROR: 'FATAL ERORR!!! on %s. the error is: %s',
-        ERR_UNKNOWN_ERROR: 'Unknown Error at %s flow',
+        ERR_UNKNOWN_ERROR: 'Unknown Error at %s flow the error is: %s',
+        ERR_NO_IDENTIFIERS_TO_UPDATE: 'there is no identifiers to the record: %s at update flow from "%s"',
+        ERR_NOT_FIND_PERSON_IN_KARTOFFEL: 'The person with identifier %s from %s does not exists in kartoffel at %s flow'
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
