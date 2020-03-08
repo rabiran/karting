@@ -1,4 +1,6 @@
 const fn = require('../../config/fieldNames');
+const Auth = require('../../auth/auth');
+const p =  require('../../config/paths');
 const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
@@ -25,6 +27,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
 
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
+        const path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
         let person;
 
         const filterdIdentifiers = [
@@ -33,12 +36,17 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         ].filter(id => id);
 
         if (!filterdIdentifiers.length) {
-            sendLog(logLevel.error, logDetails.error.ERR_NO_IDENTIFIERS_TO_UPDATE, JSON.stringify(record), dataSource);
+            sendLog(
+                logLevel.error,
+                logDetails.error.ERR_NO_IDENTIFIERS_TO_UPDATE,
+                JSON.stringify(record),
+                dataSource
+            );
             continue;
         }
 
         const tryFindPerson = await tryArgs(
-            async id => (await Auth.axiosKartoffel.get(p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING)).data,
+            async id => (await Auth.axiosKartoffel.get(path(id))).data,
             ...filterdIdentifiers
         )
 
@@ -47,8 +55,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                 logLevel.error,
                 logDetails.error.ERR_NOT_FIND_PERSON_IN_KARTOFFEL,
                 JSON.stringify(filterdIdentifiers),
-                dataSource,
-                'update'
+                dataSource
             );
             continue;
         }

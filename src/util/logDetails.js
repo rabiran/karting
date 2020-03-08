@@ -20,11 +20,11 @@ messageLog = {
         ERR_UN_HANDLED_ERROR: 'FATAL ERORR!!! on %s. the error is: %s',
         ERR_UNKNOWN_ERROR: 'Unknown Error at %s flow the error is: %s',
         ERR_NO_IDENTIFIERS_TO_UPDATE: 'there is no identifiers to the record: %s at update flow from "%s"',
-        ERR_NOT_FIND_PERSON_IN_KARTOFFEL: 'The person with identifier %s from %s does not exists in kartoffel at %s flow'
+        ERR_NOT_FIND_PERSON_AT_UPDATE: 'The person with identifiers %s from %s does not exists in kartoffel at UPDATE flow'
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
-        WRN_MISSING_IDENTIFIER_PERSON: 'There is no identifier to the person: %s',
+        WRN_MISSING_IDENTIFIER_PERSON: 'There is no identifier to the person: %s, the record is %s form %s',
         WRN_ERR_UPDATE_FUNC_PERSON_NOT_FOUND: 'Failed to get data from Kartoffel about the person with the identifier %s from "%s" at update flow. The error message: "%s"',
         WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL: 'The fields "%s" of the person from:"%s" with the identifier %s updated but not saved in kartoffel because the dataSource "%s" is not match to the person\'s currentUnit "%s"',
         WRN_AKA_FIELD_RIGID: 'The field "%s" of the person with the identifier %s from the dataSource "%s" is not update because is rigid to Aka',

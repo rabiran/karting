@@ -72,7 +72,9 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
             sendLog(
                 logLevel.warn,
                 logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON,
-                JSON.stringify(person_ready_for_kartoffel)
+                JSON.stringify(person_ready_for_kartoffel),
+                JSON.stringify(record),
+                dataSource
             );
             continue;
         }
