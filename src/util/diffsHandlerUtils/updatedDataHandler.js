@@ -32,18 +32,24 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
             record[1][fn[dataSource].identityCard] || record[1].identityCard
         ].filter(id => id);
 
+        if (!filterdIdentifiers.length) {
+            sendLog(logLevel.error, logDetails.error.ERR_NO_IDENTIFIERS_TO_UPDATE, JSON.stringify(record), dataSource);
+            continue;
+        }
+
         const tryFindPerson = await tryArgs(
             async id => (await Auth.axiosKartoffel.get(p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING)).data,
             ...filterdIdentifiers
         )
 
         if (tryFindPerson.lastErr) {
-            if (tryFindPerson.lastErr.message === 'tryArgs function did not get any arguments') {
-                sendLog(logLevel.error, logDetails.error.ERR_NO_IDENTIFIERS_TO_UPDATE, JSON.stringify(record), dataSource)
-            } else {
-                sendLog(logLevel.error, logDetails.error.ERR_NOT_FIND_PERSON_IN_KARTOFFEL, JSON.stringify(filterdIdentifiers), dataSource, 'update')
-            }
-
+            sendLog(
+                logLevel.error,
+                logDetails.error.ERR_NOT_FIND_PERSON_IN_KARTOFFEL,
+                JSON.stringify(filterdIdentifiers),
+                dataSource,
+                'update'
+            );
             continue;
         }
 

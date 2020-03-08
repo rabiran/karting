@@ -39,6 +39,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         let person_ready_for_kartoffel;
         let tryFindPerson;
         let person;
+        let path;
         let filterdIdentifiers;
 
         // in Recovery flow don't need matchToKartoffel
@@ -49,26 +50,37 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         }
 
         if (person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
-            filterdIdentifiers = [person_ready_for_kartoffel.domainUsers[0].uniqueID];
-            tryFindPerson = await tryArgs(
-                async id => (await Auth.axiosKartoffel.get(p(id).KARTOFFEL_DOMAIN_USER_API)).data,
-                ...filterdIdentifiers
-            );
+            filterdIdentifiers = [person_ready_for_kartoffel.domainUsers[0].uniqueID].filter(id => id);
+            path = id => p(id).KARTOFFEL_DOMAIN_USER_API;
         } else if (
             person_ready_for_kartoffel.entityType === fn.entityTypeValue.s ||
             person_ready_for_kartoffel.entityType === fn.entityTypeValue.c
         ) {
             person_ready_for_kartoffel = completeFromAka(person_ready_for_kartoffel, aka_all_data, dataSource);
-            filterdIdentifiers = [person_ready_for_kartoffel.identityCard, person_ready_for_kartoffel.personalNumber].filter(id => id);
 
-            tryFindPerson = await tryArgs(
-                async id => (await Auth.axiosKartoffel.get(p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING)).data,
-                ...filterdIdentifiers
-            );
+            filterdIdentifiers = [
+                person_ready_for_kartoffel.identityCard,
+                person_ready_for_kartoffel.personalNumber
+            ].filter(id => id);
+            path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
         } else {
             sendLog(logLevel.warn, logDetails.warn.WRN_UNRECOGNIZED_ENTITY_TYPE, JSON.stringify(record), dataSource);
             continue;
         }
+
+        if (!filterdIdentifiers.length) {
+            sendLog(
+                logLevel.warn,
+                logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON,
+                JSON.stringify(person_ready_for_kartoffel)
+            );
+            continue;
+        }
+
+        tryFindPerson = await tryArgs(
+            async id => (await Auth.axiosKartoffel.get(path(id))).data,
+            ...filterdIdentifiers
+        );
 
         if (tryFindPerson.lastErr) {
             if (tryFindPerson.lastErr.response && tryFindPerson.lastErr.response.status === 404) {
@@ -87,8 +99,6 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                     let errMessage = lastErr.response ? lastErr.response.data.message : lastErr.message;
                     sendLog(logLevel.error, logDetails.error.ERR_INSERT_PERSON, JSON.stringify(filterdIdentifiers), dataSource, errMessage, JSON.stringify(record));
                 }
-            } else if (tryFindPerson.lastErr.message === 'tryArgs function did not get any arguments') {
-                sendLog(logLevel.warn, logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON, JSON.stringify(person_ready_for_kartoffel));
             } else {
                 let errMessage = err.response ? err.response.data.message : err.message;
                 sendLog(logLevel.error, logDetails.error.ERR_ADD_FUNCTION_PERSON_NOT_FOUND, JSON.stringify(filterdIdentifiers), dataSource, errMessage);
@@ -105,8 +115,15 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
 
                 let KeyForComparison = Object.keys(person).find(key => person[key] === tryFindPerson.argument);
                 let objForUpdate = diff([person], [person_ready_for_kartoffel], KeyForComparison, { updatedValues: 4 });
+
                 if (objForUpdate.updated.length > 0) {
-                    updated(objForUpdate.updated, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = false);
+                    updated(
+                        objForUpdate.updated,
+                        dataSource,
+                        aka_all_data,
+                        currentUnit_to_DataSource,
+                        needMatchToKartoffel = false
+                    );
                 }
             } else {
                 await domainUserHandler(person, record, dataSource);
