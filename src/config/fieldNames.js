@@ -56,6 +56,7 @@ module.exports = {
         hierarchy: "hierarchy",
         sAMAccountName: "sAMAccountName",
         domainSuffix: "@rabiran.com",
+        domainPrefixField:"sAMAccountName",
         uniqeFieldForDeepDiff: "sAMAccountName",
         sPrefix: "m",
         cPrefix: "d",

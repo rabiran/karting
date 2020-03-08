@@ -208,7 +208,7 @@ const match_ads = (obj, dataSource) => {
 
                 let upnPrefix = '';
                 for (let char of obj[fn[dataSource].upn].toLowerCase().trim()) {
-                    if (isNumeric(char) == false) {
+                    if (isNumeric(char) === false) {
                         upnPrefix = upnPrefix + char;
                     } else {
                         break;
