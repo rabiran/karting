@@ -98,7 +98,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                         await domainUserHandler(person, record, dataSource);
                     }
                 } catch (err) {
-                    let errMessage = lastErr.response ? lastErr.response.data.message : lastErr.message;
+                    let errMessage = err.response ? err.response.data.message : err.message;
                     sendLog(logLevel.error, logDetails.error.ERR_INSERT_PERSON, JSON.stringify(filterdIdentifiers), dataSource, errMessage, JSON.stringify(record));
                 }
             } else {

@@ -233,9 +233,9 @@ const match_ads = (obj, dataSource) => {
                     default:
                         sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
                 }
-                let identityCardCandidate = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0];
-                (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate.toString() : null;
-                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0].toString() : null;
+                let identityCardCandidate = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0].toString();
+                (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate : null;
+                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = identityCardCandidate : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             default:
