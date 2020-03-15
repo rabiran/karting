@@ -98,11 +98,11 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                         await domainUserHandler(person, record, dataSource);
                     }
                 } catch (err) {
-                    let errMessage = lastErr.response ? lastErr.response.data.message : lastErr.message;
+                    let errMessage = err.response ? err.response.data.message : err.message;
                     sendLog(logLevel.error, logDetails.error.ERR_INSERT_PERSON, JSON.stringify(filterdIdentifiers), dataSource, errMessage, JSON.stringify(record));
                 }
             } else {
-                let errMessage = err.response ? err.response.data.message : err.message;
+                let errMessage = tryFindPerson.lastErr.response ? tryFindPerson.lastErr.response.data.message : tryFindPerson.lastErr.message;
                 sendLog(logLevel.error, logDetails.error.ERR_ADD_FUNCTION_PERSON_NOT_FOUND, JSON.stringify(filterdIdentifiers), dataSource, errMessage);
             }
         } else if (tryFindPerson.result) {
