@@ -46,7 +46,7 @@ module.exports = async (akaData) => {
         if (akaRecord) {
             matchedAka = await matchToKartoffel(akaRecord, fn.dataSources.aka);
             diffsObject = diff([person], [matchedAka], comparisonField, { updatedValues: 4 });
-            if (!isObjectEmpty(diffsObject.updated[0])) {
+            if (diffsObject.updated.length) {
                 await updateSpecificFields(diffsObject.updated[0][2], fn.dataSources.aka, person, akaRecord, false);
             }
         }
