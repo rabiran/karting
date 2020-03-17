@@ -28,11 +28,12 @@ module.exports = async (person, record, dataSource) => {
         user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
     (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ? user_object.uniqueID = `${record[fn[dataSource].domainUsers].toLowerCase()}`: null;
 
-    user_object.uniqueID = user_object.uniqueID ? user_object.uniqueID.toLowerCase() : null;
 
     if (!user_object.uniqueID) {
         return;
     } else {
+        user_object.uniqueID = user_object.uniqueID.toLowerCase();
+        
         if (person.domainUsers.length > 0) {
             let breaking = false;
             person.domainUsers.map(du => {
