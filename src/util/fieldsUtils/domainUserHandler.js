@@ -14,7 +14,7 @@ const Auth = require('../../auth/auth');
  *  */
 module.exports = async (person, record, dataSource) => {
     let user_object = {
-        uniqueID: record[fn[dataSource].mail] ? record[fn[dataSource].mail].toLowerCase() : null,
+        uniqueID: record[fn[dataSource].mail],
         dataSource,
     };
 
@@ -27,6 +27,8 @@ module.exports = async (person, record, dataSource) => {
     (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
         user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
     (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ? user_object.uniqueID = `${record[fn[dataSource].domainUsers].toLowerCase()}`: null;
+
+    user_object.uniqueID = user_object.uniqueID ? user_object.uniqueID.toLowerCase() : null;
 
     if (!user_object.uniqueID) {
         return;
@@ -43,7 +45,6 @@ module.exports = async (person, record, dataSource) => {
     }
 
     try {
-        user_object.uniqueID = user_object.uniqueID;
         let user = await Auth.axiosKartoffel.post(p(person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
         sendLog(logLevel.info, logDetails.info.INF_ADD_DOMAIN_USER, user_object.uniqueID, user.data.personalNumber || user.data.identityCard, dataSource);
     } catch (err) {
