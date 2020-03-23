@@ -3,7 +3,7 @@ const fn = require('../config/fieldNames');
 module.exports = (telephones, employees) => {
     let telephonesDict = {};
 
-    for (let i = 0; i < telephones.length - 1; i++) {
+    for (let i = 0; i < telephones.length; i++) {
         if (telephonesDict[telephones[i][fn.aka.personalNumber]] != null) {
             if (Array.isArray(telephonesDict[telephones[i][fn.aka.personalNumber]])) {
                 telephonesDict[telephones[i][fn.aka.personalNumber]] = [...telephonesDict[telephones[i][fn.aka.personalNumber]], telephones[i]]
@@ -15,7 +15,7 @@ module.exports = (telephones, employees) => {
         }
     }
 
-    for (j = 0; j < employees.length - 1; j++) {
+    for (j = 0; j < employees.length; j++) {
         if(telephonesDict[employees[j][fn.aka.personalNumber]] != undefined) {
             currEmployee = telephonesDict[employees[j][fn.aka.personalNumber]]
 

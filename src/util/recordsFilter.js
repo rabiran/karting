@@ -1,5 +1,7 @@
 const fn = require('../config/fieldNames');
-const filterCity = require('./filters/city/filterCity')
+const filterCity = require('./filters/city/filterCity');
+const filterAka = require('./filters/aka/filterAka');
+
 
 /**
  * Filter records by checking their data
@@ -7,8 +9,10 @@ const filterCity = require('./filters/city/filterCity')
  * @param {Array<Object>} records - array of raw data about each person
  * @param {string} dataSource - the name of the data source
  */
-module.exports = (records, dataSource) => {
+module.exports = async (records, dataSource) => {
     switch (dataSource) {
+        case fn.dataSources.aka:
+            return await filterAka(records);
         case fn.dataSources.city:
             return filterCity(records);
         case fn.dataSources.adNN:

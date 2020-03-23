@@ -8,12 +8,13 @@ const Auth = require('../auth/auth');
 const formatAkaDateToKartoffel = require('./fieldsUtils/formatAkaDateToKartoffel');
 const isNumeric = require('./generalUtils/isNumeric');
 const isStrContains = require('./generalUtils/strignContains');
+const akaDirectGroupHandler = require('./fieldsUtils/akaDirectGroupHandler');
 require('dotenv').config();
 
 
-const match_aka = (obj, dataSource) => {
-    const objKeys = Object.keys(obj);
-    objKeys.map((rawKey) => {
+const match_aka = async (obj, dataSource) => {
+    const objKeys =  Object.keys(obj);
+    await Promise.all(objKeys.map(async rawKey => {
         switch (rawKey) {
             //entityType
             case fn[dataSource].entityType:
@@ -75,12 +76,14 @@ const match_aka = (obj, dataSource) => {
             // currentUnit
             case fn[dataSource].unitName:
                 obj.currentUnit = obj[rawKey];
+                obj.directGroup = await akaDirectGroupHandler(obj.currentUnit);
+                obj.status = fn.personStatus.incomplete;
                 (rawKey === "currentUnit") ? null : delete obj[rawKey];
                 break;
             default:
                 delete obj[rawKey];
         }
-    });
+    }));
 }
 
 const match_es = (obj, dataSource) => {
@@ -532,7 +535,8 @@ module.exports = async (origin_obj, dataSource) => {
     Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null" || obj[key] === "לא ידוע") ? delete obj[key] : null);
     switch (dataSource) {
         case fn.dataSources.aka:
-            match_aka(obj, dataSource);
+            await match_aka(obj, dataSource);
+            obj.entityType = fn.entityTypeValue.s;
             break;
         case fn.dataSources.es:
             match_es(obj, dataSource);

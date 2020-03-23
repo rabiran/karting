@@ -24,14 +24,10 @@ require('dotenv').config();
  * @param {*} needMatchToKartoffel - a flag to tell if the current object needs a match to kartoffel's format
  */
 module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffelForAdded = true) => {
-    if (dataSource === fn.dataSources.aka) {
-        return;
-    }
-
     let records = diffsObj;
 
     if (needMatchToKartoffelForAdded) {
-        records = recordsFilter(diffsObj, dataSource);
+        records = await recordsFilter(diffsObj, dataSource);
     }
 
     for (let i = 0; i < records.length; i++) {
@@ -64,7 +60,12 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
             ].filter(id => id);
             path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
         } else {
-            sendLog(logLevel.warn, logDetails.warn.WRN_UNRECOGNIZED_ENTITY_TYPE, JSON.stringify(record), dataSource);
+            sendLog(
+                logLevel.warn,
+                logDetails.warn.WRN_UNRECOGNIZED_ENTITY_TYPE,
+                JSON.stringify(record),
+                dataSource
+            );
             continue;
         }
 

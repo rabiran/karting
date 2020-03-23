@@ -128,6 +128,11 @@ module.exports = {
         hour: 0,
         minute: 54,
     },
+    personStatus: {
+        incomplete: 'incomplete',
+        inactive: 'inactive',
+        active: 'active',
+    },
     akaRigid: [
         "clearance",
         "identityCard",
@@ -157,6 +162,9 @@ module.exports = {
     runnigTypes: {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
+    },
+    organizationGroups: {
+        incomplete: 'incomplete',
     },
     kartoffelUrl: "http://localhost:3000",
 };
