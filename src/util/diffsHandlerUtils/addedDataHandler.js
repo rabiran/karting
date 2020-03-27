@@ -27,7 +27,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
     let records = diffsObj;
 
     if (needMatchToKartoffelForAdded) {
-        records = await recordsFilter(diffsObj, dataSource);
+        records = await recordsFilter(diffsObj, dataSource, fn.flowTypes.add);
     }
 
     for (let i = 0; i < records.length; i++) {
@@ -40,7 +40,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
 
         // in Recovery flow don't need matchToKartoffel
         if (needMatchToKartoffelForAdded) {
-            person_ready_for_kartoffel = await matchToKartoffel(record, dataSource);
+            person_ready_for_kartoffel = await matchToKartoffel(record, dataSource, fn.flowTypes.add);
         } else {
             person_ready_for_kartoffel = record;
         }

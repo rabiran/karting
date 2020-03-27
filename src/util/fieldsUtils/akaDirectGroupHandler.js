@@ -11,15 +11,12 @@ const logDetails = require('../logDetails');
  * @param {string} unitName 
  */
 async function akaDirectGroupHandler(unitName) {
-    const pathToGroupByAkaUnit = p(unitName).KARTOFFEL_GROUP_BY_AKA_UNIT;
-
     const tryFindGroupByUnit = await trycatch(
         Auth.axiosKartoffel.get,
-        pathToGroupByAkaUnit
+        p(unitName).KARTOFFEL_GROUP_BY_AKA_UNIT
     );
 
     if (tryFindGroupByUnit.err) {
-        const err = tryFindGroupByUnit.err;
         sendLog(
             logLevel.error,
             logDetails.error.ERR_FIND_GROUP_BY_AKA_UNIT,
@@ -32,28 +29,29 @@ async function akaDirectGroupHandler(unitName) {
 
     const hierarchyToCheck = [
         ...groupByAka.hierarchy,
-        unitName,
-        fn.organizationGroups.incomplete,
+        groupByAka.name,
+        fn.organizationGroups.incompletes_name,
     ].join('/');
 
-    const pathToIncompelteCheck = p(
-        encodeURIComponent(hierarchyToCheck)
-    ).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API;
-
-    const tryFindIncomplete =
-        await trycatch(
-            Auth.axiosKartoffel.get,
-            pathToIncompelteCheck
-        );
+    const tryFindIncomplete = await trycatch(
+        Auth.axiosKartoffel.get,
+        p(
+            encodeURIComponent(hierarchyToCheck)
+        ).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API
+    );
 
     let directGroup;
 
-    if (tryFindIncomplete.err) {
+    if (
+        tryFindIncomplete.err &&
+        tryFindIncomplete.err.response &&
+        tryFindIncomplete.err.response.status == 404
+    ) {
         const tryCreateGroup = await trycatch(
             Auth.axiosKartoffel.post,
             p().KARTOFFEL_ADDGROUP_API,
             {
-                name: fn.organizationGroups.incomplete,
+                name: fn.organizationGroups.incompletes_name,
                 parentId: groupByAka.id
             }
         );
@@ -63,12 +61,14 @@ async function akaDirectGroupHandler(unitName) {
             const message = err.response ? err.response.data.message : err.message;
             sendLog(
                 logLevel.error,
-                logDetails.error.ERR_CREATE_DIRECT_GROUP,
+                logDetails.error.ERR_ADD_HIERARCHY,
                 hierarchyToCheck,
                 message
             );
             return;
         }
+
+        // log creation
 
         directGroup = tryCreateGroup.result.data;
     } else {

@@ -8,7 +8,7 @@
         "rnk": "champion",
         "nstype": "D",
         "rld": "2019-05-19 00:00:00.0",
-        "hr": "ads4"
+        "hr": "ads3"
     },
     {
         "firstName": "Eli",
@@ -19,39 +19,6 @@
         "rnk": "mega",
         "nstype": "D",
         "rld": "2025-03-23 00:00:00.0",
-        "hr": "ads4"
-    },
-    {
-        "firstName": "Tal",
-        "lastName": "Kovner",
-        "tz": "313353575",
-        "mi": "6096554",
-        "clearance": "4",
-        "rnk": "mega",
-        "nstype": "D",
-        "rld": "2025-03-23 00:00:00.0",
-        "hr": "ads4"
-    },
-    {
-        "firstName": "Yoni",
-        "lastName": "Kovner",
-        "tz": "312288707",
-        "mi": "6096555",
-        "clearance": "4",
-        "rnk": "mega",
-        "nstype": "D",
-        "rld": "2025-03-23 00:00:00.0",
         "hr": "ads3"
-    },
-    {
-        "firstName": "Dani",
-        "lastName": "Kovner",
-        "tz": "312288708",
-        "mi": "6096556",
-        "clearance": "4",
-        "rnk": "mega",
-        "nstype": "D",
-        "rld": "2025-03-23 00:00:00.0",
-        "hr": "ads2"
     }
 ]

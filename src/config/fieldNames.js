@@ -145,7 +145,6 @@ module.exports = {
         "mobilePhone",
         "phone",
         "serviceType",
-        "currentUnit",
     ],
     forbiddenFieldsToUpdate: ["identityCard", "personalNumber", "directGroup"],
     fieldsForRmoveFromKartoffel: [
@@ -164,7 +163,11 @@ module.exports = {
         recoveryRun: 'recovery_run',
     },
     organizationGroups: {
-        incomplete: 'incomplete',
+        incompletes_name: 'incomplete',
+    },
+    flowTypes: {
+        add: 'add',
+        update: 'update',
     },
     kartoffelUrl: "http://localhost:3000",
 };

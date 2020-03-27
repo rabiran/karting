@@ -9,10 +9,10 @@ const filterAka = require('./filters/aka/filterAka');
  * @param {Array<Object>} records - array of raw data about each person
  * @param {string} dataSource - the name of the data source
  */
-module.exports = async (records, dataSource) => {
+module.exports = async (records, dataSource, flowType) => {
     switch (dataSource) {
         case fn.dataSources.aka:
-            return await filterAka(records);
+            return await filterAka(records, flowType);
         case fn.dataSources.city:
             return filterCity(records);
         case fn.dataSources.adNN:

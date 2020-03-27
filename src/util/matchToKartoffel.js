@@ -12,8 +12,8 @@ const akaDirectGroupHandler = require('./fieldsUtils/akaDirectGroupHandler');
 require('dotenv').config();
 
 
-const match_aka = async (obj, dataSource) => {
-    const objKeys =  Object.keys(obj);
+const match_aka = async (obj, dataSource, flowType) => {
+    const objKeys = Object.keys(obj);
     await Promise.all(objKeys.map(async rawKey => {
         switch (rawKey) {
             //entityType
@@ -76,14 +76,19 @@ const match_aka = async (obj, dataSource) => {
             // currentUnit
             case fn[dataSource].unitName:
                 obj.currentUnit = obj[rawKey];
-                obj.directGroup = await akaDirectGroupHandler(obj.currentUnit);
-                obj.status = fn.personStatus.incomplete;
+
+                if (flowType === fn.flowTypes.add) {
+                    obj.directGroup = await akaDirectGroupHandler(obj.currentUnit);
+                    obj.status = fn.personStatus.incomplete;
+                }
+
                 (rawKey === "currentUnit") ? null : delete obj[rawKey];
                 break;
             default:
                 delete obj[rawKey];
         }
     }));
+    obj.entityType = fn.entityTypeValue.s;
 }
 
 const match_es = (obj, dataSource) => {
@@ -383,7 +388,7 @@ const match_city = (obj, dataSource) => {
                 break;
             // currentUnit
             case fn[dataSource].currentUnit:
-                obj.currentUnit = obj[rawKey].toString().replace(new RegExp("\"", 'g')," ");
+                obj.currentUnit = obj[rawKey].toString().replace(new RegExp("\"", 'g'), " ");
                 (rawKey === "currentUnit") ? null : delete obj[rawKey];
                 break;
             // serviceType
@@ -461,10 +466,10 @@ const match_city = (obj, dataSource) => {
                 else if (fn[dataSource].entityTypePrefix.gu.includes(rawEntityType)) {
                     obj.entityType = fn.entityTypeValue.gu;
                     obj.domainUsers = [
-                      {
-                        uniqueID: obj[fn[dataSource].domainUsers].toLowerCase(),
-                        dataSource
-                      }
+                        {
+                            uniqueID: obj[fn[dataSource].domainUsers].toLowerCase(),
+                            dataSource
+                        }
                     ];
                 }
 
@@ -529,14 +534,13 @@ directGroupHandler = async (record) => {
  * @param {*} dataSource the dataSource of the raw person object
  * @returns person object according to the structure of kartoffel
  */
-module.exports = async (origin_obj, dataSource) => {
+module.exports = async (origin_obj, dataSource, flowType) => {
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
     Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null" || obj[key] === "לא ידוע") ? delete obj[key] : null);
     switch (dataSource) {
         case fn.dataSources.aka:
-            await match_aka(obj, dataSource);
-            obj.entityType = fn.entityTypeValue.s;
+            await match_aka(obj, dataSource, flowType);
             break;
         case fn.dataSources.es:
             match_es(obj, dataSource);
