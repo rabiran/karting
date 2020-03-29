@@ -56,7 +56,11 @@ module.exports = {
         hierarchy: "hierarchy",
         sAMAccountName: "sAMAccountName",
         domainSuffix: "@rabiran.com",
+        domainPrefixField:"sAMAccountName",
         uniqeFieldForDeepDiff: "sAMAccountName",
+        sPrefix: "m",
+        cPrefix: "d",
+        guPrefix: "f",
     },
     adNN_name: {
         firstName: "KfirstName",
@@ -110,9 +114,7 @@ module.exports = {
     },
     entityTypeValue: {
         s: "agumon",
-        sPrefix: "m",
         c: "digimon",
-        cPrefix: "d",
         gu: "tamar",
     },
     rootHierarchy: {
