@@ -6,7 +6,11 @@ const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 
 /**
- * Handle the direct group of aka persons
+ * Handle the direct group of aka persons, that don't have already,
+ * user from another data source.
+ * The person get group of incomplete persons (cause he doesn't have domainUSer),
+ * if the akaUnit of the person doesn't have already an incomplete group, the 
+ * function will create it.
  * 
  * @param {string} unitName 
  */
@@ -42,35 +46,49 @@ async function akaDirectGroupHandler(unitName) {
 
     let directGroup;
 
-    if (
-        tryFindIncomplete.err &&
-        tryFindIncomplete.err.response &&
-        tryFindIncomplete.err.response.status == 404
-    ) {
-        const tryCreateGroup = await trycatch(
-            Auth.axiosKartoffel.post,
-            p().KARTOFFEL_ADDGROUP_API,
-            {
-                name: fn.organizationGroups.incompletes_name,
-                parentId: groupByAka.id
-            }
-        );
-
-        if (tryCreateGroup.err) {
-            const err = tryCreateGroup.err;
-            const message = err.response ? err.response.data.message : err.message;
+    if (tryFindIncomplete.err) {
+        if (
+            !tryFindIncomplete.err.response &&
+            !tryFindIncomplete.err.response.status == 404
+        ) {
             sendLog(
                 logLevel.error,
-                logDetails.error.ERR_ADD_HIERARCHY,
-                hierarchyToCheck,
-                message
+                logDetails.error.ERR_UNKNOWN_ERROR,
+                'akaDirectGroupHandler',
+                JSON.stringify(tryFindIncomplete.err)
             );
+
             return;
+        } else {
+            const tryCreateGroup = await trycatch(
+                Auth.axiosKartoffel.post,
+                p().KARTOFFEL_ADDGROUP_API,
+                {
+                    name: fn.organizationGroups.incompletes_name,
+                    parentId: groupByAka.id
+                }
+            );
+
+            if (tryCreateGroup.err) {
+                const err = tryCreateGroup.err;
+                const message = err.response ? err.response.data.message : err.message;
+                sendLog(
+                    logLevel.error,
+                    logDetails.error.ERR_ADD_HIERARCHY,
+                    hierarchyToCheck,
+                    message
+                );
+                return;
+            }
+
+            sendLog(
+                logLevel.info,
+                logDetails.info.INF_ADD_HIERARCHY,
+                hierarchyToCheck
+            );
+
+            directGroup = tryCreateGroup.result.data;
         }
-
-        // log creation
-
-        directGroup = tryCreateGroup.result.data;
     } else {
         directGroup = tryFindIncomplete.result.data
     }

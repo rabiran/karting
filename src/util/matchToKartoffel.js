@@ -79,7 +79,6 @@ const match_aka = async (obj, dataSource, flowType) => {
 
                 if (flowType === fn.flowTypes.add) {
                     obj.directGroup = await akaDirectGroupHandler(obj.currentUnit);
-                    obj.status = fn.personStatus.incomplete;
                 }
 
                 (rawKey === "currentUnit") ? null : delete obj[rawKey];
@@ -88,6 +87,7 @@ const match_aka = async (obj, dataSource, flowType) => {
                 delete obj[rawKey];
         }
     }));
+    
     obj.entityType = fn.entityTypeValue.s;
 }
 
