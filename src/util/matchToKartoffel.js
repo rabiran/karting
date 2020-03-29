@@ -213,21 +213,37 @@ const match_ads = (obj, dataSource) => {
                 break;
             //entityType,personalNumber/identityCard
             case fn[dataSource].upn:
-                let re = /[a-z]_|[a-z]/;
-                let upnPrefix = obj[rawKey].toLowerCase().match(re).toString();
+
+                let upnPrefix = '';
+                for (let char of obj[fn[dataSource].upn].toLowerCase().trim()) {
+                    if (isNumeric(char) === false) {
+                        upnPrefix = upnPrefix + char;
+                    } else {
+                        break;
+                    }
+                }
                 switch (upnPrefix) {
-                    case fn.entityTypeValue.cPrefix:
+                    case fn[dataSource].cPrefix:
                         obj.entityType = fn.entityTypeValue.c;
                         break;
-                    case fn.entityTypeValue.sPrefix:
+                    case fn[dataSource].sPrefix:
                         obj.entityType = fn.entityTypeValue.s;
+                        break;
+                    case fn[dataSource].guPrefix:
+                        obj.entityType = fn.entityTypeValue.gu;
+                        obj.domainUsers = [
+                            {
+                                uniqueID: `${obj[fn[dataSource].domainPrefixField].toLowerCase()}${fn[dataSource].domainSuffix}`,
+                                dataSource
+                            }
+                        ];
                         break;
                     default:
                         sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
                 }
-                let identityCardCandidate = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0];
-                (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate.toString() : null;
-                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0].toString() : null;
+                let identityCardCandidate = obj[rawKey].toLowerCase().split(upnPrefix)[1].split("@")[0].toString();
+                (obj.entityType === fn.entityTypeValue.c && validators(identityCardCandidate).identityCard) ? obj.identityCard = identityCardCandidate : null;
+                (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = identityCardCandidate : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             default:

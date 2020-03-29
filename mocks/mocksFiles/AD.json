@@ -1,4 +1,5 @@
 [
+<<<<<<< HEAD
     {
         "KfirstName": "Lindsey",
         "KlastName": "Auer",
@@ -15,4 +16,30 @@
         "sAMAccountName": "Alysha_Marquardt69",
         "mail": "Marquardt68@rabiran.com"
     }
+=======
+  {
+    "KfirstName": "Herta",
+    "KlastName": "Heathcote",
+    "userPrincipalName": "M662586044",
+    "hierarchy": "et/consequatur/autem/Chief Operations Consultant - Herta Heathcote",
+    "sAMAccountName": "MMRoosevelt86",
+    "mail": "MMRoosevelt86@rabiran.com"
+  },
+  {
+    "KfirstName": "Herta",
+    "KlastName": "Heathcote",
+    "userPrincipalName": "d662586045",
+    "hierarchy": "et/consequatur/autem/Chief Operations Consultant - Herta Heathcote",
+    "sAMAccountName": "DDRoosevelt86",
+    "mail": "DDRoosevelt86@rabiran.com"
+  },
+  {
+    "KfirstName": "FF",
+    "KlastName": "Heathcote",
+    "userPrincipalName": "F662586044",
+    "hierarchy": "et/consequatur/autem/Chief Operations Consultant - Herta Heathcote",
+    "sAMAccountName": "FFRoosevelt86",
+    "mail": "FFRoosevelt86@rabiran.com"
+  }
+>>>>>>> 22777bb4080aefc9e8a410580f53f5540a2b2187
 ]
