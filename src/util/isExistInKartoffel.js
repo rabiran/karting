@@ -4,7 +4,7 @@ const fn = require('../config/fieldNames');
 const tryArgs = require('./generalUtils/tryArgs');
 
 /**
- * Check if the record exists in Kartoffel
+ * Check if the record from raw data exists in Kartoffel
  * 
  * @param { Object } record 
  * @param { string } flowType 
