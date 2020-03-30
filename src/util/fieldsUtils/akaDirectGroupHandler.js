@@ -8,7 +8,7 @@ const logDetails = require('../logDetails');
 /**
  * Handle the direct group of aka persons, that don't have already,
  * user from another data source.
- * The person get group of incomplete persons (cause he doesn't have domainUSer),
+ * The person get group of incomplete persons (cause he doesn't have domainUser),
  * if the akaUnit of the person doesn't have already an incomplete group, the 
  * function will create it.
  * 
