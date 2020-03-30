@@ -48,18 +48,9 @@ async function akaDirectGroupHandler(unitName) {
 
     if (tryFindIncomplete.err) {
         if (
-            !tryFindIncomplete.err.response &&
-            !tryFindIncomplete.err.response.status == 404
+            tryFindIncomplete.err.response &&
+            tryFindIncomplete.err.response.status == 404
         ) {
-            sendLog(
-                logLevel.error,
-                logDetails.error.ERR_UNKNOWN_ERROR,
-                'akaDirectGroupHandler',
-                JSON.stringify(tryFindIncomplete.err)
-            );
-
-            return;
-        } else {
             const tryCreateGroup = await trycatch(
                 Auth.axiosKartoffel.post,
                 p().KARTOFFEL_ADDGROUP_API,
@@ -88,6 +79,15 @@ async function akaDirectGroupHandler(unitName) {
             );
 
             directGroup = tryCreateGroup.result.data;
+        } else {
+            sendLog(
+                logLevel.error,
+                logDetails.error.ERR_UNKNOWN_ERROR,
+                akaDirectGroupHandler.name,
+                JSON.stringify(tryFindIncomplete.err)
+            );
+
+            return;
         }
     } else {
         directGroup = tryFindIncomplete.result.data
