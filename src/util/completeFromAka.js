@@ -116,6 +116,8 @@ module.exports = (obj, akaData, dataSource) => {
         let akaRecord = akaData.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
         if (akaRecord) {
             switch (dataSource) {
+                case fn.dataSources.aka:
+                    break;
                 case fn.dataSources.es:
                     complete_es(obj, akaRecord);
                     break;
@@ -136,7 +138,7 @@ module.exports = (obj, akaData, dataSource) => {
                     complete_nv(obj, akaRecord);
                     break;
                 default:
-                    sendLog(logLevel.error, logDetails.error.ERR_DATA_SOURC);
+                    sendLog(logLevel.error, logDetails.error.ERR_DATA_SOURCE);
             }
         }
         else {

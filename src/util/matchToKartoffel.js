@@ -8,12 +8,13 @@ const Auth = require('../auth/auth');
 const formatAkaDateToKartoffel = require('./fieldsUtils/formatAkaDateToKartoffel');
 const isNumeric = require('./generalUtils/isNumeric');
 const isStrContains = require('./generalUtils/strignContains');
+const akaDirectGroupHandler = require('./fieldsUtils/akaDirectGroupHandler');
 require('dotenv').config();
 
 
-const match_aka = (obj, dataSource) => {
+const match_aka = async (obj, dataSource, flowType) => {
     const objKeys = Object.keys(obj);
-    objKeys.map((rawKey) => {
+    await Promise.all(objKeys.map(async rawKey => {
         switch (rawKey) {
             //entityType
             case fn[dataSource].entityType:
@@ -75,12 +76,19 @@ const match_aka = (obj, dataSource) => {
             // currentUnit
             case fn[dataSource].unitName:
                 obj.currentUnit = obj[rawKey];
+
+                if (flowType === fn.flowTypes.add) {
+                    obj.directGroup = await akaDirectGroupHandler(obj.currentUnit);
+                }
+
                 (rawKey === "currentUnit") ? null : delete obj[rawKey];
                 break;
             default:
                 delete obj[rawKey];
         }
-    });
+    }));
+    
+    obj.entityType = fn.entityTypeValue.s;
 }
 
 const match_es = (obj, dataSource) => {
@@ -542,13 +550,13 @@ directGroupHandler = async (record) => {
  * @param {*} dataSource the dataSource of the raw person object
  * @returns person object according to the structure of kartoffel
  */
-module.exports = async (origin_obj, dataSource) => {
+module.exports = async (origin_obj, dataSource, flowType) => {
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
     Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null" || obj[key] === "לא ידוע") ? delete obj[key] : null);
     switch (dataSource) {
         case fn.dataSources.aka:
-            match_aka(obj, dataSource);
+            await match_aka(obj, dataSource, flowType);
             break;
         case fn.dataSources.es:
             match_es(obj, dataSource);

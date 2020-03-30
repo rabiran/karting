@@ -130,6 +130,11 @@ module.exports = {
         hour: 0,
         minute: 54,
     },
+    personStatus: {
+        incomplete: 'incomplete',
+        inactive: 'inactive',
+        active: 'active',
+    },
     akaRigid: [
         "clearance",
         "identityCard",
@@ -142,7 +147,6 @@ module.exports = {
         "mobilePhone",
         "phone",
         "serviceType",
-        "currentUnit",
     ],
     forbiddenFieldsToUpdate: ["identityCard", "personalNumber", "directGroup"],
     fieldsForRmoveFromKartoffel: [
@@ -159,6 +163,13 @@ module.exports = {
     runnigTypes: {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
+    },
+    organizationGroups: {
+        incompletes_name: 'incomplete',
+    },
+    flowTypes: {
+        add: 'add',
+        update: 'update',
     },
     kartoffelUrl: "http://localhost:3000",
 };
