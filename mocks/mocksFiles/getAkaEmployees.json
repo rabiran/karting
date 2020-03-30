@@ -8,7 +8,7 @@
         "rnk": "champion",
         "nstype": "D",
         "rld": "2019-05-19 00:00:00.0",
-        "hr": "ads4"
+        "hr": "ads3"
     },
     {
         "firstName": "Eli",
@@ -19,7 +19,7 @@
         "rnk": "mega",
         "nstype": "D",
         "rld": "2025-03-23 00:00:00.0",
-        "hr": "ads4"
+        "hr": "ads3"
     },
     {
         "firstName": "Tal",
@@ -30,28 +30,28 @@
         "rnk": "mega",
         "nstype": "D",
         "rld": "2025-03-23 00:00:00.0",
-        "hr": "ads4"
-    },
-    {
-        "firstName": "Yoni",
-        "lastName": "Kovner",
-        "tz": "312288707",
-        "mi": "6096555",
-        "clearance": "4",
-        "rnk": "mega",
-        "nstype": "D",
-        "rld": "2025-03-23 00:00:00.0",
         "hr": "ads3"
     },
     {
-        "firstName": "Dani",
-        "lastName": "Kovner",
-        "tz": "312288708",
-        "mi": "6096556",
-        "clearance": "4",
-        "rnk": "mega",
-        "nstype": "D",
-        "rld": "2025-03-23 00:00:00.0",
-        "hr": "ads2"
+        "firstName": "Herta",
+        "lastName": "Heathcote",
+        "tz": "416908812",
+        "mi": "662586044",
+        "clearance": "1",
+        "rnk": "unknown",
+        "nstype": "F",
+        "rld": "2012-05-26 00:00:00.0",
+        "hr": "ads1"
+    },
+    {
+        "firstName": "Herta",
+        "lastName": "Heathcote",
+        "tz": "416908815",
+        "mi": "662586045",
+        "clearance": "1",
+        "rnk": "unknown",
+        "nstype": "F",
+        "rld": "2012-05-26 00:00:00.0",
+        "hr": "ads1"
     }
 ]

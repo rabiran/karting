@@ -21,8 +21,8 @@ require('dotenv').config();
 module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = true) => {
     let records = diffsObj;
 
-    if (needMatchToKartoffel && dataSource !== fn.dataSources.aka) {
-        records = await recordsFilter(records);
+    if (needMatchToKartoffel) {
+        records = await recordsFilter(records, dataSource, fn.flowTypes.update);
     }
 
     for (let i = 0; i < records.length; i++) {

@@ -6,20 +6,21 @@ const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 
 /**
- * Handle the direct group of aka persons
+ * Handle the direct group of aka persons, that don't have already,
+ * user from another data source.
+ * The person get group of incomplete persons (cause he doesn't have domainUser),
+ * if the akaUnit of the person doesn't have already an incomplete group, the 
+ * function will create it.
  * 
  * @param {string} unitName 
  */
 async function akaDirectGroupHandler(unitName) {
-    const pathToGroupByAkaUnit = p(unitName).KARTOFFEL_GROUP_BY_AKA_UNIT;
-
     const tryFindGroupByUnit = await trycatch(
         Auth.axiosKartoffel.get,
-        pathToGroupByAkaUnit
+        p(unitName).KARTOFFEL_GROUP_BY_AKA_UNIT
     );
 
     if (tryFindGroupByUnit.err) {
-        const err = tryFindGroupByUnit.err;
         sendLog(
             logLevel.error,
             logDetails.error.ERR_FIND_GROUP_BY_AKA_UNIT,
@@ -32,45 +33,62 @@ async function akaDirectGroupHandler(unitName) {
 
     const hierarchyToCheck = [
         ...groupByAka.hierarchy,
-        unitName,
-        fn.organizationGroups.incomplete,
+        groupByAka.name,
+        fn.organizationGroups.incompletes_name,
     ].join('/');
 
-    const pathToIncompelteCheck = p(
-        encodeURIComponent(hierarchyToCheck)
-    ).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API;
-
-    const tryFindIncomplete =
-        await trycatch(
-            Auth.axiosKartoffel.get,
-            pathToIncompelteCheck
-        );
+    const tryFindIncomplete = await trycatch(
+        Auth.axiosKartoffel.get,
+        p(
+            encodeURIComponent(hierarchyToCheck)
+        ).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API
+    );
 
     let directGroup;
 
     if (tryFindIncomplete.err) {
-        const tryCreateGroup = await trycatch(
-            Auth.axiosKartoffel.post,
-            p().KARTOFFEL_ADDGROUP_API,
-            {
-                name: fn.organizationGroups.incomplete,
-                parentId: groupByAka.id
-            }
-        );
+        if (
+            tryFindIncomplete.err.response &&
+            tryFindIncomplete.err.response.status == 404
+        ) {
+            const tryCreateGroup = await trycatch(
+                Auth.axiosKartoffel.post,
+                p().KARTOFFEL_ADDGROUP_API,
+                {
+                    name: fn.organizationGroups.incompletes_name,
+                    parentId: groupByAka.id
+                }
+            );
 
-        if (tryCreateGroup.err) {
-            const err = tryCreateGroup.err;
-            const message = err.response ? err.response.data.message : err.message;
+            if (tryCreateGroup.err) {
+                const err = tryCreateGroup.err;
+                const message = err.response ? err.response.data.message : err.message;
+                sendLog(
+                    logLevel.error,
+                    logDetails.error.ERR_ADD_HIERARCHY,
+                    hierarchyToCheck,
+                    message
+                );
+                return;
+            }
+
+            sendLog(
+                logLevel.info,
+                logDetails.info.INF_ADD_HIERARCHY,
+                hierarchyToCheck
+            );
+
+            directGroup = tryCreateGroup.result.data;
+        } else {
             sendLog(
                 logLevel.error,
-                logDetails.error.ERR_CREATE_DIRECT_GROUP,
-                hierarchyToCheck,
-                message
+                logDetails.error.ERR_UNKNOWN_ERROR,
+                akaDirectGroupHandler.name,
+                JSON.stringify(tryFindIncomplete.err)
             );
+
             return;
         }
-
-        directGroup = tryCreateGroup.result.data;
     } else {
         directGroup = tryFindIncomplete.result.data
     }

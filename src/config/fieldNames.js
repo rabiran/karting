@@ -56,7 +56,11 @@ module.exports = {
         hierarchy: "hierarchy",
         sAMAccountName: "sAMAccountName",
         domainSuffix: "@rabiran.com",
+        domainPrefixField:"sAMAccountName",
         uniqeFieldForDeepDiff: "sAMAccountName",
+        sPrefix: "m",
+        cPrefix: "d",
+        guPrefix: "f",
     },
     adNN_name: {
         firstName: "KfirstName",
@@ -110,9 +114,7 @@ module.exports = {
     },
     entityTypeValue: {
         s: "agumon",
-        sPrefix: "m",
         c: "digimon",
-        cPrefix: "d",
         gu: "tamar",
     },
     rootHierarchy: {
@@ -145,7 +147,6 @@ module.exports = {
         "mobilePhone",
         "phone",
         "serviceType",
-        "currentUnit",
     ],
     forbiddenFieldsToUpdate: ["identityCard", "personalNumber", "directGroup"],
     fieldsForRmoveFromKartoffel: [
@@ -164,7 +165,11 @@ module.exports = {
         recoveryRun: 'recovery_run',
     },
     organizationGroups: {
-        incomplete: 'incomplete',
+        incompletes_name: 'incomplete',
+    },
+    flowTypes: {
+        add: 'add',
+        update: 'update',
     },
     kartoffelUrl: "http://localhost:3000",
 };

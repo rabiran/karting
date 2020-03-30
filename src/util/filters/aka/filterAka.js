@@ -6,12 +6,12 @@ const byExistence = require('./byExistence');
  *
  * @param {Object} records - all the raw data from the data source
  */
-module.exports = async records => {
+module.exports = async (records, flowType) => {
     return await filterAsync(
         records,
         async (record, index) => {
             return (
-                await byExistence(record)
+                await byExistence(record, flowType)
             );
         }
     );
