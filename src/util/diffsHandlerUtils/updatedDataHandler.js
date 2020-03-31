@@ -7,6 +7,7 @@ const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const updateSpecificFields = require('../updateSpecificFields');
 const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
+const matchToKartoffel = require('../matchToKartoffel');
 
 require('dotenv').config();
 
@@ -30,7 +31,8 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         const path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
         let person;
 
-        const filterdIdentifiers = getIdentifiers(record, dataSource).filter(id => id);
+        const { identityCard, personalNumber } = await getIdentifiers(record[1], dataSource);
+        const filterdIdentifiers = [identityCard, personalNumber].filter(id => id);
         
         if (!filterdIdentifiers.length) {
             sendLog(
@@ -88,18 +90,12 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
     }
 }
 
-function getIdentifiers(record, dataSource) {
-    let ids = [];
+async function getIdentifiers(record, dataSource) {
+    let recordRelevants = {}
 
-    if (dataSource === fn.dataSources.ads) {
-        const re = /[a-z]_|[a-z]/;
-        const upnPrefix = record[1][fn.ads_name.upn].toLowerCase().match(re).toString();
-        const id = record[1][fn.ads_name.upn].toLowerCase().split(upnPrefix)[1].split("@")[0];
-        ids.push(id);
-    }
+    fn[dataSource].idsFields.forEach(field => {
+        recordRelevants[fn[dataSource][field]] = record[fn[dataSource][field]];
+    });
 
-    ids.push(record[1][fn[dataSource].personalNumber] || record[1].personalNumber);
-    ids.push(record[1][fn[dataSource].identityCard] || record[1].identityCard);
-
-    return ids;
+    return await matchToKartoffel(recordRelevants, dataSource);
 }

@@ -28,6 +28,7 @@ module.exports = {
         unitName: "hr",
         telephoneType: "telephoneType",
         uniqeFieldForDeepDiff: "mi",
+        idsFields: ['identityCard', 'personalNumber'],
     },
     es_name: {
         entityType: "entity",
@@ -46,6 +47,7 @@ module.exports = {
         domainSuffix: "@jello.com",
         userName: "userName",
         uniqeFieldForDeepDiff: "tz",
+        idsFields: ['identityCard', 'personalNumber'],
     },
     ads_name: {
         firstName: "KfirstName",
@@ -61,6 +63,7 @@ module.exports = {
         sPrefix: "m",
         cPrefix: "d",
         guPrefix: "f",
+        idsFields: ['upn', 'domainPrefixField', 'domainSuffix'],
     },
     adNN_name: {
         firstName: "KfirstName",
@@ -73,6 +76,7 @@ module.exports = {
         extension: "nn",
         domainSuffix: "@adnn",
         uniqeFieldForDeepDiff: "userPrincipalName",
+        idsFields: ['sAMAccountName', 'extension'],
     },
     nvSQL_name: {
         firstName: "KfirstName",
@@ -82,6 +86,7 @@ module.exports = {
         pn: "pn",
         identityCard: "id",
         uniqeFieldForDeepDiff: "unid",
+        idsFields: ['pn', 'identityCard'],
     },
     city_name: {
         firstName: 'firstName',
@@ -110,7 +115,12 @@ module.exports = {
         userTags: {
             transportable: 'transportable',
             information: 'information',
-        }
+        },
+        idsFields: [
+            'personalNumber',
+            'identityCard',
+            'domainUsers'
+        ],
     },
     entityTypeValue: {
         s: "agumon",
