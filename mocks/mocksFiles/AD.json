@@ -1,6 +1,4 @@
-[
-<<<<<<< HEAD
-    {
+[{
         "KfirstName": "Lindsey",
         "KlastName": "Auer",
         "userPrincipalName": "M687839003",
@@ -15,8 +13,7 @@
         "hierarchy": "ads3/Dynamic Factors Associate - Lindsey Auer",
         "sAMAccountName": "Alysha_Marquardt69",
         "mail": "Marquardt68@rabiran.com"
-    }
-=======
+    },
   {
     "KfirstName": "Herta",
     "KlastName": "Heathcote",
@@ -41,5 +38,4 @@
     "sAMAccountName": "FFRoosevelt86",
     "mail": "FFRoosevelt86@rabiran.com"
   }
->>>>>>> 22777bb4080aefc9e8a410580f53f5540a2b2187
 ]

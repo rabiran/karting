@@ -1,12 +1,13 @@
 const fn = require('../../config/fieldNames');
 const Auth = require('../../auth/auth');
-const p =  require('../../config/paths');
+const p = require('../../config/paths');
 const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const updateSpecificFields = require('../updateSpecificFields');
 const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
+const getIdentifiers = require('../getIdentifiers')
 
 require('dotenv').config();
 
@@ -30,11 +31,9 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         const path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
         let person;
 
-        const filterdIdentifiers = [
-            record[1][fn[dataSource].personalNumber] || record[1].personalNumber,
-            record[1][fn[dataSource].identityCard] || record[1].identityCard
-        ].filter(id => id);
-
+        const { identityCard, personalNumber } = await getIdentifiers(record[1], dataSource);
+        const filterdIdentifiers = [identityCard, personalNumber].filter(id => id);
+        
         if (!filterdIdentifiers.length) {
             sendLog(
                 logLevel.error,

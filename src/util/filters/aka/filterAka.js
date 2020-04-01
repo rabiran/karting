@@ -1,6 +1,5 @@
 const filterAsync = require('../../generalUtils/filterAsync');
 const byExistence = require('./byExistence');
-const fn = require('../../../config/fieldNames');
 
 /**
  * Filter aka records
