@@ -7,7 +7,7 @@ const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const updateSpecificFields = require('../updateSpecificFields');
 const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
-const matchToKartoffel = require('../matchToKartoffel');
+const getIdentifiers = require('../getIdentifiers')
 
 require('dotenv').config();
 
@@ -88,14 +88,4 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
             await domainUserHandler(person, record[1], dataSource);
         }
     }
-}
-
-async function getIdentifiers(record, dataSource) {
-    let recordRelevants = {}
-
-    fn[dataSource].idsFields.forEach(field => {
-        recordRelevants[fn[dataSource][field]] = record[fn[dataSource][field]];
-    });
-
-    return await matchToKartoffel(recordRelevants, dataSource);
 }
