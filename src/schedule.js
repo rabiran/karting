@@ -84,9 +84,9 @@ try {
         let aka_data = await dataSync(fn.dataSources.aka, fn.runnigTypes.dailyRun);
 
         await PromiseAllWithFails([
-            GetDataAndProcess(fn.dataSources.aka, aka_data),
+            // GetDataAndProcess(fn.dataSources.aka, aka_data),
             // GetDataAndProcess(fn.dataSources.es, aka_data, dataSync),
-            // GetDataAndProcess(fn.dataSources.ads, aka_data, dataSync),
+            GetDataAndProcess(fn.dataSources.ads, aka_data, dataSync),
             // GetDataAndProcess(fn.dataSources.adNN, aka_data, dataSync),
             // GetDataAndProcess(fn.dataSources.lmn, aka_data, dataSync),
             // GetDataAndProcess(fn.dataSources.mdn, aka_data, dataSync),
