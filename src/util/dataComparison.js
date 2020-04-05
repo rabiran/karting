@@ -20,7 +20,7 @@ module.exports = (updateData, path, previous_data_file_name, comparison_field) =
         previous_data = JSON.parse(previous_data_file);
     } catch (err) {
         if (err) {
-            if (previous_data_file_name === undefined) {
+            if (!previous_data_file_name) {
                 previous_data = [];
             } else {
                 sendLog(logLevel.error, logDetails.error.ERR_READ_PREVIOUS_DATA_FILE, previous_data_file_name, err.message);                
