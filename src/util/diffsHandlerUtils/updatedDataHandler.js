@@ -17,11 +17,12 @@ require('dotenv').config();
  * @param {string} dataSource - represents the data source
  * @param {Object} aka_all_data - object that contain all the recent data from aka
  * @param {Map} currentUnit_to_DataSource - map of all the units from each data source
- * @param {boolean} needMatchToKartoffel - if the diffsObj needs match to kaertoffel
+ * @param {boolean} needMatchToKartoffel - if the diffsObj needs match to kartoffel
  */
 module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = true) => {
     let records = diffsObj;
 
+    // If needMatchToKartoffel = false, the data came from addedDataHandler and already filtered
     if (needMatchToKartoffel) {
         records = await recordsFilter(records, dataSource, fn.flowTypes.update);
     }
@@ -31,7 +32,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         const path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
         let person;
 
-        const { identityCard, personalNumber } = await getIdentifiers(record[1], dataSource);
+        const { identityCard, personalNumber } = await getIdentifiers(record[1], dataSource, needMatchToKartoffel);
         const filterdIdentifiers = [identityCard, personalNumber].filter(id => id);
         
         if (!filterdIdentifiers.length) {
