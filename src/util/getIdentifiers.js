@@ -3,16 +3,17 @@ const fn = require('../config/fieldNames');
 
 /**
  * Returns the identifiers for the raw data record,
- * if it didn't already passed through matchToKartoffel,
+ * if it didn't already passed through matchToKartoffel.
  * otherwise just return them.
  * 
  * @param { Object } record - raw data object 
  * @param { string } dataSource - which data source
+ * @param { boolean } isNotMatchedToKartoffel - weather the record passed trough matchToKartoffel
  * 
  * @returns { Object } - found identifiers
  */
-const getIdentifiers = async (record, dataSource) => {
-    if (record.personalNumber || record.identityCard) {
+const getIdentifiers = async (record, dataSource, isNotMatchedToKartoffel) => {
+    if (!isNotMatchedToKartoffel) {
         return {
             personalNumber: record.personalNumber,
             identityCard: record.identityCard
