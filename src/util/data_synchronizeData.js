@@ -14,12 +14,14 @@ module.exports = async (dataSource, runnigType) => {
     const path = `./data/${dataSource}`;
     const files = fs.readdirSync(`${path}/`);
     const actionDescription = `${runnigType}_${dataSource}_raw_data`;
-    let lastJsonName = files[files.length - 1];
+    let lastJsonName = runnigType === fn.runnigTypes.recoveryRun ? null : files[files.length - 1];
 
-    // solve the problem that if runnig the module twice at same time on the clock
-    if (files[files.length - 1] === `${actionDescription}_${dateAndTime}.log` || files[files.length - 1] === 'archive') {
-        const completeFiles = fs.readdirSync(`${path}/archive/`);
-        lastJsonName = (completeFiles[completeFiles.length - 1]);
+    if (runnigType !== fn.runnigTypes.recoveryRun) {
+        // solve the problem that if runnig the module twice at same time on the clock
+        if (files[files.length - 1] === `${actionDescription}_${dateAndTime}.log` || files[files.length - 1] === 'archive') {
+            const completeFiles = fs.readdirSync(`${path}/archive/`);
+            lastJsonName = (completeFiles[completeFiles.length - 1]);
+        }
     }
 
     // get the diffs between the two last JSONs

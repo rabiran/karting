@@ -2,13 +2,12 @@ const p = require('../config/paths');
 const fn = require('../config/fieldNames');
 const axios = require("axios");
 const akaDataManipulate = require('./akaDataManipulate');
-const {sendLog, logLevel} = require('./logger');
+const { sendLog, logLevel } = require('./logger');
 const logDetails = require('./logDetails');
 const saveAsFile = require('./saveAsFile');
 
 /**
  * Get data raw data from data source
- *
  *
  * @param {string} dataSource = which data source to get data from
  * @param {string} runType - the current runnig type
