@@ -22,7 +22,7 @@ require('dotenv').config();
 module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = true) => {
     let records = diffsObj;
 
-    // If needMatchToKartoffel = false, the data came from addedDaraHandler and already filtered
+    // If needMatchToKartoffel = false, the data came from addedDataHandler and already filtered
     if (needMatchToKartoffel) {
         records = await recordsFilter(records, dataSource, fn.flowTypes.update);
     }
