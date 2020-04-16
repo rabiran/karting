@@ -69,7 +69,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
             // Check if the dataSource of the record is the primary dataSource for the person
             if ((akaRecord && akaRecord[fn.aka.unitName]) && currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) !== dataSource) {
                 // Add domain user from the record (if the required data exist)
-                await domainUserHandler(person, record[1], dataSource);
+                await domainUserHandler(person, record[1], dataSource, needMatchToKartoffel);
                 sendLog(logLevel.warn, logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL, record[2].map((obj) => `${obj.path.toString()},`), dataSource, tryFindPerson.argument, dataSource, currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]));
                 continue;
             }
@@ -86,7 +86,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                 await updateSpecificFields(deepDiffForUpdate, dataSource, person, akaRecord, needMatchToKartoffel);
             };
 
-            await domainUserHandler(person, record[1], dataSource);
+            await domainUserHandler(person, record[1], dataSource, needMatchToKartoffel);
         }
     }
 }
