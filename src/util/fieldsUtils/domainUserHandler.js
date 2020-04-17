@@ -12,7 +12,7 @@ const Auth = require('../../auth/auth');
  * @param {*} dataSource The dataSource of the object
  *
  *  */
-module.exports = async (person, record, dataSource, didNotMatchedToKartoffel) => {
+module.exports = async (person, record, dataSource, needMatchToKartoffel, originalRecord) => {
     let user_object = {
         uniqueID: record[fn[dataSource].mail],
         dataSource,
@@ -26,7 +26,11 @@ module.exports = async (person, record, dataSource, didNotMatchedToKartoffel) =>
         user_object.uniqueID = record[fn[dataSource].uniqueID].toLowerCase() : null;
     (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
         user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
-    (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ? user_object.uniqueID = `${record[fn[dataSource].domainUsers].toLowerCase()}` : !didNotMatchedToKartoffel ? user_object.uniqueID = null : null;
+    (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ?
+        user_object.uniqueID = `${record[fn[dataSource].domainUsers].toLowerCase()}` :
+        (!needMatchToKartoffel && dataSource === fn.dataSources.city && `${originalRecord[fn[dataSource].domainUsers]}`) ?
+            user_object.uniqueID = `${originalRecord[fn[dataSource].domainUsers].toLowerCase()}` :
+            null;
 
     if (!user_object.uniqueID) {
         return;
