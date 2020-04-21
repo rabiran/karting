@@ -5,11 +5,12 @@ const logDetails = require('../logDetails');
 const Auth = require('../../auth/auth');
 
 /**
- *This module create domainUser for person, using the unique properties of each dataSource
+ * This module create domainUser for person, using the unique properties of each dataSource
  *
- * @param {*} person The Person object that returned from kartoffel
- * @param {*} record The raw object that coming from the dataSource
- * @param {*} dataSource The dataSource of the object
+ * @param {Object} person The Person object that returned from kartoffel
+ * @param {Object} record The raw object that coming from the dataSource
+ * @param {string} dataSource The dataSource of the object
+ * @param {Object} originalRecord The original raw record before matchToKartoffel 
  *
  *  */
 module.exports = async (person, record, dataSource, needMatchToKartoffel, originalRecord) => {
@@ -18,6 +19,7 @@ module.exports = async (person, record, dataSource, needMatchToKartoffel, origin
         dataSource,
     };
 
+    // if the record came to updated flow from added flow it already matched to kartoffel and need to refer the "original record"
     if (!needMatchToKartoffel) {
         (dataSource === fn.dataSources.ads && originalRecord[fn[dataSource].sAMAccountName]) ?
             user_object.uniqueID = `${originalRecord[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
@@ -29,18 +31,19 @@ module.exports = async (person, record, dataSource, needMatchToKartoffel, origin
             user_object.uniqueID = `${originalRecord[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
         (dataSource === fn.dataSources.city && `${originalRecord[fn[dataSource].domainUsers]}`) ?
             user_object.uniqueID = `${originalRecord[fn[dataSource].domainUsers].toLowerCase()}` : null;
+    } else {
+        (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?
+            user_object.uniqueID = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
+        (dataSource === fn.dataSources.adNN && record[fn[dataSource].sAMAccountName]) ?
+            user_object.uniqueID = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
+        (((dataSource === fn.dataSources.mdn) || (dataSource === fn.dataSources.lmn) || (dataSource === fn.dataSources.mm)) && record[fn[dataSource].uniqueID]) ?
+            user_object.uniqueID = record[fn[dataSource].uniqueID].toLowerCase() : null;
+        (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
+            user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
+        (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ?
+            user_object.uniqueID = `${record[fn[dataSource].domainUsers].toLowerCase()}` : null;
     }
 
-    (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?
-        user_object.uniqueID = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
-    (dataSource === fn.dataSources.adNN && record[fn[dataSource].sAMAccountName]) ?
-        user_object.uniqueID = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
-    (((dataSource === fn.dataSources.mdn) || (dataSource === fn.dataSources.lmn) || (dataSource === fn.dataSources.mm)) && record[fn[dataSource].uniqueID]) ?
-        user_object.uniqueID = record[fn[dataSource].uniqueID].toLowerCase() : null;
-    (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
-        user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
-    (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ?
-        user_object.uniqueID = `${record[fn[dataSource].domainUsers].toLowerCase()}` : null;
 
     if (!user_object.uniqueID) {
         return;
