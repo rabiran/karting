@@ -14,9 +14,22 @@ const Auth = require('../../auth/auth');
  *  */
 module.exports = async (person, record, dataSource, needMatchToKartoffel, originalRecord) => {
     let user_object = {
-        uniqueID: record[fn[dataSource].mail],
+        uniqueID: !needMatchToKartoffel ? originalRecord[fn[dataSource].mail] : record[fn[dataSource].mail],
         dataSource,
     };
+
+    if (!needMatchToKartoffel) {
+        (dataSource === fn.dataSources.ads && originalRecord[fn[dataSource].sAMAccountName]) ?
+            user_object.uniqueID = `${originalRecord[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
+        (dataSource === fn.dataSources.adNN && originalRecord[fn[dataSource].sAMAccountName]) ?
+            user_object.uniqueID = `${originalRecord[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
+        (((dataSource === fn.dataSources.mdn) || (dataSource === fn.dataSources.lmn) || (dataSource === fn.dataSources.mm)) && originalRecord[fn[dataSource].uniqueID]) ?
+            user_object.uniqueID = originalRecord[fn[dataSource].uniqueID].toLowerCase() : null;
+        (dataSource === fn.dataSources.es && originalRecord[fn[dataSource].userName]) ?
+            user_object.uniqueID = `${originalRecord[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
+        (dataSource === fn.dataSources.city && `${originalRecord[fn[dataSource].domainUsers]}`) ?
+            user_object.uniqueID = `${originalRecord[fn[dataSource].domainUsers].toLowerCase()}` : null;
+    }
 
     (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?
         user_object.uniqueID = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
@@ -27,10 +40,7 @@ module.exports = async (person, record, dataSource, needMatchToKartoffel, origin
     (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
         user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
     (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ?
-        user_object.uniqueID = `${record[fn[dataSource].domainUsers].toLowerCase()}` :
-        (!needMatchToKartoffel && dataSource === fn.dataSources.city && `${originalRecord[fn[dataSource].domainUsers]}`) ?
-            user_object.uniqueID = `${originalRecord[fn[dataSource].domainUsers].toLowerCase()}` :
-            null;
+        user_object.uniqueID = `${record[fn[dataSource].domainUsers].toLowerCase()}` : null;
 
     if (!user_object.uniqueID) {
         return;
