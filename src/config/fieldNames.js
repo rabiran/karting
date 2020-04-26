@@ -52,6 +52,7 @@ module.exports = {
     ads_name: {
         firstName: "KfirstName",
         lastName: "KlastName",
+        guName:"guName",
         job: "Kjob",
         mail: "mail",
         upn: "userPrincipalName",
