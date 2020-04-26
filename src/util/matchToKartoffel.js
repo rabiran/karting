@@ -237,6 +237,7 @@ const match_ads = (obj, dataSource) => {
                                 dataSource
                             }
                         ];
+                        obj.firstName = fn[dataSource].guName;
                         break;
                     default:
                         sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
