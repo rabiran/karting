@@ -2,6 +2,8 @@ const currentUnit_to_DataSource = require('./createDataSourcesMap');
 const added = require('./diffsHandlerUtils/addedDataHandler');
 const updated = require('./diffsHandlerUtils/updatedDataHandler');
 const PromiseAllWithFails = require('./generalUtils/promiseAllWithFails');
+const DataModel = require('./DataModel');
+const fn = require('../config/fieldNames');
 
 require('dotenv').config();
 /*
@@ -11,8 +13,13 @@ require('dotenv').config();
  */
 
 module.exports = async (diffsObj, dataSource, aka_all_data) => {
+    const newData = diffsObj.added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add));
+    const updatedData = diffsObj.updated.map(
+        updatedRecord => new DataModel(updatedRecord[1], dataSource, fn.flowTypes.update, updatedRecord)
+    );
+
     return PromiseAllWithFails([
-        added(diffsObj.added, dataSource, aka_all_data, currentUnit_to_DataSource),
-        updated(diffsObj.updated, dataSource, aka_all_data, currentUnit_to_DataSource)
+        added(newData, dataSource, aka_all_data, currentUnit_to_DataSource),
+        updated(updatedData, dataSource, aka_all_data, currentUnit_to_DataSource)
     ]);
 }

@@ -4,14 +4,14 @@ const byExistence = require('./byExistence');
 /**
  * Filter aka records
  *
- * @param {Object} records - all the raw data from the data source
+ * @param {Array<DataModel>} data - all the raw data from the data source
  */
-module.exports = async (records, flowType) => {
+module.exports = async (data) => {
     return await filterAsync(
-        records,
-        async (record, index) => {
+        data,
+        async (DataModel, index) => {
             return (
-                await byExistence(record, flowType)
+                await byExistence(DataModel)
             );
         }
     );

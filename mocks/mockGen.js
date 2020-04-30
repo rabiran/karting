@@ -56,6 +56,7 @@ for (let i = 0; i < ADEmployeesAmount; i++) {
     ad.KlastName = employees[i].lastName;
     ad.userPrincipalName = "M" + employees[i].mi;
     const job = faker.name.jobTitle();
+    ad.Kjob = job;
     ad.hierarchy = faker.lorem.word() + "/" +
                    faker.lorem.word() + "/" +
                    faker.lorem.word() + "/" +
@@ -73,6 +74,7 @@ for (let i = 0; i < ADUnemployeesAmount; i++) {
     ad.KfirstName = faker.name.firstName();
     ad.KlastName = faker.name.lastName();
     const job = faker.name.jobTitle();
+    ad.Kjob = job;
     ad.userPrincipalName = "D" + utils.generateID();
     ad.hierarchy = faker.lorem.word() + "/" +
                    faker.lorem.word() + "/" +

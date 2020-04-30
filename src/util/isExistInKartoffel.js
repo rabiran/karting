@@ -6,13 +6,13 @@ const tryArgs = require('./generalUtils/tryArgs');
 /**
  * Check if the record from raw data exists in Kartoffel
  * 
- * @param { Object } record 
+ * @param { DataModel } DataModel 
  * @param { string } flowType 
  */
-module.exports = async record => {
+module.exports = async DataModel => {
     const filterdIdentifiers = [
-        record[fn.aka.personalNumber],
-        record[fn.aka.identityCard]
+        DataModel.record[fn[DataModel.dataSource].personalNumber],
+        DataModel.record[fn[DataModel.dataSource].identityCard]
     ].filter(id => id);
 
     path = identifier => p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
