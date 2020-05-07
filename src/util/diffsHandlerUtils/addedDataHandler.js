@@ -23,12 +23,10 @@ require('dotenv').config();
  * @param {*} currentUnit_to_DataSource - a map of all units from each data source
  * @param {*} needMatchToKartoffel - a flag to tell if the current object needs a match to kartoffel's format
  */
-module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffelForAdded = true) => {
+module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
     let records = diffsObj;
 
-    if (needMatchToKartoffelForAdded) {
-        records = await recordsFilter(diffsObj, dataSource, fn.flowTypes.add);
-    }
+    records = await recordsFilter(records, dataSource, fn.flowTypes.add);
 
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
@@ -38,13 +36,8 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         let path;
         let filterdIdentifiers;
 
-        // in Recovery flow don't need matchToKartoffel
-        if (needMatchToKartoffelForAdded) {
-            person_ready_for_kartoffel = await matchToKartoffel(record, dataSource, fn.flowTypes.add);
-        } else {
-            person_ready_for_kartoffel = record;
-        }
-
+        person_ready_for_kartoffel = await matchToKartoffel(record, dataSource, fn.flowTypes.add);
+        
         if (person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
             filterdIdentifiers = [person_ready_for_kartoffel.domainUsers[0].uniqueID].filter(id => id);
             path = id => p(id).KARTOFFEL_DOMAIN_USER_API;
