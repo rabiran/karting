@@ -83,6 +83,9 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                 person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
                 try {
+                    if (!person_ready_for_kartoffel.directGroup) {
+                        continue;
+                    }
                     let person = await Auth.axiosKartoffel.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     person = person.data;
                     sendLog(logLevel.info, logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL, JSON.stringify(filterdIdentifiers), dataSource);
