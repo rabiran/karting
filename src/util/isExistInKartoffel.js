@@ -17,10 +17,16 @@ module.exports = async record => {
 
     path = identifier => p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
 
-    const { result } = await tryArgs(
+    const { result, lastErr } = await tryArgs(
         async identifier => (await Auth.axiosKartoffel.get(path(identifier))).data,
         ...filterdIdentifiers
     );
 
-    return !!result;
+    if (lastErr && lastErr.response && lastErr.response.data === 404) {
+        return true;
+    }
+
+    if (result) {
+        return true;
+    }
 }
