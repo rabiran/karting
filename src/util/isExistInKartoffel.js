@@ -23,7 +23,7 @@ module.exports = async record => {
     );
 
     if (lastErr && lastErr.response && lastErr.response.data === 404) {
-        return true;
+        return false;
     }
 
     if (result) {
