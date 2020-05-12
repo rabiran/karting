@@ -35,7 +35,7 @@ messageLog = {
         WRN_KIND_DEEPDIFF_NOT_RECOGNIZED: 'the deepDiff kind of the updated person is not recognized -"%s"',
         WRN_UNRECOGNIZED_ENTITY_TYPE: 'There is no entity type for the person %s from %s',
         WRN_IRRELEVANT_TAGS: 'Irrelevant tags for the record %s from %s',
-        ERR_FIND_GROUP_BY_AKA_UNIT: 'The group for aka unit: %s, does not exist in kartoffel',
+        WRN_FIND_GROUP_BY_AKA_UNIT: 'The group for aka unit: %s, does not exist in kartoffel',
     },
     info: {
         INF_CONNECT_REDIS: 'Redis connect to service',

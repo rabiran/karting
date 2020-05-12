@@ -86,7 +86,7 @@ const match_aka = async (obj, dataSource, flowType) => {
                     if (tryFindGroupByUnit.err) {
                         sendLog(
                             logLevel.warn,
-                            logDetails.warn.ERR_FIND_GROUP_BY_AKA_UNIT,
+                            logDetails.warn.WRN_FIND_GROUP_BY_AKA_UNIT,
                             obj[rawKey]
                         );
                         break;
