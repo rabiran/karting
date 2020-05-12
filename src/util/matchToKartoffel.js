@@ -8,7 +8,7 @@ const Auth = require('../auth/auth');
 const formatAkaDateToKartoffel = require('./fieldsUtils/formatAkaDateToKartoffel');
 const isNumeric = require('./generalUtils/isNumeric');
 const isStrContains = require('./generalUtils/strignContains');
-const akaDirectGroupHandler = require('./fieldsUtils/akaDirectGroupHandler');
+const trycatch = require('./generalUtils/trycatch');
 require('dotenv').config();
 
 
@@ -78,7 +78,27 @@ const match_aka = async (obj, dataSource, flowType) => {
                 obj.currentUnit = obj[rawKey];
 
                 if (flowType === fn.flowTypes.add) {
-                    obj.directGroup = await akaDirectGroupHandler(obj.currentUnit);
+                    const tryFindGroupByUnit = await trycatch(
+                        Auth.axiosKartoffel.get,
+                        p(encodeURIComponent(obj[rawKey])).KARTOFFEL_GROUP_BY_AKA_UNIT
+                    );
+                
+                    if (tryFindGroupByUnit.err) {
+                        sendLog(
+                            logLevel.warn,
+                            logDetails.warn.WRN_FIND_GROUP_BY_AKA_UNIT,
+                            obj[rawKey]
+                        );
+                        break;
+                    }
+                
+                    const groupByAka = tryFindGroupByUnit.result.data;
+                
+                    obj.hierarchy = [
+                        ...groupByAka.hierarchy,
+                        groupByAka.name,
+                        fn.organizationGroups.incompletes_name,
+                    ].join('/');
                 }
 
                 (rawKey === "currentUnit") ? null : delete obj[rawKey];
@@ -591,7 +611,7 @@ module.exports = async (origin_obj, dataSource, flowType) => {
     }
 
 
-    if (obj.hierarchy && dataSource !== fn.dataSources.aka) {
+    if (obj.hierarchy) {
         obj.directGroup = await directGroupHandler(obj);
         delete obj.hierarchy;
     }

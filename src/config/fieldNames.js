@@ -182,5 +182,6 @@ module.exports = {
         add: 'add',
         update: 'update',
     },
+    chunckSize: 200,
     kartoffelUrl: "http://localhost:3000",
 };
