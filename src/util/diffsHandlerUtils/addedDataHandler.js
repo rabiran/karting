@@ -105,7 +105,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         } else if (tryFindPerson.result) {
             person = tryFindPerson.result;
 
-            let isPrimary = (currentUnit_to_DataSource.get(person.currentUnit) === dataSource);
+            let isPrimary = (currentUnit_to_DataSource.get(person_ready_for_kartoffel.currentUnit) === dataSource);
 
             if (isPrimary) {
                 Object.keys(person).map((key) => {
