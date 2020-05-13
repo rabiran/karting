@@ -22,7 +22,7 @@ module.exports = async record => {
         ...filterdIdentifiers
     );
 
-    if (lastErr && lastErr.response && lastErr.response.data === 404) {
+    if (lastErr && lastErr.response && lastErr.response.status === 404) {
         return false;
     }
 
