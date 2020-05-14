@@ -52,6 +52,7 @@ module.exports = {
     ads_name: {
         firstName: "KfirstName",
         lastName: "KlastName",
+        guName:"guName",
         job: "Kjob",
         mail: "mail",
         upn: "userPrincipalName",
@@ -181,5 +182,6 @@ module.exports = {
         add: 'add',
         update: 'update',
     },
+    chunckSize: 200,
     kartoffelUrl: "http://localhost:3000",
 };

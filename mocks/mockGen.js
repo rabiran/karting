@@ -53,6 +53,7 @@ for (let i = 0; i < akaAmount; i++) {
 for (let i = 0; i < ADEmployeesAmount; i++) {
     let ad = {}
     ad.KfirstName = employees[i].firstName;
+    ad.guName = employees[i].firstName;
     ad.KlastName = employees[i].lastName;
     ad.userPrincipalName = "M" + employees[i].mi;
     const job = faker.name.jobTitle();

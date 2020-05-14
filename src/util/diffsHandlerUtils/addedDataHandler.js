@@ -80,6 +80,9 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
                 DataModel.person_ready_for_kartoffel = identifierHandler(DataModel.person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
                 try {
+                    if (!DataModel.person_ready_for_kartoffel.directGroup) {
+                        continue;
+                    }
                     let person = await Auth.axiosKartoffel.post(p().KARTOFFEL_PERSON_API, DataModel.person_ready_for_kartoffel);
                     person = person.data;
                     sendLog(logLevel.info, logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL, JSON.stringify(filterdIdentifiers), dataSource);
@@ -99,7 +102,7 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
         } else if (tryFindPerson.result) {
             person = tryFindPerson.result;
 
-            let isPrimary = (currentUnit_to_DataSource.get(person.currentUnit) === dataSource);
+            let isPrimary = (currentUnit_to_DataSource.get(person_ready_for_kartoffel.currentUnit) === dataSource);
 
             if (isPrimary) {
                 Object.keys(person).map((key) => {

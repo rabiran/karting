@@ -13,9 +13,8 @@ const Auth = require('../../auth/auth');
  * @param {Object} originalRecord The original raw record before matchToKartoffel 
  *
  *  */
-module.exports = async (person, record, dataSource, needMatchToKartoffel, originalRecord) => {
+module.exports = async (person, record, dataSource, needMatchToKartoffel=true, originalRecord) => {
     let user_object = {
-        uniqueID: !needMatchToKartoffel ? originalRecord[fn[dataSource].mail] : record[fn[dataSource].mail],
         dataSource,
     };
 
