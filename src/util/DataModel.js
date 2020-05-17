@@ -5,27 +5,37 @@ const fn = require('../config/fieldNames')
 const tryArgs = require('./generalUtils/tryArgs');
 
 class DataModel {
-    constructor(record, dataSource, flowType, deepDiffRecord) {
+    constructor(record, dataSource, flowType, deepDiffObj) {
         this.record = record;
-        this.deepDiffRecord = deepDiffRecord;
+        this.deepDiffRecord = deepDiffObj;
         this.dataSource = dataSource;
         this.flowType = flowType;
         this.needMatchToKartoffel = true;
         this.isDataSourcePrimary = false;
-        this.identifiers = [];
+        this.identifiers = null;
         this.person_ready_for_kartoffel = null;
         this.person = null;
         this.akaRecord = null;
         this.entityType = null;
     }
 
+    getIdentifiers() {
+        if (this.identifiers) {
+            return this.identifiers
+        } else {
+
+        }
+    }
+
     async matchToKartoffel() {
         if (this.needMatchToKartoffel) {
             this.person_ready_for_kartoffel = await matchToKartoffel(
                 this.record,
-                this.dataSource
+                this.dataSource,
+                this.flowType
             );
             this.needMatchToKartoffel = false;
+            this.entityType = this.person_ready_for_kartoffel.entityType;
         }
     }
 

@@ -15,7 +15,7 @@ require('dotenv').config();
 module.exports = async (diffsObj, dataSource, aka_all_data) => {
     const newData = diffsObj.added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add));
     const updatedData = diffsObj.updated.map(
-        updatedRecord => new DataModel(updatedRecord[1], dataSource, fn.flowTypes.update, updatedRecord)
+        deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, deepDiffObj)
     );
 
     return PromiseAllWithFails([
