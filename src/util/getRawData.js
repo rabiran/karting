@@ -13,8 +13,12 @@ const saveAsFile = require('./saveAsFile');
  * @param {string} runType - the current runnig type
  * @param {Date} dateAndTime - when the data was called
  */
-module.exports = async (dataSource, runType, dateAndTime) => {
+module.exports = async (dataSource, runType, dateAndTime, personIDs) => {
+
     let data;
+
+    // TODO implement a search for objects in datasource that match the personIDs
+    
     if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server
         let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API).catch(err => {

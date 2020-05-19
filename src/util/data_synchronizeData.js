@@ -7,9 +7,9 @@ const fs = require('fs');
 
 axios.defaults.headers.common['authorization'] = process.env.SOURCES_TOKEN;
 
-module.exports = async (dataSource, runnigType) => {
+module.exports = async (dataSource, runnigType, personIDs) => {
     const dateAndTime = moment(new Date()).format("DD.MM.YYYY__HH.mm");
-    const data = await getRawData(dataSource, runnigType, dateAndTime);
+    const data = await getRawData(dataSource, runnigType, dateAndTime, personIDs);
 
     const path = `./data/${dataSource}`;
     const files = fs.readdirSync(`${path}/`);
