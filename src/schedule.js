@@ -49,6 +49,7 @@ const run = async runnigType => {
             GetDataAndProcess(fn.dataSources.city, aka_data, runnigType, dataSync),
         ]);
         
+        // Due performence reasons aka flow is run by itself, after the other flows
         await GetDataAndProcess(fn.dataSources.aka, aka_data);
         
         if (redis && redis.status === 'ready') redis.quit();
