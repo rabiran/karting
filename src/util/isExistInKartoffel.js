@@ -21,7 +21,7 @@ module.exports = async record => {
         async identifier => (await Auth.axiosKartoffel.get(path(identifier))).data,
         ...filterdIdentifiers
     );
-
+  
     if (lastErr && lastErr.response && lastErr.response.status === 404) {
         return false;
     }
