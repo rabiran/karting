@@ -1,10 +1,11 @@
 const express = require('express');
 const fn = require('../config/fieldNames');
+const p = require('../config/paths');
 const axios = require("axios");
 
 
 module.exports = async() => {
-    const receivedData = await axios.get('http://localhost:3002/immediateRun');
+    const receivedData = await axios.get(p().immediateServer_API);
     // console.log(data);
     if (receivedData.data.objects && receivedData.data.objects.length > 0)
         return receivedData.data;

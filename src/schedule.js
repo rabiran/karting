@@ -29,7 +29,7 @@ let data;
 app.post("/immediateRun", async (req, res) => {
     console.log(req.body);
     data = req.body;
-    await run(fn.runnigTypes.ImmediateRun);
+    await run(fn.runnigTypes.ImmediateRun, req.body.dataSource);
     res.json('yes');
 })
 
@@ -39,7 +39,7 @@ app.get("/immediateRun", (req, res) => {
 app.listen(port, () => console.log("immediateRun server run on port:" + port))
 
 
-const run = async runnigType => {
+const run = async (runnigType, dataSource) => {
     try {
         const redis = await connectToRedis();
 
@@ -64,7 +64,7 @@ const run = async runnigType => {
 
         if(runnigType == fn.runnigTypes.ImmediateRun) {
             await PromiseAllWithFails([
-                GetDataAndProcess(fn.dataSources.es, aka_data, runnigType, dataSync),
+                GetDataAndProcess(dataSource, aka_data, runnigType, dataSync),
             ]);
         } else {
             await PromiseAllWithFails([
