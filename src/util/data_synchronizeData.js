@@ -4,12 +4,28 @@ const moment = require('moment');
 const dataComparison = require('../util/dataComparison');
 const getRawData = require('./getRawData');
 const fs = require('fs');
+const getPeopleFromServer = require('./getPeopleFromServer');
 
 axios.defaults.headers.common['authorization'] = process.env.SOURCES_TOKEN;
 
-module.exports = async (dataSource, runnigType, personIDs) => {
+module.exports = async (dataSource, runnigType, ImmediateRunException = false) => {
     const dateAndTime = moment(new Date()).format("DD.MM.YYYY__HH.mm");
-    const data = await getRawData(dataSource, runnigType, dateAndTime, personIDs);
+    let data;
+    // if(runnigType == fn.runnigTypes.ImmediateRun && !ImmediateRunException){
+    //     data = getPeopleFromServer();
+    //     await getPeopleFromServer().then(res => {
+    //         data = res;
+    //         // console.log(data);
+    //         dataSource = data[0];
+    //     });
+    //     // console.log(dataSource);
+    //     data.splice(0, 1);
+    // }
+    if(runnigType == fn.runnigTypes.ImmediateRun && !ImmediateRunException){
+        let receivedData = await getPeopleFromServer();
+        data = receivedData.objects;
+        dataSource = receivedData.dataSource;
+    } else data = await getRawData(dataSource, runnigType, dateAndTime);
 
     const path = `./data/${dataSource}`;
     const files = fs.readdirSync(`${path}/`);

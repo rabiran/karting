@@ -141,6 +141,11 @@ module.exports = {
         hour: 0,
         minute: 54,
     },
+    immediateRunningTime: {
+        date: 10,
+        hour: 0,
+        minute: 54,
+    },
     personStatus: {
         incomplete: 'incomplete',
         inactive: 'inactive',
@@ -174,6 +179,7 @@ module.exports = {
     runnigTypes: {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
+        ImmediateRun: 'Immediate_run',
     },
     organizationGroups: {
         incompletes_name: 'incomplete',
@@ -182,6 +188,5 @@ module.exports = {
         add: 'add',
         update: 'update',
     },
-    chunckSize: 200,
-    kartoffelUrl: "http://localhost:3000",
+    kartoffelUrl: "http://192.168.99.100:3000",
 };

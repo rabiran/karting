@@ -9,16 +9,16 @@ const PromiseAllWithFails = require('./util/generalUtils/promiseAllWithFails');
 const logDetails = require('./util/logDetails');
 const connectToRedis = require('./util/generalUtils/connectToRedis');
 
-// TODO create express server with route to run immediateRun
-
 require('dotenv').config();
 const scheduleRecoveryTime = process.env.NODE_ENV === 'production' ? fn.recoveryRunningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
+const scheduleImmediateTime = new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 
-schedule.scheduleJob(scheduleTime, async () => await run(fn.runnigTypes.dailyRun));
-schedule.scheduleJob(scheduleRecoveryTime, async () => await run(fn.runnigTypes.recoveryRun));
+// schedule.scheduleJob(scheduleTime, async () => await run(fn.runnigTypes.dailyRun));
+// schedule.scheduleJob(scheduleRecoveryTime, async () => await run(fn.runnigTypes.recoveryRun));
+schedule.scheduleJob(scheduleImmediateTime, async () => await run(fn.runnigTypes.ImmediateRun));
 
-const run = async (runnigType, dataSource, personIDs) => {
+const run = async runnigType => {
     try {
         const redis = await connectToRedis();
 
@@ -39,15 +39,15 @@ const run = async (runnigType, dataSource, personIDs) => {
             });
 
         // get the new json from aka & save him on the server
-        let aka_data = await dataSync(fn.dataSources.aka, runnigType);
+        let aka_data = await dataSync(fn.dataSources.aka, runnigType , true);
 
-        if (runnigType == fn.runnigTypes.immediateRun) {
+        if(runnigType == fn.runnigTypes.ImmediateRun) {
             await PromiseAllWithFails([
-                GetDataAndProcess(dataSource, aka_data, runnigType, dataSync, personIDs),
+                GetDataAndProcess(fn.dataSources.es, aka_data, runnigType, dataSync),
             ]);
-        }
-        else {
+        } else {
             await PromiseAllWithFails([
+                GetDataAndProcess(fn.dataSources.aka, aka_data),
                 GetDataAndProcess(fn.dataSources.es, aka_data, runnigType, dataSync),
                 GetDataAndProcess(fn.dataSources.ads, aka_data, runnigType, dataSync),
                 GetDataAndProcess(fn.dataSources.adNN, aka_data, runnigType, dataSync),
@@ -56,11 +56,7 @@ const run = async (runnigType, dataSource, personIDs) => {
                 GetDataAndProcess(fn.dataSources.mm, aka_data, runnigType, dataSync),
                 GetDataAndProcess(fn.dataSources.city, aka_data, runnigType, dataSync),
             ]);
-            
-            // Due performence reasons aka flow is run by itself, after the other flows
-            await GetDataAndProcess(fn.dataSources.aka, aka_data);
         }
-        
         if (redis && redis.status === 'ready') redis.quit();
     } catch (err) {
         sendLog(logLevel.error, logDetails.error.ERR_UN_HANDLED_ERROR, runnigType, JSON.stringify(err));
@@ -75,6 +71,10 @@ const run = async (runnigType, dataSource, personIDs) => {
  */
 const GetDataAndProcess = async (dataSource, akaData, runnigType, func) => {
     // In case datasource is aka, I get data before function and therefore not need to get data again
-    let data = func ? await func(dataSource, runnigType, personIDs) : akaData;
+    let data = func ? await func(dataSource, runnigType) : akaData;
+    await diffsHandler(data, dataSource, akaData.all);
+}
+
+module.exports = async (data, dataSource, akaData, runnigType) => {
     await diffsHandler(data, dataSource, akaData.all);
 }
