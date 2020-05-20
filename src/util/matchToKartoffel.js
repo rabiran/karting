@@ -393,7 +393,7 @@ const match_nv_sql = (obj, dataSource) => {
 const match_city = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     // initialize variables for hierarchy matching and define default hierarchy
-    const defaultHierarchy = `${fn.rootHierarchy.city}${obj.company ? '/' + obj.company : ''}`;
+    const defaultHierarchy = `${fn.rootHierarchy.city}${obj[fn[dataSources].company] ? '/' + obj[fn[dataSources].company] : ''}`;
     obj.hierarchy = defaultHierarchy;
     // suitable the structure of the fieds to kartoffel standart
     objKeys.map((rawKey) => {
@@ -472,8 +472,13 @@ const match_city = (obj, dataSource) => {
 
                     hr = hr.join('/');
                 }
-
-                obj.hierarchy = `${defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
+                // this condition come to avoid insertion of "defaultHierarchy" to user that come from our "enviroment" to
+                // city "enviroment" and than return to us from city API
+                if(hr.includes(defaultHierarchy)){
+                    obj.hierarchy = hr;
+                } else{
+                    obj.hierarchy = `${defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
+                }
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             // entityType & and default identityCard / personlNumber
