@@ -4,7 +4,7 @@ const axios = require("axios");
 
 
 module.exports = async() => {
-    const receivedData = await axios.get('http://localhost:3001/immediateRun');
+    const receivedData = await axios.get('http://localhost:3002/immediateRun');
     // console.log(data);
     if (receivedData.data.objects && receivedData.data.objects.length > 0)
         return receivedData.data;

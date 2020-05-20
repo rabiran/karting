@@ -1,8 +1,5 @@
-const express = require("express")
-const app = express()
-const {exec} = require('child_process');
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
+let express = require("express")
+let app = express()
 
 let port = 3001
 
@@ -41,15 +38,5 @@ app.get("/getCity", (req, res) => {
     res.json(require("./mocksFiles/city.json"))
 })
 
-app.post("/immediateRun", (req, res) => {
-    console.log(req.body);
-    data = req.body;
-    exec('npm start');
-    res.json('yes');
-})
-
-app.get("/immediateRun", (req, res) => {
-    res.json(data);
-})
 
 app.listen(port, () => console.log("mocksGenerator server run on port:" + port))

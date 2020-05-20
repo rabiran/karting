@@ -8,15 +8,36 @@ const schedule = require('node-schedule');
 const PromiseAllWithFails = require('./util/generalUtils/promiseAllWithFails');
 const logDetails = require('./util/logDetails');
 const connectToRedis = require('./util/generalUtils/connectToRedis');
+const express = require("express")
+const bodyParser = require('body-parser');
 
 require('dotenv').config();
 const scheduleRecoveryTime = process.env.NODE_ENV === 'production' ? fn.recoveryRunningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
-const scheduleImmediateTime = new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 
 // schedule.scheduleJob(scheduleTime, async () => await run(fn.runnigTypes.dailyRun));
 // schedule.scheduleJob(scheduleRecoveryTime, async () => await run(fn.runnigTypes.recoveryRun));
-schedule.scheduleJob(scheduleImmediateTime, async () => await run(fn.runnigTypes.ImmediateRun));
+
+// Create immediateRun server app
+
+let port = 3002
+
+const app = express()
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+let data;
+app.post("/immediateRun", async (req, res) => {
+    console.log(req.body);
+    data = req.body;
+    await run(fn.runnigTypes.ImmediateRun);
+    res.json('yes');
+})
+
+app.get("/immediateRun", (req, res) => {
+    res.json(data);
+})
+app.listen(port, () => console.log("immediateRun server run on port:" + port))
+
 
 const run = async runnigType => {
     try {
