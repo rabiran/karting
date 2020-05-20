@@ -5,7 +5,7 @@ const dataComparison = require('../util/dataComparison');
 const getRawData = require('./getRawData');
 const fs = require('fs');
 
-axios.defaults.headers.common['authorization'] = process.env.SOURCES_TOKEN;
+axios.defaults.headers.common['Authorization'] = process.env.SOURCES_TOKEN;
 
 module.exports = async (dataSource, runnigType) => {
     const dateAndTime = moment(new Date()).format("DD.MM.YYYY__HH.mm");
