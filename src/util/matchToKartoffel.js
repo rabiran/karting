@@ -474,7 +474,7 @@ const match_city = (obj, dataSource) => {
                 }
                 // this condition come to avoid insertion of "defaultHierarchy" to user that come from our "enviroment" to
                 // city "enviroment" and than return to us from city API
-                if(hr.includes(defaultHierarchy)){
+                if(hr.includes(fn.rootHierarchy.city)){
                     obj.hierarchy = hr;
                 } else{
                     obj.hierarchy = `${defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
