@@ -30,11 +30,20 @@ async function goalUserFromPersonCreation(personFromKartoffel, goalUserToCreate,
         sendLog(
             logLevel.error,
             logDetails.error.ERR_DELETE_DOMAIN_USER,
-            goalUserToCreate.domainUsers[0].user_object.uniqueID,
+            goalUserToCreate.domainUsers[0].uniqueID,
             personFromKartoffel.personalNumber || personFromKartoffel.identityCard,
             dataSource,
             errMessage
-        )
+        );
+
+        sendLog(
+            logLevel.error,
+            logDetails.error.ERR_INSERT_PERSON,
+            goalUserToCreate.domainUsers[0].uniqueID,
+            dataSource,
+            errMessage,
+            JSON.stringify(goalUserToCreate)
+        );
     }
 
     let { err, result } = trycatch(
@@ -48,17 +57,18 @@ async function goalUserFromPersonCreation(personFromKartoffel, goalUserToCreate,
         sendLog(
             logLevel.error,
             logDetails.error.ERR_INSERT_PERSON,
-            goalUserToCreate.domainUsers[0].user_object.uniqueID,
+            goalUserToCreate.domainUsers[0].uniqueID,
             dataSource,
             errMessage,
-            JSON.stringify(goalUserToCreate));
+            JSON.stringify(goalUserToCreate)
+        );
         return;
     }
 
     sendLog(
         logLevel.info,
         logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL,
-        JSON.stringify(goalUserToCreate.domainUsers[0].user_object.uniqueID),
+        JSON.stringify(goalUserToCreate.domainUsers[0].uniqueID),
         dataSource
     );
 }
