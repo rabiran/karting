@@ -82,7 +82,7 @@ const match_aka = async (obj, dataSource, flowType) => {
                         Auth.axiosKartoffel.get,
                         p(encodeURIComponent(obj[rawKey])).KARTOFFEL_GROUP_BY_AKA_UNIT
                     );
-                
+
                     if (tryFindGroupByUnit.err) {
                         sendLog(
                             logLevel.warn,
@@ -91,9 +91,9 @@ const match_aka = async (obj, dataSource, flowType) => {
                         );
                         break;
                     }
-                
+
                     const groupByAka = tryFindGroupByUnit.result.data;
-                
+
                     obj.hierarchy = [
                         ...groupByAka.hierarchy,
                         groupByAka.name,
@@ -107,7 +107,7 @@ const match_aka = async (obj, dataSource, flowType) => {
                 delete obj[rawKey];
         }
     }));
-    
+
     obj.entityType = fn.entityTypeValue.s;
 }
 
@@ -470,13 +470,34 @@ const match_city = (obj, dataSource) => {
                         }
                     }
 
+                    // this condition come to fix insertion of "defaultHierarchy" to user that come from our "enviroment" to
+                    // city "enviroment" and than return to us from city API. Can delete this code after stable the specific problem
+                    // of "fn.rootHierarchy.city/fn.rootHierarchy.city/fn.rootHierarchy.city.."
+                    if (hr[0] === fn.rootHierarchy.city) {
+                        let tempCityCount = 0;
+                        for (value of hr) {
+                            if (value === fn.rootHierarchy.city) {
+                                tempCityCount += 1;
+                            } else {
+                                break;
+                            }
+                        }
+                        hr.splice(0, tempCityCount - 1);
+                    }
+
                     hr = hr.join('/');
                 }
                 // this condition come to avoid insertion of "defaultHierarchy" to user that come from our "enviroment" to
                 // city "enviroment" and than return to us from city API
-                if(hr.includes(fn.rootHierarchy.city)){
-                    obj.hierarchy = hr;
-                } else{
+                if (hr.includes(fn.rootHierarchy.city)) {
+                    if (hr.includes(defaultHierarchy)) {
+                        obj.hierarchy = hr;
+                    } else {
+                        if (hr.startsWith(fn.rootHierarchy.city)) {
+                            obj.hierarchy = hr.replace(fn.rootHierarchy.city, defaultHierarchy);
+                        }
+                    }
+                } else {
                     obj.hierarchy = `${defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
                 }
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
