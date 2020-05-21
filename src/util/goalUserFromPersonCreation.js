@@ -18,7 +18,7 @@ async function goalUserFromPersonCreation(personFromKartoffel, goalUserToCreate,
             await Auth.axiosKartoffel.delete(
                 `${p(
                     personFromKartoffel.id,
-                    goalUserToCreate.domainUsers[0].user_object.uniqueID
+                    goalUserToCreate.domainUsers[0].uniqueID
                 ).KARTOFFEL_DELETE_DOMAIN_USER_API}`
             )
         ).data
