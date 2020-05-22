@@ -6,7 +6,7 @@ const { sendLog, logLevel } = require('./logger');
 const logDetails = require('./logDetails');
 const saveAsFile = require('./saveAsFile');
 const getPeopleFromServer = require('./getPeopleFromServer');
-
+const searchRecordInData = require('./searchRecordInData');
 /**
  * Get data raw data from data source
  *
@@ -20,6 +20,7 @@ module.exports = async (dataSource, runType, dateAndTime) => {
         let receivedData = await getPeopleFromServer();
         data = receivedData.objects;
         dataSource_ = receivedData.dataSource;
+        let datatemp = searchRecordInData(dataSource, runType, {})
     }
     else if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server
