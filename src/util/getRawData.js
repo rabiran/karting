@@ -5,6 +5,7 @@ const akaDataManipulate = require('./akaDataManipulate');
 const { sendLog, logLevel } = require('./logger');
 const logDetails = require('./logDetails');
 const saveAsFile = require('./saveAsFile');
+const getPeopleFromServer = require('./getPeopleFromServer');
 
 /**
  * Get data raw data from data source
@@ -15,7 +16,12 @@ const saveAsFile = require('./saveAsFile');
  */
 module.exports = async (dataSource, runType, dateAndTime) => {
     let data;
-    if (dataSource === fn.dataSources.aka) {
+    if (runType == fn.runnigTypes.ImmediateRun && dataSource != fn.dataSources.aka) {
+        let receivedData = await getPeopleFromServer();
+        data = receivedData.objects;
+        dataSource_ = receivedData.dataSource;
+    }
+    else if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server
         let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
