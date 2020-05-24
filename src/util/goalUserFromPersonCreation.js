@@ -13,7 +13,7 @@ const logDetails = require('./logDetails');
  */
 async function goalUserFromPersonCreation(personFromKartoffel, goalUserToCreate, dataSource) {
     // delete the domain user from the real person
-    let { err, result } = trycatch(
+    let tryDelete =  await trycatch(
         async () => (
             await Auth.axiosKartoffel.delete(
                 `${p(
@@ -24,8 +24,8 @@ async function goalUserFromPersonCreation(personFromKartoffel, goalUserToCreate,
         ).data
     );
 
-    if (err) {
-        let errMessage = err.response ? err.response.data.message : err.message;
+    if (tryDelete.err) {
+        let errMessage = tryDelete.err.response ? tryDelete.err.response.data.message : tryDelete.err.message;
 
         sendLog(
             logLevel.error,
@@ -46,14 +46,14 @@ async function goalUserFromPersonCreation(personFromKartoffel, goalUserToCreate,
         );
     }
 
-    let { err, result } = trycatch(
-        () => (
+    let tryCreate = await trycatch(
+        async () => (
             await Auth.axiosKartoffel.post(p().KARTOFFEL_PERSON_API, goalUserToCreate)
         ).data
     );
 
-    if (err) {
-        let errMessage = err.response ? err.response.data.message : err.message;
+    if (tryCreate.err) {
+        let errMessage = tryCreate.err.response ? tryCreate.err.response.data.message : tryCreate.err.message;
         sendLog(
             logLevel.error,
             logDetails.error.ERR_INSERT_PERSON,

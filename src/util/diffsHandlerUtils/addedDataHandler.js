@@ -11,6 +11,7 @@ const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const Auth = require('../../auth/auth');
 const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
+const goalUserFromPersonCreation = require('../goalUserFromPersonCreation')
 
 require('dotenv').config();
 
