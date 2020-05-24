@@ -105,16 +105,14 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
             }
         } else if (tryFindPerson.result) {
             person = tryFindPerson.result;
-
-            let isPrimary = (currentUnit_to_DataSource.get(person_ready_for_kartoffel.currentUnit) === dataSource);
-
+            const isPrimary = (currentUnit_to_DataSource.get(person_ready_for_kartoffel.currentUnit) === dataSource);
+            
             if (
-                isPrimary &&
-                !(
-                    person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
-                    person.entityType !== fn.entityTypeValue.gu
-                )
+                person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
+                person.entityType !== fn.entityTypeValue.gu
             ) {
+                await goalUserFromPersonCreation(person, person_ready_for_kartoffel);
+            } else if (isPrimary) {
                 Object.keys(person).map((key) => {
                     fn.fieldsForRmoveFromKartoffel.includes(key) ? delete person[key] : null;
                 })
@@ -132,11 +130,6 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                         record
                     );
                 }
-            } else if (
-                person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
-                person.entityType !== fn.entityTypeValue.gu
-            ) {
-                await goalUserFromPersonCreation(person, person_ready_for_kartoffel);
             } else {
                 await domainUserHandler(person, record, dataSource);
             }
