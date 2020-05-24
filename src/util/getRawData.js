@@ -6,7 +6,7 @@ const { sendLog, logLevel } = require('./logger');
 const logDetails = require('./logDetails');
 const saveAsFile = require('./saveAsFile');
 const getPeopleFromServer = require('./getPeopleFromServer');
-const searchRecordInData = require('./searchRecordInData');
+
 /**
  * Get data raw data from data source
  *
@@ -17,10 +17,7 @@ const searchRecordInData = require('./searchRecordInData');
 module.exports = async (dataSource, runType, dateAndTime) => {
     let data;
     if (runType == fn.runnigTypes.ImmediateRun && dataSource != fn.dataSources.aka) {
-        let receivedData = await getPeopleFromServer();
-        data = receivedData.objects;
-        dataSource_ = receivedData.dataSource;
-        let datatemp = searchRecordInData(dataSource, runType, {})
+        data = await getPeopleFromServer();
     }
     else if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server
@@ -43,7 +40,12 @@ module.exports = async (dataSource, runType, dateAndTime) => {
     }
 
     // save the new json as file in the server and get the name of the kast file
-    saveAsFile(data, `./data/${dataSource}`, `${runType}_${dataSource}_raw_data`, dateAndTime);
+    if(runType === fn.runnigTypes.ImmediateRun) {
+        saveAsFile(data, `./data/${runType}/${dataSource}`, `${runType}_${dataSource}_raw_data`, dateAndTime);
+    }
+    else {
+        saveAsFile(data, `./data/${dataSource}`, `${runType}_${dataSource}_raw_data`, dateAndTime);
+    }
 
     return data;
 }

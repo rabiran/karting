@@ -10,7 +10,7 @@ const logDetails = require('./logDetails');
  * @param {string} dataSource = which data source to get data from
  * @param {string} runnigType - the current runnig type
  */
-module.exports = async (dataSource, runnigType, personIDs) => {
+module.exports = async (dataSource, runnigType, PersonalNumbersArray) => {
 
     const path = `./data/${dataSource}`;
     const files = fs.readdirSync(`${path}/`);
@@ -30,5 +30,8 @@ module.exports = async (dataSource, runnigType, personIDs) => {
         }
     }
 
-    return [];
+    let dataSourceFields = fn[dataSource];
+    let foundPerson = previous_data.filter(person => (PersonalNumbersArray.includes((person[dataSourceFields.personalNumber]))))
+    // or other ids
+    return foundPerson;
 }

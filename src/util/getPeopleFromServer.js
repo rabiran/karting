@@ -2,21 +2,25 @@ const express = require('express');
 const fn = require('../config/fieldNames');
 const p = require('../config/paths');
 const axios = require("axios");
-
+const searchRecordInData = require('./searchRecordInData');
 
 module.exports = async() => {
-    const receivedData = await axios.get(p().immediateServer_API);
-    // console.log(data);
-    if (receivedData.data.objects && receivedData.data.objects.length > 0)
-        return receivedData.data;
-    else 
-        return{
-                "dataSource" : "fn.dataSources.es",
-                "objects" : [
-                    {"tz":"583215090","stype":"A","firstName":"Lamar","lastName":"Wintheiser","mi":"801377888","entity":"agumon","rnk":"unknown",
-                    "rld":"2019-04-30 00:00:00.0","vphone":"7501","cphone":"53-8067942","hr":"suscipit/ut/labore","tf":"Designer","userName":"Lamar50","mail":"Lamar50@jello.com"},
-                    {"tz":"641434477","stype":"H","mi":"641434477","firstName":"Price","lastName":"Hamill","entity":"digimon","rnk":null,"rld":null,"vphone":"5791",
-                    "cphone":"58-4709158","hr":"ea/accusantium/et","tf":"Administrator","userName":"Price70","mail":"Price70@jello.com"}
-                ]
-    };
+    
+    //get IDs from immediateServer
+    const receivedIDsData = await axios.get(p().immediateServer_API);
+    const PersonalNumbersArray = receivedIDsData.data.personalNumbersArray;
+    const dataSource = receivedIDsData.data.dataSource;
+
+    //search records for id in data file
+    let foundPersonInData = searchRecordInData(dataSource, fn.runnigTypes.ImmediateRun, PersonalNumbersArray)
+
+    //get recent data from mocks
+    data = await axios.get(p()[`${dataSource}_API`]).catch(err=>{
+        sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
+    });
+    curr_data = data.data;
+    let dataSourceFields = fn[dataSource];
+    let foundPersonInMocks = curr_data.filter(person => (PersonalNumbersArray.includes((person[dataSourceFields.personalNumber]))))
+
+    return foundPersonInMocks || foundPersonInData;
 }
