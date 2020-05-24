@@ -11,6 +11,7 @@ const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const Auth = require('../../auth/auth');
 const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
+const goalUserFromPersonCreation = require('../goalUserFromPersonCreation')
 
 require('dotenv').config();
 
@@ -104,10 +105,14 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
             }
         } else if (tryFindPerson.result) {
             person = tryFindPerson.result;
-
-            let isPrimary = (currentUnit_to_DataSource.get(person_ready_for_kartoffel.currentUnit) === dataSource);
-
-            if (isPrimary) {
+            const isPrimary = (currentUnit_to_DataSource.get(person_ready_for_kartoffel.currentUnit) === dataSource);
+            
+            if (
+                person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
+                person.entityType !== fn.entityTypeValue.gu
+            ) {
+                await goalUserFromPersonCreation(person, person_ready_for_kartoffel, dataSource);
+            } else if (isPrimary) {
                 Object.keys(person).map((key) => {
                     fn.fieldsForRmoveFromKartoffel.includes(key) ? delete person[key] : null;
                 })
