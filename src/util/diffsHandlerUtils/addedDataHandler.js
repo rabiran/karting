@@ -111,7 +111,7 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                 person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
                 person.entityType !== fn.entityTypeValue.gu
             ) {
-                await goalUserFromPersonCreation(person, person_ready_for_kartoffel);
+                await goalUserFromPersonCreation(person, person_ready_for_kartoffel, dataSource);
             } else if (isPrimary) {
                 Object.keys(person).map((key) => {
                     fn.fieldsForRmoveFromKartoffel.includes(key) ? delete person[key] : null;

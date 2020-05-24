@@ -21,7 +21,7 @@ messageLog = {
         ERR_UNKNOWN_ERROR: 'Unknown Error at %s flow the error is: %s',
         ERR_NO_IDENTIFIERS_TO_UPDATE: 'there is no identifiers to the record: %s at update flow from "%s"',
         ERR_NOT_FIND_PERSON_AT_UPDATE: 'The person with identifiers %s from %s does not exists in kartoffel at UPDATE flow',
-        ERR_DELETE_DOMAIN_USER: 'Cannot delete the domainUser %s from the person with identifier %s from %s the error message is %s'
+        ERR_DELETE_DOMAIN_USER: 'Cannot delete the domainUser %s from the person with identifier %s from %s the error message is: %s'
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
