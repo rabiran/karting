@@ -2,7 +2,7 @@ const fs = require('fs');
 const fn = require('../config/fieldNames');
 const { sendLog, logLevel } = require('./logger');
 const logDetails = require('./logDetails');
-
+const getIdentifiers = require('./getIdentifiers')
 
 /**
  * Get data raw data from data source
@@ -10,7 +10,7 @@ const logDetails = require('./logDetails');
  * @param {string} dataSource = which data source to get data from
  * @param {string} runnigType - the current runnig type
  */
-module.exports = async (dataSource, runnigType, PersonalNumbersArray) => {
+module.exports = async (dataSource, runnigType, personIDsArray) => {
 
     const path = `./data/${dataSource}`;
     const files = fs.readdirSync(`${path}/`);
@@ -30,8 +30,12 @@ module.exports = async (dataSource, runnigType, PersonalNumbersArray) => {
         }
     }
 
-    let dataSourceFields = fn[dataSource];
-    let foundPerson = previous_data.filter(person => (PersonalNumbersArray.includes((person[dataSourceFields.personalNumber]))))
-    // or other ids
-    return foundPerson;
+    flatIDs = personIDsArray.map(obj => [obj.id, obj.mi]).flat();
+    let foundRecord = await previous_data.filter(async record => (await findrecord(record, flatIDs)))
+    return foundRecord;
+
+    async function findrecord(record, flatIDs) {
+        const { identityCard, personalNumber } = await getIdentifiers(record, dataSource, true);
+        return (flatIDs.includes(identityCard) || flatIDs.includes(personalNumber));
+    }
 }

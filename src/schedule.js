@@ -60,7 +60,7 @@ const run = async (runnigType, dataSource) => {
             });
 
         // get the new json from aka & save him on the server
-        let aka_data = await dataSync(fn.dataSources.aka, runnigType , true);
+        let aka_data = await dataSync(fn.dataSources.aka, runnigType);
 
         if(runnigType == fn.runnigTypes.ImmediateRun) {
             await PromiseAllWithFails([
