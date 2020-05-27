@@ -23,4 +23,9 @@ module.exports = async() => {
     let foundPersonInMocks = curr_data.filter(person => (PersonalNumbersArray.includes((person[dataSourceFields.personalNumber]))))
 
     return foundPersonInMocks || foundPersonInData;
+
+    function findrecord(record) {
+        const { identityCard, personalNumber } = await getIdentifiers(record, dataSource, true);
+        return (PersonalNumbersArray.includes(identityCard) || PersonalNumbersArray.includes(personalNumber));
+    }
 }

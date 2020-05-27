@@ -18,8 +18,7 @@ module.exports = async (dataSource, runType, dateAndTime) => {
     let data;
     if (runType == fn.runnigTypes.ImmediateRun && dataSource != fn.dataSources.aka) {
         data = await getPeopleFromServer();
-    }
-    else if (dataSource === fn.dataSources.aka) {
+    } else if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server
         let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
