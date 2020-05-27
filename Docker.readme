@@ -1,3 +1,0 @@
-1. Insert the variable enviroment in .env of kartoffel in 'kartoffelDotenvFile' folder
-2. Run docker-compose up --build -d
-3. Good luck!!
