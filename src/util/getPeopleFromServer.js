@@ -21,13 +21,13 @@ module.exports = async() => {
     });
     curr_data = data.data;
     
-    let flatIDs = personIDsArray.map(obj => [obj.id, obj.mi]).flat();
+    let flatIDs = personIDsArray.map(obj => [obj.id, obj.mi, obj.domuser]).flat();
     // let foundRecord = await previous_data.filter(async record => (await findrecord(record, flatIDs)))
     let foundRecordInMocks = await filterAsync(curr_data, async (record) => (await findrecord(record)))
     return foundRecordInMocks;
 
     async function findrecord(record) {
-        const { identityCard, personalNumber } = await getIdentifiers(record, dataSource, true);
-        return (flatIDs.includes(identityCard) || flatIDs.includes(personalNumber));
+        const { identityCard, personalNumber, domuser  } = await getIdentifiers(record, dataSource, true);
+        return (flatIDs.includes(identityCard) || flatIDs.includes(personalNumber) || flatIDs.includes(domuser));
     }
 }
