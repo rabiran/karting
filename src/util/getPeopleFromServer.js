@@ -2,7 +2,8 @@ const express = require('express');
 const fn = require('../config/fieldNames');
 const p = require('../config/paths');
 const axios = require("axios");
-const searchRecordInData = require('./searchRecordInData');
+const filterAsync = require('./generalUtils/filterAsync');
+const getIdentifiers = require('./getIdentifiers')
 
 module.exports = async() => {
     
@@ -12,16 +13,21 @@ module.exports = async() => {
     const dataSource = receivedIDsData.data.dataSource;
 
     //search records for id in data file
-    let foundRecordInData = searchRecordInData(dataSource, fn.runnigTypes.ImmediateRun, personIDsArray)
+    // let foundRecordInData = searchRecordInData(dataSource, fn.runnigTypes.ImmediateRun, personIDsArray)
 
-    //get recent data from mocks
-    // data = await axios.get(p()[`${dataSource}_API`]).catch(err=>{
-    //     sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
-    // });
-    // curr_data = data.data;
-    // let dataSourceFields = fn[dataSource];
-    // let foundRecordInMocks = curr_data.filter(record => (findrecord(record, personIDsArray)))
+    // get recent data from mocks
+    data = await axios.get(p()[`${dataSource}_API`]).catch(err=>{
+        sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
+    });
+    curr_data = data.data;
+    
+    let flatIDs = personIDsArray.map(obj => [obj.id, obj.mi]).flat();
+    // let foundRecord = await previous_data.filter(async record => (await findrecord(record, flatIDs)))
+    let foundRecordInMocks = await filterAsync(curr_data, async (record) => (await findrecord(record)))
+    return foundRecordInMocks;
 
-    return foundPersonInData;
-
+    async function findrecord(record) {
+        const { identityCard, personalNumber } = await getIdentifiers(record, dataSource, true);
+        return (flatIDs.includes(identityCard) || flatIDs.includes(personalNumber));
+    }
 }

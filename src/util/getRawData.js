@@ -14,9 +14,9 @@ const getPeopleFromServer = require('./getPeopleFromServer');
  * @param {string} runType - the current runnig type
  * @param {Date} dateAndTime - when the data was called
  */
-module.exports = async (dataSource, runType, dateAndTime) => {
+module.exports = async (dataSource, runType, dateAndTime, isImmediateRun) => {
     let data;
-    if (runType == fn.runnigTypes.ImmediateRun && dataSource != fn.dataSources.aka) {
+    if (runType == fn.runnigTypes.ImmediateRun && !isImmediateRun) {
         data = await getPeopleFromServer();
     } else if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server

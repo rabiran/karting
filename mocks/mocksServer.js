@@ -3,7 +3,6 @@ let app = express()
 
 let port = 3001
 
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use((req, res, next) => {
     if (req.headers['authorization'] === "123") {
         next()

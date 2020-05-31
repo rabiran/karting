@@ -7,18 +7,18 @@ const fs = require('fs');
 
 axios.defaults.headers.common['authorization'] = process.env.SOURCES_TOKEN;
 
-module.exports = async (dataSource, runnigType) => {
+module.exports = async (dataSource, runnigType , isImmediateRun = false) => {
     const dateAndTime = moment(new Date()).format("DD.MM.YYYY__HH.mm");
     let data;
 
-    data = await getRawData(dataSource, runnigType, dateAndTime);
+    data = await getRawData(dataSource, runnigType, dateAndTime , isImmediateRun);
 
     const path = `./data/${dataSource}`;
     const files = fs.readdirSync(`${path}/`);
     const actionDescription = `${runnigType}_${dataSource}_raw_data`;
-    let lastJsonName = runnigType === fn.runnigTypes.recoveryRun ? null : files[files.length - 1];
+    let lastJsonName = runnigType === fn.runnigTypes.recoveryRun || fn.runnigTypes.ImmediateRun ? null : files[files.length - 1];
 
-    if (runnigType !== fn.runnigTypes.recoveryRun) {
+    if (runnigType !== fn.runnigTypes.recoveryRun && runnigType !== fn.runnigTypes.ImmediateRun ) {
         // solve the problem that if runnig the module twice at same time on the clock
         if (files[files.length - 1] === `${actionDescription}_${dateAndTime}.log` || files[files.length - 1] === 'archive') {
             const completeFiles = fs.readdirSync(`${path}/archive/`);
