@@ -9,18 +9,20 @@ const PromiseAllWithFails = require('./util/generalUtils/promiseAllWithFails');
 const logDetails = require('./util/logDetails');
 const connectToRedis = require('./util/generalUtils/connectToRedis');
 const express = require("express")
+const moment = require('moment');
+const getRawData = require('./util/getRawData');
 const bodyParser = require('body-parser');
 
 require('dotenv').config();
 const scheduleRecoveryTime = process.env.NODE_ENV === 'production' ? fn.recoveryRunningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 const scheduleTime = process.env.NODE_ENV === 'production' ? fn.runningTime : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 
-// schedule.scheduleJob(scheduleTime, async () => await run(fn.runnigTypes.dailyRun));
-// schedule.scheduleJob(scheduleRecoveryTime, async () => await run(fn.runnigTypes.recoveryRun));
+schedule.scheduleJob(scheduleTime, async () => await run(fn.runnigTypes.dailyRun));
+schedule.scheduleJob(scheduleRecoveryTime, async () => await run(fn.runnigTypes.recoveryRun));
 
 // Create immediateRun server app
 
-let port = 3002
+let port = 3002;
 
 const app = express()
 app.use(bodyParser.json());
@@ -29,17 +31,13 @@ let data;
 app.post("/immediateRun", async (req, res) => {
     console.log(req.body);
     data = req.body;
-    await run(fn.runnigTypes.ImmediateRun, req.body.dataSource);
+    await runImmediate(req.body.dataSource, req.body.personIDsArray);
     res.json('yes');
 })
 
-app.get("/immediateRun", (req, res) => {
-    res.json(data);
-})
 app.listen(port, () => console.log("immediateRun server run on port:" + port))
 
-
-const run = async (runnigType, dataSource) => {
+const run = async (runnigType, dataSource, identifiersArray) => {
     try {
         const redis = await connectToRedis();
 
@@ -60,9 +58,10 @@ const run = async (runnigType, dataSource) => {
             });
 
         // get the new json from aka & save him on the server
-        let aka_data = await dataSync(fn.dataSources.aka, runnigType, true);
+        let aka_data = await dataSync(fn.dataSources.aka, runnigType);
 
         if(runnigType == fn.runnigTypes.ImmediateRun) {
+
             await PromiseAllWithFails([
                 GetDataAndProcess(dataSource, aka_data, runnigType, dataSync),
             ]);
@@ -94,4 +93,40 @@ const GetDataAndProcess = async (dataSource, akaData, runnigType, func) => {
     // In case datasource is aka, I get data before function and therefore not need to get data again
     let data = func ? await func(dataSource, runnigType) : akaData;
     await diffsHandler(data, dataSource, akaData.all);
+}
+
+const runImmediate = async (dataSource, identifiersArray) => {
+    try {
+        const redis = await connectToRedis();
+
+        // check if the root hierarchy exist and adding it if not
+        await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy.ourCompany)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
+            .then((result) => {
+                sendLog(logLevel.info, logDetails.info.INF_ROOT_EXSIST, result.data.name);
+            })
+            .catch(async () => {
+                await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, { name: fn.rootHierarchy.ourCompany })
+                    .then((result) => {
+                        sendLog(logLevel.info, logDetails.info.INF_ADD_ROOT, result.data.name);
+                    })
+                    .catch((err) => {
+                        let errorMessage = (err.response) ? err.response.data.message : err.message;
+                        sendLog(logLevel.error, logDetails.error.ERR_ADD_ROOT, errorMessage);
+                    })
+            });
+
+            const dateAndTime = moment(new Date()).format("DD.MM.YYYY__HH.mm");
+            let aka_data = await getRawData(fn.dataSources.aka, fn.runnigTypes.ImmediateRun, dateAndTime);
+            let data = {
+                updated: []
+            };
+            data.added = await getRawData(dataSource, fn.runnigTypes.ImmediateRun, dateAndTime, identifiersArray);
+            await diffsHandler(data, dataSource, aka_data);
+
+
+
+    } catch (err) {
+        sendLog(logLevel.error, logDetails.error.ERR_UN_HANDLED_ERROR, fn.runnigTypes.ImmediateRun, JSON.stringify(err));
+    }
+
 }
