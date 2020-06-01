@@ -141,11 +141,6 @@ module.exports = {
         hour: 0,
         minute: 54,
     },
-    immediateRunningTime: {
-        date: 10,
-        hour: 0,
-        minute: 54,
-    },
     personStatus: {
         incomplete: 'incomplete',
         inactive: 'inactive',

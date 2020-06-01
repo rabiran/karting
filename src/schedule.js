@@ -95,7 +95,3 @@ const GetDataAndProcess = async (dataSource, akaData, runnigType, func) => {
     let data = func ? await func(dataSource, runnigType) : akaData;
     await diffsHandler(data, dataSource, akaData.all);
 }
-
-module.exports = async (data, dataSource, akaData, runnigType) => {
-    await diffsHandler(data, dataSource, akaData.all);
-}

@@ -1,6 +1,5 @@
 let express = require("express")
 let app = express()
-
 let port = 3001
 
 app.use((req, res, next) => {
@@ -11,7 +10,6 @@ app.use((req, res, next) => {
         throw "unauthorized";
     }
 })
-let data;
 
 app.get("/getEightSocks", (req, res) => {
     res.json(require("./mocksFiles/eightsocks.json"))
@@ -36,6 +34,5 @@ app.get("/getAD/NN", (req, res) => {
 app.get("/getCity", (req, res) => {
     res.json(require("./mocksFiles/city.json"))
 })
-
 
 app.listen(port, () => console.log("mocksGenerator server run on port:" + port))
