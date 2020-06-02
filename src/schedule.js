@@ -46,7 +46,7 @@ const run = async runnigType => {
         const redis = await connectToRedis();
 
         // check if the root hierarchy exist and adding it if not
-        authHierarchyExistence();
+        await authHierarchyExistence();
         // get the new json from aka & save him on the server
         let aka_data = await dataSync(fn.dataSources.aka, runnigType);
 
