@@ -29,10 +29,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 let data;
 app.post("/immediateRun", async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     data = req.body;
-    await runImmediate(req.body.dataSource, req.body.personIDsArray);
-    res.json('yes');
+    if(!req.body.personIDsArray || !req.body.dataSource) {
+        res.json('there is an error with the input');
+    } else {
+        await runImmediate(req.body.dataSource, req.body.personIDsArray);
+        res.json('successfully added');
+    }
 })
 
 app.listen(port, () => console.log("immediateRun server run on port:" + port))

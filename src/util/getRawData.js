@@ -38,7 +38,6 @@ module.exports = async (dataSource, runType, dateAndTime, identifiersArray) => {
     }
     
     if(runType === fn.runnigTypes.ImmediateRun && identifiersArray) {
-
         let flatIDs = identifiersArray.map(obj => [obj.id, obj.mi, obj.domuser]).flat();
         // let foundRecord = await previous_data.filter(async record => (await findrecord(record, flatIDs)))
         data = await filterAsync(data, async (record) => (await findrecord(record)));
