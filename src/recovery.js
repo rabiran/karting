@@ -11,24 +11,30 @@ module.exports = async () => {
     try {
         let{ redis, data } = await preRun([
             fn.dataSources.aka,
-            fn.dataSources.es, 
-            fn.dataSources.ads, 
-            fn.dataSources.adNN, 
-            fn.dataSources.lmn, 
-            fn.dataSources.mdn, 
-            fn.dataSources.mm, 
-            fn.dataSources.city
+            fn.dataSources.es,
+            // fn.dataSources.ads, 
+            // fn.dataSources.adNN, 
+            // fn.dataSources.lmn, 
+            // fn.dataSources.mdn, 
+            // fn.dataSources.mm, 
+            // fn.dataSources.city
         ]);
         let akaData  = { updated: [] };
-        akaData.added = data.filter(element => {
+        akaData.added = data.find(element => {
             return element.dataSource === fn.dataSources.aka;
-          });;
+        }).data;
 
-        await data.forEach(async (dataObject) => {
+        data = data.filter(element => {
+            return element.dataSource !== fn.dataSources.aka;
+        });
+
+        await Promise.all(data.map(async (dataObject) => {
             let finalData = { updated: [] };
             finalData.added = dataObject.data;
-            await diffsHandler(finalData, dataObject.dataSource, akaData.data);
-        });
+            await diffsHandler(finalData, dataObject.dataSource, akaData.added);
+        }));
+
+        await diffsHandler(akaData, fn.dataSources.aka, akaData.added);
 
         if (redis && redis.status === 'ready') redis.quit();
     } catch (err) {
