@@ -11,6 +11,7 @@ const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const Auth = require('../../auth/auth');
 const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
+const goalUserFromPersonCreation = require('../goalUserFromPersonCreation')
 
 require('dotenv').config();
 
@@ -23,12 +24,10 @@ require('dotenv').config();
  * @param {*} currentUnit_to_DataSource - a map of all units from each data source
  * @param {*} needMatchToKartoffel - a flag to tell if the current object needs a match to kartoffel's format
  */
-module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffelForAdded = true) => {
+module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
     let records = diffsObj;
 
-    if (needMatchToKartoffelForAdded) {
-        records = await recordsFilter(diffsObj, dataSource, fn.flowTypes.add);
-    }
+    records = await recordsFilter(records, dataSource, fn.flowTypes.add);
 
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
@@ -38,13 +37,8 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
         let path;
         let filterdIdentifiers;
 
-        // in Recovery flow don't need matchToKartoffel
-        if (needMatchToKartoffelForAdded) {
-            person_ready_for_kartoffel = await matchToKartoffel(record, dataSource, fn.flowTypes.add);
-        } else {
-            person_ready_for_kartoffel = record;
-        }
-
+        person_ready_for_kartoffel = await matchToKartoffel(record, dataSource, fn.flowTypes.add);
+        
         if (person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
             filterdIdentifiers = [person_ready_for_kartoffel.domainUsers[0].uniqueID].filter(id => id);
             path = id => p(id).KARTOFFEL_DOMAIN_USER_API;
@@ -90,6 +84,9 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                 person_ready_for_kartoffel = identifierHandler(person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
                 try {
+                    if (!person_ready_for_kartoffel.directGroup) {
+                        continue;
+                    }
                     let person = await Auth.axiosKartoffel.post(p().KARTOFFEL_PERSON_API, person_ready_for_kartoffel);
                     person = person.data;
                     sendLog(logLevel.info, logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL, JSON.stringify(filterdIdentifiers), dataSource);
@@ -108,10 +105,14 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
             }
         } else if (tryFindPerson.result) {
             person = tryFindPerson.result;
-
-            let isPrimary = (currentUnit_to_DataSource.get(person.currentUnit) === dataSource);
-
-            if (isPrimary) {
+            const isPrimary = (currentUnit_to_DataSource.get(person_ready_for_kartoffel.currentUnit) === dataSource);
+            
+            if (
+                person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
+                person.entityType !== fn.entityTypeValue.gu
+            ) {
+                await goalUserFromPersonCreation(person, person_ready_for_kartoffel, dataSource);
+            } else if (isPrimary) {
                 Object.keys(person).map((key) => {
                     fn.fieldsForRmoveFromKartoffel.includes(key) ? delete person[key] : null;
                 })

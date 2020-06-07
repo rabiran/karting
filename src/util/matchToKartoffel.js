@@ -8,7 +8,7 @@ const Auth = require('../auth/auth');
 const formatAkaDateToKartoffel = require('./fieldsUtils/formatAkaDateToKartoffel');
 const isNumeric = require('./generalUtils/isNumeric');
 const isStrContains = require('./generalUtils/strignContains');
-const akaDirectGroupHandler = require('./fieldsUtils/akaDirectGroupHandler');
+const trycatch = require('./generalUtils/trycatch');
 require('dotenv').config();
 
 
@@ -78,7 +78,27 @@ const match_aka = async (obj, dataSource, flowType) => {
                 obj.currentUnit = obj[rawKey];
 
                 if (flowType === fn.flowTypes.add) {
-                    obj.directGroup = await akaDirectGroupHandler(obj.currentUnit);
+                    const tryFindGroupByUnit = await trycatch(
+                        Auth.axiosKartoffel.get,
+                        p(encodeURIComponent(obj[rawKey])).KARTOFFEL_GROUP_BY_AKA_UNIT
+                    );
+
+                    if (tryFindGroupByUnit.err) {
+                        sendLog(
+                            logLevel.warn,
+                            logDetails.warn.WRN_FIND_GROUP_BY_AKA_UNIT,
+                            obj[rawKey]
+                        );
+                        break;
+                    }
+
+                    const groupByAka = tryFindGroupByUnit.result.data;
+
+                    obj.hierarchy = [
+                        ...groupByAka.hierarchy,
+                        groupByAka.name,
+                        fn.organizationGroups.incompletes_name,
+                    ].join('/');
                 }
 
                 (rawKey === "currentUnit") ? null : delete obj[rawKey];
@@ -87,7 +107,7 @@ const match_aka = async (obj, dataSource, flowType) => {
                 delete obj[rawKey];
         }
     }));
-    
+
     obj.entityType = fn.entityTypeValue.s;
 }
 
@@ -373,7 +393,7 @@ const match_nv_sql = (obj, dataSource) => {
 const match_city = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     // initialize variables for hierarchy matching and define default hierarchy
-    const defaultHierarchy = `${fn.rootHierarchy.city}${obj.company ? '/' + obj.company : ''}`;
+    const defaultHierarchy = `${fn.rootHierarchy.city}${obj[fn[dataSources].company] ? '/' + obj[fn[dataSources].company] : ''}`;
     obj.hierarchy = defaultHierarchy;
     // suitable the structure of the fieds to kartoffel standart
     objKeys.map((rawKey) => {
@@ -450,10 +470,36 @@ const match_city = (obj, dataSource) => {
                         }
                     }
 
+                    // this condition come to fix insertion of "defaultHierarchy" to user that come from our "enviroment" to
+                    // city "enviroment" and than return to us from city API. Can delete this code after stable the specific problem
+                    // of "fn.rootHierarchy.city/fn.rootHierarchy.city/fn.rootHierarchy.city.."
+                    if (hr[0] === fn.rootHierarchy.city) {
+                        let tempCityCount = 0;
+                        for (value of hr) {
+                            if (value === fn.rootHierarchy.city) {
+                                tempCityCount += 1;
+                            } else {
+                                break;
+                            }
+                        }
+                        hr.splice(0, tempCityCount - 1);
+                    }
+
                     hr = hr.join('/');
                 }
-
-                obj.hierarchy = `${defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
+                // this condition come to avoid insertion of "defaultHierarchy" to user that come from our "enviroment" to
+                // city "enviroment" and than return to us from city API
+                if (hr.includes(fn.rootHierarchy.city)) {
+                    if (hr.includes(defaultHierarchy)) {
+                        obj.hierarchy = hr;
+                    } else {
+                        if (hr.startsWith(fn.rootHierarchy.city)) {
+                            obj.hierarchy = hr.replace(fn.rootHierarchy.city, defaultHierarchy);
+                        }
+                    }
+                } else {
+                    obj.hierarchy = `${defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
+                }
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             // entityType & and default identityCard / personlNumber
@@ -591,7 +637,7 @@ module.exports = async (origin_obj, dataSource, flowType) => {
     }
 
 
-    if (obj.hierarchy && dataSource !== fn.dataSources.aka) {
+    if (obj.hierarchy) {
         obj.directGroup = await directGroupHandler(obj);
         delete obj.hierarchy;
     }
