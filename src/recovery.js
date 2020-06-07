@@ -20,13 +20,13 @@ module.exports = async () => {
             fn.dataSources.city
         ]);
         let akaData  = { updated: [] };
-        akaData.added = data[fn.dataSources.aka];
+        akaData.added = data[fn.dataSources.aka].data;
 
         delete data[fn.dataSources.aka];
 
         await PromiseAllWithFails(Object.keys(data).map(async (dataSource) => {
             let finalData = { updated: [] };
-            finalData.added = data[dataSource];
+            finalData.added = data[dataSource].data;
             await diffsHandler(finalData, dataSource, akaData.added);
         }));
 

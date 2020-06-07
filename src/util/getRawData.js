@@ -39,5 +39,5 @@ module.exports = async (dataSource, runningType, dateAndTime) => {
     let savePath = `./data/${runningType}/${dataSource}`;
     saveAsFile(data, savePath, `${runningType}_${dataSource}_raw_data`, dateAndTime);
 
-    return data;
+    return { data, fileName: `${savePath}/${runningType}_${dataSource}_raw_data_${dateAndTime}.log`};
 }

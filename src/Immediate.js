@@ -16,12 +16,10 @@ module.exports = async  (dataSource, identifiersArray) => {
             updated: []
         };
 
-        const date = moment(new Date()).format("DD.MM.YYYY__HH.mm");
-
-        let akaData  = data[fn.dataSources.aka];
+        let akaData  = data[fn.dataSources.aka].data;
         
         let flatIDs = identifiersArray.map(obj => [obj.id, obj.mi, obj.domuser]).flat();
-        let personsToAdd = await filterAsync(data[dataSource], async (record) => (await findrecord(record)));
+        let personsToAdd = await filterAsync(data[dataSource].data, async (record) => (await findrecord(record)));
     
         async function findrecord(record) {
             const { identityCard, personalNumber, domuser } = await getIdentifiers(record, dataSource, true);

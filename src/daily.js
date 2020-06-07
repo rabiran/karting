@@ -20,8 +20,8 @@ module.exports = async() => {
             fn.dataSources.city
         ]);
 
-        let akaData = data[fn.dataSources.aka];
-        akaData = await dataSync(fn.dataSources.aka, akaData)
+        let akaData = data[fn.dataSources.aka].data;
+        akaData = await dataSync(fn.dataSources.aka, akaData, data[fn.dataSources.aka].fileName)
         
         delete data[fn.dataSources.aka];
         
@@ -48,6 +48,6 @@ module.exports = async() => {
  */
 const GetDataAndProcess = async (dataSource, akaData, PNCYdata, func) => {
     // In case datasource is aka, I get data before function and therefore not need to get data again
-    let data = func ? await func(dataSource, PNCYdata) : akaData;
+    let data = func ? await func(dataSource, PNCYdata.data, PNCYdata.fileName ) : akaData;
     await diffsHandler(data, dataSource, akaData.all);
 }
