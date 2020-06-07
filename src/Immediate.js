@@ -11,23 +11,19 @@ const getIdentifiers = require('./util/getIdentifiers')
 
 module.exports = async  (dataSource, identifiersArray) => {
     try {
-        let { redis, data } = await preRun(fn.runnigTypes.ImmediateRun, [fn.dataSources.aka, dataSource])
-        let finalData = {
-            updated: []
-        };
+        let { redis, dataObj } = await preRun(fn.runnigTypes.ImmediateRun, [fn.dataSources.aka, dataSource])
 
-        let akaData  = data[fn.dataSources.aka].data;
+        let akaData  = dataObj[fn.dataSources.aka].data;
         
         let flatIDs = identifiersArray.map(obj => [obj.id, obj.mi, obj.domuser]).flat();
-        let personsToAdd = await filterAsync(data[dataSource].data, async (record) => (await findrecord(record)));
+        let foundRecords = await filterAsync(dataObj[dataSource].data, async record => await findrecord(record));
     
         async function findrecord(record) {
             const { identityCard, personalNumber, domuser } = await getIdentifiers(record, dataSource, true);
             return (flatIDs.includes(identityCard) || flatIDs.includes(personalNumber) || flatIDs.includes(domuser));
         }
 
-        finalData.added = personsToAdd;
-        await diffsHandler(finalData, dataSource, akaData);
+        await diffsHandler({ added: foundRecords, updated: [] }, dataSource, akaData);
 
         if (redis && redis.status === 'ready') redis.quit();
 

@@ -20,11 +20,11 @@ module.exports = async (runningType, dataSources) => {
             })
     );
     
-    let data = {};
+    let dataObj = {};
     rawData.forEach(dataSourceElem => {
-        data[dataSourceElem.dataSource] = { data: dataSourceElem.data, fileName: dataSourceElem.fileName } 
+        dataObj[dataSourceElem.dataSource] = { data: dataSourceElem.data, fileName: dataSourceElem.fileName } 
     })
     
 
-    return { redis, data }
+    return { redis, dataObj }
 }

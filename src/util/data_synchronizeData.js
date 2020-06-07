@@ -11,7 +11,6 @@ module.exports = async (dataSource, data, fileName) => {
 
     const path = `./data/${fn.runnigTypes.dailyRun}/${dataSource}`;
     const files = fs.readdirSync(`${path}/`);
-    const actionDescription = `${fn.runnigTypes.dailyRun}_${dataSource}_raw_data`;
     let lastJsonName = files[files.length - 1];
 
     if (`${path}/${files[files.length - 1]}` === fileName || files[files.length - 1] === 'archive') {

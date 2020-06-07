@@ -9,7 +9,7 @@ const preRun = require('./util/preRun');
 
 module.exports = async() => {
     try {
-        let{ redis, data } = await preRun(fn.runnigTypes.dailyRun, [
+        let{ redis, dataObj } = await preRun(fn.runnigTypes.dailyRun, [
             fn.dataSources.aka,
             fn.dataSources.es,
             fn.dataSources.ads, 
@@ -20,14 +20,14 @@ module.exports = async() => {
             fn.dataSources.city
         ]);
 
-        let akaData = data[fn.dataSources.aka].data;
-        akaData = await dataSync(fn.dataSources.aka, akaData, data[fn.dataSources.aka].fileName)
+        let akaData = dataObj[fn.dataSources.aka].data;
+        akaData = await dataSync(fn.dataSources.aka, akaData, dataObj[fn.dataSources.aka].fileName)
         
-        delete data[fn.dataSources.aka];
+        delete dataObj[fn.dataSources.aka];
         
-        await PromiseAllWithFails(Object.keys(data).map(async (dataSource) => {
+        await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
             if(dataSource !== "undefined")  {
-                GetDataAndProcess(dataSource, akaData, data[dataSource], dataSync);
+                GetDataAndProcess(dataSource, akaData, dataObj[dataSource], dataSync);
             }
         }));
         
@@ -46,8 +46,8 @@ module.exports = async() => {
  * @param {*} akaData - The aka data to complete data information
  * @param {*} func - The function thet get and compare data from data source
  */
-const GetDataAndProcess = async (dataSource, akaData, PNCYdata, func) => {
+const GetDataAndProcess = async (dataSource, akaData, dataObj, func) => {
     // In case datasource is aka, I get data before function and therefore not need to get data again
-    let data = func ? await func(dataSource, PNCYdata.data, PNCYdata.fileName ) : akaData;
+    let data = func ? await func(dataSource, dataObj.data, dataObj.fileName) : akaData;
     await diffsHandler(data, dataSource, akaData.all);
 }
