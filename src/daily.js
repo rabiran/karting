@@ -8,7 +8,6 @@ const preRun = require('./util/preRun');
 
 
 module.exports = async() => {
-    console.log('Start')
     try {
         let{ redis, data } = await preRun(fn.runnigTypes.dailyRun, [
             fn.dataSources.aka,
