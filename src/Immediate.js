@@ -15,15 +15,15 @@ module.exports = async  (dataSource, identifiersArray) => {
 
         let akaData  = dataObj[fn.dataSources.aka].data;
         
-        let flatIDs = identifiersArray.map(obj => [obj.id, obj.mi, obj.domuser]).flat();
+        let flatIDs = identifiersArray.map(obj => [obj.identityCard, obj.personalNumber, obj.domainUsers]).flat();
         let foundRecords = await filterAsync(dataObj[dataSource].data, async record => await findrecord(record));
     
         async function findrecord(record) {
-            const { identityCard, personalNumber, domuser } = await getIdentifiers(record, dataSource, true);
-            return (flatIDs.includes(identityCard) || flatIDs.includes(personalNumber) || flatIDs.includes(domuser));
+            const { identityCard, personalNumber, domainUser } = await getIdentifiers(record, dataSource, true);
+            return (flatIDs.includes(identityCard) || flatIDs.includes(personalNumber) || flatIDs.includes(domainUser));
         }
 
-        await diffsHandler({ added: foundRecords, updated: [] }, dataSource, akaData);
+        await diffsHandler({ added: foundRecords }, dataSource, akaData);
 
         if (redis && redis.status === 'ready') redis.quit();
 

@@ -23,7 +23,7 @@ schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
 
 // Create immediateRun server app
 
-let port = 3002;
+const port = fn.ImmediatePort;
 
 const app = express();
 app.use(bodyParser.json());

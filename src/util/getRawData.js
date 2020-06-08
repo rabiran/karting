@@ -15,7 +15,7 @@ const saveAsFile = require('./saveAsFile');
  */
 module.exports = async (dataSource, runningType, dateAndTime) => {
     let data;
-     if (dataSource === fn.dataSources.aka) {
+    if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server
         let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
@@ -38,6 +38,6 @@ module.exports = async (dataSource, runningType, dateAndTime) => {
     // save the new json as file in the server and get the name of the kast file
     let savePath = `./data/${runningType}/${dataSource}`;
     saveAsFile(data, savePath, `${runningType}_${dataSource}_raw_data`, dateAndTime);
-
-    return { data, fileName: `${savePath}/${runningType}_${dataSource}_raw_data_${dateAndTime}.log`};
+    const fileName = `{savePath}/${runningType}_${dataSource}_raw_data_${dateAndTime}.log`
+    return { data, fileName };
 }

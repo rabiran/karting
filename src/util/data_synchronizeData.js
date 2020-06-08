@@ -7,8 +7,6 @@ const fs = require('fs');
 axios.defaults.headers.common['Authorization'] = process.env.SOURCES_TOKEN;
 
 module.exports = async (dataSource, data, fileName) => {
-    const dateAndTime = moment(new Date()).format("DD.MM.YYYY__HH.mm");
-
     const path = `./data/${fn.runnigTypes.dailyRun}/${dataSource}`;
     const files = fs.readdirSync(`${path}/`);
     let lastJsonName = files[files.length - 1];

@@ -24,10 +24,10 @@ module.exports = async () => {
         delete dataObj[fn.dataSources.aka];
 
         await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
-            await diffsHandler({ added: dataObj[dataSource].data, updated: [] }, dataSource, akaData);
+            await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData);
         }));
 
-        await diffsHandler({ added: akaData, updated: [] }, fn.dataSources.aka, akaData);
+        await diffsHandler({ added: akaData }, fn.dataSources.aka, akaData);
 
         if (redis && redis.status === 'ready') redis.quit();
     } catch (err) {

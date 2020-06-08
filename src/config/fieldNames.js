@@ -183,6 +183,7 @@ module.exports = {
         add: 'add',
         update: 'update',
     },
+    ImmediatePort: 3002,
     chunckSize: 200,
     kartoffelUrl: "http://localhost:3000",
 };
