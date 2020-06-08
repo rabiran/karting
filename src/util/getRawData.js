@@ -38,6 +38,6 @@ module.exports = async (dataSource, runningType, dateAndTime) => {
     // save the new json as file in the server and get the name of the kast file
     let savePath = `./data/${runningType}/${dataSource}`;
     saveAsFile(data, savePath, `${runningType}_${dataSource}_raw_data`, dateAndTime);
-    const fileName = `{savePath}/${runningType}_${dataSource}_raw_data_${dateAndTime}.log`
+    const fileName = `${savePath}/${runningType}_${dataSource}_raw_data_${dateAndTime}.log`
     return { data, fileName };
 }

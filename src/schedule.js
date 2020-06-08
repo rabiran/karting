@@ -30,6 +30,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.post("/immediateRun", async (req, res) => {
   if (!req.body.personIDsArray || !req.body.dataSource) {
+    sendLog(
+      logLevel.error,
+      logDetails.error.ERR_SERVER_INVALID_INPUT,
+      JSON.stringify({personIDsArray: req.body.personIDsArray, dataSource: req.body.dataSource}), 
+      fn.runnigTypes.ImmediateRun
+    );
     res.json("there is an error with the input");
   } else {
     await immediate(req.body.dataSource, req.body.personIDsArray);

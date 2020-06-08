@@ -1,6 +1,6 @@
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
-const added = require('./diffsHandlerUtils/addedDataHandler');
-const updated = require('./diffsHandlerUtils/updatedDataHandler');
+const add = require('./diffsHandlerUtils/addedDataHandler');
+const update = require('./diffsHandlerUtils/updatedDataHandler');
 const PromiseAllWithFails = require('./generalUtils/promiseAllWithFails');
 
 require('dotenv').config();
@@ -10,10 +10,9 @@ require('dotenv').config();
  * aka_all_data - object that contain all the recent data from aka
  */
 
-module.exports = async (diffsObj, dataSource, aka_all_data) => {
-
+module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data) => {
     return PromiseAllWithFails([
-        diffsObj.added ? added(diffsObj.added, dataSource, aka_all_data, currentUnit_to_DataSource): null,
-        diffsObj.updated ? updated(diffsObj.updated, dataSource, aka_all_data, currentUnit_to_DataSource) : null
+        add(added, dataSource, aka_all_data, currentUnit_to_DataSource),
+        update(updated, dataSource, aka_all_data, currentUnit_to_DataSource)
     ]);
 }
