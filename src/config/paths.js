@@ -14,6 +14,7 @@ module.exports = pathsHandler = (param, param2) => {
         [`${fn.dataSources.lmn}_API`]: 'http://localhost:3001/getNv/sql/lmn',
         [`${fn.dataSources.mdn}_API`]: 'http://localhost:3001/getNv/sql/mdn',
         [`${fn.dataSources.city}_API`]: 'http://localhost:3001/getCity',
+        immediateServer_API: '/immediateRun',
 
         // Kartoffel - person
         KARTOFFEL_UPDATE_PERSON_API: `${kartoffelUrl}/api/persons/${param}`,
