@@ -6,13 +6,12 @@ const tryArgs = require('./generalUtils/tryArgs');
 /**
  * Check if the record from raw data exists in Kartoffel
  * 
- * @param { Object } record 
- * @param { string } flowType 
+ * @param { DataModel } DataModel
  */
-module.exports = async record => {
+module.exports = async DataModel => {
     const filterdIdentifiers = [
-        record[fn.aka.personalNumber],
-        record[fn.aka.identityCard]
+        DataModel.record[fn[DataModel.dataSource].personalNumber],
+        DataModel.record[fn[DataModel.dataSource].identityCard]
     ].filter(id => id);
 
     path = identifier => p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
@@ -21,7 +20,7 @@ module.exports = async record => {
         async identifier => (await Auth.axiosKartoffel.get(path(identifier))).data,
         ...filterdIdentifiers
     );
-  
+    
     if (lastErr && lastErr.response && lastErr.response.status === 404) {
         return false;
     }

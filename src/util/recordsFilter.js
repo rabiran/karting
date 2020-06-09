@@ -6,15 +6,15 @@ const filterAka = require('./filters/aka/filterAka');
 /**
  * Filter records by checking their data
  *
- * @param {Array<Object>} records - array of raw data about each person
+ * @param {Array<DataModel>} dataModels - array of raw data about each person
  * @param {string} dataSource - the name of the data source
  */
-module.exports = async (records, dataSource, flowType) => {
+module.exports = async (dataModels, dataSource) => {
     switch (dataSource) {
         case fn.dataSources.aka:
-            return await filterAka(records, flowType);
+            return await filterAka(dataModels);
         case fn.dataSources.city:
-            return filterCity(records);
+            return filterCity(dataModels);
         case fn.dataSources.adNN:
         case fn.dataSources.ads:
         case fn.dataSources.es:
@@ -23,6 +23,6 @@ module.exports = async (records, dataSource, flowType) => {
         case fn.dataSources.mm:
         case fn.dataSources.nvSQL:
         default:
-            return records;
+            return dataModels;
     }
 }

@@ -40,13 +40,13 @@ const run = async runnigType => {
         let aka_data = await dataSync(fn.dataSources.aka, runnigType);
 
         await PromiseAllWithFails([
-            GetDataAndProcess(fn.dataSources.es, aka_data, runnigType, dataSync),
+            // GetDataAndProcess(fn.dataSources.es, aka_data, runnigType, dataSync),
             GetDataAndProcess(fn.dataSources.ads, aka_data, runnigType, dataSync),
-            GetDataAndProcess(fn.dataSources.adNN, aka_data, runnigType, dataSync),
-            GetDataAndProcess(fn.dataSources.lmn, aka_data, runnigType, dataSync),
-            GetDataAndProcess(fn.dataSources.mdn, aka_data, runnigType, dataSync),
-            GetDataAndProcess(fn.dataSources.mm, aka_data, runnigType, dataSync),
-            GetDataAndProcess(fn.dataSources.city, aka_data, runnigType, dataSync),
+            // GetDataAndProcess(fn.dataSources.adNN, aka_data, runnigType, dataSync),
+            // GetDataAndProcess(fn.dataSources.lmn, aka_data, runnigType, dataSync),
+            // GetDataAndProcess(fn.dataSources.mdn, aka_data, runnigType, dataSync),
+            // GetDataAndProcess(fn.dataSources.mm, aka_data, runnigType, dataSync),
+            // GetDataAndProcess(fn.dataSources.city, aka_data, runnigType, dataSync),
         ]);
         
         // Due performence reasons aka flow is run by itself, after the other flows
