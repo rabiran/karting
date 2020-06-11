@@ -25,13 +25,13 @@ require('dotenv').config();
  * @param {*} needMatchToKartoffel - a flag to tell if the current object needs a match to kartoffel's format
  */
 module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, runningType) => {
-    let sendLog = wrapSendLog(fn.runnigTypes.ImmediateRun);
     let records = diffsObj;
 
     records = await recordsFilter(records, dataSource, fn.flowTypes.add);
 
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
+        let sendLog = wrapSendLog(runningType, "123");
         let person_ready_for_kartoffel;
         let tryFindPerson;
         let person;

@@ -36,16 +36,17 @@ const consoleTransport = new transports.Console({
   )
 });
 
-const immediateRotateFileTransport = new transports.DailyRotateFile({
-  filename: `${logDir}/immediateRun/%DATE%-logs.log`,
+const immediateRotateFileTransport = identifier => {
+  return new transports.DailyRotateFile({
+  filename: `${logDir}/immediateRun/${identifier}-%DATE%-logs.log`,
   datePattern: 'YYYY-MM-DD',
   prepend: true,
   json: true,
 });
+}
 
 
-
-const logger = createLogger({
+const loggerConfig = {
   levels: config.npm.levels,
   // change level if in dev environment versus production
   level: env === 'development' ? 'verbose' : 'info',
@@ -69,16 +70,18 @@ const logger = createLogger({
     dailyRotateFileTransport,
     dailyRotateFileTransportERROR,
   ]
-});
+};
 
-loggerImmediate = logger.add(immediateRotateFileTransport)
+const logger = createLogger(loggerConfig);
+let loggerImmediate = createLogger(loggerConfig);
 
 const levelString = Object.keys(config.npm.levels);
 
-wrapSendLog = (runningType) => {
+wrapSendLog = (runningType, identifier) => {
   let returnSendLog;
-  runningType === fn.runnigTypes.ImmediateRun ? 
-  returnSendLog = sendLogImmediate : returnSendLog = sendLog;
+  loggerImmediate = createLogger(loggerConfig)
+  identifier ? loggerImmediate.add(immediateRotateFileTransport(identifier)) : null;
+  returnSendLog = runningType === fn.runnigTypes.ImmediateRun ? sendLogImmediate : sendLog
   return returnSendLog;
 } 
 const sendLog = (level, logDetails, ...params) => {
