@@ -10,9 +10,9 @@ require('dotenv').config();
  * aka_all_data - object that contain all the recent data from aka
  */
 
-module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data) => {
+module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, runningType) => {
     return PromiseAllWithFails([
-        add(added, dataSource, aka_all_data, currentUnit_to_DataSource),
-        update(updated, dataSource, aka_all_data, currentUnit_to_DataSource)
+        add(added, dataSource, aka_all_data, currentUnit_to_DataSource, runningType),
+        update(updated, dataSource, aka_all_data, currentUnit_to_DataSource, runningType)
     ]);
 }

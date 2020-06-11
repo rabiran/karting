@@ -23,7 +23,7 @@ module.exports = async  (dataSource, identifiersArray) => {
             return (flatIDs.includes(identityCard) || flatIDs.includes(personalNumber) || flatIDs.includes(domainUser));
         }
 
-        await diffsHandler({ added: foundRecords }, dataSource, akaData);
+        await diffsHandler({ added: foundRecords }, dataSource, akaData, fn.runnigTypes.ImmediateRun);
 
         if (redis && redis.status === 'ready') redis.quit();
 

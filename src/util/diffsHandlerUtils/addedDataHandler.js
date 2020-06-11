@@ -5,7 +5,7 @@ const diff = require("diff-arrays-of-objects");
 const updated = require('./updatedDataHandler')
 const p = require('../../config/paths');
 const fn = require('../../config/fieldNames');
-const { sendLog, logLevel } = require('../logger');
+const { sendLog, logLevel, wrapSendLog } = require('../logger');
 const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const Auth = require('../../auth/auth');
@@ -24,7 +24,8 @@ require('dotenv').config();
  * @param {*} currentUnit_to_DataSource - a map of all units from each data source
  * @param {*} needMatchToKartoffel - a flag to tell if the current object needs a match to kartoffel's format
  */
-module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource) => {
+module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, runningType) => {
+    let sendLog = wrapSendLog(fn.runnigTypes.ImmediateRun);
     let records = diffsObj;
 
     records = await recordsFilter(records, dataSource, fn.flowTypes.add);

@@ -1,5 +1,6 @@
 const { createLogger, format, transports, config } = require('winston');
 require('winston-daily-rotate-file');
+const fn = require('../config/fieldNames');
 const fs = require('fs');
 const os = require('os');
 require('dotenv').config();
@@ -35,6 +36,13 @@ const consoleTransport = new transports.Console({
   )
 });
 
+const immediateRotateFileTransport = new transports.DailyRotateFile({
+  filename: `${logDir}/immediateRun/%DATE%-logs.log`,
+  datePattern: 'YYYY-MM-DD',
+  prepend: true,
+  json: true,
+});
+
 
 
 const logger = createLogger({
@@ -63,14 +71,28 @@ const logger = createLogger({
   ]
 });
 
+loggerImmediate = logger.add(immediateRotateFileTransport)
+
 const levelString = Object.keys(config.npm.levels);
 
+wrapSendLog = (runningType) => {
+  let returnSendLog;
+  runningType === fn.runnigTypes.ImmediateRun ? 
+  returnSendLog = sendLogImmediate : returnSendLog = sendLog;
+  return returnSendLog;
+} 
 const sendLog = (level, logDetails, ...params) => {
   const {title, message} = logDetails;  
   logger.log(levelString[level], message, ...params, {title});
 };
 
+const sendLogImmediate = (level, logDetails, ...params) => {
+  const {title, message} = logDetails;  
+  loggerImmediate.log(levelString[level], message, ...params, {title});
+};
+
 module.exports = {
   sendLog,
+  wrapSendLog,
   logLevel: config.npm.levels,
 };
