@@ -10,10 +10,10 @@ const saveAsFile = require('./saveAsFile');
  * Get data raw data from data source
  *
  * @param {string} dataSource = which data source to get data from
- * @param {string} runType - the current runnig type
+ * @param {string} runningType - the current runnig type
  * @param {Date} dateAndTime - when the data was called
  */
-module.exports = async (dataSource, runType, dateAndTime) => {
+module.exports = async (dataSource, runningType, dateAndTime) => {
     let data;
     if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server
@@ -34,9 +34,10 @@ module.exports = async (dataSource, runType, dateAndTime) => {
         });
         data = data.data;
     }
-
+    
     // save the new json as file in the server and get the name of the kast file
-    saveAsFile(data, `./data/${dataSource}`, `${runType}_${dataSource}_raw_data`, dateAndTime);
-
-    return data;
+    let savePath = `./data/${runningType}/${dataSource}`;
+    saveAsFile(data, savePath, `${runningType}_${dataSource}_raw_data`, dateAndTime);
+    const fileName = `${savePath}/${runningType}_${dataSource}_raw_data_${dateAndTime}.log`
+    return { data, fileName };
 }

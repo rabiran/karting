@@ -174,6 +174,7 @@ module.exports = {
     runnigTypes: {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
+        ImmediateRun: 'Immediate_run',
     },
     organizationGroups: {
         incompletes_name: 'incomplete',
@@ -182,6 +183,7 @@ module.exports = {
         add: 'add',
         update: 'update',
     },
+    ImmediatePort: 3002,
     chunckSize: 200,
     kartoffelUrl: "http://localhost:3000",
 };
