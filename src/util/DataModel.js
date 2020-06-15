@@ -3,13 +3,15 @@ const completeFromAka = require('./completeFromAka');
 const Auth = require('../auth/auth');
 const fn = require('../config/fieldNames')
 const tryArgs = require('./generalUtils/tryArgs');
+const wrapSendLog = require(dkgdk);
 
 class DataModel {
-    constructor(record, dataSource, flowType, deepDiffObj) {
+    constructor(record, dataSource, flowType, runningType, deepDiffObj) {
         this.record = record;
-        this.deepDiffRecord = deepDiffObj;
+        this.deepDiffObj = deepDiffObj;
         this.dataSource = dataSource;
         this.flowType = flowType;
+        this.runningType = runningType;
         this.needMatchToKartoffel = true;
         this.isDataSourcePrimary = false;
         this.identifiers = null;
@@ -33,7 +35,7 @@ class DataModel {
                 this.record,
                 this.dataSource,
                 this.flowType
-            );
+                );
             this.needMatchToKartoffel = false;
             this.entityType = this.person_ready_for_kartoffel.entityType;
         }

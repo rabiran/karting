@@ -33,7 +33,7 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
         let person;
         let path;
 
-        DataModel.person_ready_for_kartoffel = await matchToKartoffel(DataModel.record, dataSource, fn.flowTypes.add);
+        await DataModel.matchToKartoffel();
 
         if (DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
             DataModel.identifiers = [DataModel.person_ready_for_kartoffel.domainUsers[0].uniqueID].filter(id => id);
@@ -116,20 +116,18 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
                 })
 
                 let KeyForComparison = Object.keys(DataModel.person).find(key => DataModel.person[key] === tryFindPerson.argument);
-                let objForUpdate = diff([DataModel.person], [DataModel.person_ready_for_kartoffel], KeyForComparison, { updatedValues: 4 });
+                DataModel.deepDiffObj = diff([DataModel.person], [DataModel.person_ready_for_kartoffel], KeyForComparison, { updatedValues: 4 }).updated;
 
-                if (objForUpdate.updated.length > 0) {
+                if (DataModel.deepDiffObj.length > 0) {
                     updated(
-                        objForUpdate.updated,
+                        [DataModel],
                         dataSource,
                         aka_all_data,
-                        currentUnit_to_DataSource,
-                        needMatchToKartoffel = false,
-                        DataModel,
+                        currentUnit_to_DataSource
                     );
                 }
             } else {
-                await domainUserHandler(person, DataModel, dataSource);
+                await domainUserHandler(DataModel);
             }
         } else {
             sendLog(logLevel.error, logDetails.error.ERR_UNKNOWN_ERROR, 'addedDataHandler', JSON.stringify(tryFindPerson.lastErr));

@@ -12,15 +12,7 @@ const fn = require('../config/fieldNames');
  * 
  * @returns { Object } - found identifiers
  */
-const getIdentifiers = async (record, dataSource, isNotMatchedToKartoffel) => {
-    if (!isNotMatchedToKartoffel) {
-        return {
-            personalNumber: record.personalNumber,
-            identityCard: record.identityCard,   
-            domainUser: record.domainUsers[0].uniqueID
-        }
-    }
-
+const getIdentifiers = async (record, dataSource) => {
     let recordRelevants = {};
 
     fn[dataSource].idsFields.forEach(field => {
