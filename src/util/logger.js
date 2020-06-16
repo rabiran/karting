@@ -68,16 +68,16 @@ const loggerConfig = {
   transports: [
     consoleTransport,
     dailyRotateFileTransport,
-    dailyRotateFileTransportERROR,
+    dailyRotateFileTransportERROR, 
   ]
-};
+}; 
 
 const logger = createLogger(loggerConfig);
 let loggerImmediate = createLogger(loggerConfig);
 
 const levelString = Object.keys(config.npm.levels);
 
-wrapSendLog = (runningType, identifier) => {
+const wrapSendLog = (runningType, identifier) => {
   let returnSendLog;
   loggerImmediate = createLogger(loggerConfig)
   identifier ? loggerImmediate.add(immediateRotateFileTransport(identifier)) : null;
