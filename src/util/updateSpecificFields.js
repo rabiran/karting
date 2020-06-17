@@ -1,6 +1,6 @@
 const matchToKartoffel = require('./matchToKartoffel');
 const p = require('../config/paths');
-const {sendLog, logLevel} = require('./logger');
+const { sendLog, logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const fn = require('../config/fieldNames');
 const Auth = require('../auth/auth');
@@ -14,10 +14,10 @@ const DataModel = require('./DataModel');
  * @param { Array } deepDiffArray Array of DeepDiff objects
  * @param { DataModel } DataModel - the data Model
  * 
- */
-const updateSpecificFields = async (deepDiffArray, DataModel) => {
+ */      
+const updateSpecificFields = async (DataModel) => {
     let objForUpdate = {};
-    deepDiffArray.map((deepDiffRecord) => {
+    DataModel.deepDiffObj[2].map(deepDiffRecord => {
         switch(deepDiffRecord.kind) {
             case "N":{
                 objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
@@ -26,7 +26,7 @@ const updateSpecificFields = async (deepDiffArray, DataModel) => {
             case "E":{
                 if (deepDiffRecord.path[0] == 'phone' || deepDiffRecord.path[0] == 'mobilePhone')
                     objForUpdate[deepDiffRecord.path[0]] = mergeArrays(
-                        [deepDiffRecord.rhs], person[deepDiffRecord.path[0]]
+                        [deepDiffRecord.rhs], DataModel.person[deepDiffRecord.path[0]]
                     );
                 else
                     objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
@@ -35,7 +35,7 @@ const updateSpecificFields = async (deepDiffArray, DataModel) => {
             case "A":{
                 if(deepDiffRecord.item.kind=="N") {
                     objForUpdate[deepDiffRecord.path[0]] = mergeArrays(
-                        [deepDiffRecord.item.rhs], person[deepDiffRecord.path[0]]
+                        [deepDiffRecord.item.rhs], DataModel.person[deepDiffRecord.path[0]]
                     );
                     break;
                 }
@@ -63,9 +63,9 @@ const updateSpecificFields = async (deepDiffArray, DataModel) => {
         objForUpdate = await matchToKartoffel(objForUpdate, DataModel.dataSource, fn.flowTypes.update);
     }
 
-    deepDiffArray.map((deepDiffRecord) => {
+    DataModel.deepDiffObj[2].map(deepDiffRecord => {
         if (
-            fn[dataSource]["entityType"] === deepDiffRecord.path.toString() &&
+            fn[DataModel.dataSource]["entityType"] === deepDiffRecord.path.toString() &&
             deepDiffRecord.rhs === fn.entityTypeValue.s
         ) {
             objForUpdate.rank = DataModel.akaRecord[fn.aka.rank];

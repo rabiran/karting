@@ -25,9 +25,9 @@ module.exports = async (DataModel) => {
         user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].sAMAccountName]}${fn[DataModel.dataSource].domainSuffix}` : null;
     (((DataModel.dataSource === fn.dataSources.mdn) || (DataModel.dataSource === fn.dataSources.lmn) || (DataModel.dataSource === fn.dataSources.mm)) && DataModel.record[fn[DataModel.dataSource].uniqueID]) ?
         user_object.uniqueID = DataModel.record[fn[DataModel.dataSource].uniqueID].toLowerCase() : null;
-    (DataModel.dataSource === fn.dataSources.es && record[fn[DataModel.dataSource].userName]) ?
+    (DataModel.dataSource === fn.dataSources.es && DataModel.record[fn[DataModel.dataSource].userName]) ?
         user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].userName]}${fn[DataModel.dataSource].domainSuffix}` : null;
-    (DataModel.dataSource === fn.dataSources.city && record[fn[DataModel.dataSource].domainUsers]) ?
+    (DataModel.dataSource === fn.dataSources.city && DataModel.record[fn[DataModel.dataSource].domainUsers]) ?
         user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].domainUsers].toLowerCase()}` : null;
 
 
