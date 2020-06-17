@@ -60,12 +60,7 @@ module.exports = async (updatedData, dataSource, aka_all_data, currentUnit_to_Da
         DataModel.person = tryFindPerson.result;
 
         if (dataSource === fn.dataSources.aka) {
-            updateSpecificFields(
-                DataModel.deepDiffObj[2],
-                dataSource,
-                DataModel.person,
-                DataModel.deepDiffObj[1]
-            );
+            updateSpecificFields(DataModel);
         } else {
             DataModel.akaRecord = aka_all_data.find(
                 person => (
@@ -94,7 +89,7 @@ module.exports = async (updatedData, dataSource, aka_all_data, currentUnit_to_Da
                 continue;
             }
             // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
-            let diffForUpdate = DataModel.deepDiffObj[2].filter(
+            DataModel.deepDiffObj[2] = DataModel.deepDiffObj[2].filter(
                 diffsObj => {
                     // if the person's object that will be updated passed through matchToKartoffel
                     // then the second expression will be the relevant, If not then the first expression will be relevant
@@ -118,8 +113,8 @@ module.exports = async (updatedData, dataSource, aka_all_data, currentUnit_to_Da
                 }
             );
 
-            if (diffForUpdate.length > 0) {
-                await updateSpecificFields(diffForUpdate, DataModel);
+            if (DataModel.deepDiffObj[2].length > 0) {
+                await updateSpecificFields(DataModel);
             };
 
             await domainUserHandler(DataModel);

@@ -20,6 +20,7 @@ const getIdentifiers = async (record, dataSource) => {
     });
 
     let ids = await matchToKartoffel(recordRelevants, dataSource);
+    
     (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?
             ids.domainUser = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
         (dataSource === fn.dataSources.adNN && record[fn[dataSource].sAMAccountName]) ?
