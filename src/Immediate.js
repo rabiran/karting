@@ -28,7 +28,9 @@ module.exports = async  (dataSource, identifiersArray) => {
             if(!foundRecord[0]) {
                 sendLog(logLevel.error, logDetails.error.ERR_NOT_FOUND_IN_RAW_DATA, idObj.identityCard, dataSource);
             }
-            foundRecords = foundRecords.concat(foundRecord);
+            else {
+                foundRecords = foundRecords.concat(foundRecord);
+            }
         }
         await diffsHandler({ added: foundRecords }, dataSource, akaData, fn.runnigTypes.ImmediateRun);
     

@@ -3,12 +3,12 @@ const byTags = require('./byTags');
 /**
  * Filter city records
  *
- * @param {Object} records - all the raw data from the data source
+ * @param {Object} DataModels - all the raw data from the data source
  */
-module.exports = (records) => {
-    return records.filter(record => {
+module.exports = DataModels => {
+    return DataModels.filter(DataModel => {
         return (
-            byTags(record)
+            byTags(DataModel.record)
         )
     });
 }
