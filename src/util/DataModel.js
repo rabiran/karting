@@ -9,8 +9,8 @@ class DataModel {
         this.flowType = flowType;
         this.runningType = runningType;
         this.identifiers = [];
-        this.needMatchToKartoffel = true;
-        this.needCompleteFromAka = true;
+        this.isMatchToKartoffel = true;
+        this.isCompleteFromAka = true;
         this.isDataSourcePrimary = false;
         this.person_ready_for_kartoffel = null;
         this.person = null;
@@ -18,13 +18,13 @@ class DataModel {
     }
 
     async matchToKartoffel() {
-        if (this.needMatchToKartoffel) {
+        if (this.isMatchToKartoffel) {
             this.person_ready_for_kartoffel = await matchToKartoffel(
                 this.record,
                 this.dataSource,
                 this.flowType
             );
-            this.needMatchToKartoffel = false;
+            this.isMatchToKartoffel = false;
         }
     }
 
@@ -40,7 +40,7 @@ class DataModel {
     }
 
     checkIfDataSourceIsPrimary(currentUnit_to_DataSource) {
-        if (!this.needMatchToKartoffel) {
+        if (!this.isMatchToKartoffel) {
           this.isDataSourcePrimary = (currentUnit_to_DataSource.get(this.person_ready_for_kartoffel.currentUnit) === this.dataSource);
           return this.isDataSourcePrimary;
         }

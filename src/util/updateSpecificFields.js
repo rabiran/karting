@@ -59,7 +59,7 @@ const updateSpecificFields = async (DataModel) => {
     });
     // when person from 'diffsHandler-added' come to update they already passed through 'matchToKartoffel'
     // and if the them sending again to 'matchToKartoffel' the keys of the object will be deleted
-    if (DataModel.needMatchToKartoffel) {
+    if (DataModel.isMatchToKartoffel) {
         objForUpdate = await matchToKartoffel(objForUpdate, DataModel.dataSource, fn.flowTypes.update);
     }
 

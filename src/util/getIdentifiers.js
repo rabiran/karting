@@ -17,18 +17,21 @@ const getIdentifiers = async (record, dataSource) => {
     let domainUser;
 
     if (matchedRecord.entityType === fn.entityTypeValue.s || matchedRecord.entityType === fn.entityTypeValue.c) {
-        return matchedRecord;
+        return {
+            personalNumber: matchedRecord.personalNumber,
+            identityCard: matchedRecord.identityCard
+        };
     } else if (matchedRecord.entityType === fn.entityTypeValue.gu) {
         (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?
-                domainUser = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
-            (dataSource === fn.dataSources.adNN && record[fn[dataSource].sAMAccountName]) ?
-                domainUser = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
-            (((dataSource === fn.dataSources.mdn) || (dataSource === fn.dataSources.lmn) || (dataSource === fn.dataSources.mm)) && record[fn[dataSource].uniqueID]) ?
-                domainUser = record[fn[dataSource].uniqueID].toLowerCase() : null;
-            (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
-                domainUser = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
-            (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ?
-                domainUser = `${record[fn[dataSource].domainUsers].toLowerCase()}` : null; 
+            domainUser = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
+        (dataSource === fn.dataSources.adNN && record[fn[dataSource].sAMAccountName]) ?
+            domainUser = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
+        (((dataSource === fn.dataSources.mdn) || (dataSource === fn.dataSources.lmn) || (dataSource === fn.dataSources.mm)) && record[fn[dataSource].uniqueID]) ?
+            domainUser = record[fn[dataSource].uniqueID].toLowerCase() : null;
+        (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
+            domainUser = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
+        (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ?
+            domainUser = `${record[fn[dataSource].domainUsers].toLowerCase()}` : null; 
     }
     
 
