@@ -17,7 +17,7 @@ const DataModel = require('./DataModel');
  */      
 const updateSpecificFields = async (DataModel) => {
     let objForUpdate = {};
-    DataModel.deepDiffObj[2].map(deepDiffRecord => {
+    DataModel.updateDeepDiff[2].map(deepDiffRecord => {
         switch(deepDiffRecord.kind) {
             case "N":{
                 objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
@@ -63,7 +63,7 @@ const updateSpecificFields = async (DataModel) => {
         objForUpdate = await matchToKartoffel(objForUpdate, DataModel.dataSource, fn.flowTypes.update);
     }
 
-    DataModel.deepDiffObj[2].map(deepDiffRecord => {
+    DataModel.updateDeepDiff[2].map(deepDiffRecord => {
         if (
             fn[DataModel.dataSource]["entityType"] === deepDiffRecord.path.toString() &&
             deepDiffRecord.rhs === fn.entityTypeValue.s

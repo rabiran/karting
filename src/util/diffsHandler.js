@@ -12,14 +12,14 @@ require('dotenv').config();
  * aka_all_data - object that contain all the recent data from aka
  */
 
-module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data) => {
-    const newData = added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add));
+module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, runnigType) => {
+    const addedData = added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add, runnigType));
     const updatedData = updated.map(
-        deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, deepDiffObj)
+        deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, runnigType, deepDiffObj)
     );
 
     return PromiseAllWithFails([
-        add(newData, dataSource, aka_all_data, currentUnit_to_DataSource),
-        update(updatedData, dataSource, aka_all_data, currentUnit_to_DataSource)
+        add(addedData, aka_all_data, currentUnit_to_DataSource),
+        update(updatedData, aka_all_data, currentUnit_to_DataSource),
     ]);
 }

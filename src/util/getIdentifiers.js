@@ -13,26 +13,26 @@ const fn = require('../config/fieldNames');
  * @returns { Object } - found identifiers
  */
 const getIdentifiers = async (record, dataSource) => {
-    let recordRelevants = {};
+    let matchedRecord = await matchToKartoffel(record, dataSource);
+    let domainUser;
 
-    fn[dataSource].idsFields.forEach(field => {
-        recordRelevants[fn[dataSource][field]] = record[fn[dataSource][field]];
-    });
-
-    let ids = await matchToKartoffel(recordRelevants, dataSource);
+    if (matchedRecord.entityType === fn.entityTypeValue.s || matchedRecord.entityType === fn.entityTypeValue.c) {
+        return matchedRecord;
+    } else if (matchedRecord.entityType === fn.entityTypeValue.gu) {
+        (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?
+                domainUser = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
+            (dataSource === fn.dataSources.adNN && record[fn[dataSource].sAMAccountName]) ?
+                domainUser = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
+            (((dataSource === fn.dataSources.mdn) || (dataSource === fn.dataSources.lmn) || (dataSource === fn.dataSources.mm)) && record[fn[dataSource].uniqueID]) ?
+                domainUser = record[fn[dataSource].uniqueID].toLowerCase() : null;
+            (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
+                domainUser = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
+            (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ?
+                domainUser = `${record[fn[dataSource].domainUsers].toLowerCase()}` : null; 
+    }
     
-    (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?
-            ids.domainUser = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
-        (dataSource === fn.dataSources.adNN && record[fn[dataSource].sAMAccountName]) ?
-            ids.domainUser = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
-        (((dataSource === fn.dataSources.mdn) || (dataSource === fn.dataSources.lmn) || (dataSource === fn.dataSources.mm)) && record[fn[dataSource].uniqueID]) ?
-            ids.domainUser = record[fn[dataSource].uniqueID].toLowerCase() : null;
-        (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
-            ids.domainUser = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
-        (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ?
-            ids.domainUser = `${record[fn[dataSource].domainUsers].toLowerCase()}` : null; 
 
-    return ids;
+    return { domainUser };
 }
 
 module.exports = getIdentifiers;
