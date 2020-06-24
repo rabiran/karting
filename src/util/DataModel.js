@@ -1,20 +1,20 @@
 const matchToKartoffel = require('./matchToKartoffel');
 const completeFromAka = require('./completeFromAka');
-const getIdentifiers = require('./getIdentifiers');
 
 class DataModel {
-    constructor(record, dataSource, flowType, runningType, deepDiffObj) {
+    constructor(record, dataSource, flowType, runningType, updateDeepDiff) {
         this.record = record;
-        this.deepDiffObj = deepDiffObj;
+        this.updateDeepDiff = updateDeepDiff;
         this.dataSource = dataSource;
         this.flowType = flowType;
         this.runningType = runningType;
+        this.identifiers = [];
         this.needMatchToKartoffel = true;
+        this.needCompleteFromAka = true;
         this.isDataSourcePrimary = false;
         this.person_ready_for_kartoffel = null;
         this.person = null;
         this.akaRecord = null;
-        this.entityType = null;
     }
 
     async matchToKartoffel() {
@@ -25,7 +25,6 @@ class DataModel {
                 this.flowType
             );
             this.needMatchToKartoffel = false;
-            this.entityType = this.person_ready_for_kartoffel.entityType;
         }
     }
 
@@ -37,6 +36,13 @@ class DataModel {
                 this.dataSource
             );
             this.needCompleteFromAka = false;
+        }
+    }
+
+    checkIfDataSourceIsPrimary(currentUnit_to_DataSource) {
+        if (!this.needMatchToKartoffel) {
+          this.isDataSourcePrimary = (currentUnit_to_DataSource.get(this.person_ready_for_kartoffel.currentUnit) === this.dataSource);
+          return this.isDataSourcePrimary;
         }
     }
 }

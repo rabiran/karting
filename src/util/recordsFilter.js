@@ -1,6 +1,7 @@
 const fn = require('../config/fieldNames');
 const filterCity = require('./filters/city/filterCity');
 const filterAka = require('./filters/aka/filterAka');
+const DataModel = require('./DataModel');
 
 
 /**

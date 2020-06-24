@@ -20,10 +20,10 @@ require('dotenv').config();
  * @param {Map} currentUnit_to_DataSource - map of all the units from each data source
  * @param {boolean} needMatchToKartoffel - if the diffsObj needs match to kartoffel
  */
-module.exports = async (updatedData, dataSource, aka_all_data, currentUnit_to_DataSource) => {
+module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) => {
     let dataModels = updatedData;
 
-    dataModels = await recordsFilter(dataModels, dataSource);
+    dataModels = await recordsFilter(dataModels, dataModels[0].dataSource);
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
@@ -59,7 +59,7 @@ module.exports = async (updatedData, dataSource, aka_all_data, currentUnit_to_Da
 
         DataModel.person = tryFindPerson.result;
 
-        if (dataSource === fn.dataSources.aka) {
+        if (DataModel.dataSource === fn.dataSources.aka) {
             updateSpecificFields(DataModel);
         } else {
             DataModel.akaRecord = aka_all_data.find(
@@ -73,28 +73,28 @@ module.exports = async (updatedData, dataSource, aka_all_data, currentUnit_to_Da
             if (
                 DataModel.akaRecord &&
                 DataModel.akaRecord[fn.aka.unitName] &&
-                currentUnit_to_DataSource.get(DataModel.akaRecord[fn.aka.unitName]) !== dataSource
+                currentUnit_to_DataSource.get(DataModel.akaRecord[fn.aka.unitName]) !== DataModel.dataSource
             ) {
                 // Add domain user from the record (if the required data exist)
                 await domainUserHandler(DataModel);
                 sendLog(
                     logLevel.warn,
                     logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL,
-                    DataModel.deepDiffObj[2].map(obj => `${obj.path.toString()},`),
-                    dataSource,
+                    DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
+                    DataModel.dataSource,
                     tryFindPerson.argument,
-                    dataSource,
+                    DataModel.dataSource,
                     DataModel.akaRecord[fn.aka.unitName]
                 );
                 continue;
             }
             // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
-            DataModel.deepDiffObj[2] = DataModel.deepDiffObj[2].filter(
+            DataModel.updateDeepDiff[2] = DataModel.updateDeepDiff[2].filter(
                 diffsObj => {
                     // if the person's object that will be updated passed through matchToKartoffel
                     // then the second expression will be the relevant, If not then the first expression will be relevant
                     const keyForCheck = (
-                        Object.keys(fn[dataSource]).find(val => fn[dataSource][val] == diffsObj.path.toString()) ||
+                        Object.keys(fn[DataModel.dataSource]).find(val => fn[DataModel.dataSource][val] == diffsObj.path.toString()) ||
                         diffsObj.path.toString()
                     );
                     
@@ -105,7 +105,7 @@ module.exports = async (updatedData, dataSource, aka_all_data, currentUnit_to_Da
                             logDetails.warn.WRN_AKA_FIELD_RIGID,
                             diffsObj.path.toString(),
                             tryFindPerson.argument,
-                            dataSource
+                            DataModel.dataSource
                         )
                     }
 
@@ -113,7 +113,7 @@ module.exports = async (updatedData, dataSource, aka_all_data, currentUnit_to_Da
                 }
             );
 
-            if (DataModel.deepDiffObj[2].length > 0) {
+            if (DataModel.updateDeepDiff[2].length > 0) {
                 await updateSpecificFields(DataModel);
             };
 

@@ -233,7 +233,6 @@ const match_ads = (obj, dataSource) => {
                 break;
             //entityType,personalNumber/identityCard
             case fn[dataSource].upn:
-
                 let upnPrefix = '';
                 for (let char of obj[fn[dataSource].upn].toLowerCase().trim()) {
                     if (isNumeric(char) === false) {
@@ -573,7 +572,7 @@ const match_city = (obj, dataSource) => {
  * @param {*} obj Object of person after suitable to kartoffel structure
  * @returns objectID of the last hierarchy
  */
-directGroupHandler = async (obj) => {
+directGroupHandler = async obj => {
     hr = encodeURIComponent(obj.hierarchy)
     let directGroup;
     await Auth.axiosKartoffel.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)

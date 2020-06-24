@@ -13,7 +13,6 @@ const Auth = require('../../auth/auth');
  * @param {Object} originalRecord The original raw record before matchToKartoffel 
  *
  *  */
-// module.exports = async (person, record, dataSource, needMatchToKartoffel = true, originalRecord) => {
 module.exports = async (DataModel) => {
     let user_object = {
         dataSource: DataModel.dataSource,

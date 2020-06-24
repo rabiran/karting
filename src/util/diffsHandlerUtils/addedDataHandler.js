@@ -17,12 +17,12 @@ require('dotenv').config();
 /**
  * Take new object and add it to kartoffel
  *
- * @param { DataModel[] } newData - represnts the changes from last data
+ * @param { DataModel[] } addedData - represnts the changes from last data
  * @param {*} aka_all_data - all the data from aka data source (for compilation)
  * @param {*} currentUnit_to_DataSource - a map of all units from each data source
  */
-module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSource) => {
-    let dataModels = await recordsFilter(newData, dataSource);
+module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
+    let dataModels = await recordsFilter(addedData, addedData[0].dataSource);
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
@@ -50,7 +50,7 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
                 logLevel.warn,
                 logDetails.warn.WRN_UNRECOGNIZED_ENTITY_TYPE,
                 JSON.stringify(DataModel.record),
-                dataSource
+                DataModel.dataSource
             );
             continue;
         }
@@ -61,7 +61,7 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
                 logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON,
                 JSON.stringify(DataModel.person_ready_for_kartoffel),
                 JSON.stringify(DataModel.record),
-                dataSource
+                DataModel.dataSource
             );
             continue;
         }
@@ -77,7 +77,14 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
                 // Add the complete person object to Kartoffel
                 try {
                     if (!DataModel.person_ready_for_kartoffel.directGroup) {
-                        // log is neccarry
+                        sendLog(
+                            logLevel.error,
+                            logDetails.error.ERR_INSERT_PERSON,
+                            JSON.stringify(DataModel.identifiers),
+                            DataModel.dataSource,
+                            'direct group is required',
+                            JSON.stringify(DataModel.record),
+                        );
                         continue;
                     }
                     DataModel.person = (
@@ -90,7 +97,7 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
                         logLevel.info,
                         logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL,
                         JSON.stringify(DataModel.identifiers),
-                        dataSource
+                        DataModel.dataSource
                     );
                     // for goalUser domainUsers already created in matchToKartoffel
                     if (DataModel.person.entityType !== fn.entityTypeValue.gu) {
@@ -103,7 +110,7 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
                         logLevel.error,
                         logDetails.error.ERR_INSERT_PERSON,
                         JSON.stringify(DataModel.identifiers),
-                        dataSource,
+                        DataModel.dataSource,
                         errMessage,
                         JSON.stringify(DataModel)
                     );
@@ -114,7 +121,7 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
                     logLevel.error,
                     logDetails.error.ERR_ADD_FUNCTION_PERSON_NOT_FOUND,
                     JSON.stringify(DataModel.identifiers),
-                    dataSource,
+                    DataModel.dataSource,
                     errMessage
                 );
             }
@@ -122,13 +129,13 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
 
             DataModel.person = tryFindPerson.result;
 
-            DataModel.isDataSourcePrimary = (currentUnit_to_DataSource.get(DataModel.person_ready_for_kartoffel.currentUnit) === dataSource);
+            DataModel.checkIfDataSourceIsPrimary(currentUnit_to_DataSource);
 
             if (
                 DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
                 DataModel.person.entityType !== fn.entityTypeValue.gu
             ) {
-                await goalUserFromPersonCreation(DataModel.person, DataModel.person_ready_for_kartoffel, dataSource);
+                await goalUserFromPersonCreation(DataModel.person, DataModel.person_ready_for_kartoffel, DataModel.dataSource);
             } else if (DataModel.isDataSourcePrimary) {
                 Object.keys(DataModel.person).map(key => {
                     fn.fieldsForRmoveFromKartoffel.includes(key) ? delete DataModel.person[key] : null;
@@ -136,17 +143,16 @@ module.exports = async (newData, dataSource, aka_all_data, currentUnit_to_DataSo
 
                 let KeyForComparison = Object.keys(DataModel.person).find(key => DataModel.person[key] === tryFindPerson.argument);
 
-                DataModel.deepDiffObj = diff(
+                DataModel.updateDeepDiff = diff(
                     [DataModel.person],
                     [DataModel.person_ready_for_kartoffel],
                     KeyForComparison,
                     { updatedValues: 4 }
                 ).updated[0];
 
-                if (DataModel.deepDiffObj.length > 0) {
+                if (DataModel.updateDeepDiff.length > 0) {
                     updated(
                         [DataModel],
-                        dataSource,
                         aka_all_data,
                         currentUnit_to_DataSource
                     );

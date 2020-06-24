@@ -32,6 +32,7 @@ module.exports = async  (dataSource, identifiersArray) => {
                 foundRecords = foundRecords.concat(foundRecord);
             }
         }
+        
         await diffsHandler({ added: foundRecords }, dataSource, akaData, fn.runnigTypes.ImmediateRun);
     
         if (redis && redis.status === 'ready') redis.quit();

@@ -9,7 +9,7 @@ const moment = require('moment');
 
 module.exports = async () => {
     try {
-        let{ redis, dataObj } = await preRun(fn.runnigTypes.recoveryRun, [
+        let { redis, dataObj } = await preRun(fn.runnigTypes.recoveryRun, [
             fn.dataSources.aka,
             fn.dataSources.es,
             fn.dataSources.ads, 
@@ -27,7 +27,7 @@ module.exports = async () => {
             await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData);
         }));
 
-        await diffsHandler({ added: akaData }, fn.dataSources.aka, akaData);
+        await diffsHandler({ added: akaData }, fn.dataSources.aka, akaData, fn.runnigTypes.recoveryRun);
 
         if (redis && redis.status === 'ready') redis.quit();
     } catch (err) {
