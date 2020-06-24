@@ -570,19 +570,19 @@ const match_city = (obj, dataSource) => {
  * If yes- the module return the last hierarchy's objectID,
  * else- the module create the relevant hierarchies and return the objectID of the last hierarchy.
  *
- * @param {*} record Object of person after suitable to kartoffel structure
+ * @param {*} obj Object of person after suitable to kartoffel structure
  * @returns objectID of the last hierarchy
  */
-directGroupHandler = async (record) => {
-    hr = encodeURIComponent(record.hierarchy)
+directGroupHandler = async (obj) => {
+    hr = encodeURIComponent(obj.hierarchy)
     let directGroup;
     await Auth.axiosKartoffel.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async (result) => {
-            let directGroupID = await hierarchyHandler(result.data, record.hierarchy);
+            let directGroupID = await hierarchyHandler(result.data, obj.hierarchy);
             directGroup = directGroupID;
         })
         .catch((err) => {
-            let identifier = record.identityCard || record.uniqueId;
+            let identifier = obj.identityCard || obj.uniqueId;
             let errorMessage = (err.response) ? err.response.data.message : err.message;
             sendLog(logLevel.error, logDetails.error.ERR_ADD_DIRECT_GROUP_TO_PERSON, identifier, errorMessage);
         });
@@ -638,6 +638,7 @@ module.exports = async (origin_obj, dataSource, flowType) => {
 
 
     if (obj.hierarchy) {
+        
         obj.directGroup = await directGroupHandler(obj);
         delete obj.hierarchy;
     }
