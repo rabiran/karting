@@ -1,4 +1,3 @@
-const currentUnit_to_DataSource = require('./createDataSourcesMap');
 const add = require('./diffsHandlerUtils/addedDataHandler');
 const update = require('./diffsHandlerUtils/updatedDataHandler');
 const PromiseAllWithFails = require('./generalUtils/promiseAllWithFails');
@@ -17,7 +16,7 @@ module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, 
     const updatedData = updated.map(deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, runnigType, deepDiffObj));
 
     return PromiseAllWithFails([
-        add({ addedData, dataSource}, aka_all_data, currentUnit_to_DataSource),
-        update({updatedData, dataSource}, aka_all_data, currentUnit_to_DataSource),
+        add({ addedData, dataSource }, aka_all_data),
+        update({ updatedData, dataSource }, aka_all_data),
     ]);
 }

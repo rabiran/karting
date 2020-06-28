@@ -17,11 +17,10 @@ require('dotenv').config();
 /**
  * Take new object and add it to kartoffel
  *
- * @param { DataModel[] } addedData - represnts the changes from last data
+ * @param { { DataModel[], string } } addedData - represnts the changes from last data
  * @param {*} aka_all_data - all the data from aka data source (for compilation)
- * @param {*} currentUnit_to_DataSource - a map of all units from each data source
  */
-module.exports = async ({addedData, dataSource}, aka_all_data, currentUnit_to_DataSource) => {
+module.exports = async ({ addedData, dataSource }, aka_all_data) => {
     let dataModels = addedData;
     dataModels = await recordsFilter({dataModels, dataSource});
 
@@ -130,7 +129,7 @@ module.exports = async ({addedData, dataSource}, aka_all_data, currentUnit_to_Da
 
             DataModel.person = tryFindPerson.result;
 
-            DataModel.checkIfDataSourceIsPrimary(currentUnit_to_DataSource);
+            DataModel.checkIfDataSourceIsPrimary(DataModel.person_ready_for_kartoffel.currentUnit);
 
             if (
                 DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
@@ -154,8 +153,7 @@ module.exports = async ({addedData, dataSource}, aka_all_data, currentUnit_to_Da
                 if (DataModel.updateDeepDiff.length > 0) {
                     updated(
                         [DataModel],
-                        aka_all_data,
-                        currentUnit_to_DataSource
+                        aka_all_data
                     );
                 }
             } else {

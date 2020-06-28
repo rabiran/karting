@@ -1,5 +1,6 @@
 const matchToKartoffel = require('./matchToKartoffel');
 const completeFromAka = require('./completeFromAka');
+const currentUnit_to_DataSource = require('./createDataSourcesMap');
 
 class DataModel {
     constructor(record, dataSource, flowType, runningType, updateDeepDiff) {
@@ -39,9 +40,9 @@ class DataModel {
         }
     }
 
-    checkIfDataSourceIsPrimary(currentUnit_to_DataSource) {
+    checkIfDataSourceIsPrimary(unitName) {
         if (!this.isMatchToKartoffel) {
-          this.isDataSourcePrimary = (currentUnit_to_DataSource.get(this.person_ready_for_kartoffel.currentUnit) === this.dataSource);
+          this.isDataSourcePrimary = (currentUnit_to_DataSource.get(unitName) === this.dataSource);
           return this.isDataSourcePrimary;
         }
     }

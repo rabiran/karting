@@ -17,9 +17,8 @@ require('dotenv').config();
  * @param {Array<DataModel>} updatedData - object that contain the results of diffs checking (added,updated,same,removed & all
  * @param {string} dataSource - represents the data source
  * @param {Object} aka_all_data - object that contain all the recent data from aka
- * @param {Map} currentUnit_to_DataSource - map of all the units from each data source
  */
-module.exports = async ({ updatedData, dataSource }, aka_all_data, currentUnit_to_DataSource) => {
+module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
     let dataModels = updatedData;
     dataModels = await recordsFilter(dataModels, dataSource);
 
@@ -71,7 +70,7 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data, currentUnit_t
             if (
                 DataModel.akaRecord &&
                 DataModel.akaRecord[fn.aka.unitName] &&
-                currentUnit_to_DataSource.get(DataModel.akaRecord[fn.aka.unitName]) !== DataModel.dataSource
+                DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
             ) {
                 // Add domain user from the record (if the required data exist)
                 await domainUserHandler(DataModel);
