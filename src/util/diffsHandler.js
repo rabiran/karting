@@ -14,13 +14,10 @@ require('dotenv').config();
 
 module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, runnigType) => {
     const addedData = added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add, runnigType));
-    addedData.dataSource = dataSource;
-
     const updatedData = updated.map(deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, runnigType, deepDiffObj));
-    updatedData.dataSource = dataSource;
 
     return PromiseAllWithFails([
-        add(addedData, aka_all_data, currentUnit_to_DataSource),
-        update(updatedData, aka_all_data, currentUnit_to_DataSource),
+        add({ addedData, dataSource}, aka_all_data, currentUnit_to_DataSource),
+        update({updatedData, dataSource}, aka_all_data, currentUnit_to_DataSource),
     ]);
 }

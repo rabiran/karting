@@ -26,7 +26,6 @@ const getIdentifiers = async (record, dataSource) => {
         domainUser = assembleDomainUser(dataSource, record);
     }
     
-
     return { domainUser };
 }
 

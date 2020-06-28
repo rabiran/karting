@@ -19,16 +19,15 @@ require('dotenv').config();
  * @param {Object} aka_all_data - object that contain all the recent data from aka
  * @param {Map} currentUnit_to_DataSource - map of all the units from each data source
  */
-module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) => {
+module.exports = async ({ updatedData, dataSource }, aka_all_data, currentUnit_to_DataSource) => {
     let dataModels = updatedData;
-
-    dataModels = await recordsFilter(dataModels);
+    dataModels = await recordsFilter(dataModels, dataSource);
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
         const path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
 
-        const { identityCard, personalNumber } = await getIdentifiers(DataModel.record, dataSource);
+        const { identityCard, personalNumber } = await getIdentifiers(DataModel.record, DataModel.dataSource);
         const filterdIdentifiers = [identityCard, personalNumber].filter(id => id);
         
         if (!filterdIdentifiers.length) {
@@ -36,7 +35,7 @@ module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) =>
                 logLevel.error,
                 logDetails.error.ERR_NO_IDENTIFIERS_TO_UPDATE,
                 JSON.stringify(DataModel.record),
-                dataSource
+                DataModel.dataSource
             );
             continue;
         }
@@ -51,7 +50,7 @@ module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) =>
                 logLevel.error,
                 logDetails.error.ERR_NOT_FIND_PERSON_IN_KARTOFFEL,
                 JSON.stringify(filterdIdentifiers),
-                dataSource
+                DataModel.dataSource
             );
             continue;
         }

@@ -21,8 +21,9 @@ require('dotenv').config();
  * @param {*} aka_all_data - all the data from aka data source (for compilation)
  * @param {*} currentUnit_to_DataSource - a map of all units from each data source
  */
-module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
-    let dataModels = await recordsFilter(addedData);
+module.exports = async ({addedData, dataSource}, aka_all_data, currentUnit_to_DataSource) => {
+    let dataModels = addedData;
+    dataModels = await recordsFilter({dataModels, dataSource});
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];

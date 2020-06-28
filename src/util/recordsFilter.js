@@ -10,8 +10,8 @@ const DataModel = require('./DataModel');
  * @param {Array<DataModel>} dataModels - array of raw data about each person
  * @param {string} dataSource - the name of the data source
  */
-module.exports = async (dataModels) => {
-    switch (dataModels.dataSource) {
+module.exports = async ({ dataModels, dataSource }) => {
+    switch (dataSource) {
         case fn.dataSources.aka:
             return await filterAka(dataModels);
         case fn.dataSources.city:
