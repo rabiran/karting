@@ -22,7 +22,7 @@ require('dotenv').config();
  * @param {*} currentUnit_to_DataSource - a map of all units from each data source
  */
 module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
-    let dataModels = await recordsFilter(addedData, addedData[0].dataSource);
+    let dataModels = await recordsFilter(addedData);
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
@@ -66,6 +66,17 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
             continue;
         }
 
+        if (!DataModel.person_ready_for_kartoffel.directGroup) {
+            sendLog(
+                logLevel.warn,
+                logDetails.warn.WRN_MISSING_DIRECT_GROUP,
+                JSON.stringify(DataModel.identifiers),
+                DataModel.dataSource,
+                JSON.stringify(DataModel.record),
+            );
+            continue;
+        }
+
         tryFindPerson = await tryArgs(
             async id => (await Auth.axiosKartoffel.get(path(id))).data,
             ...DataModel.identifiers
@@ -76,17 +87,6 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
                 DataModel.person_ready_for_kartoffel = identifierHandler(DataModel.person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
                 try {
-                    if (!DataModel.person_ready_for_kartoffel.directGroup) {
-                        sendLog(
-                            logLevel.error,
-                            logDetails.error.ERR_INSERT_PERSON,
-                            JSON.stringify(DataModel.identifiers),
-                            DataModel.dataSource,
-                            'direct group is required',
-                            JSON.stringify(DataModel.record),
-                        );
-                        continue;
-                    }
                     DataModel.person = (
                         await Auth.axiosKartoffel.post(
                             p().KARTOFFEL_PERSON_API, DataModel.person_ready_for_kartoffel

@@ -38,6 +38,7 @@ messageLog = {
         WRN_UNRECOGNIZED_ENTITY_TYPE: 'There is no entity type for the person %s from %s',
         WRN_IRRELEVANT_TAGS: 'Irrelevant tags for the record %s from %s',
         WRN_FIND_GROUP_BY_AKA_UNIT: 'The group for aka unit: %s, does not exist in kartoffel',
+        WRN_MISSING_DIRECT_GROUP: 'There is no directGroup for the person with identifiers: %s from %s the record is: %s',
     },
     info: {
         INF_CONNECT_REDIS: 'Redis connect to service',
