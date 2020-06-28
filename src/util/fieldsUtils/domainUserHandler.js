@@ -3,6 +3,7 @@ const p = require('../../config/paths');
 const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const Auth = require('../../auth/auth');
+const assembleDomainUser = require('./assembleDomainUser');
 
 /**
  * This module create domainUser for person, using the unique properties of each dataSource
@@ -17,17 +18,19 @@ module.exports = async (DataModel) => {
     let user_object = {
         dataSource: DataModel.dataSource,
     };
+
+    user_object.uniqueID = assembleDomainUser(DataModel.dataSource, DataModel.record);
     
-    (DataModel.dataSource === fn.dataSources.ads && DataModel.record[fn[DataModel.dataSource].sAMAccountName]) ?
-        user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].sAMAccountName]}${fn[DataModel.dataSource].domainSuffix}` : null;
-    (DataModel.dataSource === fn.dataSources.adNN && DataModel.record[fn[DataModel.dataSource].sAMAccountName]) ?
-        user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].sAMAccountName]}${fn[DataModel.dataSource].domainSuffix}` : null;
-    (((DataModel.dataSource === fn.dataSources.mdn) || (DataModel.dataSource === fn.dataSources.lmn) || (DataModel.dataSource === fn.dataSources.mm)) && DataModel.record[fn[DataModel.dataSource].uniqueID]) ?
-        user_object.uniqueID = DataModel.record[fn[DataModel.dataSource].uniqueID].toLowerCase() : null;
-    (DataModel.dataSource === fn.dataSources.es && DataModel.record[fn[DataModel.dataSource].userName]) ?
-        user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].userName]}${fn[DataModel.dataSource].domainSuffix}` : null;
-    (DataModel.dataSource === fn.dataSources.city && DataModel.record[fn[DataModel.dataSource].domainUsers]) ?
-        user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].domainUsers].toLowerCase()}` : null;
+    // (DataModel.dataSource === fn.dataSources.ads && DataModel.record[fn[DataModel.dataSource].sAMAccountName]) ?
+    //     user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].sAMAccountName]}${fn[DataModel.dataSource].domainSuffix}` : null;
+    // (DataModel.dataSource === fn.dataSources.adNN && DataModel.record[fn[DataModel.dataSource].sAMAccountName]) ?
+    //     user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].sAMAccountName]}${fn[DataModel.dataSource].domainSuffix}` : null;
+    // (((DataModel.dataSource === fn.dataSources.mdn) || (DataModel.dataSource === fn.dataSources.lmn) || (DataModel.dataSource === fn.dataSources.mm)) && DataModel.record[fn[DataModel.dataSource].uniqueID]) ?
+    //     user_object.uniqueID = DataModel.record[fn[DataModel.dataSource].uniqueID].toLowerCase() : null;
+    // (DataModel.dataSource === fn.dataSources.es && DataModel.record[fn[DataModel.dataSource].userName]) ?
+    //     user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].userName]}${fn[DataModel.dataSource].domainSuffix}` : null;
+    // (DataModel.dataSource === fn.dataSources.city && DataModel.record[fn[DataModel.dataSource].domainUsers]) ?
+    //     user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].domainUsers].toLowerCase()}` : null;
 
 
     if (!user_object.uniqueID) {

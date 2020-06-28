@@ -18,12 +18,11 @@ require('dotenv').config();
  * @param {string} dataSource - represents the data source
  * @param {Object} aka_all_data - object that contain all the recent data from aka
  * @param {Map} currentUnit_to_DataSource - map of all the units from each data source
- * @param {boolean} needMatchToKartoffel - if the diffsObj needs match to kartoffel
  */
 module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) => {
     let dataModels = updatedData;
 
-    dataModels = await recordsFilter(dataModels, dataModels[0].dataSource);
+    dataModels = await recordsFilter(dataModels);
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
