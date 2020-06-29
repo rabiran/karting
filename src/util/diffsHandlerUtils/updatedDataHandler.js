@@ -1,5 +1,6 @@
 const fn = require('../../config/fieldNames');
 const Auth = require('../../auth/auth');
+const DataModel = require('../DataModel')
 const p = require('../../config/paths');
 const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
@@ -13,34 +14,27 @@ require('dotenv').config();
 
 /**
  *
- * @param {Object} diffsObj - object that contain the results of diffs checking (added,updated,same,removed & all
+ * @param {Array<DataModel>} updatedData - object that contain the results of diffs checking (added,updated,same,removed & all
  * @param {string} dataSource - represents the data source
  * @param {Object} aka_all_data - object that contain all the recent data from aka
- * @param {Map} currentUnit_to_DataSource - map of all the units from each data source
- * @param {boolean} needMatchToKartoffel - if the diffsObj needs match to kartoffel
  */
-module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataSource, needMatchToKartoffel = true, originalRecord) => {
-    let records = diffsObj;
+module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
+    let dataModels = updatedData;
+    dataModels = await recordsFilter(dataModels, dataSource);
 
-    // If needMatchToKartoffel = false, the data came from addedDataHandler and already filtered
-    if (needMatchToKartoffel) {
-        records = await recordsFilter(records, dataSource, fn.flowTypes.update);
-    }
-
-    for (let i = 0; i < records.length; i++) {
-        const record = records[i];
+    for (let i = 0; i < dataModels.length; i++) {
+        const DataModel = dataModels[i];
         const path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
-        let person;
 
-        const { identityCard, personalNumber } = await getIdentifiers(record[1], dataSource, needMatchToKartoffel);
+        const { identityCard, personalNumber } = await getIdentifiers(DataModel.record, DataModel.dataSource);
         const filterdIdentifiers = [identityCard, personalNumber].filter(id => id);
         
         if (!filterdIdentifiers.length) {
             sendLog(
                 logLevel.error,
                 logDetails.error.ERR_NO_IDENTIFIERS_TO_UPDATE,
-                JSON.stringify(record),
-                dataSource
+                JSON.stringify(DataModel.record),
+                DataModel.dataSource
             );
             continue;
         }
@@ -55,38 +49,72 @@ module.exports = async (diffsObj, dataSource, aka_all_data, currentUnit_to_DataS
                 logLevel.error,
                 logDetails.error.ERR_NOT_FIND_PERSON_IN_KARTOFFEL,
                 JSON.stringify(filterdIdentifiers),
-                dataSource
+                DataModel.dataSource
             );
             continue;
         }
 
-        person = tryFindPerson.result;
+        DataModel.person = tryFindPerson.result;
 
-        if (dataSource === fn.dataSources.aka) {
-            updateSpecificFields(record[2], dataSource, person, record[1]);
+        if (DataModel.dataSource === fn.dataSources.aka) {
+            updateSpecificFields(DataModel);
         } else {
-            let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == tryFindPerson.argument) || (person[fn.aka.identityCard] == tryFindPerson.argument)));
+            DataModel.akaRecord = aka_all_data.find(
+                person => (
+                    person[fn.aka.personalNumber] == tryFindPerson.argument ||
+                    person[fn.aka.identityCard] == tryFindPerson.argument
+                )
+            );
+
             // Check if the dataSource of the record is the primary dataSource for the person
-            if ((akaRecord && akaRecord[fn.aka.unitName]) && currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]) !== dataSource) {
+            if (
+                DataModel.akaRecord &&
+                DataModel.akaRecord[fn.aka.unitName] &&
+                DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
+            ) {
                 // Add domain user from the record (if the required data exist)
-                await domainUserHandler(person, record[1], dataSource, needMatchToKartoffel, originalRecord);
-                sendLog(logLevel.warn, logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL, record[2].map((obj) => `${obj.path.toString()},`), dataSource, tryFindPerson.argument, dataSource, currentUnit_to_DataSource.get(akaRecord[fn.aka.unitName]));
+                await domainUserHandler(DataModel);
+                sendLog(
+                    logLevel.warn,
+                    logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL,
+                    DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
+                    DataModel.dataSource,
+                    tryFindPerson.argument,
+                    DataModel.dataSource,
+                    DataModel.akaRecord[fn.aka.unitName]
+                );
                 continue;
             }
             // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
-            let deepDiffForUpdate = record[2].filter((deepDiffObj) => {
-                // if the person's object that will be updated passed through matchToKartoffel then the second expression will be the relevant, If not then the first expression will be relevant
-                let keyForCheck = Object.keys(fn[dataSource]).find(val => fn[dataSource][val] == deepDiffObj.path.toString()) || deepDiffObj.path.toString();
-                let include = fn.akaRigid.includes(keyForCheck);
-                include ? sendLog(logLevel.warn, logDetails.warn.WRN_AKA_FIELD_RIGID, deepDiffObj.path.toString(), tryFindPerson.argument, dataSource) : null;
-                return !include;
-            })
+            DataModel.updateDeepDiff[2] = DataModel.updateDeepDiff[2].filter(
+                diffsObj => {
+                    // if the person's object that will be updated passed through matchToKartoffel
+                    // then the second expression will be the relevant, If not then the first expression will be relevant
+                    const keyForCheck = (
+                        Object.keys(fn[DataModel.dataSource]).find(val => fn[DataModel.dataSource][val] == diffsObj.path.toString()) ||
+                        diffsObj.path.toString()
+                    );
+                    
+                    const include = fn.akaRigid.includes(keyForCheck);
+                    if (include) {
+                        sendLog(
+                            logLevel.warn,
+                            logDetails.warn.WRN_AKA_FIELD_RIGID,
+                            diffsObj.path.toString(),
+                            tryFindPerson.argument,
+                            DataModel.dataSource
+                        )
+                    }
 
-            if (deepDiffForUpdate.length > 0) {
-                await updateSpecificFields(deepDiffForUpdate, dataSource, person, akaRecord, needMatchToKartoffel);
+                    return !include;
+                }
+            );
+
+            if (DataModel.updateDeepDiff[2].length > 0) {
+                await updateSpecificFields(DataModel);
             };
 
-            await domainUserHandler(person, record[1], dataSource, needMatchToKartoffel, originalRecord);
+            await domainUserHandler(DataModel);
         }
     }
 }

@@ -22,13 +22,14 @@ messageLog = {
         ERR_NO_IDENTIFIERS_TO_UPDATE: 'there is no identifiers to the record: %s at update flow from "%s"',
         ERR_NOT_FIND_PERSON_AT_UPDATE: 'The person with identifiers %s from %s does not exists in kartoffel at UPDATE flow',
         ERR_DELETE_DOMAIN_USER: 'Cannot delete the domainUser %s from the person with identifier %s from %s the error message is: %s',
-        ERR_SERVER_INVALID_INPUT: 'Invalid request from server, the request body is %s on %s'
+        ERR_SERVER_INVALID_INPUT: 'Invalid request from server, the request body is %s on %s',
+        ERR_UNRECOGNIZED_DATA_SOURCE: 'Unrecognized dataSource at %s, the dataSource is: %s, the record is: %s',
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
         WRN_MISSING_IDENTIFIER_PERSON: 'There is no identifier to the person: %s, the record is: %s from %s',
         WRN_ERR_UPDATE_FUNC_PERSON_NOT_FOUND: 'Failed to get data from Kartoffel about the person with the identifier %s from "%s" at update flow. The error message: "%s"',
-        WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL: 'The fields "%s" of the person from:"%s" with the identifier %s updated but not saved in kartoffel because the dataSource "%s" is not match to the person\'s currentUnit "%s"',
+        WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL: 'The fields "%s" of the person from:"%s" with the identifier %s updated but not saved in kartoffel because the dataSource: "%s" is not match to the person\'s currentUnit: "%s"',
         WRN_AKA_FIELD_RIGID: 'The field "%s" of the person with the identifier %s from the dataSource "%s" is not update because is rigid to Aka',
         WRN_IDENTIFIER_FIELD_REDUNDANT: 'The identifier fields of the person %s are equals, the "%s" field was deleted',
         WRN_NOT_INSERTED_ENTITY_TYPE: 'Not inserted entity type for the user with the upn %s from ads',
@@ -38,6 +39,7 @@ messageLog = {
         WRN_UNRECOGNIZED_ENTITY_TYPE: 'There is no entity type for the person %s from %s',
         WRN_IRRELEVANT_TAGS: 'Irrelevant tags for the record %s from %s',
         WRN_FIND_GROUP_BY_AKA_UNIT: 'The group for aka unit: %s, does not exist in kartoffel',
+        WRN_MISSING_DIRECT_GROUP: 'There is no directGroup for the person with identifiers: %s from %s the record is: %s',
     },
     info: {
         INF_CONNECT_REDIS: 'Redis connect to service',

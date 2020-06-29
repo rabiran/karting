@@ -49,5 +49,5 @@ module.exports = async() => {
 const GetDataAndProcess = async (dataSource, akaData, dataObj, func) => {
     // In case datasource is aka, I get data before function and therefore not need to get data again
     let data = func ? await func(dataSource, dataObj.data, dataObj.fileName) : akaData;
-    await diffsHandler(data, dataSource, akaData.all);
+    await diffsHandler(data, dataSource, akaData.all, fn.runnigTypes.dailyRun);
 }

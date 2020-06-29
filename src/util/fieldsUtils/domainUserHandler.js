@@ -3,6 +3,7 @@ const p = require('../../config/paths');
 const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const Auth = require('../../auth/auth');
+const assembleDomainUser = require('./assembleDomainUser');
 
 /**
  * This module create domainUser for person, using the unique properties of each dataSource
@@ -13,45 +14,21 @@ const Auth = require('../../auth/auth');
  * @param {Object} originalRecord The original raw record before matchToKartoffel 
  *
  *  */
-module.exports = async (person, record, dataSource, needMatchToKartoffel=true, originalRecord) => {
+module.exports = async (DataModel) => {
     let user_object = {
-        dataSource,
+        dataSource: DataModel.dataSource,
     };
 
-    // if the record came to updated flow from added flow it already matched to kartoffel and need to refer the "original record"
-    if (!needMatchToKartoffel) {
-        (dataSource === fn.dataSources.ads && originalRecord[fn[dataSource].sAMAccountName]) ?
-            user_object.uniqueID = `${originalRecord[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
-        (dataSource === fn.dataSources.adNN && originalRecord[fn[dataSource].sAMAccountName]) ?
-            user_object.uniqueID = `${originalRecord[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
-        (((dataSource === fn.dataSources.mdn) || (dataSource === fn.dataSources.lmn) || (dataSource === fn.dataSources.mm)) && originalRecord[fn[dataSource].uniqueID]) ?
-            user_object.uniqueID = originalRecord[fn[dataSource].uniqueID].toLowerCase() : null;
-        (dataSource === fn.dataSources.es && originalRecord[fn[dataSource].userName]) ?
-            user_object.uniqueID = `${originalRecord[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
-        (dataSource === fn.dataSources.city && `${originalRecord[fn[dataSource].domainUsers]}`) ?
-            user_object.uniqueID = `${originalRecord[fn[dataSource].domainUsers].toLowerCase()}` : null;
-    } else {
-        (dataSource === fn.dataSources.ads && record[fn[dataSource].sAMAccountName]) ?
-            user_object.uniqueID = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
-        (dataSource === fn.dataSources.adNN && record[fn[dataSource].sAMAccountName]) ?
-            user_object.uniqueID = `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` : null;
-        (((dataSource === fn.dataSources.mdn) || (dataSource === fn.dataSources.lmn) || (dataSource === fn.dataSources.mm)) && record[fn[dataSource].uniqueID]) ?
-            user_object.uniqueID = record[fn[dataSource].uniqueID].toLowerCase() : null;
-        (dataSource === fn.dataSources.es && record[fn[dataSource].userName]) ?
-            user_object.uniqueID = `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` : null;
-        (dataSource === fn.dataSources.city && record[fn[dataSource].domainUsers]) ?
-            user_object.uniqueID = `${record[fn[dataSource].domainUsers].toLowerCase()}` : null;
-    }
-
+    user_object.uniqueID = assembleDomainUser(DataModel.dataSource, DataModel.record);
 
     if (!user_object.uniqueID) {
         return;
     } else {
         user_object.uniqueID = user_object.uniqueID.toLowerCase();
 
-        if (person.domainUsers.length > 0) {
+        if (DataModel.person.domainUsers.length > 0) {
             let breaking = false;
-            person.domainUsers.map(du => {
+            DataModel.person.domainUsers.map(du => {
                 if (du.uniqueID.toLowerCase() === user_object.uniqueID) {
                     return breaking = true;
                 }
@@ -61,8 +38,8 @@ module.exports = async (person, record, dataSource, needMatchToKartoffel=true, o
     }
 
     try {
-        let user = await Auth.axiosKartoffel.post(p(person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
-        sendLog(logLevel.info, logDetails.info.INF_ADD_DOMAIN_USER, user_object.uniqueID, user.data.personalNumber || user.data.identityCard, dataSource);
+        let user = await Auth.axiosKartoffel.post(p(DataModel.person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
+        sendLog(logLevel.info, logDetails.info.INF_ADD_DOMAIN_USER, user_object.uniqueID, user.data.personalNumber || user.data.identityCard, DataModel.dataSource);
     } catch (err) {
         let errMessage = err.response ? err.response.data.message : err.message;
 
@@ -83,16 +60,16 @@ module.exports = async (person, record, dataSource, needMatchToKartoffel=true, o
 
                 if (personToDeleteFrom.mail === user_object.uniqueID) {
                     personToDeleteFrom = (await Auth.axiosKartoffel.put(p(personToDeleteFrom.id).KARTOFFEL_UPDATE_PERSON_API, { mail: null })).data;
-                    sendLog(logLevel.info, logDetails.info.INF_UPDATE_PERSON_IN_KARTOFFEL, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, dataSource, JSON.stringify(personToDeleteFrom));
+                    sendLog(logLevel.info, logDetails.info.INF_UPDATE_PERSON_IN_KARTOFFEL, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, DataModel.dataSource, JSON.stringify(personToDeleteFrom));
                 }
 
-                user = (await Auth.axiosKartoffel.post(p(person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object)).data;
-                sendLog(logLevel.info, logDetails.info.INF_TRANSFER_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, user.personalNumber || user.identityCard, dataSource);
+                let user = (await Auth.axiosKartoffel.post(p(DataModel.person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object)).data;
+                sendLog(logLevel.info, logDetails.info.INF_TRANSFER_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, user.personalNumber || user.identityCard, DataModel.dataSource);
             } catch (err) {
-                sendLog(logLevel.error, logDetails.error.ERR_TRANSFER_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, person.personalNumber || person.identityCard, dataSource)
+                sendLog(logLevel.error, logDetails.error.ERR_TRANSFER_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, DataModel.person.personalNumber || DataModel.person.identityCard, DataModel.dataSource)
             }
         } else {
-            sendLog(logLevel.error, logDetails.error.ERR_ADD_DOMAIN_USER, person.mail, person.personalNumber || person.identityCard, dataSource, errMessage);
+            sendLog(logLevel.error, logDetails.error.ERR_ADD_DOMAIN_USER, DataModel.person.mail, DataModel.person.personalNumber || DataModel.person.identityCard, DataModel.dataSource, errMessage);
         }
     }
 }

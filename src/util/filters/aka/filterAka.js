@@ -5,22 +5,20 @@ const fn = require('../../../config/fieldNames')
 /**
  * Filter aka records
  *
- * @param {Object} records - all the raw data from the data source
+ * @param {Array<DataModel>} data - all the raw data from the data source
  */
-module.exports = async (records, flowType) => {
+module.exports = async (data) => {
     let result = [];
 
     // split data to chuncks
-    for (let i = 0; i < parseInt(records.length / fn.chunckSize) + 1; i++) {
-        let chunck = records.slice(i * fn.chunckSize, (i * fn.chunckSize) + fn.chunckSize);
+    for (let i = 0; i < parseInt(data.length / fn.chunckSize) + 1; i++) {
+        let chunck = data.slice(i * fn.chunckSize, (i * fn.chunckSize) + fn.chunckSize);
 
         chunck = await filterAsync(
-            records,
-            // to add more filter conditions just add && <condition>
-            // at the return statement
-            async (record, index) => {
+            data,
+            async (DataModel, index) => {
                 return (
-                    await byExistence(record, flowType)
+                    await byExistence(DataModel) // && <condition> - for more filter conditions
                 );
             }
         );
