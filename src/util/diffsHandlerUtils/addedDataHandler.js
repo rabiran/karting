@@ -66,25 +66,25 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
             continue;
         }
 
-        if (!DataModel.person_ready_for_kartoffel.directGroup) {
-            sendLog(
-                logLevel.warn,
-                logDetails.warn.WRN_MISSING_DIRECT_GROUP,
-                JSON.stringify(DataModel.identifiers),
-                DataModel.dataSource,
-                JSON.stringify(DataModel.record),
-            );
-            continue;
-        }
-
+        
         tryFindPerson = await tryArgs(
             async id => (await Auth.axiosKartoffel.get(path(id))).data,
             ...DataModel.identifiers
-        );
-
-        if (tryFindPerson.lastErr) {
-            if (tryFindPerson.lastErr.response && tryFindPerson.lastErr.response.status === 404) {
-                DataModel.person_ready_for_kartoffel = identifierHandler(DataModel.person_ready_for_kartoffel);
+            );
+            
+            if (tryFindPerson.lastErr) {
+                if (tryFindPerson.lastErr.response && tryFindPerson.lastErr.response.status === 404) {
+                    if (!DataModel.person_ready_for_kartoffel.directGroup) {
+                        sendLog(
+                            logLevel.warn,
+                            logDetails.warn.WRN_MISSING_DIRECT_GROUP,
+                            JSON.stringify(DataModel.identifiers),
+                            DataModel.dataSource,
+                            JSON.stringify(DataModel.record),
+                        );
+                        continue;
+                    }
+                    DataModel.person_ready_for_kartoffel = identifierHandler(DataModel.person_ready_for_kartoffel);
                 // Add the complete person object to Kartoffel
                 try {
                     DataModel.person = (
