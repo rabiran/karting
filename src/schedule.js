@@ -38,7 +38,7 @@ app.post("/immediateRun", async (req, res) => {
     );
     res.json("there is an error with the input");
   } else {
-    await immediate(req.body.dataSource, req.body.personIDsArray);
+    await immediate(req.body.dataSource, req.body.personIDsArray[0]);
     res.json("successfully added");
   }
 });

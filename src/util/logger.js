@@ -74,7 +74,7 @@ const loggerConfig = {
 
 
 const logger = createLogger(loggerConfig);
-let loggerImmediate = createLogger(loggerConfig).add(immediateRotateFileTransport("1"));
+let loggerImmediate = createLogger(loggerConfig);
 
 const levelString = Object.keys(config.npm.levels);
 
@@ -85,7 +85,7 @@ const wrapSendLog = (runningType, identifier) => {
   returnSendLog = runningType === fn.runnigTypes.ImmediateRun ? sendLogImmediate : sendLog
   return returnSendLog;
 } 
-var sendLog = (level, logDetails, ...params) => {
+const sendLog = (level, logDetails, ...params) => {
   const {title, message} = logDetails;  
   logger.log(levelString[level], message, ...params, {title});
 };
@@ -95,19 +95,9 @@ const sendLogImmediate = (level, logDetails, ...params) => {
   loggerImmediate.log(levelString[level], message, ...params, {title});
 };
 
-const setLogType = runningType => {
-  if (runningType === fn.runnigTypes.ImmediateRun) {
-    sendLog = sendLogImmediate;
-  }
-}
-
-loggerObj = {
-
-}
 
 module.exports = {
   sendLog,
   wrapSendLog,
-  setLogType,
   logLevel: config.npm.levels,
 };
