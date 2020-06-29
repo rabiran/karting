@@ -1,6 +1,6 @@
 const fn = require('./config/fieldNames');
 const diffsHandler = require('./util/diffsHandler');
-const {logLevel, wrapSendLog } = require('./util/logger');
+const {logLevel, wrapSendLog, setLogType } = require('./util/logger');
 const logDetails = require('./util/logDetails');
 const moment = require('moment'); 
 const getRawData = require('./util/getRawData'); 
@@ -11,6 +11,7 @@ const getIdentifiers = require('./util/getIdentifiers')
 let { sendLog } = require('./util/logger');
 module.exports = async  (dataSource, identifiersArray) => {
     try {
+        setLogType(fn.runnigTypes.ImmediateRun);
         let { redis, dataObj } = await preRun(fn.runnigTypes.ImmediateRun, [fn.dataSources.aka, dataSource])
         let akaData  = dataObj[fn.dataSources.aka].data;
         let foundRecords = [];
@@ -18,7 +19,7 @@ module.exports = async  (dataSource, identifiersArray) => {
         for (idObj of identifiersArray) {
 
             // let flatIDs = [idObj.identityCard, idObj.personalNumber, idObj.domainUsers];
-            sendLog = wrapSendLog(fn.runnigTypes.ImmediateRun, idObj.identityCard)
+            // sendLog = wrapSendLog(fn.runnigTypes.ImmediateRun, idObj.identityCard)
             let flatIDs = Object.values(idObj);
             let foundRecord = await filterAsync(
                 dataObj[dataSource].data,
