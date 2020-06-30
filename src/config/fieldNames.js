@@ -100,7 +100,7 @@ module.exports = {
         profession: 'profession',
         hierarchy: 'hr',
         domainUsers: 'domUser',
-        compnay: 'company',
+        company: 'company',
         entityTypePrefix: {
             s: ['e', 'l', 'i'],
             c: ['g', 'j'],
@@ -175,5 +175,5 @@ module.exports = {
     },
     ImmediatePort: 3002,
     chunckSize: 200,
-    kartoffelUrl: "http://localhost:3000",
+    kartoffelUrl: "http://192.168.99.100:3000",
 };
