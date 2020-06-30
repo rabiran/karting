@@ -5,8 +5,8 @@ const result = excelToJson({
     sourceFile: 'src/config/dataSourcesMap.xlsx',
     columnToKey: {
         A: fn.dataSources.es,
-        B: fn.dataSources.nn,
-        C: fn.dataSources.nv,
+        B: fn.dataSources.adNN,
+        C: fn.dataSources.nvSQL,
         D: fn.dataSources.ads,
         E: fn.dataSources.city,
     }

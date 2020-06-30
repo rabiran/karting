@@ -7,7 +7,7 @@ const fn = require('../../config/fieldNames');
  * @param {object} record
  * @returns {string} the custom uniqeID for each dataSource
  */
-module.exports = (dataSource, record) => {
+function assembleDomainUser(dataSource, record) {
     switch (dataSource) {
         case fn.dataSources.ads:
             return (record[fn[dataSource].sAMAccountName] ?
@@ -31,6 +31,8 @@ module.exports = (dataSource, record) => {
             return (record[fn[dataSource].domainUsers] ?
                 `${record[fn[dataSource].domainUsers].toLowerCase()}` : null);
         default:
-            return null;
+            sendLog(logLevel.error, logDetails.ERR_UNRECOGNIZED_DATA_SOURCE, assembleDomainUser.name, dataSource, record);
     }
 }
+
+module.exports = assembleDomainUser;

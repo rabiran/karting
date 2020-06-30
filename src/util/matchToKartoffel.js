@@ -392,7 +392,7 @@ const match_nv_sql = (obj, dataSource) => {
 const match_city = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     // initialize variables for hierarchy matching and define default hierarchy
-    const defaultHierarchy = `${fn.rootHierarchy.city}${obj[fn[dataSources].company] ? '/' + obj[fn[dataSources].company] : ''}`;
+    const defaultHierarchy = `${fn.rootHierarchy.city}${obj[fn[dataSource].company] ? '/' + obj[fn[dataSource].company] : ''}`;
     obj.hierarchy = defaultHierarchy;
     // suitable the structure of the fieds to kartoffel standart
     objKeys.map((rawKey) => {

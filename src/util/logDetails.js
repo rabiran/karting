@@ -24,6 +24,7 @@ messageLog = {
         ERR_DELETE_DOMAIN_USER: 'Cannot delete the domainUser %s from the person with identifier %s from %s the error message is: %s',
         ERR_SERVER_INVALID_INPUT: 'Invalid request from server, the request body is %s on %s',
         ERR_NOT_FOUND_IN_RAW_DATA: 'The person with identifier %s from %s does not exists in raw data',
+        ERR_UNRECOGNIZED_DATA_SOURCE: 'Unrecognized dataSource at %s, the dataSource is: %s, the record is: %s',
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',

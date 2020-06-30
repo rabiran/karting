@@ -17,12 +17,12 @@ require('dotenv').config();
 /**
  * Take new object and add it to kartoffel
  *
- * @param { DataModel[] } addedData - represnts the changes from last data
+ * @param { { DataModel[], string } } addedData - represnts the changes from last data
  * @param {*} aka_all_data - all the data from aka data source (for compilation)
- * @param {*} currentUnit_to_DataSource - a map of all units from each data source
  */
-module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
-    let dataModels = await recordsFilter(addedData);
+module.exports = async ({ addedData, dataSource }, aka_all_data) => {
+    let dataModels = addedData;
+    dataModels = await recordsFilter({dataModels, dataSource});
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
@@ -77,6 +77,7 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
             continue;
         }
 
+        
         tryFindPerson = await tryArgs(
             async id => (await Auth.axiosKartoffel.get(path(id))).data,
             ...DataModel.identifiers
@@ -129,7 +130,7 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
 
             DataModel.person = tryFindPerson.result;
 
-            DataModel.checkIfDataSourceIsPrimary(currentUnit_to_DataSource);
+            DataModel.checkIfDataSourceIsPrimary(DataModel.person_ready_for_kartoffel.currentUnit);
 
             if (
                 DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
@@ -153,8 +154,7 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
                 if (DataModel.updateDeepDiff.length > 0) {
                     updated(
                         [DataModel],
-                        aka_all_data,
-                        currentUnit_to_DataSource
+                        aka_all_data
                     );
                 }
             } else {
