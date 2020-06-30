@@ -23,7 +23,7 @@ module.exports = async  (dataSource, identifier) => {
         if(!foundRecord[0]) {
             sendLog(logLevel.error, logDetails.error.ERR_NOT_FOUND_IN_RAW_DATA, identifier.identityCard, dataSource);
         }
-        await diffsHandler({ added: foundRecord }, dataSource, akaData, fn.runnigTypes.ImmediateRun);
+        await diffsHandler({ added: foundRecord }, dataSource, akaData, fn.runnigTypes.ImmediateRun, sendLog);
 
         
 

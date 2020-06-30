@@ -46,7 +46,7 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
             ].filter(id => id);
             path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
         } else {
-            sendLog(
+            DataModel.sendLog(
                 logLevel.warn,
                 logDetails.warn.WRN_UNRECOGNIZED_ENTITY_TYPE,
                 JSON.stringify(DataModel.record),
@@ -56,7 +56,7 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
         }
 
         if (!DataModel.identifiers.length) {
-            sendLog(
+            DataModel.sendLog(
                 logLevel.warn,
                 logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON,
                 JSON.stringify(DataModel.person_ready_for_kartoffel),
@@ -67,7 +67,7 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
         }
 
         if (!DataModel.person_ready_for_kartoffel.directGroup) {
-            sendLog(
+            DataModel.sendLog(
                 logLevel.warn,
                 logDetails.warn.WRN_MISSING_DIRECT_GROUP,
                 JSON.stringify(DataModel.identifiers),
@@ -93,7 +93,7 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
                         )
                     ).data;
 
-                    sendLog(
+                    DataModel.sendLog(
                         logLevel.info,
                         logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL,
                         JSON.stringify(DataModel.identifiers),
@@ -106,7 +106,7 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
                     }
                 } catch (err) {
                     const errMessage = err.response ? err.response.data.message : err.message;
-                    sendLog(
+                    DataModel.sendLog(
                         logLevel.error,
                         logDetails.error.ERR_INSERT_PERSON,
                         JSON.stringify(DataModel.identifiers),
@@ -117,7 +117,7 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
                 }
             } else {
                 const errMessage = tryFindPerson.lastErr.response ? tryFindPerson.lastErr.response.data.message : tryFindPerson.lastErr.message;
-                sendLog(
+                DataModel.sendLog(
                     logLevel.error,
                     logDetails.error.ERR_ADD_FUNCTION_PERSON_NOT_FOUND,
                     JSON.stringify(DataModel.identifiers),
@@ -161,7 +161,7 @@ module.exports = async (addedData, aka_all_data, currentUnit_to_DataSource) => {
                 await domainUserHandler(DataModel);
             }
         } else {
-            sendLog(logLevel.error, logDetails.error.ERR_UNKNOWN_ERROR, 'addedDataHandler', JSON.stringify(tryFindPerson.lastErr));
+            DataModel.sendLog(logLevel.error, logDetails.error.ERR_UNKNOWN_ERROR, 'addedDataHandler', JSON.stringify(tryFindPerson.lastErr));
         }
     }
 }

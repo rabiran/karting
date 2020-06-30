@@ -8,7 +8,7 @@ const getRawData = require('./getRawData');
 
 module.exports = async (runningType, dataSources, identifier) => {
 
-    let sendLog = wrapSendLog(fn.runnigTypes.ImmediateRun, identifier.identityCard)
+    let sendLog = wrapSendLog(runningType, identifier)
 
     const redis = await connectToRedis(sendLog);
 

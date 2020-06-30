@@ -32,7 +32,7 @@ module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) =>
         const filterdIdentifiers = [identityCard, personalNumber].filter(id => id);
         
         if (!filterdIdentifiers.length) {
-            sendLog(
+            DataModel.sendLog(
                 logLevel.error,
                 logDetails.error.ERR_NO_IDENTIFIERS_TO_UPDATE,
                 JSON.stringify(DataModel.record),
@@ -47,7 +47,7 @@ module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) =>
         )
 
         if (tryFindPerson.lastErr) {
-            sendLog(
+            DataModel.sendLog(
                 logLevel.error,
                 logDetails.error.ERR_NOT_FIND_PERSON_IN_KARTOFFEL,
                 JSON.stringify(filterdIdentifiers),
@@ -76,7 +76,7 @@ module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) =>
             ) {
                 // Add domain user from the record (if the required data exist)
                 await domainUserHandler(DataModel);
-                sendLog(
+                DataModel.sendLog(
                     logLevel.warn,
                     logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL,
                     DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
@@ -99,7 +99,7 @@ module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) =>
                     
                     const include = fn.akaRigid.includes(keyForCheck);
                     if (include) {
-                        sendLog(
+                        DataModel.sendLog(
                             logLevel.warn,
                             logDetails.warn.WRN_AKA_FIELD_RIGID,
                             diffsObj.path.toString(),

@@ -2,7 +2,7 @@ const matchToKartoffel = require('./matchToKartoffel');
 const completeFromAka = require('./completeFromAka');
 
 class DataModel {
-    constructor(record, dataSource, flowType, runningType, updateDeepDiff) {
+    constructor(record, sendLog, dataSource, flowType, runningType, updateDeepDiff) {
         this.record = record;
         this.updateDeepDiff = updateDeepDiff;
         this.dataSource = dataSource;
@@ -15,6 +15,7 @@ class DataModel {
         this.person_ready_for_kartoffel = null;
         this.person = null;
         this.akaRecord = null;
+        this.sendLog = sendLog;
     }
 
     async matchToKartoffel() {

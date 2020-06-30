@@ -17,9 +17,15 @@ const scheduleTime =
   process.env.NODE_ENV === "production"
     ? fn.runningTime
     : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
+// try{
+//   daily();
+// }
+// catch(e){
+//  console.log(e)
+// }
 
 // schedule.scheduleJob(scheduleTime, async () =>  await daily());
-// schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
+schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
 
 // Create immediateRun server app
 
