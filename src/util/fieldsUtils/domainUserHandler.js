@@ -3,6 +3,7 @@ const p = require('../../config/paths');
 const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const Auth = require('../../auth/auth');
+const assembleDomainUser = require('./assembleDomainUser');
 
 /**
  * This module create domainUser for person, using the unique properties of each dataSource
@@ -17,18 +18,8 @@ module.exports = async (DataModel) => {
     let user_object = {
         dataSource: DataModel.dataSource,
     };
-    
-    (DataModel.dataSource === fn.dataSources.ads && DataModel.record[fn[DataModel.dataSource].sAMAccountName]) ?
-        user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].sAMAccountName]}${fn[DataModel.dataSource].domainSuffix}` : null;
-    (DataModel.dataSource === fn.dataSources.adNN && DataModel.record[fn[DataModel.dataSource].sAMAccountName]) ?
-        user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].sAMAccountName]}${fn[DataModel.dataSource].domainSuffix}` : null;
-    (((DataModel.dataSource === fn.dataSources.mdn) || (DataModel.dataSource === fn.dataSources.lmn) || (DataModel.dataSource === fn.dataSources.mm)) && DataModel.record[fn[DataModel.dataSource].uniqueID]) ?
-        user_object.uniqueID = DataModel.record[fn[DataModel.dataSource].uniqueID].toLowerCase() : null;
-    (DataModel.dataSource === fn.dataSources.es && DataModel.record[fn[DataModel.dataSource].userName]) ?
-        user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].userName]}${fn[DataModel.dataSource].domainSuffix}` : null;
-    (DataModel.dataSource === fn.dataSources.city && DataModel.record[fn[DataModel.dataSource].domainUsers]) ?
-        user_object.uniqueID = `${DataModel.record[fn[DataModel.dataSource].domainUsers].toLowerCase()}` : null;
 
+    user_object.uniqueID = assembleDomainUser(DataModel.dataSource, DataModel.record);
 
     if (!user_object.uniqueID) {
         return;
@@ -48,7 +39,7 @@ module.exports = async (DataModel) => {
 
     try {
         let user = await Auth.axiosKartoffel.post(p(DataModel.person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
-        sendLog(logLevel.info, logDetails.info.INF_ADD_DOMAIN_USER, user_object.uniqueID, user.data.personalNumber || user.data.identityCard, DataModel.dataSource);
+        DataModel.sendLog(logLevel.info, logDetails.info.INF_ADD_DOMAIN_USER, user_object.uniqueID, user.data.personalNumber || user.data.identityCard, DataModel.dataSource);
     } catch (err) {
         let errMessage = err.response ? err.response.data.message : err.message;
 
@@ -65,20 +56,20 @@ module.exports = async (DataModel) => {
             try {
                 personToDeleteFrom = (await Auth.axiosKartoffel.get(`${p(user_object.uniqueID).KARTOFFEL_PERSON_BY_DOMAIN_USER}`)).data;
                 await Auth.axiosKartoffel.delete(`${p(personToDeleteFrom.id, user_object.uniqueID).KARTOFFEL_DELETE_DOMAIN_USER_API}`);
-                sendLog(logLevel.info, logDetails.info.INF_DELETE_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard);
+                DataModel.sendLog(logLevel.info, logDetails.info.INF_DELETE_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard);
 
                 if (personToDeleteFrom.mail === user_object.uniqueID) {
                     personToDeleteFrom = (await Auth.axiosKartoffel.put(p(personToDeleteFrom.id).KARTOFFEL_UPDATE_PERSON_API, { mail: null })).data;
-                    sendLog(logLevel.info, logDetails.info.INF_UPDATE_PERSON_IN_KARTOFFEL, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, DataModel.dataSource, JSON.stringify(personToDeleteFrom));
+                    DataModel.sendLog(logLevel.info, logDetails.info.INF_UPDATE_PERSON_IN_KARTOFFEL, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, DataModel.dataSource, JSON.stringify(personToDeleteFrom));
                 }
 
                 let user = (await Auth.axiosKartoffel.post(p(DataModel.person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object)).data;
-                sendLog(logLevel.info, logDetails.info.INF_TRANSFER_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, user.personalNumber || user.identityCard, DataModel.dataSource);
+                DataModel.sendLog(logLevel.info, logDetails.info.INF_TRANSFER_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, user.personalNumber || user.identityCard, DataModel.dataSource);
             } catch (err) {
-                sendLog(logLevel.error, logDetails.error.ERR_TRANSFER_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, DataModel.person.personalNumber || DataModel.person.identityCard, DataModel.dataSource)
+                DataModel.sendLog(logLevel.error, logDetails.error.ERR_TRANSFER_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard, DataModel.person.personalNumber || DataModel.person.identityCard, DataModel.dataSource)
             }
         } else {
-            sendLog(logLevel.error, logDetails.error.ERR_ADD_DOMAIN_USER, DataModel.person.mail, DataModel.person.personalNumber || DataModel.person.identityCard, DataModel.dataSource, errMessage);
+            DataModel.sendLog(logLevel.error, logDetails.error.ERR_ADD_DOMAIN_USER, DataModel.person.mail, DataModel.person.personalNumber || DataModel.person.identityCard, DataModel.dataSource, errMessage);
         }
     }
 }

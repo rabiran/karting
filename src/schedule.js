@@ -17,9 +17,15 @@ const scheduleTime =
   process.env.NODE_ENV === "production"
     ? fn.runningTime
     : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
+// try{
+//   daily();
+// }
+// catch(e){
+//  console.log(e)
+// }
 
 // schedule.scheduleJob(scheduleTime, async () =>  await daily());
-// schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
+schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
 
 // Create immediateRun server app
 
@@ -38,7 +44,7 @@ app.post("/immediateRun", async (req, res) => {
     );
     res.json("there is an error with the input");
   } else {
-    await immediate(req.body.dataSource, req.body.personIDsArray);
+    await immediate(req.body.dataSource, req.body.personIDsArray[0]);
     res.json("successfully added");
   }
 });

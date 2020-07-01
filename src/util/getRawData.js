@@ -2,7 +2,7 @@ const p = require('../config/paths');
 const fn = require('../config/fieldNames');
 const axios = require("axios");
 const akaDataManipulate = require('./akaDataManipulate');
-const { sendLog, logLevel } = require('./logger');
+const { logLevel } = require('./logger');
 const logDetails = require('./logDetails');
 const saveAsFile = require('./saveAsFile');
 
@@ -13,7 +13,7 @@ const saveAsFile = require('./saveAsFile');
  * @param {string} runningType - the current runnig type
  * @param {Date} dateAndTime - when the data was called
  */
-module.exports = async (dataSource, runningType, dateAndTime) => {
+module.exports = async (dataSource, runningType, dateAndTime, sendLog) => {
     let data;
     if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server

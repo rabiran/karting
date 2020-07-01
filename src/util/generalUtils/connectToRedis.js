@@ -1,9 +1,9 @@
 const Redis = require("ioredis");
-const {sendLog, logLevel} = require('../logger');
+const { logLevel } = require('../logger');
 const Auth = require('../../auth/auth');
 const logDetails = require('../logDetails');
 
-module.exports =  () => {
+module.exports =  (sendLog) => {
     const redis = new Redis({
         retryStrategy: function(times) {
             return times <= 3 ? times * 1000 : "stop reconnecting";

@@ -24,6 +24,7 @@ messageLog = {
         ERR_DELETE_DOMAIN_USER: 'Cannot delete the domainUser %s from the person with identifier %s from %s the error message is: %s',
         ERR_SERVER_INVALID_INPUT: 'Invalid request from server, the request body is %s on %s',
         ERR_NOT_FOUND_IN_RAW_DATA: 'The person with identifier %s from %s does not exists in raw data',
+        ERR_UNRECOGNIZED_DATA_SOURCE: 'Unrecognized dataSource at %s, the dataSource is: %s, the record is: %s',
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
@@ -39,6 +40,7 @@ messageLog = {
         WRN_UNRECOGNIZED_ENTITY_TYPE: 'There is no entity type for the person %s from %s',
         WRN_IRRELEVANT_TAGS: 'Irrelevant tags for the record %s from %s',
         WRN_FIND_GROUP_BY_AKA_UNIT: 'The group for aka unit: %s, does not exist in kartoffel',
+        WRN_MISSING_DIRECT_GROUP: 'There is no directGroup for the person with identifiers: %s from %s the record is: %s',
     },
     info: {
         INF_CONNECT_REDIS: 'Redis connect to service',

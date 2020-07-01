@@ -17,27 +17,24 @@ require('dotenv').config();
  * @param {Array<DataModel>} updatedData - object that contain the results of diffs checking (added,updated,same,removed & all
  * @param {string} dataSource - represents the data source
  * @param {Object} aka_all_data - object that contain all the recent data from aka
- * @param {Map} currentUnit_to_DataSource - map of all the units from each data source
- * @param {boolean} needMatchToKartoffel - if the diffsObj needs match to kartoffel
  */
-module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) => {
+module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
     let dataModels = updatedData;
-
-    dataModels = await recordsFilter(dataModels, dataModels[0].dataSource);
+    dataModels = await recordsFilter(dataModels, dataSource);
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
         const path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
 
-        const { identityCard, personalNumber } = await getIdentifiers(DataModel.record, dataSource);
+        const { identityCard, personalNumber } = await getIdentifiers(DataModel.record, DataModel.dataSource);
         const filterdIdentifiers = [identityCard, personalNumber].filter(id => id);
         
         if (!filterdIdentifiers.length) {
-            sendLog(
+            DataModel.sendLog(
                 logLevel.error,
                 logDetails.error.ERR_NO_IDENTIFIERS_TO_UPDATE,
                 JSON.stringify(DataModel.record),
-                dataSource
+                DataModel.dataSource
             );
             continue;
         }
@@ -48,11 +45,11 @@ module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) =>
         )
 
         if (tryFindPerson.lastErr) {
-            sendLog(
+            DataModel.sendLog(
                 logLevel.error,
                 logDetails.error.ERR_NOT_FIND_PERSON_IN_KARTOFFEL,
                 JSON.stringify(filterdIdentifiers),
-                dataSource
+                DataModel.dataSource
             );
             continue;
         }
@@ -73,11 +70,11 @@ module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) =>
             if (
                 DataModel.akaRecord &&
                 DataModel.akaRecord[fn.aka.unitName] &&
-                currentUnit_to_DataSource.get(DataModel.akaRecord[fn.aka.unitName]) !== DataModel.dataSource
+                DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
             ) {
                 // Add domain user from the record (if the required data exist)
                 await domainUserHandler(DataModel);
-                sendLog(
+                DataModel.sendLog(
                     logLevel.warn,
                     logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL,
                     DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
@@ -100,7 +97,7 @@ module.exports = async (updatedData, aka_all_data, currentUnit_to_DataSource) =>
                     
                     const include = fn.akaRigid.includes(keyForCheck);
                     if (include) {
-                        sendLog(
+                        DataModel.sendLog(
                             logLevel.warn,
                             logDetails.warn.WRN_AKA_FIELD_RIGID,
                             diffsObj.path.toString(),

@@ -72,6 +72,7 @@ const loggerConfig = {
   ]
 }; 
 
+
 const logger = createLogger(loggerConfig);
 let loggerImmediate = createLogger(loggerConfig);
 
@@ -80,7 +81,7 @@ const levelString = Object.keys(config.npm.levels);
 const wrapSendLog = (runningType, identifier) => {
   let returnSendLog;
   loggerImmediate = createLogger(loggerConfig)
-  identifier ? loggerImmediate.add(immediateRotateFileTransport(identifier)) : null;
+  identifier ? loggerImmediate.add(immediateRotateFileTransport(identifier.identityCard)) : null;
   returnSendLog = runningType === fn.runnigTypes.ImmediateRun ? sendLogImmediate : sendLog
   return returnSendLog;
 } 
@@ -93,6 +94,7 @@ const sendLogImmediate = (level, logDetails, ...params) => {
   const {title, message} = logDetails;  
   loggerImmediate.log(levelString[level], message, ...params, {title});
 };
+
 
 module.exports = {
   sendLog,
