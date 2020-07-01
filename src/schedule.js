@@ -12,20 +12,21 @@ require("dotenv").config();
 const scheduleRecoveryTime =
   process.env.NODE_ENV === "production"
     ? fn.recoveryRunningTime
-    : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
+    : new Date().setMilliseconds(new Date().getMilliseconds() + 2200);
 const scheduleTime =
   process.env.NODE_ENV === "production"
     ? fn.runningTime
     : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
-// try{
-//   daily();
-// }
-// catch(e){
-//  console.log(e)
-// }
 
+
+// recovery();
+// daily();
+
+// schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
 // schedule.scheduleJob(scheduleTime, async () =>  await daily());
-schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
+
+
+
 
 // Create immediateRun server app
 
