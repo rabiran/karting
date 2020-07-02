@@ -8,6 +8,7 @@
     "body-parser": "^1.19.0",
     "convert-excel-to-json": "^1.6.1",
     "diff-arrays-of-objects": "^1.1.1",
+    "domain": "0.0.1",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "faker": "^4.1.0",
@@ -25,7 +26,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "startDev": "node ./mocks/mocksGenerator.js & npm start",
-    "start": "node -r dotenv/config -r ./mocks/mocksServer.js ./src/schedule.js"
+    "start": "node -r dotenv/config ./src/schedule.js"
   },
   "repository": {
     "type": "git",
