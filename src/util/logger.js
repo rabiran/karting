@@ -73,11 +73,9 @@ const loggerConfig = {
 };
 
 
-let loggerDefault = createLogger(loggerConfig);
+let logger = createLogger(loggerConfig);
 let loggerImmediate = createLogger(loggerConfig).add(immediateRotateFileTransport('1'));
-let loggerRecovery = createLogger(loggerConfig).add(immediateRotateFileTransport('2'));
-let loggerDaily = createLogger(loggerConfig).add(immediateRotateFileTransport('3'));
-let logger = loggerDefault;
+
 
 const levelString = Object.keys(config.npm.levels);
 
@@ -102,24 +100,8 @@ const sendLogImmediate = (level, logDetails, ...params) => {
   loggerImmediate.log(levelString[level], message, ...params, { title });
 };
 
-const setLogger = runningType => {
-  if(runningType === fn.runnigTypes.ImmediateRun) {
-    logger = loggerImmediate;
-  } else if (runningType === fn.runnigTypes.recoveryRun) {
-    logger = loggerRecovery;
-  } else {
-    logger = loggerDaily;
-  }
-}
-
-const getLogger = () => {
-  return logger;
-}
-
 module.exports = {
   sendLog,
   wrapSendLog,
-  setLogger,
-  getLogger,
   logLevel: config.npm.levels,
 };

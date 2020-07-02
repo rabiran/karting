@@ -3,14 +3,11 @@ const PromiseAllWithFails = require('./generalUtils/promiseAllWithFails');
 const connectToRedis = require('./generalUtils/connectToRedis');
 const authHierarchyExistence = require('./generalUtils/authHierarchyExistence');
 const moment = require('moment');
-const { setLogger, logger, sendLog, getLogger } = require('./logger');
+const { wrapSendLog } = require('./logger');
 const getRawData = require('./getRawData');
 
 module.exports = async (runningType, dataSources, identifier) => {
-
-    // let sendLog = wrapSendLog(runningType, identifier)
-    setLogger(runningType);
-    let Logger = getLogger();
+    let sendLog = wrapSendLog(runningType, identifier)
     const redis = await connectToRedis(sendLog);
 
     // check if the root hierarchy exist and adding it if not
