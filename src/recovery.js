@@ -9,7 +9,7 @@ const moment = require('moment');
 
 module.exports = async () => {
     try {
-        let { redis, dataObj } = await preRun(fn.runnigTypes.recoveryRun, [
+        let { redis, dataObj, sendLog} = await preRun(fn.runnigTypes.recoveryRun, [
             fn.dataSources.aka,
             fn.dataSources.es,
             fn.dataSources.ads, 
@@ -24,7 +24,7 @@ module.exports = async () => {
         delete dataObj[fn.dataSources.aka];
 
         await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
-            await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData);
+            await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog);
         }));
 
         await diffsHandler({ added: akaData }, fn.dataSources.aka, akaData, fn.runnigTypes.recoveryRun);

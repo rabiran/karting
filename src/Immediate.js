@@ -1,9 +1,7 @@
 const fn = require('./config/fieldNames');
 const diffsHandler = require('./util/diffsHandler');
-const {logLevel, sendLog, logger, getLogger } = require('./util/logger');
+const { logLevel } = require('./util/logger');
 const logDetails = require('./util/logDetails');
-const moment = require('moment'); 
-const getRawData = require('./util/getRawData'); 
 const preRun = require('./util/preRun');
 const filterAsync = require('./util/generalUtils/filterAsync');
 const getIdentifiers = require('./util/getIdentifiers')

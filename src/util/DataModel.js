@@ -3,7 +3,7 @@ const completeFromAka = require('./completeFromAka');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
 
 class DataModel {
-    constructor(record, dataSource, flowType, runningType, updateDeepDiff) {
+    constructor(record, dataSource, flowType, runningType, sendLog, updateDeepDiff) {
         this.record = record;
         this.updateDeepDiff = updateDeepDiff;
         this.dataSource = dataSource;
