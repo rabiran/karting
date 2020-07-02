@@ -8,7 +8,7 @@ const byTags = require('./byTags');
 module.exports = DataModels => {
     return DataModels.filter(DataModel => {
         return (
-            byTags(DataModel.record)
+            byTags(DataModel.record, DataModel.sendLog)
         )
     });
 }

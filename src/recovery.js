@@ -9,7 +9,7 @@ const moment = require('moment');
 
 module.exports = async () => {
     try {
-        let { redis, dataObj, sendLog} = await preRun(fn.runnigTypes.recoveryRun, [
+        let { redis, dataObj } = await preRun(fn.runnigTypes.recoveryRun, [
             fn.dataSources.aka,
             fn.dataSources.es,
             fn.dataSources.ads, 

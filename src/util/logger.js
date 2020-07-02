@@ -38,11 +38,11 @@ const consoleTransport = new transports.Console({
 
 const immediateRotateFileTransport = identifier => {
   return new transports.DailyRotateFile({
-  filename: `${logDir}/immediateRun/${identifier}-%DATE%-logs.log`,
-  datePattern: 'YYYY-MM-DD',
-  prepend: true,
-  json: true,
-});
+    filename: `${logDir}/immediateRun/${identifier}-%DATE%-logs.log`,
+    datePattern: 'YYYY-MM-DD',
+    prepend: true,
+    json: true,
+  });
 }
 
 
@@ -56,9 +56,9 @@ const loggerConfig = {
     }),
     format.splat(),
     format.simple(),
-    format((info)=>{
+    format((info) => {
       info.service = "karting";
-      info.hostname = os.hostname();      
+      info.hostname = os.hostname();
       info.title = (info.meta) ? info.meta.title : "Unknown message";
       delete info.meta;
       return info
@@ -68,9 +68,9 @@ const loggerConfig = {
   transports: [
     consoleTransport,
     dailyRotateFileTransport,
-    dailyRotateFileTransportERROR, 
+    dailyRotateFileTransportERROR,
   ]
-}; 
+};
 
 
 const logger = createLogger(loggerConfig);
@@ -80,19 +80,23 @@ const levelString = Object.keys(config.npm.levels);
 
 const wrapSendLog = (runningType, identifier) => {
   let returnSendLog;
-  loggerImmediate = createLogger(loggerConfig)
-  identifier ? loggerImmediate.add(immediateRotateFileTransport(identifier.identityCard)) : null;
-  returnSendLog = runningType === fn.runnigTypes.ImmediateRun ? sendLogImmediate : sendLog
+  loggerImmediate = createLogger(loggerConfig);
+  if (runningType === fn.runnigTypes.ImmediateRun) {
+    loggerImmediate.add(immediateRotateFileTransport(identifier));
+    returnSendLog = sendLogImmediate;
+  } else {
+    returnSendLog = sendLog;
+  }
   return returnSendLog;
-} 
+}
 const sendLog = (level, logDetails, ...params) => {
-  const {title, message} = logDetails;  
-  logger.log(levelString[level], message, ...params, {title});
+  const { title, message } = logDetails;
+  logger.log(levelString[level], message, ...params, { title });
 };
 
 const sendLogImmediate = (level, logDetails, ...params) => {
-  const {title, message} = logDetails;  
-  loggerImmediate.log(levelString[level], message, ...params, {title});
+  const { title, message } = logDetails;
+  loggerImmediate.log(levelString[level], message, ...params, { title });
 };
 
 

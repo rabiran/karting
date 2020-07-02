@@ -1,8 +1,8 @@
 const fn = require('../../config/fieldNames');
-const Auth = require('../../auth/auth');
+const AuthClass = require('../../auth/auth');
 const DataModel = require('../DataModel')
 const p = require('../../config/paths');
-const { sendLog, logLevel } = require('../logger');
+const { logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const updateSpecificFields = require('../updateSpecificFields');
@@ -20,10 +20,11 @@ require('dotenv').config();
  */
 module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
     let dataModels = updatedData;
-    dataModels = await recordsFilter(dataModels, dataSource);
+    dataModels = await recordsFilter({dataModels, dataSource});
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
+        let Auth = new AuthClass(DataModel.sendLog);
         const path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
 
         const { identityCard, personalNumber } = await getIdentifiers(DataModel.record, DataModel.dataSource);
@@ -38,7 +39,7 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
             );
             continue;
         }
-
+        
         const tryFindPerson = await tryArgs(
             async id => (await Auth.axiosKartoffel.get(path(id))).data,
             ...filterdIdentifiers

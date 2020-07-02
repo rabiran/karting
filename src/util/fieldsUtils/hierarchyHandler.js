@@ -1,7 +1,7 @@
 const p = require('../../config/paths');
 const {sendLog, logLevel} = require('../logger');
 const logDetails = require('../../util/logDetails');
-const Auth = require('../../auth/auth');
+const AuthClass = require('../../auth/auth');
 
 /**
  * This module create the non exist hierarchies and return the objectID of the last hierarchy.
@@ -10,7 +10,8 @@ const Auth = require('../../auth/auth');
  * @param {*} hierarchy The Hierarchies description concatenated by '/'
  * @returns ObjectID of the last hierarchy
  */
-module.exports = async (hierarchy_obj, hierarchy) => {
+module.exports = async (hierarchy_obj, hierarchy, sendLog) => {
+    let Auth = new AuthClass(sendLog);
     let hierarchy_arr = hierarchy.split('/');
     let hierarchyAfterProcess;
     let lastGroupID
@@ -21,7 +22,6 @@ module.exports = async (hierarchy_obj, hierarchy) => {
                 name: group,
                 parentId: lastGroupID,
             }
-
             await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, new_group)
                 .then((result) => {
                     hierarchy_obj[hierarchyAfterProcess] = result.data.id;

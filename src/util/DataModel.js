@@ -24,7 +24,8 @@ class DataModel {
             this.person_ready_for_kartoffel = await matchToKartoffel(
                 this.record,
                 this.dataSource,
-                this.flowType
+                this.flowType,
+                this.sendLog
             );
             this.isMatchToKartoffel = false;
         }
@@ -35,7 +36,8 @@ class DataModel {
             this.person_ready_for_kartoffel = completeFromAka(
                 this.person_ready_for_kartoffel,
                 aka_all_data,
-                this.dataSource
+                this.dataSource,
+                this.sendLog
             );
             this.needCompleteFromAka = false;
         }

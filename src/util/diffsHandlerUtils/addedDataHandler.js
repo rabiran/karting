@@ -3,10 +3,10 @@ const diff = require("diff-arrays-of-objects");
 const updated = require('./updatedDataHandler')
 const p = require('../../config/paths');
 const fn = require('../../config/fieldNames');
-const { sendLog, logLevel, wrapSendLog } = require('../logger');
+const {logLevel} = require('../logger');
 const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
-const Auth = require('../../auth/auth');
+const AuthClass = require('../../auth/auth');
 const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
 const goalUserFromPersonCreation = require('../goalUserFromPersonCreation');
@@ -28,6 +28,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
         const DataModel = dataModels[i];
         let tryFindPerson;
         let path;
+        let Auth = new AuthClass(DataModel.sendLog);
 
         await DataModel.matchToKartoffel();
 
@@ -77,7 +78,6 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
             continue;
         }
 
-        
         tryFindPerson = await tryArgs(
             async id => (await Auth.axiosKartoffel.get(path(id))).data,
             ...DataModel.identifiers
@@ -85,7 +85,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
 
         if (tryFindPerson.lastErr) {
             if (tryFindPerson.lastErr.response && tryFindPerson.lastErr.response.status === 404) {
-                DataModel.person_ready_for_kartoffel = identifierHandler(DataModel.person_ready_for_kartoffel);
+                DataModel.person_ready_for_kartoffel = identifierHandler(DataModel.person_ready_for_kartoffel, DataModel.sendLog);
                 // Add the complete person object to Kartoffel
                 try {
                     DataModel.person = (
@@ -136,7 +136,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                 DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
                 DataModel.person.entityType !== fn.entityTypeValue.gu
             ) {
-                await goalUserFromPersonCreation(DataModel.person, DataModel.person_ready_for_kartoffel, DataModel.dataSource);
+                await goalUserFromPersonCreation(DataModel.person, DataModel.person_ready_for_kartoffel, DataModel.dataSource, DataModel.sendLog);
             } else if (DataModel.isDataSourcePrimary) {
                 Object.keys(DataModel.person).map(key => {
                     fn.fieldsForRmoveFromKartoffel.includes(key) ? delete DataModel.person[key] : null;
@@ -153,7 +153,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
 
                 if (DataModel.updateDeepDiff.length > 0) {
                     updated(
-                        [DataModel],
+                        {updatedData: [DataModel], dataSource},
                         aka_all_data
                     );
                 }

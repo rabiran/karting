@@ -3,7 +3,7 @@ const p = require('../config/paths');
 const { sendLog, logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const fn = require('../config/fieldNames');
-const Auth = require('../auth/auth');
+const AuthClass = require('../auth/auth');
 const isObjectEmpty = require('./generalUtils/isObjectEmpty');
 const mergeArrays = require('./generalUtils/mergeArrays');
 const DataModel = require('./DataModel');
@@ -16,6 +16,7 @@ const DataModel = require('./DataModel');
  * 
  */      
 const updateSpecificFields = async (DataModel) => {
+    let Auth = new AuthClass(DataModel.sendLog);
     let objForUpdate = {};
     DataModel.updateDeepDiff[2].map(deepDiffRecord => {
         switch(deepDiffRecord.kind) {

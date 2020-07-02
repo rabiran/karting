@@ -3,6 +3,7 @@ const update = require('./diffsHandlerUtils/updatedDataHandler');
 const PromiseAllWithFails = require('./generalUtils/promiseAllWithFails');
 const DataModel = require('./DataModel');
 const fn = require('../config/fieldNames');
+let { sendLog } = require('./logger');
 
 require('dotenv').config();
 /*
@@ -11,10 +12,10 @@ require('dotenv').config();
  * aka_all_data - object that contain all the recent data from aka
  */
 
-module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, runnigType, sendLog) => {
-    const addedData = added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add, runnigType, sendLog));
+module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, runnigType, DHsendLog = sendLog) => {
+    const addedData = added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add, runnigType, DHsendLog));
     const updatedData = updated.map(
-        deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, runnigType, sendLog, deepDiffObj)
+        deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, runnigType, DHsendLog, deepDiffObj)
     );
 
     return PromiseAllWithFails([

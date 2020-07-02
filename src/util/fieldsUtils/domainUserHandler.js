@@ -2,7 +2,7 @@ const fn = require('../../config/fieldNames');
 const p = require('../../config/paths');
 const { sendLog, logLevel } = require('../logger');
 const logDetails = require('../logDetails');
-const Auth = require('../../auth/auth');
+const AuthClass = require('../../auth/auth');
 const assembleDomainUser = require('./assembleDomainUser');
 
 /**
@@ -15,6 +15,7 @@ const assembleDomainUser = require('./assembleDomainUser');
  *
  *  */
 module.exports = async (DataModel) => {
+    let Auth = new AuthClass(DataModel.sendLog);
     let user_object = {
         dataSource: DataModel.dataSource,
     };

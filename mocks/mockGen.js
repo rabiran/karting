@@ -167,7 +167,7 @@ for (let i = 0; i < miriAmount; i++) {
       "לא ידוע",
       "null"
     ]);
-    miriUser.department = faker.commerce.department();
+    miriUser.department = utils.randomElement(dataTypes.CITY_UNIT);
     miriUser.stype = '';
     miriUser.hr = utils.randomElement([faker.lorem.word() + "/" +
                   faker.lorem.word() + "/" +

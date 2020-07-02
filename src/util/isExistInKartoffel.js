@@ -1,5 +1,5 @@
 const p = require('../config/paths');
-const Auth = require('../auth/auth')
+const AuthClass = require('../auth/auth')
 const fn = require('../config/fieldNames');
 const tryArgs = require('./generalUtils/tryArgs');
 
@@ -9,6 +9,7 @@ const tryArgs = require('./generalUtils/tryArgs');
  * @param { DataModel } DataModel
  */
 module.exports = async DataModel => {
+    let Auth = new AuthClass(DataModel.sendLog);
     const filterdIdentifiers = [
         DataModel.record[fn[DataModel.dataSource].personalNumber],
         DataModel.record[fn[DataModel.dataSource].identityCard]
