@@ -20,7 +20,7 @@ require('dotenv').config();
  */
 module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
     let dataModels = updatedData;
-    dataModels = await recordsFilter(dataModels, dataSource);
+    dataModels = await recordsFilter({ dataModels, dataSource }, dataSource);
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];

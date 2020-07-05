@@ -150,9 +150,10 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                     { updatedValues: 4 }
                 ).updated[0];
 
+                
                 if (DataModel.updateDeepDiff.length > 0) {
                     updated(
-                        [DataModel],
+                        { updatedData: [DataModel], dataSource },
                         aka_all_data
                     );
                 }
