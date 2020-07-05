@@ -6,11 +6,11 @@ const filterAsync = require('./util/generalUtils/filterAsync');
 const getIdentifiers = require('./util/getIdentifiers')
 
 let { sendLog, logLevel } = require('./util/logger');
-module.exports = async (dataSource, identifiersArray) => {
+module.exports = async (dataSource, identifiersArray, runUID) => {
     for (let identifierObj of identifiersArray) {
         try {
             let identifier = identifierObj.identityCard;
-            let { redis, dataObj, sendLog } = await preRun(fn.runnigTypes.ImmediateRun, [fn.dataSources.aka, dataSource], identifier)
+            let { redis, dataObj, sendLog } = await preRun(fn.runnigTypes.ImmediateRun, [fn.dataSources.aka, dataSource], identifier, runUID)
             let akaData = dataObj[fn.dataSources.aka].data;
 
             let flatIDs = Object.values(identifierObj);

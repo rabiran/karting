@@ -6,8 +6,8 @@ const moment = require('moment');
 const { wrapSendLog } = require('./logger');
 const getRawData = require('./getRawData');
 
-module.exports = async (runningType, dataSources, identifier) => {
-    let sendLog = wrapSendLog(runningType, identifier)
+module.exports = async (runningType, dataSources, identifier, runUID) => {
+    let sendLog = wrapSendLog(runningType, identifier, runUID)
     const redis = await connectToRedis(sendLog);
 
     // check if the root hierarchy exist and adding it if not

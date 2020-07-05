@@ -36,9 +36,9 @@ const consoleTransport = new transports.Console({
   )
 });
 
-const immediateRotateFileTransport = identifier => {
+const immediateRotateFileTransport = (identifier, runUID) => {
   return new transports.DailyRotateFile({
-    filename: `${logDir}/immediateRun/${identifier}-%DATE%-logs.log`,
+    filename: `${logDir}/immediateRun/${runUID}-${identifier}-%DATE%-logs.log`,
     datePattern: 'YYYY-MM-DD',
     prepend: true,
     json: true,
@@ -79,11 +79,11 @@ let loggerImmediate = createLogger(loggerConfig).add(immediateRotateFileTranspor
 
 const levelString = Object.keys(config.npm.levels);
 
-const wrapSendLog = (runningType, identifier) => {
+const wrapSendLog = (runningType, identifier, runUID) => {
   let returnSendLog;
   loggerImmediate = createLogger(loggerConfig);
   if (runningType === fn.runnigTypes.ImmediateRun) {
-    loggerImmediate.add(immediateRotateFileTransport(identifier));
+    loggerImmediate.add(immediateRotateFileTransport(identifier, runUID));
     returnSendLog = sendLogImmediate;
   } else {
     returnSendLog = sendLog;
