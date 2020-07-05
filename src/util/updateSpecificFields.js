@@ -119,7 +119,7 @@ const updateSpecificFields = async (DataModel) => {
         let errMessage = err.response ? err.response.data.message : err.message;
         DataModel.sendLog(
             logLevel.error,
-            logDetails.error.ERR_UPDATE_PERSON_IN_KARTOFFEL,
+            logDetails.error.ERR_UPDATE_FUNC_PERSON_NOT_FOUND,
             DataModel.person.personalNumber || DataModel.person.identityCard || DataModel.person.domainUsers[0].uniqeID,
             DataModel.dataSource,
             errMessage,

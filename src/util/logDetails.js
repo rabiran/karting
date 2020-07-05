@@ -13,7 +13,7 @@ messageLog = {
         ERR_UNIDENTIFIED_DATA_SOURCE: '"dataSource" variable must be attached to "matchToKartoffel" function',
         ERR_SAVE_DATA_FILE: 'Error at save %s_%s.log file. The error message: %s',
         ERR_UPDATE_DIRECT_GROUP_TO_PERSON: 'Failed to update directGroup for %s from %s. The error message:"%s" %s',
-        ERR_UPDATE_PERSON_IN_KARTOFFEL: 'Not update the person with the identifier: %s from %s. The error message:"%s" %s',
+        ERR_UPDATE_FUNC_PERSON_NOT_FOUND: 'Failed to get data from Kartoffel about the person with the identifier %s from "%s" at update flow. The error message: "%s"',
         ERR_GET_RAW_DATA: 'Failed to get data from %s API. The error is: %s',
         ERR_GET_ALL_FROM_KARTOFFEL: 'Failed to get data from Kartoffel, in % The error message is: %s',
         ERR_TRANSFER_DOMAIN_USER: 'Failed to transfer domain user: %s FROM person with identifier: %s TO person with identifier: %s from data source %s',
@@ -29,7 +29,6 @@ messageLog = {
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
         WRN_MISSING_IDENTIFIER_PERSON: 'There is no identifier to the person: %s, the record is: %s from %s',
-        WRN_ERR_UPDATE_FUNC_PERSON_NOT_FOUND: 'Failed to get data from Kartoffel about the person with the identifier %s from "%s" at update flow. The error message: "%s"',
         WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL: 'The fields "%s" of the person from:"%s" with the identifier %s updated but not saved in kartoffel because the dataSource: "%s" is not match to the person\'s currentUnit: "%s"',
         WRN_AKA_FIELD_RIGID: 'The field "%s" of the person with the identifier %s from the dataSource "%s" is not update because is rigid to Aka',
         WRN_IDENTIFIER_FIELD_REDUNDANT: 'The identifier fields of the person %s are equals, the "%s" field was deleted',
