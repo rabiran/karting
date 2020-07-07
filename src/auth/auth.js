@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const https = require("https");
 const { logLevel } = require('../util/logger');
 const logDetails = require('../util/logDetails');
-const redis = require('./RedisInstance');
+const redis = require('./redisInstance');
 
 class Auth {
   constructor(sendLog) {
