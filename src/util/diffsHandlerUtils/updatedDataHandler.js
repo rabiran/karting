@@ -1,5 +1,4 @@
 const fn = require('../../config/fieldNames');
-const AuthClass = require('../../auth/auth');
 const DataModel = require('../DataModel')
 const p = require('../../config/paths');
 const { logLevel } = require('../logger');
@@ -24,10 +23,9 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
-        let Auth = new AuthClass(DataModel.sendLog);
         const path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
 
-        const { identityCard, personalNumber } = await getIdentifiers(DataModel.record, DataModel.dataSource);
+        const { identityCard, personalNumber } = await getIdentifiers(DataModel.record, DataModel.dataSource, DataModel.Auth, DataModel.sendLog);
         const filterdIdentifiers = [identityCard, personalNumber].filter(id => id);
         
         if (!filterdIdentifiers.length) {
@@ -41,7 +39,7 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
         }
         
         const tryFindPerson = await tryArgs(
-            async id => (await Auth.axiosKartoffel.get(path(id))).data,
+            async id => (await DataModel.Auth.axiosKartoffel.get(path(id))).data,
             ...filterdIdentifiers
         )
 

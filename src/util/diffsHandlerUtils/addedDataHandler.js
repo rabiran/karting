@@ -6,7 +6,6 @@ const fn = require('../../config/fieldNames');
 const {logLevel} = require('../logger');
 const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
-const AuthClass = require('../../auth/auth');
 const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
 const goalUserFromPersonCreation = require('../goalUserFromPersonCreation');
@@ -28,7 +27,6 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
         const DataModel = dataModels[i];
         let tryFindPerson;
         let path;
-        let Auth = new AuthClass(DataModel.sendLog);
 
         await DataModel.matchToKartoffel();
 
@@ -79,7 +77,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
         }
 
         tryFindPerson = await tryArgs(
-            async id => (await Auth.axiosKartoffel.get(path(id))).data,
+            async id => (await DataModel.Auth.axiosKartoffel.get(path(id))).data,
             ...DataModel.identifiers
         );
 
@@ -89,7 +87,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                 // Add the complete person object to Kartoffel
                 try {
                     DataModel.person = (
-                        await Auth.axiosKartoffel.post(
+                        await DataModel.Auth.axiosKartoffel.post(
                             p().KARTOFFEL_PERSON_API, DataModel.person_ready_for_kartoffel
                         )
                     ).data;
@@ -136,7 +134,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                 DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
                 DataModel.person.entityType !== fn.entityTypeValue.gu
             ) {
-                await goalUserFromPersonCreation(DataModel.person, DataModel.person_ready_for_kartoffel, DataModel.dataSource, DataModel.sendLog);
+                await goalUserFromPersonCreation(DataModel.person, DataModel.person_ready_for_kartoffel, DataModel.dataSource, DataModel.Auth, DataModel.sendLog);
             } else if (DataModel.isDataSourcePrimary) {
                 Object.keys(DataModel.person).map(key => {
                     fn.fieldsForRmoveFromKartoffel.includes(key) ? delete DataModel.person[key] : null;

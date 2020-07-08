@@ -1,7 +1,6 @@
 const p = require('../../config/paths');
 const {sendLog, logLevel} = require('../logger');
 const logDetails = require('../../util/logDetails');
-const AuthClass = require('../../auth/auth');
 
 /**
  * This module create the non exist hierarchies and return the objectID of the last hierarchy.
@@ -10,8 +9,7 @@ const AuthClass = require('../../auth/auth');
  * @param {*} hierarchy The Hierarchies description concatenated by '/'
  * @returns ObjectID of the last hierarchy
  */
-module.exports = async (hierarchy_obj, hierarchy, sendLog) => {
-    let Auth = new AuthClass(sendLog);
+module.exports = async (hierarchy_obj, hierarchy, Auth, sendLog) => {
     let hierarchy_arr = hierarchy.split('/');
     let hierarchyAfterProcess;
     let lastGroupID

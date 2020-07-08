@@ -1,5 +1,4 @@
 const p = require('../config/paths');
-const AuthClass = require('../auth/auth');
 const trycatch = require('./generalUtils/trycatch');
 const { logLevel } = require('./logger');
 const logDetails = require('./logDetails');
@@ -11,8 +10,7 @@ const logDetails = require('./logDetails');
  * @param {Person} personFromKartoffel - a real person from Kartoffel
  * @param {Object} goalUserToCreate - ready to create GoalUser object
  */
-async function goalUserFromPersonCreation(personFromKartoffel, goalUserToCreate, dataSource, sendLog) {
-    let Auth = new AuthClass(sendLog);
+async function goalUserFromPersonCreation(personFromKartoffel, goalUserToCreate, dataSource, Auth, sendLog) {
     // delete the domain user from the real person
     let tryDelete =  await trycatch(
         async () => (

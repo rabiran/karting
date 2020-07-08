@@ -1,6 +1,4 @@
-const Redis = require("ioredis");
 const { logLevel } = require('../logger');
-const AuthClass = require('../../auth/auth');
 const redis = require('../../auth/redisInstance');
 const logDetails = require('../logDetails');
 

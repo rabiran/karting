@@ -3,7 +3,6 @@ const p = require('../config/paths');
 const { sendLog, logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const fn = require('../config/fieldNames');
-const AuthClass = require('../auth/auth');
 const isObjectEmpty = require('./generalUtils/isObjectEmpty');
 const mergeArrays = require('./generalUtils/mergeArrays');
 const DataModel = require('./DataModel');
@@ -16,7 +15,6 @@ const DataModel = require('./DataModel');
  * 
  */      
 const updateSpecificFields = async (DataModel) => {
-    let Auth = new AuthClass(DataModel.sendLog);
     let objForUpdate = {};
     DataModel.updateDeepDiff[2].map(deepDiffRecord => {
         switch(deepDiffRecord.kind) {
@@ -61,7 +59,7 @@ const updateSpecificFields = async (DataModel) => {
     // when person from 'diffsHandler-added' come to update they already passed through 'matchToKartoffel'
     // and if the them sending again to 'matchToKartoffel' the keys of the object will be deleted
     if (DataModel.isMatchToKartoffel) {
-        objForUpdate = await matchToKartoffel(objForUpdate, DataModel.dataSource, fn.flowTypes.update);
+        objForUpdate = await matchToKartoffel(objForUpdate, DataModel.dataSource, DataModel.Auth, DataModel.sendLog, fn.flowTypes.update);
     }
 
     DataModel.updateDeepDiff[2].map(deepDiffRecord => {
@@ -80,7 +78,7 @@ const updateSpecificFields = async (DataModel) => {
                 group: objForUpdate.directGroup
             };
             try {
-                await Auth.axiosKartoffel.put(p(DataModel.person.id).KARTOFFEL_PERSON_ASSIGN_API, updateDirectGroup);
+                await DataModel.Auth.axiosKartoffel.put(p(DataModel.person.id).KARTOFFEL_PERSON_ASSIGN_API, updateDirectGroup);
                 DataModel.sendLog(
                     logLevel.info,
                     logDetails.info.INF_UPDATE_DIRECT_GROUP_TO_PERSON,
@@ -106,7 +104,7 @@ const updateSpecificFields = async (DataModel) => {
         }
         // Update the person object if the objForUpdate is NOT empty
         if (!isObjectEmpty(objForUpdate)) {
-            await Auth.axiosKartoffel.put(p(DataModel.person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate);
+            await DataModel.Auth.axiosKartoffel.put(p(DataModel.person.id).KARTOFFEL_UPDATE_PERSON_API, objForUpdate);
             DataModel.sendLog(
                 logLevel.info,
                 logDetails.info.INF_UPDATE_PERSON_IN_KARTOFFEL,

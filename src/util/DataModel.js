@@ -3,7 +3,7 @@ const completeFromAka = require('./completeFromAka');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
 
 class DataModel {
-    constructor(record, dataSource, flowType, runningType, sendLog, updateDeepDiff) {
+    constructor(record, dataSource, flowType, runningType, Auth, sendLog, updateDeepDiff) {
         this.record = record;
         this.updateDeepDiff = updateDeepDiff;
         this.dataSource = dataSource;
@@ -17,6 +17,7 @@ class DataModel {
         this.person = null;
         this.akaRecord = null;
         this.sendLog = sendLog;
+        this.Auth = Auth;
     }
 
     async matchToKartoffel() {
@@ -24,8 +25,9 @@ class DataModel {
             this.person_ready_for_kartoffel = await matchToKartoffel(
                 this.record,
                 this.dataSource,
-                this.flowType,
-                this.sendLog
+                this.Auth,
+                this.sendLog,
+                this.flowType
             );
             this.isMatchToKartoffel = false;
         }

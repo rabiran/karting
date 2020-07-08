@@ -13,8 +13,8 @@ const assembleDomainUser = require('./fieldsUtils/assembleDomainUser');
  * 
  * @returns { Object } - found identifiers
  */
-const getIdentifiers = async (record, dataSource, sendLog) => {
-    let matchedRecord = await matchToKartoffel(record, dataSource, sendLog);
+const getIdentifiers = async (record, dataSource, Auth, sendLog) => {
+    let matchedRecord = await matchToKartoffel(record, dataSource, Auth, sendLog);
     let domainUser;
 
     if (matchedRecord.entityType === fn.entityTypeValue.s || matchedRecord.entityType === fn.entityTypeValue.c) {

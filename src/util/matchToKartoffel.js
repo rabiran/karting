@@ -3,7 +3,6 @@ const validators = require('../config/validators');
 const p = require("../config/paths");
 const hierarchyHandler = require('./fieldsUtils/hierarchyHandler');
 const logDetails = require('../util/logDetails');
-const AuthClass = require('../auth/auth');
 const formatAkaDateToKartoffel = require('./fieldsUtils/formatAkaDateToKartoffel');
 const isNumeric = require('./generalUtils/isNumeric');
 const isStrContains = require('./generalUtils/strignContains');
@@ -578,7 +577,7 @@ directGroupHandler = async obj => {
     let directGroup;
     await Auth.axiosKartoffel.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async (result) => {
-            let directGroupID = await hierarchyHandler(result.data, obj.hierarchy, sendLog);
+            let directGroupID = await hierarchyHandler(result.data, obj.hierarchy, Auth, sendLog);
             directGroup = directGroupID;
         })
         .catch((err) => {
@@ -597,9 +596,9 @@ directGroupHandler = async obj => {
  * @param {*} dataSource the dataSource of the raw person object
  * @returns person object according to the structure of kartoffel
  */
-module.exports = async (origin_obj, dataSource, MTKsendLog, flowType) => {
+module.exports = async (origin_obj, dataSource, MTKauth, MTKsendLog, flowType) => {
     sendLog = MTKsendLog;
-    Auth = new AuthClass(sendLog);
+    Auth = MTKauth;
 
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
@@ -643,6 +642,7 @@ module.exports = async (origin_obj, dataSource, MTKsendLog, flowType) => {
     if (obj.hierarchy) {
         
         obj.directGroup = await directGroupHandler(obj);
+        
         delete obj.hierarchy;
     }
 

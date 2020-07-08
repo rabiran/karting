@@ -4,7 +4,6 @@ const diffsHandler = require('./util/diffsHandler');
 const { sendLog, logLevel } = require('./util/logger');
 const PromiseAllWithFails = require('./util/generalUtils/promiseAllWithFails'); //check later if needed
 const logDetails = require('./util/logDetails');
-const authHierarchyExistence = require('./util/generalUtils/authHierarchyExistence');
 const moment = require('moment');
 
 module.exports = async () => {
@@ -27,7 +26,7 @@ module.exports = async () => {
             await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog);
         }));
 
-        await diffsHandler({ added: akaData }, fn.dataSources.aka, akaData, fn.runnigTypes.recoveryRun);
+        // await diffsHandler({ added: akaData }, fn.dataSources.aka, akaData, fn.runnigTypes.recoveryRun);
 
         if (redis && redis.status === 'ready') redis.quit();
     } catch (err) {
