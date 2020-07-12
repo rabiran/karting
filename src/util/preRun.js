@@ -18,8 +18,7 @@ module.exports = async (runningType, dataSources, identifier, runUID) => {
     const rawData = await PromiseAllWithFails(
         dataSources.map(
             async dataSource => {
-                let { data, fileName } = await getRawData(dataSource, runningType, date, sendLog);
-                // return { dataSource, data, fileName };
+                let { data, fileName } = await getRawData(dataSource, runningType, date, sendLog);                
                 dataObj[dataSource] = { data, fileName }
             })
     );

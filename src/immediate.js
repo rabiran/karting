@@ -24,7 +24,7 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
             if (!foundRecord[0]) {
                 sendLog(logLevel.error, logDetails.error.ERR_NOT_FOUND_IN_RAW_DATA, identifier, dataSource);
             }
-            await diffsHandler({ added: foundRecord }, dataSource, akaData, fn.runnigTypes.ImmediateRun, sendLog);
+            await diffsHandler({ added: foundRecord }, dataSource, akaData, fn.runnigTypes.ImmediateRun, sendLog, Auth);
 
             if (redis && redis.status === 'ready') redis.quit();
 

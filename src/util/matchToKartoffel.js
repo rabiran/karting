@@ -10,9 +10,8 @@ const trycatch = require('./generalUtils/trycatch');
 require('dotenv').config();
 
 let { sendLog, logLevel } = require('./logger');
-let Auth;
 
-const match_aka = async (obj, dataSource, flowType) => {
+const match_aka = async (obj, dataSource, flowType, Auth) => {
     const objKeys = Object.keys(obj);
     await Promise.all(objKeys.map(async rawKey => {
         switch (rawKey) {
@@ -572,7 +571,7 @@ const match_city = (obj, dataSource) => {
  * @param {*} obj Object of person after suitable to kartoffel structure
  * @returns objectID of the last hierarchy
  */
-directGroupHandler = async obj => {
+directGroupHandler = async (obj, Auth) => {
     hr = encodeURIComponent(obj.hierarchy)
     let directGroup;
     await Auth.axiosKartoffel.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
@@ -596,16 +595,15 @@ directGroupHandler = async obj => {
  * @param {*} dataSource the dataSource of the raw person object
  * @returns person object according to the structure of kartoffel
  */
-module.exports = async (origin_obj, dataSource, MTKauth, MTKsendLog, flowType) => {
+module.exports = async (origin_obj, dataSource, Auth, MTKsendLog, flowType) => {
     sendLog = MTKsendLog;
-    Auth = MTKauth;
 
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
     Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null" || obj[key] === "לא ידוע") ? delete obj[key] : null);
     switch (dataSource) {
         case fn.dataSources.aka:
-            await match_aka(obj, dataSource, flowType);
+            await match_aka(obj, dataSource, flowType, Auth);
             break;
         case fn.dataSources.es:
             match_es(obj, dataSource);
@@ -641,7 +639,7 @@ module.exports = async (origin_obj, dataSource, MTKauth, MTKsendLog, flowType) =
 
     if (obj.hierarchy) {
         
-        obj.directGroup = await directGroupHandler(obj);
+        obj.directGroup = await directGroupHandler(obj, Auth);
         
         delete obj.hierarchy;
     }
