@@ -11,7 +11,7 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
     for (let identifierObj of identifiersArray) {
         try {
             let identifier = identifierObj.identityCard;
-            let { redis, dataObj, sendLog } = await preRun(fn.runnigTypes.ImmediateRun, [fn.dataSources.aka, dataSource], identifier, runUID)
+            let { dataObj, sendLog } = await preRun(fn.runnigTypes.ImmediateRun, [fn.dataSources.aka, dataSource], identifier, runUID)
             let akaData = dataObj[fn.dataSources.aka].data;
             
             let Auth = new AuthClass(sendLog);
@@ -26,7 +26,6 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
             }
             await diffsHandler({ added: foundRecord }, dataSource, akaData, fn.runnigTypes.ImmediateRun, sendLog, Auth);
 
-            if (redis && redis.status === 'ready') redis.quit();
 
         } catch (err) {
             sendLog(logLevel.error, logDetails.error.ERR_UN_HANDLED_ERROR, fn.runnigTypes.ImmediateRun, JSON.stringify(err));

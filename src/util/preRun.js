@@ -8,7 +8,6 @@ const getRawData = require('./getRawData');
 
 module.exports = async (runningType, dataSources, identifier, runUID) => {
     let sendLog = wrapSendLog(runningType, identifier, runUID)
-    const redis = await connectToRedis(sendLog);
 
     // check if the root hierarchy exist and adding it if not
     await authHierarchyExistence(sendLog);
@@ -23,5 +22,5 @@ module.exports = async (runningType, dataSources, identifier, runUID) => {
             })
     );
 
-    return { redis, dataObj, sendLog }
+    return { dataObj, sendLog }
 }

@@ -173,6 +173,7 @@ module.exports = {
         add: 'add',
         update: 'update',
     },
+    redisRetryCount: 3,
     ImmediatePort: 3002,
     chunckSize: 200,
     kartoffelUrl: "http://localhost:3000",
