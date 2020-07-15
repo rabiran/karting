@@ -18,7 +18,6 @@ class Auth {
         tokenGrantType: 'client_credentials',
         tokenAudience: authParams.audience,
         tokenRedisKeyName: 'accessToken',
-        // path relative to current folder ( config )
         spikePublicKeyFullPath: path.join(__dirname, './key.pem'),
         useRedis: true,
         httpsValidation: false,

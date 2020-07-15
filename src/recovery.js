@@ -26,7 +26,7 @@ module.exports = async () => {
             await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog);
         }));
 
-        // await diffsHandler({ added: akaData }, fn.dataSources.aka, akaData, fn.runnigTypes.recoveryRun);
+        await diffsHandler({ added: akaData }, fn.dataSources.aka, akaData, fn.runnigTypes.recoveryRun);
 
         if (redis && redis.status === 'ready') redis.quit();
     } catch (err) {
