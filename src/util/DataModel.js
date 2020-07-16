@@ -46,10 +46,8 @@ class DataModel {
     }
 
     checkIfDataSourceIsPrimary(unitName) {
-        if (!this.isMatchToKartoffel) {
-          this.isDataSourcePrimary = (currentUnit_to_DataSource.get(unitName) === this.dataSource);
-          return this.isDataSourcePrimary;
-        }
+        this.isDataSourcePrimary = (currentUnit_to_DataSource.get(unitName) === this.dataSource);
+        return this.isDataSourcePrimary;
     }
 }
 
