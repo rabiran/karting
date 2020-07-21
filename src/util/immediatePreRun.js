@@ -1,28 +1,35 @@
 const fn = require('../config/fieldNames');
-const PromiseAllWithFails = require('./generalUtils/promiseAllWithFails');
-const connectToRedis = require('./generalUtils/connectToRedis');
 const authHierarchyExistence = require('./generalUtils/authHierarchyExistence');
-const moment = require('moment');
+const getDataSourceFromFile = require('./getDataSourceFromFile');
 const { wrapSendLog } = require('./logger');
-const getRawData = require('./getRawData');
+
 
 module.exports = async (runningType, dataSource, idObj, runUID) => {
+
     let sendLog = wrapSendLog(runningType, idObj.value, runUID)
 
     // check if the root hierarchy exist and adding it if not
     await authHierarchyExistence(sendLog);
 
-    const date = moment(new Date()).format("DD.MM.YYYY__HH.mm");
     let foundRecord;
     let dataObj = {};
 
+    idObjMock = {username: idObj.domainUser, pernum: idObj.personalNumber, identitycard: idObj.identityCard}; // match to mocks query routes
+    idObjMock = JSON.parse(JSON.stringify(idObjMock)); // remove undefined fields
+
     // TODO get Raw data from last aka file, nova
+
+    const akaData = getDataSourceFromFile(fn.dataSources.aka);
+
     // TODO search through these files for the certain record
+
+    const akaRecord = akaData.find(person => ((person[fn.aka.personalNumber] == idObj.pernum) || (person[fn.aka.identityCard] == identifier)));
+    dataObj[fn.dataSources.aka] = [akaRecord];
 
     // iterate through identifiers to get record
 
-    for (const id in idObj) {
-        let url = p()[`${dataSource}_API`].concat(`?${id}=${idObj[id]}`)
+    for (const id in idObjMock) {
+        let url = p()[`${dataSource}_API`].concat(`?${id}=${idObjMock[id]}`)
         data = await axios.get(url).catch(err=>{
             sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
         });
@@ -32,10 +39,6 @@ module.exports = async (runningType, dataSource, idObj, runUID) => {
         }
     }
 
-    switch (dataSource) {
-        case 
-
-    }
-
-    return { dataObj, sendLog }
+    dataObj[dataSource] = [foundRecord];
+    return { foundRecord, akaRecord, sendLog }
 }

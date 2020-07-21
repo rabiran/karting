@@ -11,20 +11,11 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
     for (let identifierObj of identifiersArray) {
         try {
             let identifier = identifierObj.identityCard;
-            let { dataObj, sendLog } = await preRun(fn.runnigTypes.ImmediateRun, [fn.dataSources.aka, dataSource], identifier, runUID)
-            let akaData = dataObj[fn.dataSources.aka].data;
+            let { foundRecord, akaRecord, sendLog } = await immediatePreRun(fn.runnigTypes.ImmediateRun, dataSource, identifier, runUID)
             
             let Auth = new AuthClass(sendLog);
-            let flatIDs = Object.values(identifierObj);
-            let foundRecord = await filterAsync(
-                dataObj[dataSource].data,
-                async record =>
-                    await findrecord(record, flatIDs, dataSource, Auth, sendLog)
-            );
-            if (!foundRecord[0]) {
-                sendLog(logLevel.error, logDetails.error.ERR_NOT_FOUND_IN_RAW_DATA, identifier, dataSource);
-            }
-            await diffsHandler({ added: foundRecord }, dataSource, akaData, fn.runnigTypes.ImmediateRun, sendLog, Auth);
+
+            await diffsHandler({ added: foundRecord }, dataSource, [akaRecord], fn.runnigTypes.ImmediateRun, sendLog, Auth);
 
 
         } catch (err) {
@@ -34,7 +25,7 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
 
 }
 
-async function findrecord(record, flatIDs, dataSource, Auth, sendLog) {
-    const { identityCard, personalNumber, domainUser } = await getIdentifiers(record, dataSource, Auth, sendLog);
-    return (flatIDs.includes(identityCard) || flatIDs.includes(personalNumber) || flatIDs.includes(domainUser));
-}
+// async function findrecord(record, flatIDs, dataSource, Auth, sendLog) {
+//     const { identityCard, personalNumber, domainUser } = await getIdentifiers(record, dataSource, Auth, sendLog);
+//     return (flatIDs.includes(identityCard) || flatIDs.includes(personalNumber) || flatIDs.includes(domainUser));
+// }
