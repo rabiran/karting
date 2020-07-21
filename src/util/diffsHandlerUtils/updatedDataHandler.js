@@ -26,9 +26,9 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
         const DataModel = dataModels[i];
         const path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
 
-        let { identityCard, personalNumber } = await getIdentifiers(DataModel.record, DataModel.dataSource, DataModel.Auth, DataModel.sendLog);
+        let { identityCard, personalNumber } = await getIdentifiers(DataModel.record, DataModel.dataSource);
 
-        if(DataModel.flowType == fn.flowTypes.add) {
+        if(DataModel.flowType === fn.flowTypes.add) {
             identityCard = identityCard ? identityCard : DataModel.person_ready_for_kartoffel.identityCard;
             personalNumber = personalNumber ? personalNumber : DataModel.person_ready_for_kartoffel.personalNumber;
         }
