@@ -15,7 +15,7 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
             
             let Auth = new AuthClass(sendLog);
 
-            await diffsHandler({ added: foundRecord }, dataSource, [akaRecord], fn.runnigTypes.ImmediateRun, sendLog, Auth);
+            await diffsHandler({ added: [foundRecord] }, dataSource, [akaRecord], fn.runnigTypes.ImmediateRun, sendLog, Auth);
 
 
         } catch (err) {
