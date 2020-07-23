@@ -6,7 +6,7 @@ module.exports = async (dataSource) => {
     const files = fs.readdirSync(`${path}/`);
     let lastJsonName = files[files.length - 1];
 
-    if (`${path}/${files[files.length - 1]}` === fileName || files[files.length - 1] === 'archive') {
+    if (files[files.length - 1] === 'archive') {
         const completeFiles = fs.readdirSync(`${path}/archive/`);
         lastJsonName = (completeFiles[completeFiles.length - 1]);
     }

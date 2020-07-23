@@ -8,6 +8,7 @@ const shortid = require('shortid');
 const immediate = require("./immediate");
 const recovery = require("./recovery");
 const daily = require("./daily");
+const searchRecords = require("./searchRecords");
 
 require("dotenv").config();
 const scheduleRecoveryTime =
@@ -42,6 +43,16 @@ app.post("/immediateRun", async (req, res) => {
   } else {
     await immediate(req.body.dataSource, req.body.personIDsArray, runUID);
     res.json("successfully added");
+  }
+});
+
+
+app.post("/scriptRun", async (req, res) => {
+  if (!req.body.personIDsArray) {
+    res.json("there is an error with the IDs input");
+  } else {
+    await searchRecords(req.body.personIDsArray);
+    res.json("successfully found");
   }
 });
 
