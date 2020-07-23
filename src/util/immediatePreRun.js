@@ -4,13 +4,20 @@ const getDataSourceFromFile = require('./getDataSourceFromFile');
 const { wrapSendLog } = require('./logger');
 
 
+function searchInData(data, query) {
+    let foundRecord = data.find(record => {
+        return JSON.stringify(record).includes(query);
+    })
+    return foundRecord;
+}
+
 module.exports = async (runningType, dataSource, idObj, runUID) => {
 
     let foundRecord;
     let akaRecord;
     let dataObj = {};
 
-    idObjMock = {username: idObj.domainUser, pernum: idObj.personalNumber, identitycard: idObj.identityCard}; // match to mocks query routes
+    let idObjMock = {username: idObj.domainUser, pernum: idObj.personalNumber, identitycard: idObj.identityCard}; // match to mocks query routes
     idObjMock = JSON.parse(JSON.stringify(idObjMock)); // remove undefined fields
 
     let sendLog = wrapSendLog(runningType, idObjMock.identitycard, runUID)
@@ -29,6 +36,7 @@ module.exports = async (runningType, dataSource, idObj, runUID) => {
         akaRecord = akaDataManipulate(aka_telephones_data.data, aka_employees_data.data);
 
         let urlToSearch = p()[`${dataSource}_API`];
+        
     // iterate through identifiers to get record
         switch(dataSource) {
             case fn.dataSources.es:
@@ -38,14 +46,18 @@ module.exports = async (runningType, dataSource, idObj, runUID) => {
             case fn.dataSources.adNN:
                 urlToSearch.concat(`?${username}=${idObjMock[username]}`)
             case fn.dataSources.city:
-                urlToSearch.concat(`?${username}=${idObjMock[username]}`)                
+                urlToSearch.concat(`?${username}=${idObjMock[username]}`)               
             default:
-                urlToSearch.concat(`?${username}=${idObjMock[username]}`)    
+                let data = getDataSourceFromFile(dataSource);
+                foundRecord = searchInData(data, idObjMock[personalNumber])   
         }
 
-        data = await axios.get(urlToSearch).catch(err=>{
-            sendLog(logLevel.error, logDetails.error.ERR_NOT_FOUND_IN_RAW_DATA , dataSource, err.message);
-        });
+        if(!foundRecord) {
+            data = await axios.get(urlToSearch).catch(err=>{
+                sendLog(logLevel.error, logDetails.error.ERR_NOT_FOUND_IN_RAW_DATA , dataSource, err.message);
+            });
+        }
+
         if(data.data) {
             foundRecord = data.data;
             break;
