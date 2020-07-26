@@ -89,6 +89,7 @@ const match_aka = async (obj, dataSource, flowType) => {
                             logDetails.warn.WRN_FIND_GROUP_BY_AKA_UNIT,
                             obj[rawKey]
                         );
+                        delete obj[rawKey];
                         break;
                     }
 

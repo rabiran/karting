@@ -70,7 +70,7 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
             if (
                 DataModel.akaRecord &&
                 DataModel.akaRecord[fn.aka.unitName] &&
-                DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
+                !DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
             ) {
                 // Add domain user from the record (if the required data exist)
                 await domainUserHandler(DataModel);
