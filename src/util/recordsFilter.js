@@ -14,7 +14,7 @@ module.exports = async ({ dataModels, dataSource }) => {
     switch (dataSource) {
         case fn.dataSources.city:
             return filterCity(dataModels);
-        // case fn.dataSources.aka:
+        case fn.dataSources.aka:
         //     return await filterAka(dataModels);
         case fn.dataSources.adNN:
         case fn.dataSources.ads:
