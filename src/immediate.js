@@ -2,6 +2,7 @@ const fn = require('./config/fieldNames');
 const diffsHandler = require('./util/diffsHandler');
 const logDetails = require('./util/logDetails');
 const preRun = require('./util/preRun');
+const immediatePreRun = require('./util/immediatePreRun');
 const filterAsync = require('./util/generalUtils/filterAsync');
 const getIdentifiers = require('./util/getIdentifiers');
 const AuthClass = require('./auth/auth');
@@ -10,8 +11,7 @@ let { logLevel } = require('./util/logger');
 module.exports = async (dataSource, identifiersArray, runUID) => {
     for (let identifierObj of identifiersArray) {
         try {
-            let identifier = identifierObj.identityCard;
-            let { foundRecord, akaRecord, sendLog } = await immediatePreRun(fn.runnigTypes.ImmediateRun, dataSource, identifier, runUID)
+            let { foundRecord, akaRecord, sendLog } = await immediatePreRun(fn.runnigTypes.ImmediateRun, dataSource, identifierObj, runUID)
             
             let Auth = new AuthClass(sendLog);
 

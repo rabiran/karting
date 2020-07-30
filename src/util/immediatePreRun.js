@@ -1,6 +1,9 @@
 const fn = require('../config/fieldNames');
 const authHierarchyExistence = require('./generalUtils/authHierarchyExistence');
 const getDataSourceFromFile = require('./getDataSourceFromFile');
+const p = require('../config/paths');
+const axios = require("axios");
+const akaDataManipulate = require('./akaDataManipulate');
 const { wrapSendLog } = require('./logger');
 
 
@@ -17,19 +20,16 @@ module.exports = async (runningType, dataSource, idObj, runUID) => {
     let akaRecord;
     let dataObj = {};
 
-    let idObjMock = {username: idObj.domainUser, pernum: idObj.personalNumber, identitycard: idObj.identityCard}; // match to mocks query routes
-    idObjMock = JSON.parse(JSON.stringify(idObjMock)); // remove undefined fields
-
-    let sendLog = wrapSendLog(runningType, idObjMock.identitycard, runUID)
+    let sendLog = wrapSendLog(runningType, idObj.identitycard, runUID)
 
     // check if the root hierarchy exist and adding it if not
     await authHierarchyExistence(sendLog);
 
     // get Aka Data
-        let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API.concat(`?${id}=${idObjMock[id]}`)).catch(err => {
+        let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API.concat(`?personalNumber=${idObj.personalNumber}`)).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_NOT_FOUND_IN_RAW_DATA , fn.dataSources.aka, err.message);
         });
-        let aka_employees_data = await axios.get(p().AKA_EMPLOYEES_API.concat(`?${id}=${idObjMock[id]}`)).catch(err => {
+        let aka_employees_data = await axios.get(p().AKA_EMPLOYEES_API.concat(`?identityCard=${idObj.identityCard}`)).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_NOT_FOUND_IN_RAW_DATA , fn.dataSources.aka, err.message);
         });
 
@@ -40,16 +40,20 @@ module.exports = async (runningType, dataSource, idObj, runUID) => {
     // iterate through identifiers to get record
         switch(dataSource) {
             case fn.dataSources.es:
-                urlToSearch.concat(`?${username}=${idObjMock[username]}`)
+                urlToSearch = urlToSearch.concat(`?domainUser=${idObj.domainUser}`)
+                break;
             case fn.dataSources.ads:
-                urlToSearch.concat(`?${username}=${idObjMock[username]}`)                
+                urlToSearch = urlToSearch.concat(`?domainUser=${idObj.domainUser}`)     
+                break;           
             case fn.dataSources.adNN:
-                urlToSearch.concat(`?${username}=${idObjMock[username]}`)
+                urlToSearch = urlToSearch.concat(`?domainUser=${idObj.domainUser}`)
+                break;
             case fn.dataSources.city:
-                urlToSearch.concat(`?${username}=${idObjMock[username]}`)               
+                urlToSearch = urlToSearch.concat(`?domainUser=${idObj.domainUser}`)               
+                break;
             default:
                 let data = getDataSourceFromFile(dataSource);
-                foundRecord = searchInData(data, idObjMock[personalNumber])   
+                foundRecord = searchInData(data, idObj.personalNumber)   
         }
 
         if(!foundRecord) {
@@ -60,7 +64,6 @@ module.exports = async (runningType, dataSource, idObj, runUID) => {
 
         if(data.data) {
             foundRecord = data.data;
-            break;
         }
     
     dataObj[dataSource] = [foundRecord];
