@@ -60,10 +60,15 @@ app.get("/getCity", (req, res) => {
     res.json(data)
 })
 
-function searchInData(data, query) {
-    let foundRecord = data.find(record => {
-        return JSON.stringify(record).includes(query);
-    })
+function searchInData(data, queries) {
+    let foundRecord;
+    for (query of queries) {
+        foundRecord = data.filter(record => {
+            return JSON.stringify(record).includes(query);
+        })
+        if (foundRecord.length) break;
+    }
+
     return foundRecord;
 }
 
