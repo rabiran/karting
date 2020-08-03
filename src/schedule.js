@@ -24,7 +24,7 @@ schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
 
 // Create immediateRun server app
 
-const port = fn.ImmediatePort;
+const port = fn.immediatePort;
 
 const app = express();
 app.use(bodyParser.json());
@@ -36,7 +36,7 @@ app.post("/immediateRun", async (req, res) => {
       logLevel.error,
       logDetails.error.ERR_SERVER_INVALID_INPUT,
       JSON.stringify({personIDsArray: req.body.personIDsArray, dataSource: req.body.dataSource}), 
-      fn.runnigTypes.ImmediateRun
+      fn.runnigTypes.immediateRun
     );
     res.status(400);
     res.json("there is an error with the input");

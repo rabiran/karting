@@ -38,7 +38,7 @@ const consoleTransport = new transports.Console({
 
 const immediateRotateFileTransport = (identifier, runUID) => {
   return new transports.DailyRotateFile({
-    filename: `${logDir}/immediateRun/%DATE%/${runUID}-${identifier}-%DATE%-logs.log`,
+    filename: `${logDir}/${fn.runnigTypes.immediateRun}/%DATE%/${runUID}-${identifier}-%DATE%-logs.log`,
     datePattern: 'YYYY-MM-DD',
     prepend: true,
     json: true,
@@ -82,22 +82,24 @@ const levelString = Object.keys(config.npm.levels);
 const wrapSendLog = (runningType, identifier, runUID) => {
   let returnSendLog;
   loggerImmediate = createLogger(loggerConfig);
-  if (runningType === fn.runnigTypes.ImmediateRun) {
+  if (runningType === fn.runnigTypes.immediateRun) {
     loggerImmediate.add(immediateRotateFileTransport(identifier, runUID));
-    returnSendLog = sendLogImmediate;
+    returnSendLog = sendLogToBind.bind(this, loggerImmediate);
   } else {
-    returnSendLog = sendLog;
+    returnSendLog = sendLogToBind.bind(this, logger);
   }
   return returnSendLog;
 }
-const sendLog = (level, logDetails, ...params) => {
+
+const sendLogToBind = (logger, level, logDetails, ...params) => {
   const { title, message } = logDetails;
   logger.log(levelString[level], message, ...params, { title });
 };
 
-const sendLogImmediate = (level, logDetails, ...params) => {
+
+const sendLog = (level, logDetails, ...params) => {
   const { title, message } = logDetails;
-  loggerImmediate.log(levelString[level], message, ...params, { title });
+  logger.log(levelString[level], message, ...params, { title });
 };
 
 module.exports = {
