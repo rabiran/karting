@@ -1,5 +1,5 @@
 const p = require('../../config/paths');
-const {sendLog, logLevel} = require('../logger');
+const { logLevel} = require('../logger');
 const logDetails = require('../../util/logDetails');
 
 /**

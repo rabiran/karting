@@ -6,7 +6,7 @@ const fn = require('../../config/fieldNames');
 const logDetails = require('../../util/logDetails');
 
 module.exports = async (sendLog) => {
-    let Auth = new AuthClass(sendLog, fn.redisRetryCount);
+    const Auth = new AuthClass(sendLog, fn.redisRetryCount);
     await Auth.axiosKartoffel.get(p(encodeURIComponent(fn.rootHierarchy.ourCompany)).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API)
     .then((result) => {
         sendLog(logLevel.info, logDetails.info.INF_ROOT_EXSIST, result.data.name);

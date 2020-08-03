@@ -5,7 +5,7 @@ const DataModel = require('./DataModel');
 const fn = require('../config/fieldNames');
 let { sendLog } = require('./logger');
 const AuthClass = require('../auth/auth');
-let DHAuth = new AuthClass(sendLog);
+let defaultAuth = new AuthClass(sendLog);
 
 require('dotenv').config();
 /*
@@ -14,10 +14,10 @@ require('dotenv').config();
  * aka_all_data - object that contain all the recent data from aka
  */
 
-module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, runnigType, DHsendLog = sendLog, Auth = DHAuth) => {
-    const addedData = added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add, runnigType, Auth, DHsendLog));
+module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, runnigType, defaultSendLog = sendLog, Auth = defaultAuth) => {
+    const addedData = added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add, runnigType, Auth, defaultSendLog));
     const updatedData = updated.map(
-        deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, runnigType, Auth, DHsendLog, deepDiffObj)
+        deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, runnigType, Auth, defaultSendLog, deepDiffObj)
     );
 
     return PromiseAllWithFails([

@@ -74,7 +74,7 @@ const loggerConfig = {
 
 
 let logger = createLogger(loggerConfig);
-let loggerImmediate = createLogger(loggerConfig).add(immediateRotateFileTransport('1'));
+let loggerImmediate = createLogger(loggerConfig);
 
 
 const levelString = Object.keys(config.npm.levels);

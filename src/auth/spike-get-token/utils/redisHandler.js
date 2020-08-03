@@ -8,9 +8,9 @@ const redisClient = (redisHost, sendLog) => {
     const client = redis.createClient(redisHost);
     const getAsync = promisify(client.get).bind(client);
 
-    client.on("connect", () => {
-        // sendLog(logLevel.info, logDetails.info.INF_CONNECT_REDIS);
-    })
+    // client.on("connect", () => {
+    //     sendLog(logLevel.info, logDetails.info.INF_CONNECT_REDIS);
+    // })
 
     client.on("error", (err) => {
         sendLog(logLevel.error, logDetails.error.ERR_CONNECTION_REDIS, err.message);

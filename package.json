@@ -19,7 +19,6 @@
     "path": "^0.12.7",
     "shelljs": "^0.8.2",
     "shortid": "^2.2.15",
-    "spike-get-token": "^1.1.1",
     "winston": "^3.1.0",
     "winston-daily-rotate-file": "^3.3.3",
     "xlsx": "^0.14.1"
