@@ -38,9 +38,11 @@ app.post("/immediateRun", async (req, res) => {
       JSON.stringify({personIDsArray: req.body.personIDsArray, dataSource: req.body.dataSource}), 
       fn.runnigTypes.ImmediateRun
     );
-    res.json("status 400: there is an error with the input");
+    res.status(400);
+    res.json("there is an error with the input");
   } else {
     await immediate(req.body.dataSource, req.body.personIDsArray, runUID);
+    res.status(200)
     res.json("successfully added");
   }
 });

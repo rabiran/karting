@@ -1,6 +1,5 @@
 const fn = require('../config/fieldNames');
 const PromiseAllWithFails = require('./generalUtils/promiseAllWithFails');
-const connectToRedis = require('./generalUtils/connectToRedis');
 const authHierarchyExistence = require('./generalUtils/authHierarchyExistence');
 const moment = require('moment');
 const { wrapSendLog } = require('./logger');

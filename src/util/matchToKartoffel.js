@@ -597,7 +597,7 @@ directGroupHandler = async (obj, Auth) => {
  * @returns person object according to the structure of kartoffel
  */
 module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) => {
-    sendLog = defaultSendLog;
+    defaultSendLog ? sendLog = defaultSendLog : null;
 
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
