@@ -3,7 +3,7 @@ const completeFromAka = require('./completeFromAka');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
 
 class DataModel {
-    constructor(record, dataSource, flowType, runningType, updateDeepDiff) {
+    constructor(record, dataSource, flowType, runningType, Auth, sendLog, updateDeepDiff) {
         this.record = record;
         this.updateDeepDiff = updateDeepDiff;
         this.dataSource = dataSource;
@@ -16,6 +16,8 @@ class DataModel {
         this.person_ready_for_kartoffel = null;
         this.person = null;
         this.akaRecord = null;
+        this.sendLog = sendLog;
+        this.Auth = Auth;
     }
 
     async matchToKartoffel() {
@@ -23,6 +25,8 @@ class DataModel {
             this.person_ready_for_kartoffel = await matchToKartoffel(
                 this.record,
                 this.dataSource,
+                this.Auth,
+                this.sendLog,
                 this.flowType
             );
             this.isMatchToKartoffel = false;
@@ -34,17 +38,16 @@ class DataModel {
             this.person_ready_for_kartoffel = completeFromAka(
                 this.person_ready_for_kartoffel,
                 aka_all_data,
-                this.dataSource
+                this.dataSource,
+                this.sendLog
             );
             this.needCompleteFromAka = false;
         }
     }
 
     checkIfDataSourceIsPrimary(unitName) {
-        if (!this.isMatchToKartoffel) {
-          this.isDataSourcePrimary = (currentUnit_to_DataSource.get(unitName) === this.dataSource);
-          return this.isDataSourcePrimary;
-        }
+        this.isDataSourcePrimary = (currentUnit_to_DataSource.get(unitName) === this.dataSource);
+        return this.isDataSourcePrimary;
     }
 }
 

@@ -1,6 +1,6 @@
 const fn = require('../config/fieldNames');
 const validators = require('../config/validators');
-const { sendLog, logLevel } = require('./logger');
+const { logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const mergeArrays = require('./generalUtils/mergeArrays');
 
@@ -110,7 +110,7 @@ function phonesValueHandler(person, phone, phoneType) {
  * @param {*} dataSource The dataSource of the person object
  * @returns Object of person with the data from aka
  */
-module.exports = (obj, akaData, dataSource) => {
+module.exports = (obj, akaData, dataSource, sendLog) => {
     let identifier = obj.personalNumber || obj.identityCard;
     if (identifier) {
         let akaRecord = akaData.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));

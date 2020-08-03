@@ -100,7 +100,7 @@ module.exports = {
         profession: 'profession',
         hierarchy: 'hr',
         domainUsers: 'domUser',
-        compnay: 'company',
+        company: 'company',
         entityTypePrefix: {
             s: ['e', 'l', 'i'],
             c: ['g', 'j'],
@@ -164,7 +164,7 @@ module.exports = {
     runnigTypes: {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
-        ImmediateRun: 'Immediate_run',
+        immediateRun: 'Immediate_run',
     },
     organizationGroups: {
         incompletes_name: 'incomplete',
@@ -173,6 +173,7 @@ module.exports = {
         add: 'add',
         update: 'update',
     },
+    redisRetryCount: 3,
     ImmediatePort: 3002,
     chunckSize: 200,
     kartoffelUrl: "http://localhost:3000",

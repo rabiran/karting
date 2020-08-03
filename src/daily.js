@@ -31,7 +31,7 @@ module.exports = async() => {
             }
         }));
         
-        // Due performence reasons aka flow is run by itself, after the other flows
+        // Due performance reasons aka flow is run by itself, after other flows
         await GetDataAndProcess(fn.dataSources.aka, akaData);
 
         if (redis && redis.status === 'ready') redis.quit();

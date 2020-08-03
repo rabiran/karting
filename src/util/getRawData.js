@@ -2,7 +2,7 @@ const p = require('../config/paths');
 const fn = require('../config/fieldNames');
 const axios = require("axios");
 const akaDataManipulate = require('./akaDataManipulate');
-const { sendLog, logLevel } = require('./logger');
+const { logLevel } = require('./logger');
 const logDetails = require('./logDetails');
 const saveAsFile = require('./saveAsFile');
 
@@ -13,8 +13,9 @@ const saveAsFile = require('./saveAsFile');
  * @param {string} runningType - the current runnig type
  * @param {Date} dateAndTime - when the data was called
  */
-module.exports = async (dataSource, runningType, dateAndTime) => {
+module.exports = async (dataSource, runningType, dateAndTime, sendLog) => {
     let data;
+    
     if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server
         let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API).catch(err => {
@@ -37,7 +38,7 @@ module.exports = async (dataSource, runningType, dateAndTime) => {
     
     // save the new json as file in the server and get the name of the kast file
     let savePath = `./data/${runningType}/${dataSource}`;
-    saveAsFile(data, savePath, `${runningType}_${dataSource}_raw_data`, dateAndTime);
+    saveAsFile(data, savePath, `${runningType}_${dataSource}_raw_data`, dateAndTime, sendLog);
     const fileName = `${savePath}/${runningType}_${dataSource}_raw_data_${dateAndTime}.log`
     return { data, fileName };
 }
