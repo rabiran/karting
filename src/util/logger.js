@@ -102,7 +102,6 @@ const sendLog = (logger, level, logDetails, ...params) => {
 };
 
 module.exports = {
-  sendLog,
   wrapSendLog,
   logLevel: config.npm.levels,
 };
