@@ -1,7 +1,7 @@
 const dataSync = require('./util/data_synchronizeData');
 const fn = require('./config/fieldNames');
 const diffsHandler = require('./util/diffsHandler');
-const { sendLog, logLevel } = require('./util/logger');
+const { logLevel } = require('./util/logger');
 const PromiseAllWithFails = require('./util/generalUtils/promiseAllWithFails');
 const logDetails = require('./util/logDetails');
 const preRun = require('./util/preRun');
@@ -9,7 +9,7 @@ const preRun = require('./util/preRun');
 
 module.exports = async() => {
     try {
-        let{ redis, dataObj } = await preRun(fn.runnigTypes.dailyRun, [
+        let{ sendLog, dataObj } = await preRun(fn.runnigTypes.dailyRun, [
             fn.dataSources.aka,
             fn.dataSources.es,
             fn.dataSources.ads, 
@@ -21,20 +21,19 @@ module.exports = async() => {
         ]);
 
         let akaData = dataObj[fn.dataSources.aka].data;
-        akaData = await dataSync(fn.dataSources.aka, akaData, dataObj[fn.dataSources.aka].fileName)
+        akaData = await dataSync(fn.dataSources.aka, akaData, dataObj[fn.dataSources.aka].fileName, sendLog)
         
         delete dataObj[fn.dataSources.aka];
         
         await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
             if(dataSource !== "undefined")  {
-                GetDataAndProcess(dataSource, akaData, dataObj[dataSource], dataSync);
+                GetDataAndProcess(dataSource, akaData, dataObj[dataSource], sendLog, dataSync);
             }
         }));
         
         // Due performance reasons aka flow is run by itself, after other flows
         await GetDataAndProcess(fn.dataSources.aka, akaData);
 
-        if (redis && redis.status === 'ready') redis.quit();
     } catch (err) {
         sendLog(logLevel.error, logDetails.error.ERR_UN_HANDLED_ERROR, fn.runnigTypes.dailyRun, JSON.stringify(err));
     }
@@ -46,8 +45,8 @@ module.exports = async() => {
  * @param {*} akaData - The aka data to complete data information
  * @param {*} func - The function thet get and compare data from data source
  */
-const GetDataAndProcess = async (dataSource, akaData, dataObj, func) => {
+const GetDataAndProcess = async (dataSource, akaData, dataObj, sendLog, func) => {
     // In case datasource is aka, I get data before function and therefore not need to get data again
     let data = func ? await func(dataSource, dataObj.data, dataObj.fileName) : akaData;
-    await diffsHandler(data, dataSource, akaData.all, fn.runnigTypes.dailyRun);
+    await diffsHandler(data, dataSource, akaData.all, fn.runnigTypes.dailyRun, sendLog);
 }

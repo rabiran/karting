@@ -1,6 +1,6 @@
 const matchToKartoffel = require('./matchToKartoffel');
 const p = require('../config/paths');
-const { sendLog, logLevel } = require('./logger');
+const { logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const fn = require('../config/fieldNames');
 const isObjectEmpty = require('./generalUtils/isObjectEmpty');

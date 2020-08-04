@@ -1,10 +1,5 @@
 const axios = require("axios");
 const authParams = require("../config/authParams");
-const jwt = require("jsonwebtoken");
-const https = require("https");
-const { logLevel } = require('../util/logger');
-const logDetails = require('../util/logDetails');
-const redis = require('./redisInstance');
 const getTokenCreator = require('./spike-get-token/index');
 const path = require("path");
 

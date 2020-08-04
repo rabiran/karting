@@ -1,6 +1,6 @@
 const fn = require('../../config/fieldNames');
 const p = require('../../config/paths');
-const { sendLog, logLevel } = require('../logger');
+const { logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const assembleDomainUser = require('./assembleDomainUser');
 

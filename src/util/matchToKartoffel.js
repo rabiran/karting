@@ -7,9 +7,10 @@ const formatAkaDateToKartoffel = require('./fieldsUtils/formatAkaDateToKartoffel
 const isNumeric = require('./generalUtils/isNumeric');
 const isStrContains = require('./generalUtils/strignContains');
 const trycatch = require('./generalUtils/trycatch');
+const { logLevel } = require('./logger');
 require('dotenv').config();
 
-let { sendLog, logLevel } = require('./logger');
+let sendLog;
 
 const match_aka = async (obj, dataSource, flowType, Auth) => {
     const objKeys = Object.keys(obj);
@@ -595,8 +596,8 @@ directGroupHandler = async (obj, Auth) => {
  * @param {*} dataSource the dataSource of the raw person object
  * @returns person object according to the structure of kartoffel
  */
-module.exports = async (origin_obj, dataSource, Auth, MTKsendLog, flowType) => {
-    sendLog = MTKsendLog;
+module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) => {
+    defaultSendLog ? sendLog = defaultSendLog : null;
 
     const obj = { ...origin_obj };
     // delete the empty fields from the returned object
