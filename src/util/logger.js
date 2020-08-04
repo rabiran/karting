@@ -72,24 +72,17 @@ const loggerConfig = {
   ]
 };
 
-
-let logger = createLogger(loggerConfig);
-let loggerImmediate = createLogger(loggerConfig);
-let loggerImmediateID = createLogger(loggerConfig);
-
-
 const levelString = Object.keys(config.npm.levels);
 
 const wrapSendLog = (runningType, identifier, runUID) => {
   let returnSendLog;
-  loggerImmediateID = createLogger(loggerConfig);
-  loggerImmediate = createLogger(loggerConfig);
+  let logger = createLogger(loggerConfig);
   if (runningType === fn.runnigTypes.immediateRun && identifier && runUID) {
-    loggerImmediateID.add(immediateRotateFileTransport(identifier, runUID));
-    returnSendLog = sendLog.bind(this, loggerImmediateID);
+    logger.add(immediateRotateFileTransport(identifier, runUID));
+    returnSendLog = sendLog.bind(this, logger);
   } else if (runningType === fn.runnigTypes.immediateRun) {
-    loggerImmediate.add(immediateRotateFileTransport("immediate", "default"))
-    returnSendLog = sendLog.bind(this, loggerImmediate);
+    logger.add(immediateRotateFileTransport("immediate", "default"))
+    returnSendLog = sendLog.bind(this, logger);
   } else {
     returnSendLog = sendLog.bind(this, logger);
   }
