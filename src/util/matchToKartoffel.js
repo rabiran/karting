@@ -10,7 +10,7 @@ const trycatch = require('./generalUtils/trycatch');
 const { logLevel } = require('./logger');
 require('dotenv').config();
 
-let { sendLog } = require('./logger');
+let sendLog;
 
 const match_aka = async (obj, dataSource, flowType, Auth) => {
     const objKeys = Object.keys(obj);

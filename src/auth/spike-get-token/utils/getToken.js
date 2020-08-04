@@ -134,7 +134,8 @@ const getTokenCreator = (options) => {
   };
 
   async function getToken() {
-    if (await isValid(token)) return token;
+    if (await isValid(token)) 
+      return token;
     token = await getAndSaveNewToken(counter);
     return token;
   }
