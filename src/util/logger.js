@@ -75,29 +75,28 @@ const loggerConfig = {
 
 let logger = createLogger(loggerConfig);
 let loggerImmediate = createLogger(loggerConfig);
+let loggerImmediateID = createLogger(loggerConfig);
 
 
 const levelString = Object.keys(config.npm.levels);
 
 const wrapSendLog = (runningType, identifier, runUID) => {
   let returnSendLog;
+  loggerImmediateID = createLogger(loggerConfig);
   loggerImmediate = createLogger(loggerConfig);
-  if (runningType === fn.runnigTypes.immediateRun) {
-    loggerImmediate.add(immediateRotateFileTransport(identifier, runUID));
-    returnSendLog = sendLogToBind.bind(this, loggerImmediate);
+  if (runningType === fn.runnigTypes.immediateRun && identifier && runUID) {
+    loggerImmediateID.add(immediateRotateFileTransport(identifier, runUID));
+    returnSendLog = sendLog.bind(this, loggerImmediateID);
+  } else if (runningType === fn.runnigTypes.immediateRun) {
+    loggerImmediate.add(immediateRotateFileTransport("immediate", "default"))
+    returnSendLog = sendLog.bind(this, loggerImmediate);
   } else {
-    returnSendLog = sendLogToBind.bind(this, logger);
+    returnSendLog = sendLog.bind(this, logger);
   }
   return returnSendLog;
 }
 
-const sendLogToBind = (logger, level, logDetails, ...params) => {
-  const { title, message } = logDetails;
-  logger.log(levelString[level], message, ...params, { title });
-};
-
-
-const sendLog = (level, logDetails, ...params) => {
+const sendLog = (logger, level, logDetails, ...params) => {
   const { title, message } = logDetails;
   logger.log(levelString[level], message, ...params, { title });
 };
