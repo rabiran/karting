@@ -6,7 +6,7 @@ const fs = require('fs');
 
 axios.defaults.headers.common['Authorization'] = process.env.SOURCES_TOKEN;
 
-module.exports = async (dataSource, data, fileName) => {
+module.exports = async (dataSource, data, fileName, sendLog) => {
     const path = `./data/${fn.runnigTypes.dailyRun}/${dataSource}`;
     const files = fs.readdirSync(`${path}/`);
     let lastJsonName = files[files.length - 1];
@@ -17,7 +17,7 @@ module.exports = async (dataSource, data, fileName) => {
     }
 
     // get the diffs between the two last JSONs
-    dataDiff = dataComparison(data, `${path}/archive`, lastJsonName, fn[dataSource].uniqeFieldForDeepDiff);
+    dataDiff = dataComparison(data, `${path}/archive`, lastJsonName, fn[dataSource].uniqeFieldForDeepDiff, sendLog);
     dataSource === fn.dataSources.aka ? dataDiff.all = data : null;
 
     return dataDiff;

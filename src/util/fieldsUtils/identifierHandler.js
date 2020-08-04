@@ -1,4 +1,4 @@
-const {logLevel} = require('../logger');
+const { logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const validators = require('../../config/validators');
 
