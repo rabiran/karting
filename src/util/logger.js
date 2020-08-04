@@ -77,8 +77,8 @@ const levelString = Object.keys(config.npm.levels);
 const wrapSendLog = (runningType, identifierObj, runUID) => {
   let returnSendLog;
   let logger = createLogger(loggerConfig);
-  if (runningType === fn.runnigTypes.immediateRun && identifier && runUID) {
-    logger.add(immediateRotateFileTransport(identifier, runUID));
+  if (runningType === fn.runnigTypes.immediateRun && identifierObj && runUID) {
+    logger.add(immediateRotateFileTransport(identifierObj.identityCard, runUID));
     returnSendLog = sendLog.bind(this, logger);
   } else if (runningType === fn.runnigTypes.immediateRun) {
     logger.add(immediateRotateFileTransport("immediate", "default"))

@@ -17,9 +17,9 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
             let akaRecords = dataObj[fn.dataSources.aka].data;
             let foundRecords = dataObj[dataSource].data;
 
-            if(foundRecords.length) {
+            if(!foundRecords.length) {
                 let sourceResults = await searchRecords([identifierObj.identityCard, identifierObj.personalNumber], [dataSource])
-                foundRecords = sourceResults[0].results[0].record;
+                foundRecords = [sourceResults[0].results[0].record];
             }
 
             let Auth = new AuthClass(sendLog);
