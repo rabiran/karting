@@ -3,21 +3,20 @@ const update = require('./diffsHandlerUtils/updatedDataHandler');
 const PromiseAllWithFails = require('./generalUtils/promiseAllWithFails');
 const DataModel = require('./DataModel');
 const fn = require('../config/fieldNames');
-let { sendLog } = require('./logger');
 const AuthClass = require('../auth/auth');
-let defaultAuth = new AuthClass(sendLog);
 
 require('dotenv').config();
 /*
- * diffsObj - object that contain the results of diffs checking (added,updated,same,removed & all)
- * dataSource - string the express the name of the data source
- * aka_all_data - object that contain all the recent data from aka
- */
+* diffsObj - object that contain the results of diffs checking (added,updated,same,removed & all)
+* dataSource - string the express the name of the data source
+* aka_all_data - object that contain all the recent data from aka
+*/
 
-module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, runnigType, defaultSendLog = sendLog, Auth = defaultAuth) => {
-    const addedData = added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add, runnigType, Auth, defaultSendLog));
+module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, runnigType, sendLog, recivedAuth) => {
+    const Auth = recivedAuth ? recivedAuth : new AuthClass(sendLog);
+    const addedData = added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add, runnigType, Auth, sendLog));
     const updatedData = updated.map(
-        deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, runnigType, Auth, defaultSendLog, deepDiffObj)
+        deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, runnigType, Auth, sendLog, deepDiffObj)
     );
 
     return PromiseAllWithFails([
