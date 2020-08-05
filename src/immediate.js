@@ -14,8 +14,13 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
         [fn.dataSources.aka, dataSource],
         identifierObj, runUID);
 
-      const akaRecords = dataObj[fn.dataSources.aka].data;
+      let akaRecords = dataObj[fn.dataSources.aka].data;
       let foundRecords = dataObj[dataSource].data;
+
+      if (!akaRecords.length) {
+        const sourceResults = await searchRecords([identifierObj.identityCard, identifierObj.personalNumber], [fn.dataSources.aka]);
+        akaRecords = sourceResults[fn.dataSources.aka];
+      }
 
       if (!foundRecords.length) {
         const sourceResults = await searchRecords([identifierObj.identityCard, identifierObj.personalNumber], [dataSource]);
