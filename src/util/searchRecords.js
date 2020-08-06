@@ -7,8 +7,8 @@ module.exports = async (identifiersArray, dataSources) => {
     const sourceData = await getDataSourceFromFile(dataSource);
     try {
       const results = sourceData.reduce((res, record) => {
-        const foundID = identifiersArray.find((id) => record[fn[dataSource].personalNumber] == id
-                    || record[fn[dataSource].identityCard] == id);
+        const recordString = JSON.stringify(record);
+        const foundID = identifiersArray.find(id => recordString.includes(id));
         if (foundID) {
           res.push({ id: foundID, record });
         }
