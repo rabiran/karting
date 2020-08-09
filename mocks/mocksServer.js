@@ -1,7 +1,6 @@
 let express = require("express")
 let app = express()
 let port = 3001
-let data = [];
 
 app.use((req, res, next) => {
     if (req.headers['authorization'] === "123") {
@@ -13,7 +12,7 @@ app.use((req, res, next) => {
 })
 
 app.get("/getEightSocks", (req, res) => {
-    data = require("./mocksFiles/eightsocks.json");
+    let data = require("./mocksFiles/eightsocks.json");
     if(Object.keys(req.query).length > 0) {
         data = searchInData(data, Object.values(req.query));
     }
@@ -21,7 +20,7 @@ app.get("/getEightSocks", (req, res) => {
 })
 
 app.get("/getAkaTelephone", (req, res) => {
-    data = require("./mocksFiles/getAkaTelephone.json")
+    let data = require("./mocksFiles/getAkaTelephone.json")
     if(Object.keys(req.query).length > 0) {
         data = searchInData(data, Object.values(req.query));
     }
@@ -29,7 +28,7 @@ app.get("/getAkaTelephone", (req, res) => {
 })
 
 app.get("/getAkaEmployees", (req, res) => {
-    data = require("./mocksFiles/getAkaEmployees.json")
+    let data = require("./mocksFiles/getAkaEmployees.json")
     if(Object.keys(req.query).length > 0) {
         data = searchInData(data, Object.values(req.query));
     }
@@ -37,7 +36,7 @@ app.get("/getAkaEmployees", (req, res) => {
 })
 
 app.get("/getAD/s", (req, res) => {
-    data = require("./mocksFiles/AD.json")
+    let data = require("./mocksFiles/AD.json")
     if(Object.keys(req.query).length > 0) {
         data = searchInData(data, Object.values(req.query));
     }
@@ -45,7 +44,7 @@ app.get("/getAD/s", (req, res) => {
 })
 
 app.get("/getAD/NN", (req, res) => {
-    data = require("./mocksFiles/AD.json")
+    let data = require("./mocksFiles/AD.json")
     if(Object.keys(req.query).length > 0) {
         data = searchInData(data, Object.values(req.query));
     }
@@ -53,7 +52,7 @@ app.get("/getAD/NN", (req, res) => {
 })
 
 app.get("/getCity", (req, res) => {
-    data = require("./mocksFiles/city.json")
+    let data = require("./mocksFiles/city.json")
     if(Object.keys(req.query).length > 0) {
         data = searchInData(data, Object.values(req.query));
     }

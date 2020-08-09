@@ -49,14 +49,4 @@ app.post("/immediateRun", async (req, res) => {
   }
 });
 
-
-app.post("/scriptRun", async (req, res) => {
-  if (!req.body.personIDsArray) {
-    res.json("there is an error with the IDs input");
-  } else {
-    await searchRecords(req.body.personIDsArray);
-    res.json("successfully found");
-  }
-});
-
 app.listen(port, () => console.log("immediateRun server run on port:" + port));

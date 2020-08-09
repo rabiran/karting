@@ -17,15 +17,18 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
       let akaRecords = dataObj[fn.dataSources.aka].data;
       let foundRecords = dataObj[dataSource].data;
 
-      if (!akaRecords.length) {
-        const sourceResults = await searchRecords([identifierObj.identityCard, identifierObj.personalNumber], [fn.dataSources.aka]);
-        akaRecords = sourceResults[fn.dataSources.aka];
-      }
+      akaRecords = [];
+      foundRecords = [];
+      
+      const missingSources = [];
 
-      if (!foundRecords.length) {
-        const sourceResults = await searchRecords([identifierObj.identityCard, identifierObj.personalNumber], [dataSource]);
-        foundRecords = sourceResults[dataSource];
-      }
+      akaRecords.length ? null : missingSources.push(fn.dataSources.aka);
+      foundRecords.length ? null : missingSources.push(dataSource);
+
+      const sourceResults = await searchRecords([identifierObj.identityCard, identifierObj.personalNumber], missingSources);
+
+      akaRecords = akaRecords.length ? akaRecords : sourceResults[fn.dataSources.aka].map(elem => elem.record);
+      foundRecords = foundRecords.length ? foundRecords : sourceResults[dataSource].map(elem => elem.record);
 
       const Auth = new AuthClass(sendLog);
 

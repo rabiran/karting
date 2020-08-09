@@ -25,7 +25,7 @@ module.exports = {
         areaCodeMobile: "ktelephone",
         dischargeDay: "rld",
         clearance: "clearance",
-        unitName: "hr",
+        unitName: "hr", 
         telephoneType: "telephoneType",
         uniqeFieldForDeepDiff: "mi",
     },
