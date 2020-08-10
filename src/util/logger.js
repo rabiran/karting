@@ -74,11 +74,12 @@ const loggerConfig = {
 
 const levelString = Object.keys(config.npm.levels);
 
-const wrapSendLog = (runningType, identifier, runUID) => {
+const wrapSendLog = (runningType, identifierObj, runUID) => {
   let returnSendLog;
-  let logger = createLogger(loggerConfig);
-  if (runningType === fn.runnigTypes.immediateRun && identifier && runUID) {
-    logger.add(immediateRotateFileTransport(identifier, runUID));
+  const logger = createLogger(loggerConfig);
+  if (runningType === fn.runnigTypes.immediateRun && identifierObj && runUID) {
+    const identifierToLog = identifierObj.identityCard || identifierObj.personalNumber || identifierObj.domainUser;
+    logger.add(immediateRotateFileTransport(identifierToLog, runUID));
     returnSendLog = sendLog.bind(this, logger);
   } else if (runningType === fn.runnigTypes.immediateRun) {
     logger.add(immediateRotateFileTransport("immediate", "default"))
@@ -87,7 +88,7 @@ const wrapSendLog = (runningType, identifier, runUID) => {
     returnSendLog = sendLog.bind(this, logger);
   }
   return returnSendLog;
-}
+};
 
 const sendLog = (logger, level, logDetails, ...params) => {
   const { title, message } = logDetails;

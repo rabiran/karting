@@ -12,27 +12,66 @@ app.use((req, res, next) => {
 })
 
 app.get("/getEightSocks", (req, res) => {
-    res.json(require("./mocksFiles/eightsocks.json"))
+    let data = require("./mocksFiles/eightsocks.json");
+    if(Object.keys(req.query).length > 0) {
+        data = searchInData(data, Object.values(req.query));
+    }
+    res.json(data)
 })
 
 app.get("/getAkaTelephone", (req, res) => {
-    res.json(require("./mocksFiles/getAkaTelephone.json"))
+    let data = require("./mocksFiles/getAkaTelephone.json")
+    if(Object.keys(req.query).length > 0) {
+        data = searchInData(data, Object.values(req.query));
+    }
+    res.json(data)
 })
 
 app.get("/getAkaEmployees", (req, res) => {
-    res.json(require("./mocksFiles/getAkaEmployees.json"))
+    let data = require("./mocksFiles/getAkaEmployees.json")
+    if(Object.keys(req.query).length > 0) {
+        data = searchInData(data, Object.values(req.query));
+    }
+    res.json(data)
 })
 
 app.get("/getAD/s", (req, res) => {
-    res.json(require("./mocksFiles/AD.json"))
+    let data = require("./mocksFiles/AD.json")
+    if(Object.keys(req.query).length > 0) {
+        data = searchInData(data, Object.values(req.query));
+    }
+    res.json(data)
 })
 
 app.get("/getAD/NN", (req, res) => {
-    res.json(require("./mocksFiles/AD.json"))
+    let data = require("./mocksFiles/AD.json")
+    if(Object.keys(req.query).length > 0) {
+        data = searchInData(data, Object.values(req.query));
+    }
+    res.json(data)
 })
 
 app.get("/getCity", (req, res) => {
-    res.json(require("./mocksFiles/city.json"))
+    let data = require("./mocksFiles/city.json")
+    if(Object.keys(req.query).length > 0) {
+        data = searchInData(data, Object.values(req.query));
+    }
+    res.json(data)
 })
+
+function searchInData(data, queries) {
+    let foundRecord;
+    for (query of queries) {
+        foundRecord = data.filter(record => {
+            return JSON.stringify(record).includes(query);
+        })
+        if (foundRecord.length) break;
+    }
+
+    return foundRecord;
+}
+
+
+
 
 app.listen(port, () => console.log("mocksGenerator server run on port:" + port))
