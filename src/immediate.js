@@ -8,9 +8,10 @@ const AuthClass = require('./auth/auth');
 
 let { logLevel } = require('./util/logger');
 module.exports = async (dataSource, identifiersArray, runUID) => {
+    let resArray = [];
     for (let identifierObj of identifiersArray) {
+        let identifier = identifierObj.identityCard || identifierObj.personalNumber || identifierObj.domainUser;
         try {
-            let identifier = identifierObj.identityCard;
             let { dataObj, sendLog } = await preRun(fn.runnigTypes.ImmediateRun, [fn.dataSources.aka, dataSource], identifier, runUID)
             let akaData = dataObj[fn.dataSources.aka].data;
             
@@ -25,13 +26,14 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
                 sendLog(logLevel.error, logDetails.error.ERR_NOT_FOUND_IN_RAW_DATA, identifier, dataSource);
             }
             await diffsHandler({ added: foundRecord }, dataSource, akaData, fn.runnigTypes.ImmediateRun, sendLog, Auth);
-
+            resArray.push({ id: identifier, record: foundRecord[0] });
 
         } catch (err) {
             sendLog(logLevel.error, logDetails.error.ERR_UN_HANDLED_ERROR, fn.runnigTypes.ImmediateRun, JSON.stringify(err));
+            resArray.push({ id: identifier, record: JSON.stringify(err) })
         }
     }
-
+    return resArray;
 }
 
 async function findrecord(record, flatIDs, dataSource, Auth, sendLog) {
