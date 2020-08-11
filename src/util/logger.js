@@ -38,7 +38,7 @@ const consoleTransport = new transports.Console({
 
 const immediateRotateFileTransport = (identifier, runUID) => {
   return new transports.DailyRotateFile({
-    filename: `${logDir}/immediateRun/%DATE%/${runUID}-${identifier}-%DATE%-logs.log`,
+    filename: `${logDir}/${fn.runnigTypes.immediateRun}/%DATE%/${runUID}-${identifier}-%DATE%-logs.log`,
     datePattern: 'YYYY-MM-DD',
     prepend: true,
     json: true,
@@ -72,36 +72,30 @@ const loggerConfig = {
   ]
 };
 
-
-let logger = createLogger(loggerConfig);
-let loggerImmediate = createLogger(loggerConfig);
-
-
 const levelString = Object.keys(config.npm.levels);
 
-const wrapSendLog = (runningType, identifier, runUID) => {
+const wrapSendLog = (runningType, identifierObj, runUID) => {
   let returnSendLog;
-  loggerImmediate = createLogger(loggerConfig);
-  if (runningType === fn.runnigTypes.ImmediateRun) {
-    loggerImmediate.add(immediateRotateFileTransport(identifier, runUID));
-    returnSendLog = sendLogImmediate;
+  const logger = createLogger(loggerConfig);
+  if (runningType === fn.runnigTypes.immediateRun && identifierObj && runUID) {
+    const identifierToLog = identifierObj.identityCard || identifierObj.personalNumber || identifierObj.domainUser;
+    logger.add(immediateRotateFileTransport(identifierToLog, runUID));
+    returnSendLog = sendLog.bind(this, logger);
+  } else if (runningType === fn.runnigTypes.immediateRun) {
+    logger.add(immediateRotateFileTransport("immediate", "default"))
+    returnSendLog = sendLog.bind(this, logger);
   } else {
-    returnSendLog = sendLog;
+    returnSendLog = sendLog.bind(this, logger);
   }
   return returnSendLog;
-}
-const sendLog = (level, logDetails, ...params) => {
+};
+
+const sendLog = (logger, level, logDetails, ...params) => {
   const { title, message } = logDetails;
   logger.log(levelString[level], message, ...params, { title });
 };
 
-const sendLogImmediate = (level, logDetails, ...params) => {
-  const { title, message } = logDetails;
-  loggerImmediate.log(levelString[level], message, ...params, { title });
-};
-
 module.exports = {
-  sendLog,
   wrapSendLog,
   logLevel: config.npm.levels,
 };

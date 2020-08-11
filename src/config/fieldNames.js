@@ -25,7 +25,7 @@ module.exports = {
         areaCodeMobile: "ktelephone",
         dischargeDay: "rld",
         clearance: "clearance",
-        unitName: "hr",
+        unitName: "hr", 
         telephoneType: "telephoneType",
         uniqeFieldForDeepDiff: "mi",
     },
@@ -164,7 +164,7 @@ module.exports = {
     runnigTypes: {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
-        immediateRun: 'Immediate_run',
+        immediateRun: 'immediate_run',
     },
     organizationGroups: {
         incompletes_name: 'incomplete',
@@ -174,7 +174,7 @@ module.exports = {
         update: 'update',
     },
     redisRetryCount: 3,
-    ImmediatePort: 3002,
+    immediatePort: 3002,
     chunckSize: 200,
     kartoffelUrl: "http://localhost:3000",
 };
