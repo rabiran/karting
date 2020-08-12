@@ -9,32 +9,25 @@ const { logLevel } = require('./util/logger');
 
 module.exports = async (dataSource, identifiersArray, runUID) => {
   for (const identifierObj of identifiersArray) {
-    try {
-      const { dataObj, sendLog } = await preRun(fn.runnigTypes.immediateRun,
-        [fn.dataSources.aka, dataSource],
-        identifierObj, runUID);
+    const { dataObj, sendLog } = await preRun(fn.runnigTypes.immediateRun,
+      [fn.dataSources.aka, dataSource],
+      identifierObj, runUID);
 
-      let akaRecords = dataObj[fn.dataSources.aka].data;
-      let foundRecords = dataObj[dataSource].data;
+    let akaRecords = dataObj[fn.dataSources.aka].data;
+    let foundRecords = dataObj[dataSource].data;
 
-      akaRecords = [];
-      foundRecords = [];
-      
-      const missingSources = [];
+    const missingSources = [];
 
-      akaRecords.length ? null : missingSources.push(fn.dataSources.aka);
-      foundRecords.length ? null : missingSources.push(dataSource);
+    akaRecords.length ? null : missingSources.push(fn.dataSources.aka);
+    foundRecords.length ? null : missingSources.push(dataSource);
 
-      const sourceResults = await searchRecords([identifierObj.identityCard, identifierObj.personalNumber], missingSources);
+    const sourceResults = await searchRecords(Object.values(identifierObj), missingSources);
 
-      akaRecords = akaRecords.length ? akaRecords : sourceResults[fn.dataSources.aka].map(elem => elem.record);
-      foundRecords = foundRecords.length ? foundRecords : sourceResults[dataSource].map(elem => elem.record);
+    akaRecords = akaRecords.length ? akaRecords : sourceResults[fn.dataSources.aka].map(elem => elem.record);
+    foundRecords = foundRecords.length ? foundRecords : sourceResults[dataSource].map(elem => elem.record);
 
-      const Auth = new AuthClass(sendLog);
+    const Auth = new AuthClass(sendLog);
 
-      await diffsHandler({ added: foundRecords }, dataSource, akaRecords, fn.runnigTypes.immediateRun, sendLog, Auth);
-    } catch (err) {
-      sendLog(logLevel.error, logDetails.error.ERR_UN_HANDLED_ERROR, fn.runnigTypes.immediateRun, JSON.stringify(err));
-    }
+    await diffsHandler({ added: foundRecords }, dataSource, akaRecords, fn.runnigTypes.immediateRun, sendLog, Auth);
   }
 };
