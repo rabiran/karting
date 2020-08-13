@@ -14,11 +14,10 @@ module.exports = async (runningType, dataSources, identifierObj, runUID) => {
     const date = moment(new Date()).format("DD.MM.YYYY__HH.mm");
     let dataObj = {};
     const rawData = await PromiseAllWithFails(
-        dataSources.map(
-            async dataSource => {
-                let { data, fileName } = await getRawData(dataSource, runningType, date, sendLog, identifierObj);                
-                dataObj[dataSource] = { data, fileName }
-            })
+        dataSources.map(async dataSource => {
+            let { data, fileName } = await getRawData(dataSource, runningType, date, sendLog, identifierObj);                
+            dataObj[dataSource] = { data, fileName }
+        })
     );
 
     return { dataObj, sendLog }
