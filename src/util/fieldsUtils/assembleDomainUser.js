@@ -1,6 +1,5 @@
 const fn = require('../../config/fieldNames');
-const { sendLog, logLevel } = require('../logger');
-const logDetails = require('../logDetails');
+const { logLevel } = require('../logger');
 
 /**
  * create custom uniqeID's domainUser according the given dataSource
@@ -9,7 +8,7 @@ const logDetails = require('../logDetails');
  * @param {object} record
  * @returns {string} the custom uniqeID for each dataSource
  */
-function assembleDomainUser(dataSource, record) {
+function assembleDomainUser(dataSource, record, sendLog) {
     switch (dataSource) {
         case fn.dataSources.ads:
             return (record[fn[dataSource].sAMAccountName] ?

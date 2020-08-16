@@ -1,5 +1,6 @@
 const { createLogger, format, transports, config } = require('winston');
 require('winston-daily-rotate-file');
+const fn = require('../config/fieldNames');
 const fs = require('fs');
 const os = require('os');
 require('dotenv').config();
@@ -35,9 +36,17 @@ const consoleTransport = new transports.Console({
   )
 });
 
+const immediateRotateFileTransport = (identifier, runUID) => {
+  return new transports.DailyRotateFile({
+    filename: `${logDir}/${fn.runnigTypes.immediateRun}/%DATE%/${runUID}-${identifier}-%DATE%-logs.log`,
+    datePattern: 'YYYY-MM-DD',
+    prepend: true,
+    json: true,
+  });
+}
 
 
-const logger = createLogger({
+const loggerConfig = {
   levels: config.npm.levels,
   // change level if in dev environment versus production
   level: env === 'development' ? 'verbose' : 'info',
@@ -47,9 +56,9 @@ const logger = createLogger({
     }),
     format.splat(),
     format.simple(),
-    format((info)=>{
+    format((info) => {
       info.service = "karting";
-      info.hostname = os.hostname();      
+      info.hostname = os.hostname();
       info.title = (info.meta) ? info.meta.title : "Unknown message";
       delete info.meta;
       return info
@@ -61,16 +70,32 @@ const logger = createLogger({
     dailyRotateFileTransport,
     dailyRotateFileTransportERROR,
   ]
-});
+};
 
 const levelString = Object.keys(config.npm.levels);
 
-const sendLog = (level, logDetails, ...params) => {
-  const {title, message} = logDetails;  
-  logger.log(levelString[level], message, ...params, {title});
+const wrapSendLog = (runningType, identifierObj, runUID) => {
+  let returnSendLog;
+  const logger = createLogger(loggerConfig);
+  if (runningType === fn.runnigTypes.immediateRun && identifierObj && runUID) {
+    const identifierToLog = identifierObj.identityCard || identifierObj.personalNumber || identifierObj.domainUser;
+    logger.add(immediateRotateFileTransport(identifierToLog, runUID));
+    returnSendLog = sendLog.bind(this, logger);
+  } else if (runningType === fn.runnigTypes.immediateRun) {
+    logger.add(immediateRotateFileTransport("immediate", "default"))
+    returnSendLog = sendLog.bind(this, logger);
+  } else {
+    returnSendLog = sendLog.bind(this, logger);
+  }
+  return returnSendLog;
+};
+
+const sendLog = (logger, level, logDetails, ...params) => {
+  const { title, message } = logDetails;
+  logger.log(levelString[level], message, ...params, { title });
 };
 
 module.exports = {
-  sendLog,
+  wrapSendLog,
   logLevel: config.npm.levels,
 };

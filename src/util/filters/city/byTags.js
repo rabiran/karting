@@ -1,5 +1,5 @@
 const fn = require('../../../config/fieldNames');
-const { sendLog, logLevel } = require('../../logger');
+const { logLevel } = require('../../logger');
 const logDetails = require('../../logDetails');
 
 /**
@@ -7,7 +7,7 @@ const logDetails = require('../../logDetails');
  *
  * @param {Object} record
  */
-module.exports = record => {
+module.exports = (record, sendLog) => {
     let isTransportable = false;
     let isInformative = false;
     let tagsLength = record[fn[fn.dataSources.city].tags] ? record[fn[fn.dataSources.city].tags].length : 0;

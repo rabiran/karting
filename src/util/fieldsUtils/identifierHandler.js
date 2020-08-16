@@ -1,4 +1,4 @@
-const {sendLog, logLevel} = require('../logger');
+const { logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const validators = require('../../config/validators');
 
@@ -9,7 +9,7 @@ const validators = require('../../config/validators');
  * @param {*} person Object of person with the keys identityCard and personalNumber
  * @returns The person object with the reapir fileds
  */
-module.exports = (person) => {
+module.exports = (person, sendLog) => {
     if ((person.identityCard == person.personalNumber) && (person.identityCard)) {
         validators(person.identityCard).identityCard ? person.personalNumber = null : person.identityCard = null;
         // delete the empty fields from the returned object

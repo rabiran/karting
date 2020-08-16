@@ -21,6 +21,7 @@ module.exports = {
   UNIT: ["gondor", "mordor", "wallmart", "valhalla"],
   ES_UNIT: ["es1", "es2", "es3", "es4", "es5", "es6"],
   ADS_UNIT: ["ads1", "ads2", "ads3", "ads4", "ads5", "ads6"],
+  CITY_UNIT: ["city1", "city2", "city3", "city4", "city5", "city6"],
   MIRI_TAGS: [
     {
       name: fn[fn.dataSources.city].userTags.transportable

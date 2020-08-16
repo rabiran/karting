@@ -18,6 +18,10 @@
     "node-schedule": "^1.3.0",
     "path": "^0.12.7",
     "shelljs": "^0.8.2",
+    "shortid": "^2.2.15",
+    "njwt": "^1.0.0",
+    "redis": "^2.8.0",
+    "util": "^0.12.1",
     "winston": "^3.1.0",
     "winston-daily-rotate-file": "^3.3.3",
     "xlsx": "^0.14.1"
@@ -36,5 +40,10 @@
   "bugs": {
     "url": "https://github.com/rabiran/karting/issues"
   },
-  "homepage": "https://github.com/rabiran/karting#readme"
+  "homepage": "https://github.com/rabiran/karting#readme",
+  "devDependencies": {
+    "eslint": "^7.6.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0"
+  }
 }
