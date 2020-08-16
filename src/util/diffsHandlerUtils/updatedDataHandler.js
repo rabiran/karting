@@ -8,7 +8,6 @@ const updateSpecificFields = require('../updateSpecificFields');
 const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
 const getIdentifiers = require('../getIdentifiers')
-
 require('dotenv').config();
 
 /**
@@ -74,7 +73,7 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
             if (
                 DataModel.akaRecord &&
                 DataModel.akaRecord[fn.aka.unitName] &&
-                DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
+                !DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
             ) {
                 // Add domain user from the record (if the required data exist)
                 await domainUserHandler(DataModel);
