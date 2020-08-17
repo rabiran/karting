@@ -134,7 +134,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                 DataModel.person.entityType !== fn.entityTypeValue.gu
             ) {
                 await goalUserFromPersonCreation(DataModel.person, DataModel.person_ready_for_kartoffel, DataModel.dataSource, DataModel.Auth, DataModel.sendLog);
-            } else if (DataModel.isDataSourcePrimary) {
+            } else if (DataModel.isDataSourcePrimary || dataSource === fn.dataSources.aka) {
                 Object.keys(DataModel.person).map(key => {
                     fn.fieldsForRmoveFromKartoffel.includes(key) ? delete DataModel.person[key] : null;
                 })
@@ -148,9 +148,9 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                     { updatedValues: 4 }
                 ).updated[0];
 
-                if (DataModel.updateDeepDiff.length > 0) {
+                if (DataModel.updateDeepDiff && DataModel.updateDeepDiff.length > 0) {
                     updated(
-                        {updatedData: [DataModel], dataSource},
+                        { updatedData: [DataModel], dataSource },
                         aka_all_data
                     );
                 }
