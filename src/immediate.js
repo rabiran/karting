@@ -2,7 +2,7 @@ const fn = require('./config/fieldNames');
 const diffsHandler = require('./util/diffsHandler');
 const logDetails = require('./util/logDetails');
 const preRun = require('./util/preRun');
-const searchRecords = require('./util/searchRecords');
+const searchRecordsInData = require('./util/searchRecordsInData');
 const AuthClass = require('./auth/auth');
 
 const { logLevel } = require('./util/logger');
@@ -21,7 +21,9 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
     akaRecords.length ? null : missingSources.push(fn.dataSources.aka);
     foundRecords.length ? null : missingSources.push(dataSource);
 
-    const sourceResults = await searchRecords(Object.values(identifierObj), missingSources);
+    if(missingSources.length > 0) {
+      const sourceResults = await searchRecordsInData(Object.values(identifierObj), missingSources);
+    }
 
     akaRecords = akaRecords.length ? akaRecords : sourceResults[fn.dataSources.aka].map(elem => elem.record);
     foundRecords = foundRecords.length ? foundRecords : sourceResults[dataSource].map(elem => elem.record);
