@@ -1,7 +1,7 @@
 const fn = require('./config/fieldNames');
 const diffsHandler = require('./util/diffsHandler');
 const preRun = require('./util/preRun');
-const searchRecords = require('./util/searchRecords');
+const searchRecordsInData = require('./util/searchRecordsInData');
 const AuthClass = require('./auth/auth');
 const collectLogs = require('./util/collectLogs')
 
