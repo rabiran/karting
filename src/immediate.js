@@ -22,7 +22,7 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
         akaRecords.length ? null : missingSources.push(fn.dataSources.aka);
         foundRecords.length ? null : missingSources.push(dataSource);
 
-        const sourceResults = await searchRecords(Object.values(idObj), missingSources);
+        const sourceResults = missingSources.length ? await searchRecordsInData(Object.values(idObj), missingSources) : null;
 
         akaRecords = akaRecords.length ? akaRecords : sourceResults[fn.dataSources.aka].map(elem => elem.record);
         foundRecords = foundRecords.length ? foundRecords : sourceResults[dataSource].map(elem => elem.record);
@@ -31,7 +31,7 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
 
         await diffsHandler({ added: foundRecords }, dataSource, akaRecords, fn.runnigTypes.immediateRun, sendLog, Auth);
         let { logs, fileName } = await collectLogs(idObj, runUID);
-        resArray.push({ id: identifier, record: foundRecords ? foundRecords : [], logsObj: { fileName: fileName, logs: logs } });
+        resArray.push({ id: identifier, records: foundRecords ? foundRecords : [], logsObj: { fileName: fileName, logs: logs } });
     }
     return resArray;
 };

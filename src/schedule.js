@@ -8,7 +8,6 @@ const shortid = require('shortid');
 const immediate = require("./immediate");
 const recovery = require("./recovery");
 const daily = require("./daily");
-const searchRecords = require("./util/searchRecords");
 
 require("dotenv").config();
 
@@ -21,8 +20,8 @@ const scheduleTime =
     ? fn.runningTime
     : new Date().setMilliseconds(new Date().getMilliseconds() + 200);
 
-// schedule.scheduleJob(scheduleTime, async () =>  await daily());
-// schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
+schedule.scheduleJob(scheduleTime, async () =>  await daily());
+schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
 
 // Create immediateRun server app
 
@@ -44,9 +43,9 @@ app.post("/immediateRun", async (req, res) => {
     res.status(400);
     res.json("karting respons and needs to be a standarted. there is an error with the input");
   } else {
-    let response = await immediate(req.body.dataSource, req.body.personIDsArray, runUID);
+    const runningResults = await immediate(req.body.dataSource, req.body.personIDsArray, runUID);
     res.status(200)
-    res.json(response);
+    res.json(runningResults);
   }
 });
 

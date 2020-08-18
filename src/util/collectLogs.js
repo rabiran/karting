@@ -5,19 +5,19 @@ const moment = require('moment');
 /**
  * 
  * @param {Object} idObj - an object of { identityCard, personalNumber, domainUser } 
- * @param {String} runUID - the unique id of the run that we activated in karting
+ * @param {String} runUID - the unique id of the karting run that came from luigi
  * @returns - array of the logs and the name of the logs file 
  */
 module.exports = async (idObj, runUID) => {
 	const date = moment(new Date()).format("YYYY-MM-DD");
-	const path = `${fn.logsPath}/${date}`;
+	const path = `${fn.luigiLogsPath}/${date}`;
 	const files = fs.readdirSync(`${path}/`);
-	let fileName = [];
+	let fileName;
 	for (const idField of Object.values(idObj)) {		
-		fileName = files.filter(
+		fileName = files.find(
 			file => file.startsWith(`${runUID}-${idField}`)
 			);
-		if (fileName.length > 0)
+		if (fileName)
 			break;
 	}
 

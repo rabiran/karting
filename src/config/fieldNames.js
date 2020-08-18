@@ -176,6 +176,6 @@ module.exports = {
     redisRetryCount: 3,
     immediatePort: 3002,
     chunckSize: 200,
-    logsPath: 'log/immediate_run',
+    luigiLogsPath: 'log/immediate_run',
     kartoffelUrl: "http://localhost:3000",
 };
