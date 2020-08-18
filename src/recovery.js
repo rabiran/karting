@@ -7,27 +7,23 @@ const logDetails = require('./util/logDetails');
 const moment = require('moment');
 
 module.exports = async () => {
-    try {
-        let { sendLog, dataObj } = await preRun(fn.runnigTypes.recoveryRun, [
-            fn.dataSources.aka,
-            fn.dataSources.es,
-            fn.dataSources.ads, 
-            fn.dataSources.adNN, 
-            fn.dataSources.lmn, 
-            fn.dataSources.mdn, 
-            fn.dataSources.mm, 
-            fn.dataSources.city
-        ]);
-        let akaData = dataObj[fn.dataSources.aka].data;
+    let { sendLog, dataObj } = await preRun(fn.runnigTypes.recoveryRun, [
+        fn.dataSources.aka,
+        fn.dataSources.es,
+        fn.dataSources.ads, 
+        fn.dataSources.adNN, 
+        fn.dataSources.lmn, 
+        fn.dataSources.mdn, 
+        fn.dataSources.mm, 
+        fn.dataSources.city
+    ]);
+    let akaData = dataObj[fn.dataSources.aka].data;
 
-        delete dataObj[fn.dataSources.aka];
+    delete dataObj[fn.dataSources.aka];
 
-        await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
-            await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog);
-        }));
+    await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
+        await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog);
+    }));
 
-        await diffsHandler({ added: akaData }, fn.dataSources.aka, akaData, fn.runnigTypes.recoveryRun);
-    } catch (err) {
-        sendLog(logLevel.error, logDetails.error.ERR_UN_HANDLED_ERROR, fn.runnigTypes.recoveryRun, JSON.stringify(err));
-    }
+    await diffsHandler({ added: akaData }, fn.dataSources.aka, akaData, fn.runnigTypes.recoveryRun, sendLog);
 }
