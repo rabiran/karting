@@ -21,9 +21,7 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
     akaRecords.length ? null : missingSources.push(fn.dataSources.aka);
     foundRecords.length ? null : missingSources.push(dataSource);
 
-    if(missingSources.length > 0) {
-      const sourceResults = await searchRecordsInData(Object.values(identifierObj), missingSources);
-    }
+    const sourceResults = missingSources.length ? await searchRecordsInData(Object.values(identifierObj), missingSources) : null;
 
     akaRecords = akaRecords.length ? akaRecords : sourceResults[fn.dataSources.aka].map(elem => elem.record);
     foundRecords = foundRecords.length ? foundRecords : sourceResults[dataSource].map(elem => elem.record);
