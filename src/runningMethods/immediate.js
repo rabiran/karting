@@ -1,9 +1,9 @@
-const fn = require('./config/fieldNames');
-const diffsHandler = require('./util/diffsHandler');
-const preRun = require('./util/preRun');
-const searchRecordsInData = require('./util/searchRecordsInData');
-const AuthClass = require('./auth/auth');
-const collectLogs = require('./util/collectLogs')
+const fn = require('../config/fieldNames');
+const diffsHandler = require('../util/diffsHandler');
+const preRun = require('../util/preRun');
+const searchRecordsInData = require('../util/searchRecordsInData');
+const AuthClass = require('../auth/auth');
+const collectLogs = require('../util/collectLogs')
 
 
 module.exports = async (dataSource, identifiersArray, runUID) => {

@@ -1,9 +1,9 @@
-const preRun = require('./util/preRun');
-const fn = require('./config/fieldNames'); 
-const diffsHandler = require('./util/diffsHandler');
-const { logLevel } = require('./util/logger');
-const PromiseAllWithFails = require('./util/generalUtils/promiseAllWithFails'); //check later if needed
-const logDetails = require('./util/logDetails');
+const preRun = require('../util/preRun');
+const fn = require('../config/fieldNames'); 
+const diffsHandler = require('../util/diffsHandler');
+const { logLevel } = require('../util/logger');
+const PromiseAllWithFails = require('../util/generalUtils/promiseAllWithFails'); //check later if needed
+const logDetails = require('../util/logDetails');
 const moment = require('moment');
 
 module.exports = async () => {

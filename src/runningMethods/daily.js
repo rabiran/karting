@@ -1,10 +1,10 @@
-const dataSync = require('./util/data_synchronizeData');
-const fn = require('./config/fieldNames');
-const diffsHandler = require('./util/diffsHandler');
-const { logLevel } = require('./util/logger');
-const PromiseAllWithFails = require('./util/generalUtils/promiseAllWithFails');
-const logDetails = require('./util/logDetails');
-const preRun = require('./util/preRun');
+const dataSync = require('../util/data_synchronizeData');
+const fn = require('../config/fieldNames');
+const diffsHandler = require('../util/diffsHandler');
+const { logLevel } = require('../util/logger');
+const PromiseAllWithFails = require('../util/generalUtils/promiseAllWithFails');
+const logDetails = require('../util/logDetails');
+const preRun = require('../util/preRun');
 
 
 module.exports = async() => {
