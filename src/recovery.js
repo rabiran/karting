@@ -17,13 +17,8 @@ module.exports = async () => {
         fn.dataSources.mm, 
         fn.dataSources.city
     ]);
-    let akaData = dataObj[fn.dataSources.aka].data;
-
-    delete dataObj[fn.dataSources.aka];
 
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
         await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog);
     }));
-
-    await diffsHandler({ added: akaData }, fn.dataSources.aka, akaData, fn.runnigTypes.recoveryRun, sendLog);
 }
