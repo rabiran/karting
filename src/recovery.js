@@ -18,7 +18,10 @@ module.exports = async () => {
         fn.dataSources.city
     ]);
 
+    let akaData = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
+
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
         await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog);
     }));
+
 }
