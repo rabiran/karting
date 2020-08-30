@@ -19,7 +19,7 @@ module.exports = async() => {
         fn.dataSources.city
     ]);
 
-    let akaData = dataObj[fn.dataSources.aka].data;
+    let akaData = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
     akaData = await dataSync(fn.dataSources.aka, akaData, dataObj[fn.dataSources.aka].fileName, sendLog)
     
     delete dataObj[fn.dataSources.aka];
