@@ -25,7 +25,7 @@ module.exports = {
         areaCodeMobile: "ktelephone",
         dischargeDay: "rld",
         clearance: "clearance",
-        unitName: "hr",
+        unitName: "hr", 
         telephoneType: "telephoneType",
         uniqeFieldForDeepDiff: "mi",
     },
@@ -100,7 +100,7 @@ module.exports = {
         profession: 'profession',
         hierarchy: 'hr',
         domainUsers: 'domUser',
-        compnay: 'company',
+        company: 'company',
         entityTypePrefix: {
             s: ['e', 'l', 'i'],
             c: ['g', 'j'],
@@ -164,7 +164,7 @@ module.exports = {
     runnigTypes: {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
-        ImmediateRun: 'Immediate_run',
+        immediateRun: 'immediate_run',
     },
     organizationGroups: {
         incompletes_name: 'incomplete',
@@ -173,7 +173,9 @@ module.exports = {
         add: 'add',
         update: 'update',
     },
-    ImmediatePort: 3002,
+    redisRetryCount: 3,
+    immediatePort: 3002,
     chunckSize: 200,
+    luigiLogsPath: 'log/immediate_run',
     kartoffelUrl: "http://localhost:3000",
 };

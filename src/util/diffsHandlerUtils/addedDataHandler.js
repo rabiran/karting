@@ -3,10 +3,9 @@ const diff = require("diff-arrays-of-objects");
 const updated = require('./updatedDataHandler')
 const p = require('../../config/paths');
 const fn = require('../../config/fieldNames');
-const { sendLog, logLevel } = require('../logger');
+const {logLevel} = require('../logger');
 const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
-const Auth = require('../../auth/auth');
 const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
 const goalUserFromPersonCreation = require('../goalUserFromPersonCreation');
@@ -46,7 +45,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
             ].filter(id => id);
             path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
         } else {
-            sendLog(
+            DataModel.sendLog(
                 logLevel.warn,
                 logDetails.warn.WRN_UNRECOGNIZED_ENTITY_TYPE,
                 JSON.stringify(DataModel.record),
@@ -56,7 +55,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
         }
 
         if (!DataModel.identifiers.length) {
-            sendLog(
+            DataModel.sendLog(
                 logLevel.warn,
                 logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON,
                 JSON.stringify(DataModel.person_ready_for_kartoffel),
@@ -66,34 +65,33 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
             continue;
         }
 
-        
         tryFindPerson = await tryArgs(
-            async id => (await Auth.axiosKartoffel.get(path(id))).data,
+            async id => (await DataModel.Auth.axiosKartoffel.get(path(id))).data,
             ...DataModel.identifiers
-            );
-            
-            if (tryFindPerson.lastErr) {
-                if (tryFindPerson.lastErr.response && tryFindPerson.lastErr.response.status === 404) {
-                    if (!DataModel.person_ready_for_kartoffel.directGroup) {
-                        sendLog(
-                            logLevel.warn,
-                            logDetails.warn.WRN_MISSING_DIRECT_GROUP,
-                            JSON.stringify(DataModel.identifiers),
-                            DataModel.dataSource,
-                            JSON.stringify(DataModel.record),
-                        );
-                        continue;
-                    }
-                    DataModel.person_ready_for_kartoffel = identifierHandler(DataModel.person_ready_for_kartoffel);
+        );
+
+        if (tryFindPerson.lastErr) {
+            if (tryFindPerson.lastErr.response && tryFindPerson.lastErr.response.status === 404) {
+                if (!DataModel.person_ready_for_kartoffel.directGroup) {
+                    DataModel.sendLog(
+                        logLevel.warn,
+                        logDetails.warn.WRN_MISSING_DIRECT_GROUP,
+                        JSON.stringify(DataModel.identifiers),
+                        DataModel.dataSource,
+                        JSON.stringify(DataModel.record),
+                    );
+                    continue;
+                }
+                DataModel.person_ready_for_kartoffel = identifierHandler(DataModel.person_ready_for_kartoffel, DataModel.sendLog);
                 // Add the complete person object to Kartoffel
                 try {
                     DataModel.person = (
-                        await Auth.axiosKartoffel.post(
+                        await DataModel.Auth.axiosKartoffel.post(
                             p().KARTOFFEL_PERSON_API, DataModel.person_ready_for_kartoffel
                         )
                     ).data;
 
-                    sendLog(
+                    DataModel.sendLog(
                         logLevel.info,
                         logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL,
                         JSON.stringify(DataModel.identifiers),
@@ -106,7 +104,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                     }
                 } catch (err) {
                     const errMessage = err.response ? err.response.data.message : err.message;
-                    sendLog(
+                    DataModel.sendLog(
                         logLevel.error,
                         logDetails.error.ERR_INSERT_PERSON,
                         JSON.stringify(DataModel.identifiers),
@@ -117,7 +115,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                 }
             } else {
                 const errMessage = tryFindPerson.lastErr.response ? tryFindPerson.lastErr.response.data.message : tryFindPerson.lastErr.message;
-                sendLog(
+                DataModel.sendLog(
                     logLevel.error,
                     logDetails.error.ERR_ADD_FUNCTION_PERSON_NOT_FOUND,
                     JSON.stringify(DataModel.identifiers),
@@ -135,8 +133,8 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                 DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
                 DataModel.person.entityType !== fn.entityTypeValue.gu
             ) {
-                await goalUserFromPersonCreation(DataModel.person, DataModel.person_ready_for_kartoffel, DataModel.dataSource);
-            } else if (DataModel.isDataSourcePrimary) {
+                await goalUserFromPersonCreation(DataModel.person, DataModel.person_ready_for_kartoffel, DataModel.dataSource, DataModel.Auth, DataModel.sendLog);
+            } else if (DataModel.isDataSourcePrimary || dataSource === fn.dataSources.aka) {
                 Object.keys(DataModel.person).map(key => {
                     fn.fieldsForRmoveFromKartoffel.includes(key) ? delete DataModel.person[key] : null;
                 })
@@ -150,8 +148,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                     { updatedValues: 4 }
                 ).updated[0];
 
-                
-                if (DataModel.updateDeepDiff.length > 0) {
+                if (DataModel.updateDeepDiff && DataModel.updateDeepDiff.length > 0) {
                     updated(
                         { updatedData: [DataModel], dataSource },
                         aka_all_data
@@ -161,7 +158,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                 await domainUserHandler(DataModel);
             }
         } else {
-            sendLog(logLevel.error, logDetails.error.ERR_UNKNOWN_ERROR, 'addedDataHandler', JSON.stringify(tryFindPerson.lastErr));
+            DataModel.sendLog(logLevel.error, logDetails.error.ERR_UNKNOWN_ERROR, 'addedDataHandler', JSON.stringify(tryFindPerson.lastErr));
         }
     }
 }

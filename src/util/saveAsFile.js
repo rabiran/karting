@@ -1,5 +1,5 @@
 const fs = require('fs');
-const {sendLog, logLevel} = require('./logger');
+const { logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const shell = require('shelljs');
 
@@ -22,7 +22,7 @@ const pathHandler = (path) => {
  * @param {string} actionDescription Data description for the logs and the file's name
  * @returns The name of the last file that stored
  */
-module.exports = (data, path, actionDescription, dateAndTime) => {
+module.exports = (data, path, actionDescription, dateAndTime, sendLog) => {
     pathHandler(path);
     pathHandler(`${path}/archive/`);
 

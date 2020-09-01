@@ -1,6 +1,6 @@
 const fs = require('fs');
 const diff = require("diff-arrays-of-objects");
-const {sendLog, logLevel} = require('./logger');
+const { logLevel} = require('./logger');
 const logDetails = require('../util/logDetails');
 
 /**
@@ -12,7 +12,7 @@ const logDetails = require('../util/logDetails');
  * @param {*} comparison_field The name of the filed by which the comparison will be made
  * @returns Array of 4 arrays that present the results of the comparison: [added,updated,same,removed] 
  */
-module.exports = (updateData, path, previous_data_file_name, comparison_field) => {
+module.exports = (updateData, path, previous_data_file_name, comparison_field, sendLog) => {
 
     // read the data from the previous_data_file
     try {

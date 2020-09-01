@@ -8,7 +8,14 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/src/schedule"
+            "program": "${workspaceFolder}/src/schedule.js"
+            // "program": "${workspaceFolder}/src/aka/aka_synchronizeData.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Mocks",
+            "program": "${workspaceFolder}/mocks/mocksServer.js"
             // "program": "${workspaceFolder}/src/aka/aka_synchronizeData.js"
         }
     ]

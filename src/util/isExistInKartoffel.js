@@ -1,5 +1,4 @@
 const p = require('../config/paths');
-const Auth = require('../auth/auth')
 const fn = require('../config/fieldNames');
 const tryArgs = require('./generalUtils/tryArgs');
 
@@ -17,7 +16,7 @@ module.exports = async DataModel => {
     path = identifier => p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
 
     const { result, lastErr } = await tryArgs(
-        async identifier => (await Auth.axiosKartoffel.get(path(identifier))).data,
+        async identifier => (await DataModel.Auth.axiosKartoffel.get(path(identifier))).data,
         ...filterdIdentifiers
     );
     

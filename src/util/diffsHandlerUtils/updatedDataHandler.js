@@ -1,15 +1,13 @@
 const fn = require('../../config/fieldNames');
-const Auth = require('../../auth/auth');
 const DataModel = require('../DataModel')
 const p = require('../../config/paths');
-const { sendLog, logLevel } = require('../logger');
+const { logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const domainUserHandler = require('../fieldsUtils/domainUserHandler');
 const updateSpecificFields = require('../updateSpecificFields');
 const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
 const getIdentifiers = require('../getIdentifiers')
-
 require('dotenv').config();
 
 /**
@@ -20,17 +18,22 @@ require('dotenv').config();
  */
 module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
     let dataModels = updatedData;
-    dataModels = await recordsFilter({ dataModels, dataSource }, dataSource);
+    dataModels = await recordsFilter({dataModels, dataSource});
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
         const path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
+      
+        let { identityCard, personalNumber } = await getIdentifiers(DataModel.record, DataModel.dataSource, DataModel.Auth, DataModel.sendLog);
 
-        const { identityCard, personalNumber } = await getIdentifiers(DataModel.record, DataModel.dataSource);
+        if (DataModel.flowType === fn.flowTypes.add) {
+            identityCard = identityCard ? identityCard : DataModel.person_ready_for_kartoffel.identityCard;
+            personalNumber = personalNumber ? personalNumber : DataModel.person_ready_for_kartoffel.personalNumber;
+        }
         const filterdIdentifiers = [identityCard, personalNumber].filter(id => id);
         
         if (!filterdIdentifiers.length) {
-            sendLog(
+            DataModel.sendLog(
                 logLevel.error,
                 logDetails.error.ERR_NO_IDENTIFIERS_TO_UPDATE,
                 JSON.stringify(DataModel.record),
@@ -38,14 +41,14 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
             );
             continue;
         }
-
+        
         const tryFindPerson = await tryArgs(
-            async id => (await Auth.axiosKartoffel.get(path(id))).data,
+            async id => (await DataModel.Auth.axiosKartoffel.get(path(id))).data,
             ...filterdIdentifiers
         )
 
         if (tryFindPerson.lastErr) {
-            sendLog(
+            DataModel.sendLog(
                 logLevel.error,
                 logDetails.error.ERR_NOT_FIND_PERSON_IN_KARTOFFEL,
                 JSON.stringify(filterdIdentifiers),
@@ -70,11 +73,11 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
             if (
                 DataModel.akaRecord &&
                 DataModel.akaRecord[fn.aka.unitName] &&
-                DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
+                !DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
             ) {
                 // Add domain user from the record (if the required data exist)
                 await domainUserHandler(DataModel);
-                sendLog(
+                DataModel.sendLog(
                     logLevel.warn,
                     logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL,
                     DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
@@ -97,7 +100,7 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
                     
                     const include = fn.akaRigid.includes(keyForCheck);
                     if (include) {
-                        sendLog(
+                        DataModel.sendLog(
                             logLevel.warn,
                             logDetails.warn.WRN_AKA_FIELD_RIGID,
                             diffsObj.path.toString(),
