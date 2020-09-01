@@ -14,8 +14,8 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
         [fn.dataSources.aka, dataSource],
         idObj, runUID);
 
-        let akaRecords = dataObj[fn.dataSources.aka].data;
-        let foundRecords = dataObj[dataSource].data;
+        let akaRecords = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
+        let foundRecords = dataObj[dataSource].data ? dataObj[dataSource].data.data : [];
         
         const missingSources = [];
 
