@@ -38,7 +38,7 @@ const consoleTransport = new transports.Console({
 
 const immediateRotateFileTransport = (identifier, runUID) => {
   return new transports.DailyRotateFile({
-    filename: `${logDir}/${fn.runnigTypes.immediateRun}/%DATE%/${runUID}-${identifier}-%DATE%-logs.log`,
+    filename: `${logDir}/${fn.runnigTypes.immediateRun}/%DATE%/${identifier}-${runUID}-%DATE%-logs.log`,
     datePattern: 'YYYY-MM-DD',
     prepend: true,
     json: true,
