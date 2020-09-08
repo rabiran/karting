@@ -19,19 +19,15 @@ module.exports = async() => {
         fn.dataSources.city
     ]);
 
-    let akaData = dataObj[fn.dataSources.aka].data;
+    let akaData = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
     akaData = await dataSync(fn.dataSources.aka, akaData, dataObj[fn.dataSources.aka].fileName, sendLog)
-    
-    delete dataObj[fn.dataSources.aka];
     
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
         if(dataSource !== "undefined")  {
             GetDataAndProcess(dataSource, akaData, sendLog, dataObj[dataSource], dataSync);
         }
     }));
-    
-    // Due performance reasons aka flow is run by itself, after other flows
-    await GetDataAndProcess(fn.dataSources.aka, akaData, sendLog);
+
 }
 
 /**
@@ -42,6 +38,6 @@ module.exports = async() => {
  */
 const GetDataAndProcess = async (dataSource, akaData, sendLog, dataObj, func) => {
     // In case datasource is aka, I get data before function and therefore not need to get data again
-    let data = func ? await func(dataSource, dataObj.data, dataObj.fileName) : akaData;
+    let data = dataSource === fn.dataSources.aka ? akaData : await func(dataSource, dataObj.data, dataObj.fileName);
     await diffsHandler(data, dataSource, akaData.all, fn.runnigTypes.dailyRun, sendLog);
 }
