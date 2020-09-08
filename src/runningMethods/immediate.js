@@ -1,9 +1,9 @@
-const fn = require('./config/fieldNames');
-const diffsHandler = require('./util/diffsHandler');
-const preRun = require('./util/preRun');
-const searchRecordsInData = require('./util/searchRecordsInData');
-const AuthClass = require('./auth/auth');
-const collectLogs = require('./util/collectLogs')
+const fn = require('../config/fieldNames');
+const diffsHandler = require('../util/diffsHandler');
+const preRun = require('../util/preRun');
+const searchRecordsInData = require('../util/searchRecordsInData');
+const AuthClass = require('../auth/auth');
+const collectLogs = require('../util/collectLogs')
 
 
 module.exports = async (dataSource, identifiersArray, runUID) => {
@@ -17,15 +17,15 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
         let akaRecords = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
         let foundRecords = dataObj[dataSource].data ? dataObj[dataSource].data.data : [];
         
-        const missingSources = [];
+        // const missingSources = [];
 
-        akaRecords.length ? null : missingSources.push(fn.dataSources.aka);
-        foundRecords.length ? null : missingSources.push(dataSource);
+        // akaRecords.length ? null : missingSources.push(fn.dataSources.aka);
+        // foundRecords.length ? null : missingSources.push(dataSource);
 
-        const sourceResults = missingSources.length ? await searchRecordsInData(Object.values(idObj), missingSources) : null;
+        // const sourceResults = missingSources.length ? await searchRecordsInData(Object.values(idObj), missingSources) : null;
 
-        akaRecords = akaRecords.length ? akaRecords : sourceResults[fn.dataSources.aka].map(elem => elem.record);
-        foundRecords = foundRecords.length ? foundRecords : sourceResults[dataSource].map(elem => elem.record);
+        // akaRecords = akaRecords.length ? akaRecords : sourceResults[fn.dataSources.aka].map(elem => elem.record);
+        // foundRecords = foundRecords.length ? foundRecords : sourceResults[dataSource].map(elem => elem.record);
 
         const Auth = new AuthClass(sendLog);
 
