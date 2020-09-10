@@ -6,7 +6,6 @@ const shortid = require('shortid');
 const immediate = require("../runningMethods/immediate");
 const fn = require("../config/fieldNames");
 
-
 // Create immediateRun server app
 
 const immediateApp = express();
@@ -24,7 +23,7 @@ immediateApp.use((req, res, next) => {
 
 immediateApp.post("/immediateRun", async (req, res) => {
   const sendLog = wrapSendLog(fn.runnigTypes.immediateRun);
-  const runUID = req.body.uid;
+  const runUID = req.body.uid ? req.body.uid : shortid.generate(); // whether comes from luigi or not
   if (!req.body.personIDsArray || !req.body.dataSource || !shortid.isValid(runUID)) {
     sendLog(
       logLevel.error,
