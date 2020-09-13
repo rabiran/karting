@@ -15,7 +15,7 @@ module.exports = async (idObj, runUID) => {
 	let fileName;
 	for (const idField of Object.values(idObj)) {		
 		fileName = files.find(
-			file => file.startsWith(`${runUID}-${idField}`)
+			file => file.startsWith(`${idField}-${runUID}`)
 		);
 		if (fileName) 
 			break;
