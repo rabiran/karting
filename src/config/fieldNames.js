@@ -165,6 +165,7 @@ module.exports = {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
         immediateRun: 'immediate_run',
+        duRemove: 'du_remove',
     },
     organizationGroups: {
         incompletes_name: 'incomplete',

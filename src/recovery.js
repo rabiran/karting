@@ -1,6 +1,7 @@
 const preRun = require('./util/preRun');
 const fn = require('./config/fieldNames'); 
 const diffsHandler = require('./util/diffsHandler');
+const AuthClass = require('./auth/auth')
 const { logLevel } = require('./util/logger');
 const PromiseAllWithFails = require('./util/generalUtils/promiseAllWithFails'); //check later if needed
 const logDetails = require('./util/logDetails');
@@ -11,17 +12,18 @@ module.exports = async () => {
         fn.dataSources.aka,
         fn.dataSources.es,
         fn.dataSources.ads, 
-        fn.dataSources.adNN, 
-        fn.dataSources.lmn, 
-        fn.dataSources.mdn, 
-        fn.dataSources.mm, 
-        fn.dataSources.city
+        // fn.dataSources.adNN, 
+        // fn.dataSources.lmn, 
+        // fn.dataSources.mdn, 
+        // fn.dataSources.mm, 
+        // fn.dataSources.city
     ]);
 
     let akaData = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
+    const Auth = new AuthClass(sendLog);
 
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
-        await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog);
+        await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog, Auth);
+        await cleanDu(dataSource, dataObj[dataSource].data, sendLog, Auth);
     }));
-
 }
