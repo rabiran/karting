@@ -165,6 +165,7 @@ module.exports = {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
         immediateRun: 'immediate_run',
+        duRemove: 'du_remove',
     },
     organizationGroups: {
         incompletes_name: 'incomplete',
@@ -177,5 +178,7 @@ module.exports = {
     immediatePort: 3002,
     chunckSize: 200,
     luigiLogsPath: 'log/immediate_run',
+    esRecoveryDataFolder: 'data/recovery_run/es_name/', //need to change inside
+    cityRecoveryDataFolder: 'data/recovery_run/city_name/',//need to change inside
     kartoffelUrl: "http://localhost:3000",
 };
