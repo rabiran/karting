@@ -44,7 +44,7 @@ immediateApp.post("/luigiRun", async (req, res) => {
 immediateApp.post("/immediateRun", async (req, res) => {
   const sendLog = wrapSendLog(fn.runnigTypes.immediateRun);
   const runUID = shortid.generate(); // whether comes from luigi or not
-  if (!req.body.sourceRecords || !req.body.dataSource || !req.body.akaRecords) {
+  if (!req.body.sourceRecords || !req.body.dataSource) {
     sendLog(
       logLevel.error,
       logDetails.error.ERR_SERVER_INVALID_INPUT,
