@@ -164,6 +164,7 @@ module.exports = {
     runnigTypes: {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
+        luigiRun: 'luigi_run',
         immediateRun: 'immediate_run',
     },
     organizationGroups: {
@@ -176,6 +177,6 @@ module.exports = {
     redisRetryCount: 3,
     immediatePort: 3002,
     chunckSize: 200,
-    luigiLogsPath: 'log/immediate_run',
+    luigiLogsPath: 'log/luigi_run',
     kartoffelUrl: "http://localhost:3000",
 };

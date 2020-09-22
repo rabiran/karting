@@ -36,9 +36,9 @@ const consoleTransport = new transports.Console({
   )
 });
 
-const immediateRotateFileTransport = (identifier, runUID) => {
+const immediateRotateFileTransport = (runningType, identifier, runUID) => {
   return new transports.DailyRotateFile({
-    filename: `${logDir}/${fn.runnigTypes.immediateRun}/%DATE%/${identifier}-${runUID}-%DATE%-logs.log`,
+    filename: `${logDir}/${runningType}/%DATE%/${identifier}-${runUID}-%DATE%-logs.log`,
     datePattern: 'YYYY-MM-DD',
     prepend: true,
     json: true,
@@ -77,12 +77,15 @@ const levelString = Object.keys(config.npm.levels);
 const wrapSendLog = (runningType, identifierObj, runUID) => {
   let returnSendLog;
   const logger = createLogger(loggerConfig);
-  if (runningType === fn.runnigTypes.immediateRun && identifierObj && runUID) {
+  if (runningType === fn.runnigTypes.luigiRun && identifierObj && runUID) {
     const identifierToLog = identifierObj.identityCard || identifierObj.personalNumber || identifierObj.domainUser;
-    logger.add(immediateRotateFileTransport(identifierToLog, runUID));
+    logger.add(immediateRotateFileTransport(runningType, identifierToLog, runUID));
     returnSendLog = sendLog.bind(this, logger);
-  } else if (runningType === fn.runnigTypes.immediateRun) {
-    logger.add(immediateRotateFileTransport("immediate", "default"))
+  } else if (runningType === fn.runnigTypes.luigiRun) {
+    logger.add(immediateRotateFileTransport(runningType, "luigi", "default"))
+    returnSendLog = sendLog.bind(this, logger);
+  } else if (runningType == fn.runnigTypes.immediateRun) {
+    logger.add(immediateRotateFileTransport(runningType, "immediate", "default"))
     returnSendLog = sendLog.bind(this, logger);
   } else {
     returnSendLog = sendLog.bind(this, logger);
