@@ -86,18 +86,10 @@ function filterEsRecord(records) {
     let filename = files.find(file => file.endsWith('.log'))
     let esData = JSON.parse(fs.readFileSync(`${fn.esRecoveryDataFolder}${filename}`));
 
-    let diffObj = diff(esData, records);
+    let diffObj = diff(esData, records, fn[fn.dataSources.es].uniqeFieldForDeepDiff);
     
     let recordsToRemove = diffObj.removed;
-    for (const updatdRecord of updatedRcordsIds) {
-        let oldRecord = esData.find(record => record[fn[dataSources.es_name].mail] == record[fn[dataSources.es_name].mail])
-        if (
-            oldRecord[fn[dataSources.es_name].identityCard] != updatdRecord[fn[dataSources.es_name].identityCard] || 
-            oldRecord[fn[dataSources.es_name].personalNumber] != updatdRecord[fn[dataSources.es_name].personalNumber]
-        ) {
-            recordsToRemove.push(oldRecord);
-        }
-    }
+
     return recordsToRemove;
 }
 
@@ -112,15 +104,10 @@ function filterCityRecord(records) {
     let filename = files.find(file => file.endsWith('.log'))
     let cityData = JSON.parse(fs.readFileSync(`${fn.cityRecoveryDataFolder}${filename}`));
 
-    let diffObj = diff(cityData, records);
+    let diffObj = diff(cityData, records, fn[fn.dataSources.city].uniqeFieldForDeepDiff);
     
     let recordsToRemove = diffObj.removed;
-    for (const updatdRecord of updatedRcordsIds) {
-        let oldRecord = cityData.find(record => record[fn[dataSources.es_name].mail] == record[fn[dataSources.es_name].mail])
-        if (oldRecord[fn[dataSources.city].identityCard] != updatdRecord[fn[dataSources.city].identityCard]) {
-            recordsToRemove.push(oldRecord);
-        }
-    }
+
     return recordsToRemove;
 }
 
