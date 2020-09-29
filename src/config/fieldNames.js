@@ -174,11 +174,10 @@ module.exports = {
         add: 'add',
         update: 'update',
     },
+    lastDataFolderName: 'data/recovery_run',
     redisRetryCount: 3,
     immediatePort: 3002,
     chunckSize: 200,
     luigiLogsPath: 'log/immediate_run',
-    esRecoveryDataFolder: 'data/recovery_run/es_name/', //need to change inside
-    cityRecoveryDataFolder: 'data/recovery_run/city_name/',//need to change inside
     kartoffelUrl: "http://localhost:3000",
 };

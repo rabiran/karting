@@ -462,9 +462,9 @@ const match_city = (obj, dataSource) => {
                 let hr = obj[rawKey].replace('\\', '/');
                 if (hr.includes('/')) {
                     hr = hr.split('/').map(unit => unit.trim());
-
+                    let fullNameRegex = new RegExp(`${obj[fn[dataSource].firstName]}( |\t)+${obj[fn[dataSource].lastName]}`);
                     for (const [index, value] of hr.entries()) {
-                        if (isStrContains(value, [`${obj[fn[dataSource].firstName]} ${obj[fn[dataSource].lastName]}`, '-']) || !value) {
+                        if (isStrContains(value, ['-']) || fullNameRegex.test(value) || !value) {
                             hr.splice(index);
                             break;
                         }
