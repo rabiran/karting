@@ -5,6 +5,7 @@ const { logLevel } = require('../util/logger');
 const PromiseAllWithFails = require('../util/generalUtils/promiseAllWithFails'); //check later if needed
 const logDetails = require('../util/logDetails');
 const moment = require('moment');
+const AuthClass = require('../auth/auth');
 
 module.exports = async () => {
     let { sendLog, dataObj } = await preRun(fn.runnigTypes.recoveryRun, [
