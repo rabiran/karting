@@ -17,9 +17,7 @@ const p = require('../../config/paths');
 function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
     
     
-    function isolateDu(dataSource, record, sendLog) {
-        return assembleDomainUser(dataSource, record, sendLog);
-    }
+    const isolateDu = assembleDomainUser;
     
     /**
      * filter the unneseccary records from accorrding to
@@ -88,23 +86,12 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
     function getRemovedDu (records, persons, dataSource) {
         if(records.length > 0) {
             const sourceRecordsDus = records.map(record => assembleDomainUser(dataSource, record, sendLog).toLowerCase());
-            const kartoffelPersonsDus = persons.map(person => person.domainUsers.filter(obj => obj.dataSource == dataSource)).flat().map(obj => obj.uniqueID);
-            const dusToRemove = kartoffelPersonsDus.filter(x => !sourceRecordsDus.includes(x));
+            const kartoffelPersonsDus = persons.map(person => person.domainUsers.filter(obj => obj.dataSource == dataSource)).flat().map(obj => obj.uniqueID.toLowerCase());
+            const dusToRemove = kartoffelPersonsDus.filter(du => !sourceRecordsDus.includes(du));
             return dusToRemove;
         } else {
             return []
         }
-    }
-    
-    /**
-     * 
-     * @param {Array} records - the records from dataSource
-     * @param {Object} domainUserObj - domainUser object from kartoffel
-     * @param {string} dataSource - the data source
-     * @returns {Object} - the parallel record of the domainUser
-     */
-    function findParallelRecord(records, domainUserObj, dataSource) {
-        //TODO...
     }
 
     const irrelevantDus = filterIrrelevantByDataSource(dataSource, records, persons)
