@@ -10,11 +10,11 @@ const p = require('../../config/paths');
  * for kartoffel. For Example the user isn't belong
  * to anyone anymore
  * 
- * @param {Array} data - array of records 
+ * @param {Array} records - array of records 
  * @param {string} dataSource
  * @param {Function} sendLog - logger
  */
-function getIrrelevantDus(data, dataSource, sendLog, Auth) {
+function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
     
     
     function isolateDu(dataSource, record, sendLog) {
@@ -26,21 +26,21 @@ function getIrrelevantDus(data, dataSource, sendLog, Auth) {
      * the current data
      * 
      * @param {string} dataSource - the data source
-     * @param {Array} data - all the current data from the data source
+     * @param {Array} records - all the current data from the data source
      * @returns {Array} - all the irrelevant records
      */
-    function filterIrrelevantByDataSource(dataSource, data) {
+    function filterIrrelevantByDataSource(dataSource, records, persons) {
         switch (dataSource) {
             case fn.dataSources.aka:
                 return []
             case fn.dataSources.es:
-                return getRemovedDu(data, dataSource);
+                return getRemovedDu(records, persons, dataSource);
             case fn.dataSources.city:
-                return getRemovedDu(data, dataSource);
+                return getRemovedDu(records, persons, dataSource);
             case fn.dataSources.ads:
-                return filterAdsRecord(data)
+                return filterAdsRecord(records)
             case fn.dataSources.adNN:
-                return filterAdNNRecord(data)
+                return filterAdNNRecord(records)
             default:
                 sendLog(logLevel.error, logDetails.error.ERR_UNIDENTIFIED_DATA_SOURCE);
         }
@@ -54,8 +54,13 @@ function getIrrelevantDus(data, dataSource, sendLog, Auth) {
      * @returns {array} the records for delete
      */
     function filterAdsRecord(records) {
-        const irrelevattRecords = records.filter(record => !record[fn.ads_name.upn]);
-        const irrelevantDus = irrelevattRecords.map(record => isolateDu(dataSource, record, sendLog)
+        if(records.length > 0) {
+            const irrelevattRecords = records.filter(record => !record[fn.ads_name.upn]);
+            const irrelevantDus = irrelevattRecords.map(record => isolateDu(dataSource, record, sendLog))
+            return irrelevantDus;
+        } else {
+            return []
+        }
     }
     
     /**
@@ -65,39 +70,30 @@ function getIrrelevantDus(data, dataSource, sendLog, Auth) {
      * @returns {array} the records for delete
      */
     function filterAdNNRecord(records) {
-        return records.filter(record => !record[fn.adNN_name.upn])
+        if(records.length > 0) {
+            return records.filter(record => !record[fn.adNN_name.upn])
+        } else {
+            return []
+        }
     }
     
     /**
      * filter irrelevant records of dataSource
      * 
-     * @param {Object} records - current data
+     * @param {Array} records - current data for data source
+     * @param {Array} persons - the kartofel data of the data sou
      * @param {string} dataSource - the data source of the data
      * @returns {array} the records to delete
      */
-    async function getRemovedDu(records, dataSource) {
-        const duToRemove = [];
-        const query = {
-            params: `domainUsers.dataSource=${dataSource}`
+    function getRemovedDu (records, persons, dataSource) {
+        if(records.length > 0) {
+            const sourceRecordsDus = records.map(record => assembleDomainUser(dataSource, record, sendLog).toLowerCase());
+            const kartoffelPersonsDus = persons.map(person => person.domainUsers.filter(obj => obj.dataSource == dataSource)).flat().map(obj => obj.uniqueID);
+            const dusToRemove = kartoffelPersonsDus.filter(x => !sourceRecordsDus.includes(x));
+            return dusToRemove;
+        } else {
+            return []
         }
-
-        const dataSourcePersons = await Auth.axiosKartoffel.get(p().KARTOFFEL_PERSON_API, query);
-        
-        for (person of dataSourcePersons) {
-            for (domainUserObj of person.domainUsers) {
-                if (domainUserObj.dataSource !== dataSource) {
-                    continue;
-                }
-                
-                const parallelRecord = findParallelRecord(records, domainUserObj, dataSource);
-                
-                if (!parallelRecord) {
-                    duToRemove.push(domainUserObj.uniqeID);
-                }
-            }
-        }
-        
-        return duToRemove;
     }
     
     /**
@@ -110,9 +106,8 @@ function getIrrelevantDus(data, dataSource, sendLog, Auth) {
     function findParallelRecord(records, domainUserObj, dataSource) {
         //TODO...
     }
-    
-    const irrelevantRecords = filterIrrelevantByDataSource(dataSource, data, sendLog, Auth)
-    const irrelevantDus = irrelevantRecords.map((record, dataSource) => isolateDu(dataSource, record, sendLog)); //no needl
+
+    const irrelevantDus = filterIrrelevantByDataSource(dataSource, records, persons)
     
     return irrelevantDus;
 }

@@ -5,6 +5,7 @@ const { logLevel } = require('../util/logger');
 const PromiseAllWithFails = require('../util/generalUtils/promiseAllWithFails');
 const logDetails = require('../util/logDetails');
 const preRun = require('../util/preRun');
+const cleanDus = require('../util/cleanDu/cleanDus');
 
 
 module.exports = async() => {
@@ -40,4 +41,5 @@ const GetDataAndProcess = async (dataSource, akaData, sendLog, dataObj, func) =>
     // In case datasource is aka, I get data before function and therefore not need to get data again
     let data = dataSource === fn.dataSources.aka ? akaData : await func(dataSource, dataObj.data, dataObj.fileName);
     await diffsHandler(data, dataSource, akaData.all, fn.runnigTypes.dailyRun, sendLog);
+    await cleanDus(dataSource, data, sendLog);
 }

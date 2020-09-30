@@ -6,6 +6,7 @@ const PromiseAllWithFails = require('../util/generalUtils/promiseAllWithFails');
 const logDetails = require('../util/logDetails');
 const moment = require('moment');
 const AuthClass = require('../auth/auth');
+const cleanDus = require('../util/cleanDu/cleanDus');
 
 module.exports = async () => {
     let { sendLog, dataObj } = await preRun(fn.runnigTypes.recoveryRun, [
@@ -24,6 +25,6 @@ module.exports = async () => {
 
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
         await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog, Auth);
-        await cleanDu(dataSource, dataObj[dataSource].data, sendLog, Auth);
+        await cleanDus(dataSource, dataObj[dataSource].data, sendLog, Auth);
     }));
 }
