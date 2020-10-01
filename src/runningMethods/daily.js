@@ -6,6 +6,7 @@ const PromiseAllWithFails = require('../util/generalUtils/promiseAllWithFails');
 const logDetails = require('../util/logDetails');
 const preRun = require('../util/preRun');
 const cleanDus = require('../util/cleanDu/cleanDus');
+const AuthClass = require('../auth/auth');
 
 
 module.exports = async() => {
