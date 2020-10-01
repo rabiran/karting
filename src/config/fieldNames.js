@@ -165,7 +165,6 @@ module.exports = {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
         immediateRun: 'immediate_run',
-        duRemove: 'du_remove',
     },
     organizationGroups: {
         incompletes_name: 'incomplete',
@@ -174,7 +173,6 @@ module.exports = {
         add: 'add',
         update: 'update',
     },
-    lastDataFolderName: 'data/recovery_run',
     redisRetryCount: 3,
     immediatePort: 3002,
     chunckSize: 200,

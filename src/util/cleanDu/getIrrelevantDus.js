@@ -4,6 +4,8 @@ const diff = require('diff-arrays-of-objects');
 const fs = require("fs");
 const { filename } = require('winston-daily-rotate-file');
 const p = require('../../config/paths');
+const { logLevel } = require('../logger');
+const logDetails = require('../logDetails');
 
 /**
  * check each record if its irrelevant anymore
@@ -52,7 +54,7 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
      * @returns {array} the records for delete
      */
     function filterAdsRecord(records) {
-        if(records.length > 0) {
+        if (records.length > 0) {
             const irrelevattRecords = records.filter(record => !record[fn.ads_name.upn]);
             const irrelevantDus = irrelevattRecords.map(record => isolateDu(dataSource, record, sendLog))
             return irrelevantDus;
@@ -68,7 +70,7 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
      * @returns {array} the records for delete
      */
     function filterAdNNRecord(records) {
-        if(records.length > 0) {
+        if (records.length > 0) {
             return records.filter(record => !record[fn.adNN_name.upn])
         } else {
             return []
@@ -84,10 +86,10 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
      * @returns {array} the records to delete
      */
     function getRemovedDu (records, persons, dataSource) {
-        if(records.length > 0) {
-            const sourceRecordsDus = records.map(record => assembleDomainUser(dataSource, record, sendLog).toLowerCase());
-            const kartoffelPersonsDus = persons.map(person => person.domainUsers.filter(obj => obj.dataSource == dataSource)).flat().map(obj => obj.uniqueID.toLowerCase());
-            const dusToRemove = kartoffelPersonsDus.filter(du => !sourceRecordsDus.includes(du));
+        if (records.length > 0) {
+            const recordsDus = records.map(record => assembleDomainUser(dataSource, record, sendLog).toLowerCase());
+            const personsDus = persons.map(person => person.domainUsers.filter(obj => obj.dataSource == dataSource)).flat().map(obj => obj.uniqueID.toLowerCase());
+            const dusToRemove = personsDus.filter(du => !recordsDus.includes(du));
             return dusToRemove;
         } else {
             return []

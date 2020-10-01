@@ -38,8 +38,9 @@ module.exports = async() => {
  * @param {*} func - The function thet get and compare data from data source
  */
 const GetDataAndProcess = async (dataSource, akaData, sendLog, dataObj, func) => {
+    const Auth = new AuthClass(sendLog);
     // In case datasource is aka, I get data before function and therefore not need to get data again
     let data = dataSource === fn.dataSources.aka ? akaData : await func(dataSource, dataObj.data, dataObj.fileName);
-    await diffsHandler(data, dataSource, akaData.all, fn.runnigTypes.dailyRun, sendLog);
-    await cleanDus(dataSource, data, sendLog);
+    await diffsHandler(data, dataSource, akaData.all, fn.runnigTypes.dailyRun, sendLog, Auth);
+    await cleanDus(dataSource, data, sendLog, Auth);
 }
