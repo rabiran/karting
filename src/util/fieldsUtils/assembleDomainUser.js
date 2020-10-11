@@ -4,7 +4,7 @@ const { logLevel } = require('../logger');
 /**
  * create custom uniqeID's domainUser according the given dataSource
  * 
- * @param {string} dataSource 
+ * @param {string} dataSource
  * @param {object} record
  * @returns {string} the custom uniqeID for each dataSource
  */

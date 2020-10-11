@@ -80,3 +80,8 @@ kartoffelDotenvFile/.env
 src/config/authParams.js
 src/auth/key.pem
 .eslintrc.js
+mocks/mocksFiles/AD.json
+mocks/mocksFiles/city.json
+mocks/mocksFiles/eightsocks.json
+mocks/mocksFiles/getAkaEmployees.json
+mocks/mocksFiles/getAkaTelephone.json
