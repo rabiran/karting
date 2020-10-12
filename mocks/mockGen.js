@@ -183,8 +183,8 @@ for (let i = 0; i < miriAmount; i++) {
     miriUsers.push(miriUser);
 }
 
-fs.writeFileSync("./mocksFiles/getAkaEmployees.json", JSON.stringify(employees));
-fs.writeFileSync("./mocksFiles/getAkaTelephone.json", JSON.stringify(telephones));
-fs.writeFileSync("./mocksFiles/AD.json", JSON.stringify(adUsers));
-fs.writeFileSync("./mocksFiles/eightsocks.json", JSON.stringify(esUsers));
-fs.writeFileSync("./mocksFiles/city.json", JSON.stringify(miriUsers));
+fs.writeFileSync("./mocks/mocksFiles/getAkaEmployees.json", JSON.stringify(employees));
+fs.writeFileSync("./mocks/mocksFiles/getAkaTelephone.json", JSON.stringify(telephones));
+fs.writeFileSync("./mocks/mocksFiles/AD.json", JSON.stringify(adUsers));
+fs.writeFileSync("./mocks/mocksFiles/eightsocks.json", JSON.stringify(esUsers));
+fs.writeFileSync("./mocks/mocksFiles/city.json", JSON.stringify(miriUsers));

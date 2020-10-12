@@ -40,7 +40,14 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
             case fn.dataSources.ads:
                 return filterAdsRecord(records)
             case fn.dataSources.adNN:
-                return filterAdNNRecord(records)
+                // return filterAdNNRecord(records)
+                return []
+            case config.dataSources.mdn:
+                return []
+            case config.dataSources.mm:
+                return []
+            case config.dataSources.lmn:
+                return []
             default:
                 sendLog(logLevel.error, logDetails.error.ERR_UNIDENTIFIED_DATA_SOURCE);
         }
@@ -55,8 +62,8 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
      */
     function filterAdsRecord(records) {
         if (records.length > 0) {
-            const irrelevattRecords = records.filter(record => !record[fn.ads_name.upn]);
-            const irrelevantDus = irrelevattRecords.map(record => isolateDu(dataSource, record, sendLog))
+            const irrelevatRecords = records.filter(record => !record[fn[fn.dataSources.ads_name].upn]);
+            const irrelevantDus = irrelevatRecords.map(record => isolateDu(dataSource, record, sendLog))
             return irrelevantDus;
         } else {
             return []
@@ -71,7 +78,9 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
      */
     function filterAdNNRecord(records) {
         if (records.length > 0) {
-            return records.filter(record => !record[fn.adNN_name.upn])
+            const irrelevatRecords = records.filter(record => !record[fn[fn.dataSources.ads_name].upn]);
+            const irrelevantDus = irrelevatRecords.map(record => isolateDu(dataSource, record, sendLog))
+            return irrelevantDus;
         } else {
             return []
         }
@@ -87,8 +96,8 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
      */
     function getRemovedDu (records, persons, dataSource) {
         if (records.length > 0) {
-            const recordsDus = records.map(record => assembleDomainUser(dataSource, record, sendLog).toLowerCase());
-            const personsDus = persons.map(person => person.domainUsers.filter(obj => obj.dataSource == dataSource)).flat().map(obj => obj.uniqueID.toLowerCase());
+            const recordsDus = records.map(record => assembleDomainUser(dataSource, record, sendLog) ? assembleDomainUser(dataSource, record, sendLog).toLowerCase() : null);
+            const personsDus = [].concat(...persons.map(person => person.domainUsers.filter(obj => obj.dataSource == dataSource))).map(obj => obj.uniqueID.toLowerCase());
             const dusToRemove = personsDus.filter(du => !recordsDus.includes(du));
             return dusToRemove;
         } else {

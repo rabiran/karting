@@ -55,7 +55,7 @@ module.exports = async (DataModel) => {
             try {
                 personToDeleteFrom = (await DataModel.Auth.axiosKartoffel.get(`${p(user_object.uniqueID).KARTOFFEL_PERSON_BY_DOMAIN_USER}`)).data;
                 await DataModel.Auth.axiosKartoffel.delete(`${p(personToDeleteFrom.id, user_object.uniqueID).KARTOFFEL_DELETE_DOMAIN_USER_API}`);
-                DataModel.sendLog(logLevel.info, logDetails.info.INF_DELETE_DOMAIN_USER, user_object.uniqueID, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard);
+                DataModel.sendLog(logLevel.info, logDetails.info.INF_DELETE_DOMAIN_USER, user_object.uniqueID, DataModel.dataSource, personToDeleteFrom.personalNumber || personToDeleteFrom.identityCard);
 
                 if (personToDeleteFrom.mail === user_object.uniqueID) {
                     personToDeleteFrom = (await DataModel.Auth.axiosKartoffel.put(p(personToDeleteFrom.id).KARTOFFEL_UPDATE_PERSON_API, { mail: null })).data;
