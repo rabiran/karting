@@ -16,7 +16,7 @@ async function cleanDu(dataSource, records, sendLog, Auth) {
         });
     
     const irrelevantDus = getIrrelevantDus(records, dataSourcePersons.data, dataSource, sendLog, Auth);
-    await deleteDus(irrelevantDus, dataSourcePersons.data, sendLog, Auth);
+    await deleteDus(irrelevantDus, dataSourcePersons.data, dataSource, sendLog, Auth);
 }
 
 module.exports = cleanDu;
