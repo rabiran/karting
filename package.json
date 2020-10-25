@@ -28,7 +28,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startDev": "node ./mocks/mocksGenerator.js & npm start",
+    "startDev": "node ./mocks/mocksServer.js & npm start",
     "start": "node -r dotenv/config ./src/index.js"
   },
   "repository": {
