@@ -12,11 +12,11 @@ function assembleDomainUser(dataSource, record, sendLog) {
     switch (dataSource) {
         case fn.dataSources.ads:
             return (record[fn[dataSource].sAMAccountName] ?
-                `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` :
+                `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}`.toLowerCase() :
                 null);
         case fn.dataSources.adNN:
             return (record[fn[dataSource].sAMAccountName] ?
-                `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}` :
+                `${record[fn[dataSource].sAMAccountName]}${fn[dataSource].domainSuffix}`.toLowerCase() :
                 null);
         case fn.dataSources.mdn:
         case fn.dataSources.lmn:
@@ -26,7 +26,7 @@ function assembleDomainUser(dataSource, record, sendLog) {
                 null);
         case fn.dataSources.es:
             return (record[fn[dataSource].userName] ?
-                `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}` :
+                `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}`.toLowerCase() :
                 null);
         case fn.dataSources.city:
             return (record[fn[dataSource].domainUsers] ?

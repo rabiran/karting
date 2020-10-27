@@ -25,6 +25,12 @@ module.exports = async () => {
 
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
         await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog, Auth);
-        await cleanDus(dataSource, dataObj[dataSource].data, sendLog, Auth);
+        await cleanDus(
+            dataSource,
+            dataObj[dataSource].data,
+            { params: { ['domainUsers.dataSource']: dataSource, } },
+            sendLog,
+            Auth
+        );
     }));
 }

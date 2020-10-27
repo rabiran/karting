@@ -5,7 +5,7 @@ const logDetails = require('../logDetails');
 const p =  require('../../config/paths');
 const AuthClass = require('../../auth/auth');
 
-async function cleanDu(dataSource, records, sendLog, Auth) {
+async function cleanDu(dataSource, records, query, sendLog, Auth) {
     const query = {
         params: {
             ['domainUsers.dataSource']: dataSource,

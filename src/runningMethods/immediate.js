@@ -2,6 +2,7 @@ const fn = require('../config/fieldNames');
 const diffsHandler = require('../util/diffsHandler');
 const preRun = require('../util/preRun');
 const searchRecordsInData = require('../util/searchRecordsInData');
+const assembleDomainUser = require('../util/fieldsUtils/assembleDomainUser');
 const AuthClass = require('../auth/auth');
 const collectLogs = require('../util/collectLogs')
 
@@ -30,8 +31,23 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
         const Auth = new AuthClass(sendLog);
 
         await diffsHandler({ added: foundRecords }, dataSource, akaRecords, fn.runnigTypes.immediateRun, sendLog, Auth);
+        await cleanDus(
+            dataSource,
+            dataObj[dataSource].data,
+            { params: { ['domianUser']:  assembleDomainUser(foundRecords[0])} },
+            sendLog,
+            Auth
+        );
+
         let { logs, fileName } = await collectLogs(idObj, runUID);
-        resArray.push({ id: identifier, records: foundRecords ? foundRecords : [], logsObj: { fileName: fileName, logs: logs } });
+        resArray.push({
+            id: identifier, 
+            records: foundRecords, 
+            logsObj: { 
+                fileName: fileName, 
+                logs: logs 
+            },
+        });
     }
     return resArray;
 };
