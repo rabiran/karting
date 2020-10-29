@@ -1,4 +1,4 @@
-const matchToKartoffel = require('./matchToKartoffel');
+const matchToKartoffel = require('./matchToKartoffel/matchToKartoffel');
 const fn = require('../config/fieldNames');
 const assembleDomainUser = require('./fieldsUtils/assembleDomainUser');
 

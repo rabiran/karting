@@ -1,5 +1,6 @@
 const fn = require('../../config/fieldNames');
 const { logLevel } = require('../logger');
+const logDetails = require('../logDetails');
 
 /**
  * create custom uniqeID's domainUser according the given dataSource
