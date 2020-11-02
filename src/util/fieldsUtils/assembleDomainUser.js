@@ -1,5 +1,6 @@
 const fn = require('../../config/fieldNames');
 const { logLevel } = require('../logger');
+const logDetails = require("../logDetails");
 
 /**
  * create custom uniqeID's domainUser according the given dataSource
@@ -32,7 +33,7 @@ function assembleDomainUser(dataSource, record, sendLog) {
             return (record[fn[dataSource].domainUsers] ?
                 `${record[fn[dataSource].domainUsers].toLowerCase()}` : null);
         default:
-            sendLog(logLevel.error, logDetails.ERR_UNRECOGNIZED_DATA_SOURCE, assembleDomainUser.name, dataSource, record);
+            sendLog(logLevel.error, logDetails.ERR_UNRECOGNIZED_DATA_SOURCE, assembleDomainUser.name, record, dataSource);
     }
 }
 

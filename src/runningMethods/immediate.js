@@ -3,6 +3,7 @@ const diffsHandler = require('../util/diffsHandler');
 const preRun = require('../util/preRun');
 const searchRecordsInData = require('../util/searchRecordsInData');
 const assembleDomainUser = require('../util/fieldsUtils/assembleDomainUser');
+const cleanDus = require('../util/cleanDu/cleanDus');
 const AuthClass = require('../auth/auth');
 const collectLogs = require('../util/collectLogs')
 
@@ -34,7 +35,7 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
         await cleanDus(
             dataSource,
             dataObj[dataSource].data,
-            { params: { ['domianUser']:  assembleDomainUser(foundRecords[0])} },
+            { params: { ['domianUser']:  assembleDomainUser(dataSource, foundRecords[0], sendLog)} },
             sendLog,
             Auth
         );
