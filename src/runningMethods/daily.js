@@ -43,5 +43,15 @@ const GetDataAndProcess = async (dataSource, akaData, sendLog, dataObj, func) =>
     // In case datasource is aka, I get data before function and therefore not need to get data again
     let data = dataSource === fn.dataSources.aka ? akaData : await func(dataSource, dataObj.data, dataObj.fileName);
     await diffsHandler(data, dataSource, akaData.all, fn.runnigTypes.dailyRun, sendLog, Auth);
-    await cleanDus(dataSource, dataObj.data, sendLog, Auth);
+    if(dataSource != fn.dataSources.aka) {
+        await cleanDus(
+            fn.runnigTypes.dailyRun,
+            dataSource,
+            dataObj.data,
+            { params: { ['domainUsers.dataSource']: dataSource, } },
+            sendLog,
+            Auth
+        );
+    }
+
 }
