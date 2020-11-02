@@ -2,7 +2,6 @@ const fn = require('../config/fieldNames');
 const diffsHandler = require('../util/diffsHandler');
 const preRun = require('../util/preRun');
 const searchRecordsInData = require('../util/searchRecordsInData');
-const cleanDus = require('../util/cleanDu/cleanDus');
 const assembleDomainUser = require('../util/fieldsUtils/assembleDomainUser');
 const cleanDus = require('../util/cleanDu/cleanDus');
 const AuthClass = require('../auth/auth');
