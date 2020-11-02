@@ -46,7 +46,8 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
      */
     function filterAdsRecord(records) {
         if (records.length > 0) {
-            const irrelevatRecords = records.filter(record => !record[fn[fn.dataSources.ads_name].upn]);
+            const irrelevatRecords = records.filter(
+                record => !record[fn[fn.dataSources.ads].upn]);
             const irrelevantDus = irrelevatRecords.map(record => isolateDu(dataSource, record, sendLog))
             return irrelevantDus;
         } else {

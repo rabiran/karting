@@ -1,4 +1,4 @@
-const matchToKartoffel = require('./matchToKartoffel');
+const matchToKartoffel = require('./matchToKartoffel/matchToKartoffel');
 const p = require('../config/paths');
 const { logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');

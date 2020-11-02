@@ -1,6 +1,4 @@
 const p =  require('../../config/paths');
-const axios = require("axios");
-const fn = require('../../config/fieldNames')
 const { logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 
