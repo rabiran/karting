@@ -54,7 +54,7 @@ module.exports = async (obj, dataSource, flowType, Auth) => {
                 break;
             // dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = formatAkaDateToKartoffel(obj[rawKey]);
+                obj.dischargeDay = obj[rawKey];
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance
