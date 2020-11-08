@@ -1,4 +1,4 @@
-const matchToKartoffel = require('./matchToKartoffel/matchToKartoffel');
+const matchToKartoffel = require('./matchToKartoffel');
 const completeFromAka = require('./completeFromAka');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
 
