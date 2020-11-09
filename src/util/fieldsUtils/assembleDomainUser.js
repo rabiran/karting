@@ -33,7 +33,7 @@ function assembleDomainUser(dataSource, record, sendLog) {
             return (record[fn[dataSource].domainUsers] ?
                 `${record[fn[dataSource].domainUsers].toLowerCase()}` : null);
         default:
-            sendLog(logLevel.error, logDetails.ERR_UNRECOGNIZED_DATA_SOURCE, assembleDomainUser.name, record, dataSource);
+            sendLog(logLevel.error, logDetails.ERR_UNRECOGNIZED_DATA_SOURCE, assembleDomainUser.name, dataSource, record);
     }
 }
 
