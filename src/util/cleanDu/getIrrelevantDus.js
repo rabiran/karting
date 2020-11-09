@@ -30,26 +30,10 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
      * @returns {Array} - all the irrelevant records
      */
     function filterIrrelevantByDataSource(dataSource, records, persons) {
-        switch (dataSource) {
-            case fn.dataSources.aka:
-                return []
-            case fn.dataSources.es:
-                return getRemovedDu(records, persons, dataSource);
-            case fn.dataSources.city:
-                return getRemovedDu(records, persons, dataSource);
-            case fn.dataSources.ads:
-                return filterAdsRecord(records)
-            case fn.dataSources.adNN:
-                // return filterAdNNRecord(records)
-                return []
-            case config.dataSources.mdn:
-                return []
-            case config.dataSources.mm:
-                return []
-            case config.dataSources.lmn:
-                return []
-            default:
-                sendLog(logLevel.error, logDetails.error.ERR_UNIDENTIFIED_DATA_SOURCE);
+        if (dataSource == fn.dataSources.ads) {
+            return filterAdsRecord(records)
+        } else {
+            return getRemovedDu(records, persons, dataSource);
         }
     }
                             
@@ -62,30 +46,15 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
      */
     function filterAdsRecord(records) {
         if (records.length > 0) {
-            const irrelevatRecords = records.filter(record => !record[fn[fn.dataSources.ads_name].upn]);
+            const irrelevatRecords = records.filter(
+                record => !record[fn[fn.dataSources.ads].upn]);
             const irrelevantDus = irrelevatRecords.map(record => isolateDu(dataSource, record, sendLog))
             return irrelevantDus;
         } else {
             return []
         }
     }
-    
-    /**
-     * filter irelevance records for adNN
-     * 
-     * @param {Object} records
-     * @returns {array} the records for delete
-     */
-    function filterAdNNRecord(records) {
-        if (records.length > 0) {
-            const irrelevatRecords = records.filter(record => !record[fn[fn.dataSources.ads_name].upn]);
-            const irrelevantDus = irrelevatRecords.map(record => isolateDu(dataSource, record, sendLog))
-            return irrelevantDus;
-        } else {
-            return []
-        }
-    }
-    
+
     /**
      * filter irrelevant records of dataSource
      * 

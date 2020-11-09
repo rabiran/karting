@@ -50,7 +50,7 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
         if (tryFindPerson.lastErr) {
             DataModel.sendLog(
                 logLevel.error,
-                logDetails.error.ERR_NOT_FIND_PERSON_IN_KARTOFFEL,
+                logDetails.error.ERR_NOT_FIND_PERSON_AT_UPDATE,
                 JSON.stringify(filterdIdentifiers),
                 DataModel.dataSource
             );

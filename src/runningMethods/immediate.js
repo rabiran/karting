@@ -2,6 +2,8 @@ const fn = require('../config/fieldNames');
 const diffsHandler = require('../util/diffsHandler');
 const preRun = require('../util/preRun');
 const searchRecordsInData = require('../util/searchRecordsInData');
+const assembleDomainUser = require('../util/fieldsUtils/assembleDomainUser');
+const cleanDus = require('../util/cleanDu/cleanDus');
 const AuthClass = require('../auth/auth');
 const collectLogs = require('../util/collectLogs')
 
@@ -15,7 +17,7 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
         idObj, runUID);
 
         let akaRecords = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
-        let foundRecords = dataObj[dataSource].data ? dataObj[dataSource].data : [];
+        let foundRecords = dataObj[dataSource] ? dataObj[dataSource].data : [];
         
         // const missingSources = [];
 
@@ -30,8 +32,31 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
         const Auth = new AuthClass(sendLog);
 
         await diffsHandler({ added: foundRecords }, dataSource, akaRecords, fn.runnigTypes.immediateRun, sendLog, Auth);
+        // if(dataSource != fn.dataSources.aka) {
+        //     const domainUser = assembleDomainUser(dataSource, foundRecords[0], sendLog);
+        //     if(dataSource != fn.dataSources.aka) {
+        //         await cleanDus(
+        //             fn.runnigTypes.immediateRun,
+        //             dataSource,
+        //             dataObj[dataSource].data,
+        //             domainUser,
+        //             sendLog,
+        //             Auth
+        //         );
+        //     }
+
+        // }
+
+
         let { logs, fileName } = await collectLogs(idObj, runUID);
-        resArray.push({ id: identifier, records: foundRecords ? foundRecords : [], logsObj: { fileName: fileName, logs: logs } });
+        resArray.push({
+            id: identifier, 
+            records: foundRecords, 
+            logsObj: { 
+                fileName: fileName, 
+                logs: logs 
+            },
+        });
     }
     return resArray;
 };
