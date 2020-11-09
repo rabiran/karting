@@ -3,12 +3,13 @@ let app = express()
 let port = 3001
 
 app.use((req, res, next) => {
-    if (req.headers['authorization'] === "123") {
-        next()
-    }
-    else{
-        throw "unauthorized";
-    }
+    // if (req.headers['authorization'] === "123") {
+    //     next()
+    // }
+    // else{
+    //     throw "unauthorized";
+    // }
+    next()
 })
 
 app.get("/getEightSocks", (req, res) => {

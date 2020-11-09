@@ -38,7 +38,7 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
             case fn.dataSources.city:
                 return getRemovedDu(records, persons, dataSource);
             case fn.dataSources.ads:
-                return filterAdsRecord(records)
+                return filterAdsRecord(records).concat(getRemovedDu(records, persons, dataSource));
             case fn.dataSources.adNN:
                 // return filterAdNNRecord(records)
                 return []

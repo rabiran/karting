@@ -20,3 +20,13 @@ schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
 
 const port = fn.immediatePort;
 immediateApp.listen(port, () => console.log("immediateRun server run on port:" + port));
+
+
+
+// const checkForDuplicates = require("./util/checkForDuplicates");
+// const fs = require('fs');
+
+// (async () => {
+//   let duplicates = await checkForDuplicates()
+//   fs.writeFileSync('duplicates', duplicates)
+// })()
