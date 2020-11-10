@@ -1,10 +1,10 @@
-const p = require('../config/paths');
-const fn = require('../config/fieldNames');
-const trycatch = require('./generalUtils/trycatch');
-const { logLevel } = require('./logger');
-const logDetails = require('./logDetails');
+const p = require('../../config/paths');
+const fn = require('../../config/fieldNames');
+const trycatch = require('../generalUtils/trycatch');
+const { logLevel } = require('../logger');
+const logDetails = require('../logDetails');
 const { create } = require('njwt');
-const AuthClass = require('../auth/auth');
+const AuthClass = require('../../auth/auth');
 /**
  * Check if the record from raw data exists in Kartoffel, as a duplicate, once only with the ID and once with the PN
  * (similar to isExistInKartoffel)

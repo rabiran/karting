@@ -4,7 +4,6 @@ const deleteDus = require('./deleteDus');
 const { logLevel } = require('../logger');
 const logDetails = require('../logDetails');
 const p =  require('../../config/paths');
-const AuthClass = require('../../auth/auth');
 
 async function cleanDu(runningType, dataSource, records, query, sendLog, Auth) {
 
@@ -23,7 +22,6 @@ async function cleanDu(runningType, dataSource, records, query, sendLog, Auth) {
     }
     const irrelevantDus = getIrrelevantDus(records, dataSourcePersons, dataSource, sendLog, Auth);
     await deleteDus(irrelevantDus, dataSourcePersons, dataSource, sendLog, Auth);
-    
 }
 
 module.exports = cleanDu;

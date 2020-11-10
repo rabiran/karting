@@ -31,7 +31,7 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
      */
     function filterIrrelevantByDataSource(dataSource, records, persons) {
         if (dataSource == fn.dataSources.ads) {
-            return filterAdsRecord(records)
+            return filterAdsRecord(records).concat(getRemovedDu(records, persons, dataSource));
         } else {
             return getRemovedDu(records, persons, dataSource);
         }
