@@ -1,10 +1,10 @@
-const p = require('../../config/paths');
-const fn = require('../../config/fieldNames');
-const trycatch = require('../generalUtils/trycatch');
-const { logLevel } = require('../logger');
-const logDetails = require('../logDetails');
+const p = require('../../src/config/paths');
+const fn = require('../../src/config/fieldNames');
+const trycatch = require('../../src/util/generalUtils/trycatch');
+const { logLevel } = require('../../src/util/logger');
+const logDetails = require('../../src/util/logDetails');
 const { create } = require('njwt');
-const AuthClass = require('../../auth/auth');
+const AuthClass = require('../../src/auth/auth');
 /**
  * Check if the record from raw data exists in Kartoffel, as a duplicate, once only with the ID and once with the PN
  * (similar to isExistInKartoffel)
@@ -64,7 +64,6 @@ module.exports = async (record,sendLog) => {
         "samePersonMissingInformation",
         errorMessage
     );
-    //console.log(errorMessage)
     return false;
 }
 
