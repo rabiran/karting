@@ -8,7 +8,7 @@ const p =  require('../../config/paths');
 async function cleanDu(runningType, dataSource, records, query, sendLog, Auth) {
 
     let dataSourcePersons = [];
-    if(runningType === fn.runnigTypes.immediateRun) {
+    if (runningType === fn.runnigTypes.immediateRun) {
         const resPerson = await Auth.axiosKartoffel.get(`${p().KARTOFFEL_PERSON_API}/domainUser/${query}`).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_PERSONS_BY_DU , dataSource, err.message);
         }); 

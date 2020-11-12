@@ -11,48 +11,38 @@ const AuthClass = require('../../src/auth/auth');
  * Returns:
  * True - if the person does exist in a duplicate (there are two versions in kartoffel one with id and one with PN)
  * False - if there is no duplicate
- * 
- * maybe when one of them doesnt exist we should add it?
- * @param { DataModel } record
  */
 module.exports = async (record,sendLog) => {
-    const filterdIdentifiers = [
-        record[fn[fn.dataSources.aka].personalNumber],
-        record[fn[fn.dataSources.aka].identityCard]
-    ].filter(id => id);
     const Auth = new AuthClass(sendLog);
     const identityCard = record[fn[fn.dataSources.aka].identityCard];
     const personalNumber = record[fn[fn.dataSources.aka].personalNumber];
+    const filterdIdentifiers = [
+        identityCard,
+        personalNumber
+    ].filter(id => id);
  
-    path = identifier => p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
+    const path = identifier => p(identifier).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
 
     tryIdentityCard = await trycatch(
         async identifier => (await Auth.axiosKartoffel.get(path(identifier))).data,
-        identityCard   //removed triple dots?
+        identityCard
     );
     tryPersonalNumber = await trycatch(
         async identifier => (await Auth.axiosKartoffel.get(path(identifier))).data,
         personalNumber
     );
 
-    //ID doesnt exist
+    // ID doesnt exist
     if (tryIdentityCard.err && tryIdentityCard.err.response && tryIdentityCard.err.response.status === 404) {
         return false;
     }
 
-    //PN doesnt exist
+    // PN doesnt exist
     if (tryPersonalNumber.err && tryPersonalNumber.err.response && tryPersonalNumber.err.response.status === 404) {
         return false;
     }
 
-    // if (resultID.id === resultPN.id) {
-    //     return true;
-    // }
-
-    // else{
-    //     return false;
-    // }
-    if(tryPersonalNumber.result && tryIdentityCard.result) {
+    if (tryPersonalNumber.result && tryIdentityCard.result) {
         return tryPersonalNumber.result.id !== tryIdentityCard.result.id;
     }
     
@@ -68,14 +58,14 @@ module.exports = async (record,sendLog) => {
 }
 
 function createError(tryIdentityCard, tryPersonalNumber){
-    let errorMessageID = (tryIdentityCard.err.response) ? tryIdentityCard.err.response.data.message : tryIdentityCard.err.message;
-    let errorMessagePN = (tryPersonalNumber.err.response) ? tryPersonalNumber.err.response.data.message : tryPersonalNumber.err.message;
+    const errorMessageID = (tryIdentityCard.err.response) ? tryIdentityCard.err.response.data.message : tryIdentityCard.err.message;
+    const errorMessagePN = (tryPersonalNumber.err.response) ? tryPersonalNumber.err.response.data.message : tryPersonalNumber.err.message;
     let errorMessage = "";
-    if(errorMessageID){
+    if (errorMessageID){
         errorMessage += errorMessageID;
     }
-    if(errorMessagePN){
-        if(errorMessageID){
+    if (errorMessagePN){
+        if (errorMessageID){
             errorMessage += " AND ";
         }
         errorMessage += errorMessagePN;

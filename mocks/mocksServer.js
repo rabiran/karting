@@ -3,13 +3,12 @@ let app = express()
 let port = 3001
 
 app.use((req, res, next) => {
-    // if (req.headers['authorization'] === "123") {
-    //     next()
-    // }
-    // else{
-    //     throw "unauthorized";
-    // }
-    next()
+    if (req.headers['authorization'] === "123") {
+        next()
+    }
+    else{
+        throw "unauthorized";
+    }
 })
 
 app.get("/getEightSocks", (req, res) => {
@@ -29,6 +28,7 @@ app.get("/getAkaTelephone", (req, res) => {
 })
 
 app.get("/getAkaEmployees", (req, res) => {
+    console.log("GOT HERE")
     let data = require("./mocksFiles/getAkaEmployees.json")
     if(Object.keys(req.query).length > 0) {
         data = searchInData(data, Object.values(req.query));
