@@ -28,7 +28,6 @@ app.get("/getAkaTelephone", (req, res) => {
 })
 
 app.get("/getAkaEmployees", (req, res) => {
-    console.log("GOT HERE")
     let data = require("./mocksFiles/getAkaEmployees.json")
     if(Object.keys(req.query).length > 0) {
         data = searchInData(data, Object.values(req.query));
