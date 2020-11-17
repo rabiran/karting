@@ -18,6 +18,7 @@ module.exports = async () => {
         fn.dataSources.mdn, 
         fn.dataSources.mm, 
         fn.dataSources.city
+        
     ]);
 
     let akaData = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
