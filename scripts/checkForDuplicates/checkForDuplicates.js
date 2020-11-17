@@ -17,8 +17,9 @@ fs = require('fs');
             haveDuplicates.push(akaRecord)
         }
     };
-    var file = fs.createWriteStream('DuplicatePersons.txt');
+    const file = fs.createWriteStream('DuplicatePersons.txt');
     // file.on('error', function(err) { /* error handling */ });
     file.write(JSON.stringify(haveDuplicates))
+    file.write('\r\n');
     file.end();
     })();
