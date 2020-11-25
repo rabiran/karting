@@ -185,14 +185,14 @@ const match_es = (obj, dataSource) => {
                 break;
             //job
             case fn[dataSource].job:
-                job = obj[rawKey].toString();
-                occ = obj["occ"];
-                ex_occ = obj["ex_occ"];
-                if(!occ)
-                    occ = "no occupation";
-                if(!ex_occ)
-                    ex_occ = "no extended occupation";
-                obj.job = job.concat(" - ").concat(occ.toString()).concat(" - ").concat(ex_occ.toString());
+                const job = obj[rawKey].toString();
+                let location = obj[fn[dataSource].location];
+                let extended_location = obj[fn[dataSource].extended_location];
+                if (!location)
+                    location = "no location";
+                if (!extended_location)
+                    extended_location = "no extended location";
+                obj.job = job.concat(" - ").concat(location.toString()).concat(" - ").concat(extended_location.toString());
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             // else

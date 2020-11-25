@@ -43,8 +43,8 @@ module.exports = {
         mail: "mail",
         address: "adr",
         job: "tf",        
-        occupation: "occ",
-        extended_occupation: "ex_occ",
+        location: "location",
+        extended_location: "extended_location",
         domainSuffix: "@jello.com",
         userName: "userName",
         uniqeFieldForDeepDiff: "tz"

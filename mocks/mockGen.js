@@ -121,9 +121,8 @@ for (let i = 0; i < esAmount; i++) {
     user.tf = faker.name.jobType();
     user.userName = faker.internet.userName(user.firstName, user.lastName);
     user.mail = user.userName + '@' + dataTypes.DOMAIN_MAP[2][0];
-    user.occ = "Occupation";
-    user.ex_occ = "Extended_Occupation";
-
+    user.location = faker.name.jobTitle();
+    user.extended_location = faker.name.jobDescriptor();
     esUsers.push(user);
 }
 
