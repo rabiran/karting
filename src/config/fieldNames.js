@@ -42,10 +42,12 @@ module.exports = {
         hierarchy: "hr",
         mail: "mail",
         address: "adr",
-        job: "tf",
+        job: "tf",        
+        occupation: "occ",
+        extended_occupation: "ex_occ",
         domainSuffix: "@jello.com",
         userName: "userName",
-        uniqeFieldForDeepDiff: "tz",
+        uniqeFieldForDeepDiff: "tz"
     },
     ads_name: {
         firstName: "KfirstName",
