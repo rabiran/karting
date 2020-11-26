@@ -13,7 +13,10 @@ const immediateApp = express();
 immediateApp.use(bodyParser.json());
 immediateApp.use(bodyParser.urlencoded({ extended: true }));
 immediateApp.use((req, res, next) => {
-    if (req.headers['authorization'] === "123") {
+    if  (req.url === "/isalive") {
+      res.sendFile('alive')
+    }
+    else if (req.headers['authorization'] === "123") {
         next()
     }
     else{
