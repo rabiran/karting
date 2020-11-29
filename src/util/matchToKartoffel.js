@@ -187,12 +187,9 @@ const match_es = (obj, dataSource) => {
             case fn[dataSource].job:
                 const job = obj[rawKey].toString();
                 let location = obj[fn[dataSource].location];
-                let extended_location = obj[fn[dataSource].extended_location];
                 if (!location)
                     location = "no location";
-                if (!extended_location)
-                    extended_location = "no extended location";
-                obj.job = job.concat(" - ").concat(location.toString()).concat(" - ").concat(extended_location.toString());
+                obj.job = job.concat(" - ").concat(location.toString());
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             // else
