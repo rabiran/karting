@@ -186,10 +186,8 @@ const match_es = (obj, dataSource) => {
             //job
             case fn[dataSource].job:
                 const job = obj[rawKey].toString();
-                let location = obj[fn[dataSource].location];
-                if (!location)
-                    location = "no location";
-                obj.job = job.concat(" - ").concat(location.toString());
+                const location = obj[fn[dataSource].location];
+                obj.job = location ? `${job} - ${location}` : job;
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             // else
