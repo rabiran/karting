@@ -14,7 +14,11 @@ immediateApp.use(bodyParser.json());
 immediateApp.use(bodyParser.urlencoded({ extended: true }));
 immediateApp.use((req, res, next) => {
     if  (req.url === "/isalive") {
+<<<<<<< HEAD
       res.send('alive')
+=======
+      res.sendFile('alive')
+>>>>>>> ae280543627321f20a045f13e955e5ed7a916464
     }
     else if (req.headers['authorization'] === "123") {
         next()
