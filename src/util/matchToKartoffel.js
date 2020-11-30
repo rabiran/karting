@@ -116,7 +116,7 @@ const match_es = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     const job = obj[fn[dataSource].job];
     const location = obj[fn[dataSource].location];
-    obj.job = job ? job : location; //incase theres no job but there is an occupation
+    obj.job = job ? job : location; //incase theres no job but there is an location
     objKeys.map((rawKey) => {
         switch (rawKey) {
             //entityType
