@@ -32,20 +32,17 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
         const Auth = new AuthClass(sendLog);
 
         await diffsHandler({ added: foundRecords }, dataSource, akaRecords, fn.runnigTypes.immediateRun, sendLog, Auth);
-        // if(dataSource != fn.dataSources.aka) {
-        //     const domainUser = assembleDomainUser(dataSource, foundRecords[0], sendLog);
-        //     if(dataSource != fn.dataSources.aka) {
-        //         await cleanDus(
-        //             fn.runnigTypes.immediateRun,
-        //             dataSource,
-        //             dataObj[dataSource].data,
-        //             domainUser,
-        //             sendLog,
-        //             Auth
-        //         );
-        //     }
+        if(dataSource != fn.dataSources.aka) {
+            const domainUser = assembleDomainUser(dataSource, foundRecords[0], sendLog);
+            idObj.domainUser = domainUser;
+            await cleanImmediateDu(
+                    dataSource,
+                    idObj,
+                    sendLog,
+                    Auth
+                );
 
-        // }
+         }
 
 
         let { logs, fileName } = await collectLogs(idObj, runUID);
