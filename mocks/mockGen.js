@@ -121,7 +121,7 @@ for (let i = 0; i < esAmount; i++) {
     user.tf = faker.name.jobType();
     user.userName = faker.internet.userName(user.firstName, user.lastName);
     user.mail = user.userName + '@' + dataTypes.DOMAIN_MAP[2][0];
-
+    user.location = faker.name.jobTitle();
     esUsers.push(user);
 }
 
