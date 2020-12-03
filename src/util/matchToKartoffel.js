@@ -260,7 +260,7 @@ const match_ads = (obj, dataSource) => {
                                 dataSource
                             }
                         ];
-                        obj.firstName = fn[dataSource].guName;
+                        obj.firstName = obj[fn[dataSource].guName] ? obj[fn[dataSource].guName] : 'cn';
                         break;
                     default:
                         sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
