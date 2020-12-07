@@ -63,7 +63,7 @@ function searchInData(data, queries) {
     let foundRecord;
     for (query of queries) {
         foundRecord = data.filter(record => {
-            return JSON.stringify(record).includes(query);
+            return JSON.stringify(record).toLocaleLowerCase().includes(query);
         })
         if (foundRecord.length) break;
     }

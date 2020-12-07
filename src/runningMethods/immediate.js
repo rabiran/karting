@@ -3,7 +3,7 @@ const diffsHandler = require('../util/diffsHandler');
 const preRun = require('../util/preRun');
 const searchRecordsInData = require('../util/searchRecordsInData');
 const assembleDomainUser = require('../util/fieldsUtils/assembleDomainUser');
-const cleanDus = require('../util/cleanDu/cleanDus');
+const cleanImmediateDus = require('../util/cleanDu/cleanImmediateDus');
 const AuthClass = require('../auth/auth');
 const collectLogs = require('../util/collectLogs')
 
@@ -33,9 +33,9 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
 
         await diffsHandler({ added: foundRecords }, dataSource, akaRecords, fn.runnigTypes.immediateRun, sendLog, Auth);
         if(dataSource != fn.dataSources.aka) {
-            const domainUser = assembleDomainUser(dataSource, foundRecords[0], sendLog);
-            idObj.domainUser = domainUser;
-            await cleanImmediateDu(
+            //const domainUser = assembleDomainUser(dataSource, foundRecords[0], sendLog);
+            //idObj.domainUser = domainUser;
+            await cleanImmediateDus(
                     dataSource,
                     idObj,
                     sendLog,
