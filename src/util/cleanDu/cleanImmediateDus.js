@@ -22,9 +22,6 @@ async function cleanImmediateDus(dataSource, identifiers, sendLog, Auth) {
 
     //first: get the dataSourcePersons from kartoffel
     let dataSourcePersons = [];
-    for (identifier in identifiers){
-
-    }
     if (identifiers.identityCard){
         const resPersonByID = await Auth.axiosKartoffel.get(`${p().KARTOFFEL_PERSON_API}/identifier/${identifiers.identityCard}`).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_PERSONS_BY_ID , identifiers.identityCard, dataSource, err.message);
@@ -63,7 +60,7 @@ async function cleanImmediateDus(dataSource, identifiers, sendLog, Auth) {
             if (ds == fn.dataSources.ads) {
                 irrelevant = getIrrelevantDus(data,dataSourcePersons,ds,sendLog,Auth);
             }
-            if(!data||data.length == 0||irrelevant.length!=0){
+            if(!data || data.length == 0 || irrelevant.length!=0){
                 await deleteDus([domainUser.uniqueID], dataSourcePersons, ds, sendLog, Auth);
             }
         }
