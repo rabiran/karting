@@ -16,10 +16,11 @@ const assembleDomainUser = require('./assembleDomainUser');
 module.exports = async (DataModel) => {
     let user_object = {
         dataSource: DataModel.dataSource,
+        mail: DataModel.person.mail,
+        hierarchy: DataModel.person.hierarchy.join()
     };
 
     user_object.uniqueID = assembleDomainUser(DataModel.dataSource, DataModel.record);
-
     if (!user_object.uniqueID) {
         return;
     } else {
