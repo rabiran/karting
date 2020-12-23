@@ -14,7 +14,7 @@ const { query } = require('express');
  * @param {string} runningType - the current runnig type
  * @param {Date} dateAndTime - when the data was called
  */
-module.exports = async (dataSource, runningType, dateAndTime, sendLog, queries) => {
+module.exports = async (dataSource, runningType, dateAndTime, sendLog, queries) => { // { domainUser: t87471052 }
     let data;
 
     const query = { 
