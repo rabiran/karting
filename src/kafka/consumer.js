@@ -1,13 +1,18 @@
 const { Kafka } = require('kafkajs')
 const config = require('./config')
 const immediate = require('../runningMethods/immediate');
-const { dataSources } = require('../config/fieldNames');
-const { database } = require('faker');
-const identifierHandler = require('../util/fieldsUtils/identifierHandler');
+const { dataSources, kafka } = require('../config/fieldNames');
+const { logLevel, wrapSendLog } = require('../util/logger');
+const logDetails = require('../util/logDetails');
+const { error } = require('winston');
+
+require('dotenv').config()
+
+const sendLog = wrapSendLog(kafka.migartion)
 
 const kafka = new Kafka({
-  clientId: config.kafka.CLIENTID,
-  brokers: config.kafka.BROKERS
+  clientId: process.env.KAFKA_CLIENT_ID,
+  brokers: JSON.parse(process.env.KAFKA_BROKERS)
 })
 
 const topic = config.kafka.TOPIC
@@ -15,63 +20,21 @@ const consumer = kafka.consumer({
   groupId: config.kafka.GROUPID
 })
 
-const run = async () => {
+const migration = async () => {
   await consumer.connect()
   await consumer.subscribe({ topic, fromBeginning: true })
   await consumer.run({
     eachMessage: async ({ message }) => {
       try {
-        // { dataSource, identifier } = {dataSource: "e", identifier: "e"}
-        const { identifier, dataSource } = JSON.parse(message.value);
-        // console.log(identifier, dataSource);
-        await immediate(dataSource, [identifier]);
+        const identifier = JSON.parse(message.value);
+        await immediate(dataSources.oa, [ identifier ]);
+
+        sendLog(logLevel.info, logDetails.info.INF_CONSUME_FROM_KAFKA, topic, `key: ${message.key} value: ${message.value}`);
       } catch (error) {
-        console.log('err=', error)
+        sendLog(logLevel.error, logDetails.error.ERR_WRONG_MESSAGE_FROM_KAFKA, topic, `key: ${message.key} value: ${message.value}`);
       }
     }
   })
 }
 
-function filterPassengerInfo(jsonObj) {
-  let returnVal = null
-
-  console.log(`eventId ${jsonObj.eventId} received!`)
-
-  if (jsonObj.bodyTemperature >= 36.9 && jsonObj.overseasTravelHistory) {
-    returnVal = jsonObj
-  }
-
-  return returnVal
-}
-
-run().catch(e => console.error(`[example/consumer] ${e.message}`, e))
-
-const errorTypes = ['unhandledRejection', 'uncaughtException']
-const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
-
-errorTypes.map(type => {
-  process.on(type, async e => {
-    try {
-      console.log(`process.on ${type}`)
-      console.error(e)
-      await consumer.disconnect()
-      process.exit(0)
-    } catch (_) {
-      process.exit(1)
-    }
-  })
-})
-
-signalTraps.map(type => {
-  process.once(type, async () => {
-    try {
-      await consumer.disconnect()
-    } finally {
-      process.kill(process.pid, type)
-    }
-  })
-})
-
-module.exports = {
-  filterPassengerInfo
-}
+migration().catch(error => sendLog(logLevel.error, logDetails.error.ERR_CONNECTING_TO_KAFKA, topic, error.message), error);

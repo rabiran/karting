@@ -45,6 +45,15 @@ const immediateRotateFileTransport = (identifier, runUID) => {
   });
 }
 
+const kafkaRotateFileTransport = (kafkaFunction) => {
+  return new transports.DailyRotateFile({
+    filename: `${logDir}/kafka/${kafkaFunction}/%DATE%-logs.log`,
+    datePattern: 'YYYY-MM-DD',
+    prepend: true,
+    json: true,
+  });
+}
+
 
 const loggerConfig = {
   levels: config.npm.levels,
@@ -74,20 +83,18 @@ const loggerConfig = {
 
 const levelString = Object.keys(config.npm.levels);
 
-const wrapSendLog = (runningType, identifierObj, runUID) => {
-  let returnSendLog;
+const wrapSendLog = (kafkaFunction, runningType, identifierObj, runUID) => {
   const logger = createLogger(loggerConfig);
   if (runningType === fn.runnigTypes.immediateRun && identifierObj && runUID) {
     const identifierToLog = identifierObj.identityCard || identifierObj.personalNumber || identifierObj.domainUser;
     logger.add(immediateRotateFileTransport(identifierToLog, runUID));
-    returnSendLog = sendLog.bind(this, logger);
   } else if (runningType === fn.runnigTypes.immediateRun) {
-    logger.add(immediateRotateFileTransport("immediate", "default"))
-    returnSendLog = sendLog.bind(this, logger);
-  } else {
-    returnSendLog = sendLog.bind(this, logger);
+    logger.add(immediateRotateFileTransport("immediate", "default"));
+  } else if (kafkaFunction) {
+    logger.add(kafkaRotateFileTransport(kafkaFunction));
   }
-  return returnSendLog;
+
+  return sendLog.bind(this, logger);;
 };
 
 const sendLog = (logger, level, logDetails, ...params) => {
