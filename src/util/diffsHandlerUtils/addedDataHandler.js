@@ -10,6 +10,8 @@ const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
 const goalUserFromPersonCreation = require('../goalUserFromPersonCreation');
 const DataModel = require('../DataModel');
+const PromiseAllWithFails = require('../generalUtils/promiseAllWithFails');
+const completeFromCT = require('../completeFromCT');
 
 require('dotenv').config();
 
@@ -37,7 +39,19 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
             DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.s ||
             DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.c
         ) {
-            DataModel.completeFromAka(aka_all_data);
+            let identifier = DataModel.person_ready_for_kartoffel.personalNumber || DataModel.person_ready_for_kartoffel.identityCard;
+            let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
+            if(akaRecord){
+                await PromiseAllWithFails(DataModel.completeFromAka(aka_all_data));
+            }
+            else if(DataModel.record.dataSource == fn.dataSources.city){
+                await PromiseAllWithFails(DataModel.completeFromCT());
+            }
+            //let identifier = DataModel.record.personalNumber || DataModel.record.identityCard;
+            //let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
+            //if(!akaRecord){
+            //    DataModel.completeFromCT();
+            //}
 
             DataModel.identifiers = [
                 DataModel.person_ready_for_kartoffel.identityCard,

@@ -22,6 +22,8 @@ module.exports = async () => {
     ]);
 
     let akaData = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
+    //console.log("CITYCITYCITYCITY123")
+    //console.log(dataObj[fn.dataSources.city])
     const Auth = new AuthClass(sendLog);
 
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {

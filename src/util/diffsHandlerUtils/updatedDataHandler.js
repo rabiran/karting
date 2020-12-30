@@ -108,6 +108,9 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
                             DataModel.dataSource
                         )
                     }
+                    if(!include && keyForCheck == "rank" && dataSource == fn.dataSources["city"] ){
+
+                    }
 
                     return !include;
                 }

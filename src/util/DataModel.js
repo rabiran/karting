@@ -32,7 +32,7 @@ class DataModel {
             this.isMatchToKartoffel = false;
         }
     }
-
+    
     completeFromAka(aka_all_data) {
         if (this.person_ready_for_kartoffel) {
             this.person_ready_for_kartoffel = completeFromAka(
@@ -43,6 +43,11 @@ class DataModel {
             );
             this.needCompleteFromAka = false;
         }
+
+    }
+
+    completeFromCT(){
+        this.person_ready_for_kartoffel = this.completeFromCT(this.person_ready_for_kartoffel,this.record,this.sendLog)
     }
 
     checkIfDataSourceIsPrimary(unitName) {
