@@ -174,8 +174,10 @@ module.exports = {
         add: 'add',
         update: 'update',
     },
-    kafka: {
-        migartion: 'kafka-migration'
+    kafkaConf: {
+        migartion: {
+            flowName: 'kafka-migration',
+        },
     },
     redisRetryCount: 3,
     immediatePort: 3002,

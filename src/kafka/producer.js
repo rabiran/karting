@@ -1,6 +1,7 @@
-const { Kafka } = require('kafkajs')
-const config = require('./config')
-const faker = require('faker')
+const kafka = require('./Kafka');
+const faker = require('faker');
+
+require('dotenv').config();
 
 function messagesGen() {
   const mis = [];
@@ -10,16 +11,9 @@ function messagesGen() {
   return mis;
 }
 
-const messages = messagesGen()
-
-const client = new Kafka({
-  brokers: config.kafka.BROKERS,
-  clientId: config.kafka.CLIENTID
-})
-
-const topic = config.kafka.TOPIC
-
-const producer = client.producer()
+const messages = messagesGen();
+const topic = process.env.KAFKA_MIGRATION_TOPIC;
+const producer = kafka.producer();
 
 let i = 0
 
@@ -31,12 +25,12 @@ const sendMessage = async (producer, topic) => {
     payloads = {
       topic: topic,
       messages: [
-        { key: 'migration-pn', value: JSON.stringify({ identifier: messages[i], dataSource: 'ads' }) }
+        { key: 'migration-pn', value: JSON.stringify({ personalNumber: messages[i] }) }
       ]
     }
-    console.log('payloads=', payloads)
-    producer.send(payloads)
+    console.log('payloads=', payloads);
+    producer.send(payloads);
   }, 5000)
 }
 
-sendMessage(producer, topic)
+sendMessage(producer, topic);
