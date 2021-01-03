@@ -3,6 +3,7 @@ const schedule = require("node-schedule");
 const immediateApp = require("./server/immediateServer");
 const recovery = require("./runningMethods/recovery");
 const daily = require("./runningMethods/daily");
+const migrationConsumer = require('./kafka/migration');
 
 require("dotenv").config();
 
@@ -20,3 +21,5 @@ schedule.scheduleJob(scheduleRecoveryTime, async () => await recovery());
 
 const port = fn.immediatePort;
 immediateApp.listen(port, () => console.log("immediateRun server run on port:" + port));
+
+migrationConsumer()

@@ -10,6 +10,7 @@ module.exports = {
         mdn: "mdn_name",
         mm: "mm_name",
         city: "city_name",
+        oa: "oa",
     },
     // aka_name: {
     aka: {
@@ -173,6 +174,11 @@ module.exports = {
     flowTypes: {
         add: 'add',
         update: 'update',
+    },
+    kafkaConf: {
+        migartion: {
+            flowName: 'kafka-migration',
+        },
     },
     redisRetryCount: 3,
     immediatePort: 3002,
