@@ -114,6 +114,9 @@ const match_aka = async (obj, dataSource, flowType, Auth) => {
 
 const match_es = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
+    const job = obj[fn[dataSource].job];
+    const location = obj[fn[dataSource].location];
+    obj.job = job ? job : location; //incase theres no job but there is an location
     objKeys.map((rawKey) => {
         switch (rawKey) {
             //entityType
@@ -185,7 +188,7 @@ const match_es = (obj, dataSource) => {
                 break;
             //job
             case fn[dataSource].job:
-                obj.job = obj[rawKey];
+                obj.job = location ? `${job} - ${location}` : job;
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
             // else
@@ -613,7 +616,7 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
         case fn.dataSources.ads:
             match_ads(obj, dataSource);
             if (!obj.entityType) {
-                sendLog(logLevel.warn, logDetails.warn.WRN_PERSON_HAS_NOT_HAVE_USERPRINCIPALNAME, obj.mail);
+                sendLog(logLevel.warn, logDetails.warn.WRN_PERSON_HAS_NOT_HAVE_USERPRINCIPALNAME, origin_obj.sAMAccountName);
             };
             break;
         case fn.dataSources.adNN:

@@ -13,11 +13,14 @@ const immediateApp = express();
 immediateApp.use(bodyParser.json());
 immediateApp.use(bodyParser.urlencoded({ extended: true }));
 immediateApp.use((req, res, next) => {
-    if (req.headers['authorization'] === "123") {
+    if  (req.url === "/isalive") {
+      res.send('alive')
+    }
+    else if (req.headers['authorization'] === "123") {
         next()
     }
     else{
-        throw "unauthorized";
+        throw "Unauthorized";
     }
 })
 
