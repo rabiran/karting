@@ -4,7 +4,7 @@
   "description": "Kart data for kartoffel, also the api",
   "dependencies": {
     "activedirectory": "^0.7.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "convert-excel-to-json": "^1.6.1",
     "diff-arrays-of-objects": "^1.1.7",
