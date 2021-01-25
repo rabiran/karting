@@ -1,4 +1,5 @@
 const kafka = require('./Kafka')
+const fn = require('../config/fieldNames');
 const immediate = require('../runningMethods/immediate');
 const { dataSources, kafkaConf } = require('../config/fieldNames');
 const { logLevel, wrapSendLog } = require('../util/logger');
@@ -6,7 +7,7 @@ const logDetails = require('../util/logDetails');
 
 require('dotenv').config()
 
-const sendLog = wrapSendLog(kafkaConf.migartion.flowName);
+const sendLog = wrapSendLog(fn.runnigTypes.kafkaRun, { kafkaFunction: kafkaConf.migartion.flowName });
 
 const topic = process.env.KAFKA_MIGRATION_TOPIC
 const consumer = kafka.consumer({

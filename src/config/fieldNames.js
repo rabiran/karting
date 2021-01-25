@@ -167,6 +167,7 @@ module.exports = {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
         immediateRun: 'immediate_run',
+        kafkaRun: 'kafka',
     },
     organizationGroups: {
         incompletes_name: 'incomplete',

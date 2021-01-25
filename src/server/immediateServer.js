@@ -25,7 +25,7 @@ immediateApp.use((req, res, next) => {
 })
 
 immediateApp.post("/immediateRun", async (req, res) => {
-  const sendLog = wrapSendLog(fn.runnigTypes.immediateRun);
+  const sendLog = wrapSendLog(fn.runnigTypes.immediateRun, {});
   const runUID = req.body.uid ? req.body.uid : shortid.generate(); // whether comes from luigi or not
   if (!req.body.personIDsArray || !req.body.dataSource || !shortid.isValid(runUID)) {
     sendLog(
