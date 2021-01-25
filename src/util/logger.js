@@ -92,10 +92,6 @@ const levelString = Object.keys(config.npm.levels);
  */
 const wrapSendLog = (runningType, opts = {}) => {
   const { identifierObj, runUID, kafkaFunction } = opts;
-<<<<<<< HEAD
-=======
-  let returnSendLog;
->>>>>>> a580615a631fde774a513e2dbf64dcc7dff7d55d
   const logger = createLogger(loggerConfig);
 
   if (runningType === fn.runnigTypes.immediateRun && identifierObj && runUID) {
