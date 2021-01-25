@@ -90,7 +90,8 @@ const levelString = Object.keys(config.npm.levels);
  * @param {String} runningType - choose transports base on running type
  * @param {*} opts - logs locations will be create base on those param options 
  */
-const wrapSendLog = (runningType, { identifierObj, runUID, kafkaFunction }) => {
+const wrapSendLog = (runningType, opts = {}) => {
+  const { identifierObj, runUID, kafkaFunction } = opts;
   let returnSendLog;
   const logger = createLogger(loggerConfig);
 

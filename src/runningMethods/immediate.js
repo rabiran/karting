@@ -18,34 +18,10 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
 
         let akaRecords = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
         let foundRecords = dataObj[dataSource] ? dataObj[dataSource].data : [];
-        
-        // const missingSources = [];
-
-        // akaRecords.length ? null : missingSources.push(fn.dataSources.aka);
-        // foundRecords.length ? null : missingSources.push(dataSource);
-
-        // const sourceResults = missingSources.length ? await searchRecordsInData(Object.values(idObj), missingSources) : null;
-
-        // akaRecords = akaRecords.length ? akaRecords : sourceResults[fn.dataSources.aka].map(elem => elem.record);
-        // foundRecords = foundRecords.length ? foundRecords : sourceResults[dataSource].map(elem => elem.record);
 
         const Auth = new AuthClass(sendLog);
 
         await diffsHandler({ added: foundRecords }, dataSource, akaRecords, fn.runnigTypes.immediateRun, sendLog, Auth);
-        // if(dataSource != fn.dataSources.aka) {
-        //     const domainUser = assembleDomainUser(dataSource, foundRecords[0], sendLog);
-        //     if(dataSource != fn.dataSources.aka) {
-        //         await cleanDus(
-        //             fn.runnigTypes.immediateRun,
-        //             dataSource,
-        //             dataObj[dataSource].data,
-        //             domainUser,
-        //             sendLog,
-        //             Auth
-        //         );
-        //     }
-
-        // }
 
 
         let { logs, fileName } = await collectLogs(idObj, runUID);
