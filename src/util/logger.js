@@ -83,14 +83,23 @@ const loggerConfig = {
 
 const levelString = Object.keys(config.npm.levels);
 
-const wrapSendLog = (kafkaFunction, runningType, identifierObj, runUID) => {
+/**
+ * Create custom logger instance, the logger output dir/file will be
+ * selected based on the running type and other options
+ * 
+ * @param {String} runningType - choose transports base on running type
+ * @param {*} opts - logs locations will be create base on those param options 
+ */
+const wrapSendLog = (runningType, opts = {}) => {
+  const { identifierObj, runUID, kafkaFunction } = opts;
   const logger = createLogger(loggerConfig);
+
   if (runningType === fn.runnigTypes.immediateRun && identifierObj && runUID) {
     const identifierToLog = identifierObj.identityCard || identifierObj.personalNumber || identifierObj.domainUser;
     logger.add(immediateRotateFileTransport(identifierToLog, runUID));
   } else if (runningType === fn.runnigTypes.immediateRun) {
     logger.add(immediateRotateFileTransport("immediate", "default"));
-  } else if (kafkaFunction) {
+  } else if (runningType === fn.runnigTypes.kafkaRun) {
     logger.add(kafkaRotateFileTransport(kafkaFunction));
   }
 
