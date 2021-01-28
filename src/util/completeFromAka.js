@@ -144,7 +144,7 @@ module.exports =  async (obj, akaData, dataSource, sendLog) => {
                     sendLog(logLevel.error, logDetails.error.ERR_DATA_SOURCE);
             }
         }
-        else { 
+        /*else { 
             //no aka record found, we fill the rank and unit from CT
             let idObj = {}
             const date = moment(new Date()).format("DD.MM.YYYY__HH.mm");
@@ -158,7 +158,7 @@ module.exports =  async (obj, akaData, dataSource, sendLog) => {
                 obj.currentUnit = CTRecord[fn.city_name.currentUnit];
             }
             sendLog(logLevel.warn, logDetails.warn.WRN_COMPLETE_AKA, identifier, dataSource);
-        }
+        */}
     }
 
     // delete the empty fields from the returned object

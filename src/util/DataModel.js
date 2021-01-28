@@ -46,8 +46,8 @@ class DataModel {
 
     }
 
-    completeFromCT(){
-        this.person_ready_for_kartoffel = this.completeFromCT(this.person_ready_for_kartoffel,this.record,this.sendLog)
+    completeFromCT(CTRecord){
+        this.person_ready_for_kartoffel = this.completeFromCT(this.person_ready_for_kartoffel,CTRecord,this.sendLog)
     }
 
     checkIfDataSourceIsPrimary(unitName) {

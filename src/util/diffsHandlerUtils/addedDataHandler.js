@@ -44,15 +44,20 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
             if(akaRecord){
                 await PromiseAllWithFails(DataModel.completeFromAka(aka_all_data));
             }
-            else if(DataModel.record.dataSource == fn.dataSources.city){
-                await PromiseAllWithFails(DataModel.completeFromCT());
+            else{
+                //no aka record found, we fill the rank and unit from CT
+                let idObj = {}
+                const date = moment(new Date()).format("DD.MM.YYYY__HH.mm");
+                const { CT_Data, fileName } = await preRun([fn.dataSources.city], fn.runnigTypes.recoveryRun, date, sendLog);
+                //console.log("CTCTCT")
+                //console.log(CT_Data)
+                //console.log(CT_Data[fn.dataSources.city])
+                let CTRecord = CT_Data.find(person => ((person[fn.city_name.personalNumber] == identifier) || (person[fn.city_name.identityCard] == identifier)));
+                //sendLog(logLevel.warn, logDetails.warn.WRN_COMPLETE_AKA, identifier, dataSource);
+                if(CTRecord){
+                    await PromiseAllWithFails(DataModel.completeFromCT(CTRecord));
+                }
             }
-            //let identifier = DataModel.record.personalNumber || DataModel.record.identityCard;
-            //let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
-            //if(!akaRecord){
-            //    DataModel.completeFromCT();
-            //}
-
             DataModel.identifiers = [
                 DataModel.person_ready_for_kartoffel.identityCard,
                 DataModel.person_ready_for_kartoffel.personalNumber
