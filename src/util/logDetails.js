@@ -28,6 +28,7 @@ messageLog = {
         ERR_GET_PERSONS_BY_DU: 'Failed to get persons by domain user of %s from kartoffel. The error is: %s',
         ERR_WRONG_MESSAGE_FROM_KAFKA: 'Recived invalid message from kafka. topic: %s, message: %s, the error message is: %s. The error message is: %s',
         ERR_CONNECTING_TO_KAFKA: 'Cannot connect to kafka. topic: %s',
+        ERR_REMOVE_GROUP_FROM_KARTOFFEL: 'Cannot delete groups with id %s from kartoffel. The error message: %s',
     },
     warn: {
         WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
@@ -60,6 +61,7 @@ messageLog = {
         INF_DELETE_DOMAIN_USER: 'The domain user %s from %s successfully removed from the person with identifier: %s',
         INF_TRANSFER_DOMAIN_USER: 'The domain user: %s successfully transfer FROM person with identifier: %s TO the person with identifier: %s from %s',
         INF_CONSUME_FROM_KAFKA: 'Recive message successfuly from kafka. topic: %s, message: %s',
+        INF_REMOVE_GROUP_FROM_KARTOFFEL: 'Group with id %s was successfully hidden from kartoffel'
     },
 };
 

@@ -13,6 +13,25 @@ const DataModel = require('../DataModel');
 
 require('dotenv').config();
 
+
+/**
+ * Removes the new Groups that are empty due to the person wasn't added to Kartoffel
+ * 
+ * @param {*} dataModel - Contains the new groups that were added to Kartoffel
+ */
+const removeNewGroups = async (dataModel) => {
+    for(let i = 0; i < dataModel.newGroups.length; i++) { 
+        let groupID = dataModel.newGroups[i];
+        try{
+            await dataModel.Auth.axiosKartoffel.delete(p(groupID).KARTOFFEL_REMOVE_GROUP_API);
+            dataModel.sendLog(logLevel.info, logDetails.info.INF_REMOVE_GROUP_FROM_KARTOFFEL, groupID);
+        } catch (err){
+            thdataModelis.sendLog(logLevel.error, logDetails.error.ERR_REMOVE_GROUP_FROM_KARTOFFEL, groupID, err.respose.data.message);
+        }
+    }
+}
+
+
 /**
  * Take new object and add it to kartoffel
  *
@@ -24,141 +43,141 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
     dataModels = await recordsFilter({dataModels, dataSource});
 
     for (let i = 0; i < dataModels.length; i++) {
-        const DataModel = dataModels[i];
+        const dataModel = dataModels[i];
         let tryFindPerson;
         let path;
 
-        await DataModel.matchToKartoffel();
+        await dataModel.matchToKartoffel();
 
-        if (DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
-            DataModel.identifiers = [DataModel.person_ready_for_kartoffel.domainUsers[0].uniqueID].filter(id => id);
+        if (dataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
+            dataModel.identifiers = [dataModel.person_ready_for_kartoffel.domainUsers[0].uniqueID].filter(id => id);
             path = id => p(id).KARTOFFEL_DOMAIN_USER_API;
         } else if (
-            DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.s ||
-            DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.c
+            dataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.s ||
+            dataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.c
         ) {
-            DataModel.completeFromAka(aka_all_data);
+            dataModel.completeFromAka(aka_all_data);
 
-            DataModel.identifiers = [
-                DataModel.person_ready_for_kartoffel.identityCard,
-                DataModel.person_ready_for_kartoffel.personalNumber
+            dataModel.identifiers = [
+                dataModel.person_ready_for_kartoffel.identityCard,
+                dataModel.person_ready_for_kartoffel.personalNumber
             ].filter(id => id);
             path = id => p(id).KARTOFFEL_PERSON_EXISTENCE_CHECKING;
         } else {
-            DataModel.sendLog(
+            dataModel.sendLog(
                 logLevel.warn,
                 logDetails.warn.WRN_UNRECOGNIZED_ENTITY_TYPE,
-                JSON.stringify(DataModel.record),
-                DataModel.dataSource
+                JSON.stringify(dataModel.record),
+                dataModel.dataSource
             );
             continue;
         }
 
-        if (!DataModel.identifiers.length) {
-            DataModel.sendLog(
+        if (!dataModel.identifiers.length) {
+            dataModel.sendLog(
                 logLevel.warn,
                 logDetails.warn.WRN_MISSING_IDENTIFIER_PERSON,
-                JSON.stringify(DataModel.person_ready_for_kartoffel),
-                JSON.stringify(DataModel.record),
-                DataModel.dataSource
+                JSON.stringify(dataModel.person_ready_for_kartoffel),
+                JSON.stringify(dataModel.record),
+                dataModel.dataSource
             );
             continue;
         }
 
         tryFindPerson = await tryArgs(
-            async id => (await DataModel.Auth.axiosKartoffel.get(path(id))).data,
-            ...DataModel.identifiers
+            async id => (await dataModel.Auth.axiosKartoffel.get(path(id))).data,
+            ...dataModel.identifiers
         );
 
         if (tryFindPerson.lastErr) {
             if (tryFindPerson.lastErr.response && tryFindPerson.lastErr.response.status === 404) {
-                if (!DataModel.person_ready_for_kartoffel.directGroup) {
-                    DataModel.sendLog(
+                if (!dataModel.person_ready_for_kartoffel.directGroup) {
+                    dataModel.sendLog(
                         logLevel.warn,
                         logDetails.warn.WRN_MISSING_DIRECT_GROUP,
-                        JSON.stringify(DataModel.identifiers),
-                        DataModel.dataSource,
-                        JSON.stringify(DataModel.record),
+                        JSON.stringify(dataModel.identifiers),
+                        dataModel.dataSource,
+                        JSON.stringify(dataModel.record),
                     );
                     continue;
                 }
-                DataModel.person_ready_for_kartoffel = identifierHandler(DataModel.person_ready_for_kartoffel, DataModel.sendLog);
+                dataModel.person_ready_for_kartoffel = identifierHandler(dataModel.person_ready_for_kartoffel, dataModel.sendLog);
                 // Add the complete person object to Kartoffel
                 try {
-                    DataModel.person = (
-                        await DataModel.Auth.axiosKartoffel.post(
-                            p().KARTOFFEL_PERSON_API, DataModel.person_ready_for_kartoffel
+                    dataModel.person = (
+                        await dataModel.Auth.axiosKartoffel.post(
+                            p().KARTOFFEL_PERSON_API, dataModel.person_ready_for_kartoffel
                         )
                     ).data;
-
-                    DataModel.sendLog(
+                    dataModel.sendLog(
                         logLevel.info,
                         logDetails.info.INF_ADD_PERSON_TO_KARTOFFEL,
-                        JSON.stringify(DataModel.identifiers),
-                        DataModel.dataSource
+                        JSON.stringify(dataModel.identifiers),
+                        dataModel.dataSource
                     );
                     // for goalUser domainUsers already created in matchToKartoffel
-                    if (DataModel.person.entityType !== fn.entityTypeValue.gu) {
+                    if (dataModel.person.entityType !== fn.entityTypeValue.gu) {
                         // add domain user for the new person
-                        await domainUserHandler(DataModel);
+                        await domainUserHandler(dataModel);
                     }
                 } catch (err) {
                     const errMessage = err.response ? err.response.data.message : err.message;
-                    DataModel.sendLog(
+                    dataModel.sendLog(
                         logLevel.error,
                         logDetails.error.ERR_INSERT_PERSON,
-                        JSON.stringify(DataModel.identifiers),
-                        DataModel.dataSource,
+                        JSON.stringify(dataModel.identifiers),
+                        dataModel.dataSource,
                         errMessage,
-                        JSON.stringify(DataModel)
+                        JSON.stringify(dataModel)
                     );
+                    await removeNewGroups(dataModel);
                 }
             } else {
                 const errMessage = tryFindPerson.lastErr.response ? tryFindPerson.lastErr.response.data.message : tryFindPerson.lastErr.message;
-                DataModel.sendLog(
+                dataModel.sendLog(
                     logLevel.error,
                     logDetails.error.ERR_ADD_FUNCTION_PERSON_NOT_FOUND,
-                    JSON.stringify(DataModel.identifiers),
-                    DataModel.dataSource,
+                    JSON.stringify(dataModel.identifiers),
+                    dataModel.dataSource,
                     errMessage
                 );
             }
         } else if (tryFindPerson.result) {
 
-            DataModel.person = tryFindPerson.result;
+            dataModel.person = tryFindPerson.result;
 
-            DataModel.checkIfDataSourceIsPrimary(DataModel.person_ready_for_kartoffel.currentUnit);
+            dataModel.checkIfDataSourceIsPrimary(dataModel.person_ready_for_kartoffel.currentUnit);
 
             if (
-                DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
-                DataModel.person.entityType !== fn.entityTypeValue.gu
+                dataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
+                dataModel.person.entityType !== fn.entityTypeValue.gu
             ) {
-                await goalUserFromPersonCreation(DataModel.person, DataModel.person_ready_for_kartoffel, DataModel.dataSource, DataModel.Auth, DataModel.sendLog);
-            } else if (DataModel.isDataSourcePrimary || dataSource === fn.dataSources.aka) {
-                Object.keys(DataModel.person).map(key => {
-                    fn.fieldsForRmoveFromKartoffel.includes(key) ? delete DataModel.person[key] : null;
+                await goalUserFromPersonCreation(dataModel.person, dataModel.person_ready_for_kartoffel, dataModel.dataSource, dataModel.Auth, dataModel.sendLog);
+            } else if (dataModel.isDataSourcePrimary || dataSource === fn.dataSources.aka) {
+                Object.keys(dataModel.person).map(key => {
+                    fn.fieldsForRmoveFromKartoffel.includes(key) ? delete dataModel.person[key] : null;
                 })
 
-                let KeyForComparison = Object.keys(DataModel.person).find(key => DataModel.person[key] === tryFindPerson.argument);
+                let KeyForComparison = Object.keys(dataModel.person).find(key => dataModel.person[key] === tryFindPerson.argument);
 
-                DataModel.updateDeepDiff = diff(
-                    [DataModel.person],
-                    [DataModel.person_ready_for_kartoffel],
+                dataModel.updateDeepDiff = diff(
+                    [dataModel.person],
+                    [dataModel.person_ready_for_kartoffel],
                     KeyForComparison,
                     { updatedValues: 4 }
                 ).updated[0];
 
-                if (DataModel.updateDeepDiff && DataModel.updateDeepDiff.length > 0) {
+                if (dataModel.updateDeepDiff && dataModel.updateDeepDiff.length > 0) {
                     updated(
-                        { updatedData: [DataModel], dataSource },
+                        { updatedData: [dataModel], dataSource },
                         aka_all_data
                     );
                 }
             } else {
-                await domainUserHandler(DataModel);
+                await domainUserHandler(dataModel);
             }
         } else {
-            DataModel.sendLog(logLevel.error, logDetails.error.ERR_UNKNOWN_ERROR, 'addedDataHandler', JSON.stringify(tryFindPerson.lastErr));
+            dataModel.sendLog(logLevel.error, logDetails.error.ERR_UNKNOWN_ERROR, 'addedDataHandler', JSON.stringify(tryFindPerson.lastErr));
         }
     }
 }

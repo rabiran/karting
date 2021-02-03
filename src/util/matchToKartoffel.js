@@ -579,17 +579,17 @@ const match_city = (obj, dataSource) => {
 directGroupHandler = async (obj, Auth) => {
     hr = encodeURIComponent(obj.hierarchy)
     let directGroup;
+    let newGroups;
     await Auth.axiosKartoffel.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async (result) => {
-            let directGroupID = await hierarchyHandler(result.data, obj.hierarchy, Auth, sendLog);
-            directGroup = directGroupID;
+            [directGroup, newGroups] = await hierarchyHandler(result.data, obj.hierarchy, Auth, sendLog);
         })
         .catch((err) => {
             let identifier = obj.identityCard || obj.uniqueId;
             let errorMessage = (err.response) ? err.response.data.message : err.message;
             sendLog(logLevel.error, logDetails.error.ERR_ADD_DIRECT_GROUP_TO_PERSON, identifier, errorMessage);
         });
-    return directGroup;
+    return [directGroup, newGroups];
 };
 
 /**
@@ -641,13 +641,13 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             sendLog(logLevel.error, logDetails.error.ERR_UNIDENTIFIED_DATA_SOURCE);
     }
 
-
+    let newGroups;
     if (obj.hierarchy) {
         
-        obj.directGroup = await directGroupHandler(obj, Auth);
+        [obj.directGroup, newGroups] = await directGroupHandler(obj, Auth);
         
         delete obj.hierarchy;
     }
 
-    return obj;
+    return [obj, newGroups];
 };
