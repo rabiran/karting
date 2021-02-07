@@ -3,7 +3,6 @@ const validators = require('../config/validators');
 const { logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const mergeArrays = require('./generalUtils/mergeArrays');
-const moment = require('moment');
 
 const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
@@ -122,7 +121,7 @@ function phonesValueHandler(person, phone, phoneType) {
  * @param {*} dataSource The dataSource of the person object
  * @returns Object of person with the data from aka
  */
-module.exports =  async (obj, akaData, dataSource, sendLog) => {
+module.exports =  (obj, akaData, dataSource, sendLog) => {
     let identifier = obj.personalNumber || obj.identityCard;
     if (identifier) {
         let akaRecord = akaData.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));

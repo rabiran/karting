@@ -1,7 +1,6 @@
 const fn = require('../config/fieldNames');
 const diffsHandler = require('../util/diffsHandler');
 const preRun = require('../util/preRun');
-const cleanImmediateDus = require('../util/cleanDu/cleanImmediateDus');
 const AuthClass = require('../auth/auth');
 const collectLogs = require('../util/collectLogs')
 
@@ -19,16 +18,6 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
         const Auth = new AuthClass(sendLog);
 
         await diffsHandler({ added: foundRecords }, dataSource, akaRecords, fn.runnigTypes.immediateRun, sendLog, Auth);
-        if(dataSource != fn.dataSources.aka) {
-            await cleanImmediateDus(
-                    dataSource,
-                    idObj,
-                    sendLog,
-                    Auth
-                );
-
-         }
-
 
         let { logs, fileName } = await collectLogs(idObj, runUID);
         resArray.push({

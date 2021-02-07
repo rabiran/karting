@@ -21,6 +21,6 @@ module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, 
     
     return PromiseAllWithFails([
         add({ addedData, dataSource }, aka_all_data , ct_all_data , pictures_all_data),
-        update({ updatedData, dataSource }, aka_all_data),
+        update({ updatedData, dataSource }, aka_all_data , ct_all_data),
     ]);
 }

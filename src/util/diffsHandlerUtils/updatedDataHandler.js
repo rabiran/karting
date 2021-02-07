@@ -16,7 +16,7 @@ require('dotenv').config();
  * @param {string} dataSource - represents the data source
  * @param {Object} aka_all_data - object that contain all the recent data from aka
  */
-module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
+module.exports = async ({ updatedData, dataSource }, aka_all_data, ct_all_data) => {
     let dataModels = updatedData;
     dataModels = await recordsFilter({dataModels, dataSource});
 
@@ -74,6 +74,7 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
                 DataModel.akaRecord &&
                 DataModel.akaRecord[fn.aka.unitName] &&
                 !DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
+
             ) {
                 // Add domain user from the record (if the required data exist)
                 await domainUserHandler(DataModel);
@@ -87,6 +88,32 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data) => {
                     DataModel.akaRecord[fn.aka.unitName]
                 );
                 continue;
+            }
+            else{
+                const CTRecord = ct_all_data.find(
+                    person => (
+                        person[fn.city_name.personalNumber] == tryFindPerson.argument ||
+                        person[fn.city_name.identityCard] == tryFindPerson.argument
+                    )
+                );
+
+                if(CTRecord &&
+                    CTRecord[fn.city_name.unitName] &&
+                    !DataModel.checkIfDataSourceIsPrimary(CTRecord[fn.city_name.unitName])
+                ){
+                         // Add domain user from the record (if the required data exist)
+                await domainUserHandler(DataModel);
+                DataModel.sendLog(
+                    logLevel.warn,
+                    logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL,
+                    DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
+                    DataModel.dataSource,
+                    tryFindPerson.argument,
+                    DataModel.dataSource,
+                    CTRecord[fn.city_name.unitName]
+                );
+                continue;
+                }
             }
             // // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
             // DataModel.updateDeepDiff[2] = DataModel.updateDeepDiff[2].filter(

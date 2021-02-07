@@ -196,10 +196,11 @@ for (let i = 0; i < picturesAmount; i++) {
     picture.profile = {};
     picture.profile.personalNumber = mis[i];
     picture.profile.path = utils.generateNumberBody();
+    picture.profile.format = utils.randomElement(["jepg","png"])
     picture.profile.takenAt = utils.randomElement(
         [
           faker.date
-            .between(faker.date.future(10), faker.date.past(10))
+            .between(faker.date.past(10), faker.date.past(40))
             .toISOString()
             .split("T")[0] + " 00:00:00.0"
         ],
@@ -210,7 +211,7 @@ for (let i = 0; i < picturesAmount; i++) {
     picture.profile.createdAt = utils.randomElement(
         [
           faker.date
-            .between(faker.date.future(20), picture.profile.takenAt)
+            .between(faker.date.past(1), picture.profile.takenAt)
             .toISOString()
             .split("T")[0] + " 00:00:00.0"
         ],
@@ -221,7 +222,7 @@ for (let i = 0; i < picturesAmount; i++) {
     picture.profile.updatedAt = utils.randomElement(
         [
           faker.date
-            .between(faker.date.future(30), picture.profile.createdAt)
+            .between(faker.date.past(1), picture.profile.createdAt)
             .toISOString()
             .split("T")[0] + " 00:00:00.0"
         ],

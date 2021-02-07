@@ -104,6 +104,16 @@ const match_aka = async (obj, dataSource, flowType, Auth) => {
 
                 (rawKey === "currentUnit") ? null : delete obj[rawKey];
                 break;
+            //Birthday
+            case fn[dataSource].birthday:
+                obj.birthday = obj[rawKey];
+                (rawKey === "birthday") ? null : delete obj[rawKey];
+                break;
+            //sex
+            case fn[dataSource].sex:
+                obj.sex = obj[rawKey];
+                (rawKey === "sex") ? null : delete obj[rawKey];
+                break;
             default:
                 delete obj[rawKey];
         }
@@ -190,16 +200,6 @@ const match_es = (obj, dataSource) => {
             case fn[dataSource].job:
                 obj.job = location ? `${job} - ${location}` : job;
                 (rawKey === "job") ? null : delete obj[rawKey];
-                break;
-            //Birthday
-            case fn[dataSource].birthday:
-                obj.birthday = obj[rawKey];
-                (rawKey === "birthday") ? null : delete obj[rawKey];
-                break;
-            //sex
-            case fn[dataSource].sex:
-                obj.sex = obj[rawKey];
-                (rawKey === "sex") ? null : delete obj[rawKey];
                 break;
             // else
             default:

@@ -40,21 +40,21 @@ module.exports = async ({ addedData, dataSource }, aka_all_data, ct_all_data, pi
             DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.s ||
             DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.c
         ) {
-            let identifier = DataModel.person_ready_for_kartoffel.personalNumber || DataModel.person_ready_for_kartoffel.identityCard;
-            let akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
+            const identifier = DataModel.person_ready_for_kartoffel.personalNumber || DataModel.person_ready_for_kartoffel.identityCard;
+            const akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
             if(akaRecord){
-                await PromiseAllWithFails(DataModel.completeFromAka(aka_all_data));
+                DataModel.completeFromAka(aka_all_data);
             }
             else{
-                let CTRecord = ct_all_data.find(person => ((person[fn.city_name.personalNumber] == identifier) || (person[fn.city_name.identityCard] == identifier)));
+                const CTRecord = ct_all_data.find(person => ((person[fn.city_name.personalNumber] == identifier) || (person[fn.city_name.identityCard] == identifier)));
                 if(CTRecord){
-                    await PromiseAllWithFails(DataModel.completeFromCT(CTRecord));
+                    DataModel.completeFromCT(CTRecord);
                 }
             }
             
-            let picturesRecord = pictures_all_data.find(person => ((person[personalNumber] == identifier)));
+            const picturesRecord = pictures_all_data.find(person => ((person[personalNumber] == identifier)));
             if (picturesRecord){
-                let pictureToAdd = {"profile" : {"personalNumber" : picturesRecord.Path,"takenAt" : picturesRecord.takenAt,"updatedAt" : picturesRecord.updatedAt,"createdAt" : picturesRecord.createdAt,"format" : picturesRecord.format}}
+                const pictureToAdd = {"profile" : {"personalNumber" : picturesRecord.Path,"takenAt" : picturesRecord.takenAt,"updatedAt" : picturesRecord.updatedAt,"createdAt" : picturesRecord.createdAt,"format" : picturesRecord.format}}
                 DataModel.person_ready_for_kartoffel.pictures = pictureToAdd
             }
 
