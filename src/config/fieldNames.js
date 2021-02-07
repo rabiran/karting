@@ -169,6 +169,7 @@ module.exports = {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
         immediateRun: 'immediate_run',
+        kafkaRun: 'kafka',
     },
     organizationGroups: {
         incompletes_name: 'incomplete',
@@ -176,6 +177,11 @@ module.exports = {
     flowTypes: {
         add: 'add',
         update: 'update',
+    },
+    kafkaConf: {
+        migartion: {
+            flowName: 'kafka-migration',
+        },
     },
     redisRetryCount: 3,
     immediatePort: 3002,

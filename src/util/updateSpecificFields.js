@@ -6,6 +6,7 @@ const fn = require('../config/fieldNames');
 const isObjectEmpty = require('./generalUtils/isObjectEmpty');
 const mergeArrays = require('./generalUtils/mergeArrays');
 const DataModel = require('./DataModel');
+const _ = require('lodash')
 
 /**
  * This module accept an array that contain DeepDiff objects and build from them object for the PUT request that send to Kartoffel
@@ -106,8 +107,14 @@ const updateSpecificFields = async (DataModel) => {
             }
         }
         // delete forbidden Fields To Update
-        for (let field of fn.forbiddenFieldsToUpdate) {
-            objForUpdate[field] ? delete objForUpdate[field] : null;
+        if (DataModel.dataSource != fn.dataSources.aka) {
+            for (let field of fn.forbiddenFieldsToUpdate) {
+                objForUpdate[field] ? delete objForUpdate[field] : null;
+            }
+        } else {
+            for (let field of _.without(fn.forbiddenFieldsToUpdate, 'identityCard', 'personalNumber')) {
+                objForUpdate[field] ? delete objForUpdate[field] : null;
+            }
         }
         // Update the person object if the objForUpdate is NOT empty
         if (!isObjectEmpty(objForUpdate)) {

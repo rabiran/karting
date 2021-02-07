@@ -625,7 +625,7 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
         case fn.dataSources.ads:
             match_ads(obj, dataSource);
             if (!obj.entityType) {
-                sendLog(logLevel.warn, logDetails.warn.WRN_PERSON_HAS_NOT_HAVE_USERPRINCIPALNAME, obj.mail);
+                sendLog(logLevel.warn, logDetails.warn.WRN_PERSON_HAS_NOT_HAVE_USERPRINCIPALNAME, origin_obj.sAMAccountName);
             };
             break;
         case fn.dataSources.adNN:

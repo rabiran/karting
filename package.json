@@ -4,7 +4,7 @@
   "description": "Kart data for kartoffel, also the api",
   "dependencies": {
     "activedirectory": "^0.7.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "convert-excel-to-json": "^1.6.1",
     "diff-arrays-of-objects": "^1.1.7",
@@ -13,6 +13,8 @@
     "faker": "^4.1.0",
     "ioredis": "^4.10.0",
     "jsonwebtoken": "^8.5.1",
+    "kafka-node": "^5.0.0",
+    "kafkajs": "^1.14.0",
     "moment": "^2.22.2",
     "multer": "^1.4.1",
     "njwt": "^1.0.0",
@@ -29,7 +31,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "startDev": "node ./mocks/mocksServer.js & npm start",
-    "start": "node -r dotenv/config ./src/index.js"
+    "start": "node -r dotenv/config ./src/index.js",
+    "consumer": "node ./src/kafka/consumer.js",
+    "producer": "node ./src/kafka/producer.js"
   },
   "repository": {
     "type": "git",

@@ -45,6 +45,15 @@ const immediateRotateFileTransport = (identifier, runUID) => {
   });
 }
 
+const kafkaRotateFileTransport = (kafkaFunction) => {
+  return new transports.DailyRotateFile({
+    filename: `${logDir}/kafka/${kafkaFunction}/%DATE%-logs.log`,
+    datePattern: 'YYYY-MM-DD',
+    prepend: true,
+    json: true,
+  });
+}
+
 
 const loggerConfig = {
   levels: config.npm.levels,
@@ -74,20 +83,27 @@ const loggerConfig = {
 
 const levelString = Object.keys(config.npm.levels);
 
-const wrapSendLog = (runningType, identifierObj, runUID) => {
-  let returnSendLog;
+/**
+ * Create custom logger instance, the logger output dir/file will be
+ * selected based on the running type and other options
+ * 
+ * @param {String} runningType - choose transports base on running type
+ * @param {*} opts - logs locations will be create base on those param options 
+ */
+const wrapSendLog = (runningType, opts = {}) => {
+  const { identifierObj, runUID, kafkaFunction } = opts;
   const logger = createLogger(loggerConfig);
+
   if (runningType === fn.runnigTypes.immediateRun && identifierObj && runUID) {
     const identifierToLog = identifierObj.identityCard || identifierObj.personalNumber || identifierObj.domainUser;
     logger.add(immediateRotateFileTransport(identifierToLog, runUID));
-    returnSendLog = sendLog.bind(this, logger);
   } else if (runningType === fn.runnigTypes.immediateRun) {
-    logger.add(immediateRotateFileTransport("immediate", "default"))
-    returnSendLog = sendLog.bind(this, logger);
-  } else {
-    returnSendLog = sendLog.bind(this, logger);
+    logger.add(immediateRotateFileTransport("immediate", "default"));
+  } else if (runningType === fn.runnigTypes.kafkaRun) {
+    logger.add(kafkaRotateFileTransport(kafkaFunction));
   }
-  return returnSendLog;
+
+  return sendLog.bind(this, logger);;
 };
 
 const sendLog = (logger, level, logDetails, ...params) => {
