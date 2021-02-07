@@ -11,6 +11,7 @@ const ADUnemployeesAmount = ADAmount - ADEmployeesAmount;
 const esAmount = 50;
 const miriAmount = 100;
 const miriAkaStart = ADAmount + esAmount;
+const picturesAmount = 400
 
 let mis = [];
 let tzs = [];
@@ -19,6 +20,7 @@ let telephones = [];
 let adUsers = [];
 let esUsers = [];
 let miriUsers = [];
+let pictures = [];
 
 // Generating mi and tz lists
 for (let i = 0; i < akaAmount; i++) {
@@ -39,7 +41,12 @@ for (let i = 0; i < akaAmount; i++) {
     rld: faker.date.between(faker.date.future(10),
                               faker.date.past(10)).toISOString().split('T')[0] +
                               " 00:00:00.0",
-    hr: utils.randomElement(dataTypes.UNIT)
+    hr: utils.randomElement(dataTypes.UNIT),
+    birthday: faker.date.between(faker.date.past(18),
+    faker.date.past(40)).toISOString().split('T')[0] +
+    " 00:00:00.0",
+    hr: utils.randomElement(dataTypes.UNIT),
+    sex: utils.randomElement(["M","F"])
     })
     telephones.push({
         mi: mis[i],
@@ -183,8 +190,51 @@ for (let i = 0; i < miriAmount; i++) {
     miriUsers.push(miriUser);
 }
 
+// Generating pictures
+for (let i = 0; i < picturesAmount; i++) {
+    let picture = {}
+    picture.profile = {};
+    picture.profile.personalNumber = mis[i];
+    picture.profile.path = utils.generateNumberBody();
+    picture.profile.takenAt = utils.randomElement(
+        [
+          faker.date
+            .between(faker.date.future(10), faker.date.past(10))
+            .toISOString()
+            .split("T")[0] + " 00:00:00.0"
+        ],
+        null,
+        "",
+        "לא ידוע"
+    );
+    picture.profile.createdAt = utils.randomElement(
+        [
+          faker.date
+            .between(faker.date.future(20), picture.profile.takenAt)
+            .toISOString()
+            .split("T")[0] + " 00:00:00.0"
+        ],
+        null,
+        "",
+        "לא ידוע"
+    );
+    picture.profile.updatedAt = utils.randomElement(
+        [
+          faker.date
+            .between(faker.date.future(30), picture.profile.createdAt)
+            .toISOString()
+            .split("T")[0] + " 00:00:00.0"
+        ],
+        null,
+        "",
+        "לא ידוע"
+    );
+    pictures.push(picture)
+}
+
 fs.writeFileSync("./mocks/mocksFiles/getAkaEmployees.json", JSON.stringify(employees));
 fs.writeFileSync("./mocks/mocksFiles/getAkaTelephone.json", JSON.stringify(telephones));
 fs.writeFileSync("./mocks/mocksFiles/AD.json", JSON.stringify(adUsers));
 fs.writeFileSync("./mocks/mocksFiles/eightsocks.json", JSON.stringify(esUsers));
 fs.writeFileSync("./mocks/mocksFiles/city.json", JSON.stringify(miriUsers));
+fs.writeFileSync("./mocks/mocksFiles/pictures.json", JSON.stringify(pictures));

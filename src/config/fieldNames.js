@@ -10,6 +10,7 @@ module.exports = {
         mdn: "mdn_name",
         mm: "mm_name",
         city: "city_name",
+        pictures: "pictures",
     },
     // aka_name: {
     aka: {
@@ -28,6 +29,8 @@ module.exports = {
         unitName: "hr", 
         telephoneType: "telephoneType",
         uniqeFieldForDeepDiff: "mi",
+        birthday: "moledet",
+        sex: "sex",
     },
     es_name: {
         entityType: "entity",

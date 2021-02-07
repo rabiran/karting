@@ -12,6 +12,7 @@ const goalUserFromPersonCreation = require('../goalUserFromPersonCreation');
 const DataModel = require('../DataModel');
 const PromiseAllWithFails = require('../generalUtils/promiseAllWithFails');
 const completeFromCT = require('../completeFromCT');
+const preRun = require('../preRun');
 
 require('dotenv').config();
 
@@ -21,7 +22,7 @@ require('dotenv').config();
  * @param { { DataModel[], string } } addedData - represnts the changes from last data
  * @param {*} aka_all_data - all the data from aka data source (for compilation)
  */
-module.exports = async ({ addedData, dataSource }, aka_all_data) => {
+module.exports = async ({ addedData, dataSource }, aka_all_data, ct_all_data, pictures_all_data) => {
     let dataModels = addedData;
     dataModels = await recordsFilter({dataModels, dataSource});
 
@@ -45,19 +46,18 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                 await PromiseAllWithFails(DataModel.completeFromAka(aka_all_data));
             }
             else{
-                //no aka record found, we fill the rank and unit from CT
-                let idObj = {}
-                const date = moment(new Date()).format("DD.MM.YYYY__HH.mm");
-                const { CT_Data, fileName } = await preRun([fn.dataSources.city], fn.runnigTypes.recoveryRun, date, sendLog);
-                //console.log("CTCTCT")
-                //console.log(CT_Data)
-                //console.log(CT_Data[fn.dataSources.city])
-                let CTRecord = CT_Data.find(person => ((person[fn.city_name.personalNumber] == identifier) || (person[fn.city_name.identityCard] == identifier)));
-                //sendLog(logLevel.warn, logDetails.warn.WRN_COMPLETE_AKA, identifier, dataSource);
+                let CTRecord = ct_all_data.find(person => ((person[fn.city_name.personalNumber] == identifier) || (person[fn.city_name.identityCard] == identifier)));
                 if(CTRecord){
                     await PromiseAllWithFails(DataModel.completeFromCT(CTRecord));
                 }
             }
+            
+            let picturesRecord = pictures_all_data.find(person => ((person[personalNumber] == identifier)));
+            if (picturesRecord){
+                let pictureToAdd = {"profile" : {"personalNumber" : picturesRecord.Path,"takenAt" : picturesRecord.takenAt,"updatedAt" : picturesRecord.updatedAt,"createdAt" : picturesRecord.createdAt,"format" : picturesRecord.format}}
+                DataModel.person_ready_for_kartoffel.pictures = pictureToAdd
+            }
+
             DataModel.identifiers = [
                 DataModel.person_ready_for_kartoffel.identityCard,
                 DataModel.person_ready_for_kartoffel.personalNumber

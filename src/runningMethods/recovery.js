@@ -17,17 +17,19 @@ module.exports = async () => {
         fn.dataSources.lmn, 
         fn.dataSources.mdn, 
         fn.dataSources.mm, 
-        fn.dataSources.city
-        
+        fn.dataSources.city,
+        fn.dataSources.pictures
     ]);
 
     let akaData = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
-    //console.log("CITYCITYCITYCITY123")
-    //console.log(dataObj[fn.dataSources.city])
+    //let idObj = {}
+    let ct_all_data = dataObj[fn.dataSources.city] ? dataObj[fn.dataSources.city].data : [];
+    let pictures_all_data = dataObj[fn.dataSources.pictures] ? dataObj[fn.dataSources.pictures].data : [];
+    
     const Auth = new AuthClass(sendLog);
 
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
-        await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog, Auth);
+        await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, ct_all_data, pictures_all_data, fn.runnigTypes.recoveryRun, sendLog, Auth);
         if(dataSource != fn.dataSources.aka) {
             await cleanDus(
                 fn.runnigTypes.recoveryRun,

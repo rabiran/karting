@@ -4,8 +4,6 @@ const { logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const mergeArrays = require('./generalUtils/mergeArrays');
 const moment = require('moment');
-const getRawData = require('./getRawData');
-const preRun = require('./preRun');
 
 const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
@@ -17,10 +15,13 @@ const complete_es = (obj, akaRecord) => {
     obj.rank = akaRecord[fn.aka.rank];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
+    obj.birthday = akaRecord[fn.aka.birthday];
+    obj.sex = akaRecord[fn.aka.sex];
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
     phonesValueHandler(obj, akaRecordMobilePhone, "mobilePhone");
+    
 }
 
 const complete_ads = (obj, akaRecord) => {
@@ -34,6 +35,8 @@ const complete_ads = (obj, akaRecord) => {
     obj.rank = akaRecord[fn.aka.rank];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
+    obj.birthday = akaRecord[fn.aka.birthday];
+    obj.sex = akaRecord[fn.aka.sex];
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -52,6 +55,8 @@ const complete_adNN = (obj, akaRecord) => {
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
+    obj.birthday = akaRecord[fn.aka.birthday];
+    obj.sex = akaRecord[fn.aka.sex];
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -69,6 +74,8 @@ const complete_nv = (obj, akaRecord) => {
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
+    obj.birthday = akaRecord[fn.aka.birthday];
+    obj.sex = akaRecord[fn.aka.sex];
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -86,6 +93,8 @@ const complete_city = (obj, akaRecord) => {
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
     obj.entityType = fn.entityTypeValue.s;
+    obj.birthday = akaRecord[fn.aka.birthday];
+    obj.sex = akaRecord[fn.aka.sex];
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -144,21 +153,6 @@ module.exports =  async (obj, akaData, dataSource, sendLog) => {
                     sendLog(logLevel.error, logDetails.error.ERR_DATA_SOURCE);
             }
         }
-        /*else { 
-            //no aka record found, we fill the rank and unit from CT
-            let idObj = {}
-            const date = moment(new Date()).format("DD.MM.YYYY__HH.mm");
-            const { CT_Data, fileName } = await preRun([fn.dataSources.city], fn.runnigTypes.recoveryRun, date, sendLog);
-            console.log("CTCTCT")
-            console.log(CT_Data)
-            console.log(CT_Data[fn.dataSources.city])
-            let CTRecord = CT_Data.find(person => ((person[fn.city_name.personalNumber] == identifier) || (person[fn.city_name.identityCard] == identifier)));
-            if(CTRecord){ //if there is a ct record for the person then we fill in the information
-                obj.rank = CTRecord[fn.city_name.rank];
-                obj.currentUnit = CTRecord[fn.city_name.currentUnit];
-            }
-            sendLog(logLevel.warn, logDetails.warn.WRN_COMPLETE_AKA, identifier, dataSource);
-        */}
     }
 
     // delete the empty fields from the returned object
