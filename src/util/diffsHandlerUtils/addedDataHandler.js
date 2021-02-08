@@ -21,7 +21,7 @@ require('dotenv').config();
  *  { { DataModel[], string } } addedData - represnts the changes from last data
  *  {*} aka_all_data - all the data from aka data source (for compilation)
  */
-module.exports = async ({ addedData, dataSource }, extraData, pictures_all_data) => {
+module.exports = async ({ addedData, dataSource }, extraData) => {
     let dataModels = addedData;
     dataModels = await recordsFilter({dataModels, dataSource});
 
@@ -30,6 +30,7 @@ module.exports = async ({ addedData, dataSource }, extraData, pictures_all_data)
         let tryFindPerson;
         let path;
 
+        console.log(dataModels.length)
         await DataModel.matchToKartoffel();
 
         if (DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
@@ -41,9 +42,7 @@ module.exports = async ({ addedData, dataSource }, extraData, pictures_all_data)
         ) {
 
             DataModel.complete(extraData.aka_all_data,extraData.city_all_data)
-
-            const picturesRecord = pictures_all_data.find(person => ((person[personalNumber] == identifier)));
-
+            
             DataModel.identifiers = [
                 DataModel.person_ready_for_kartoffel.identityCard,
                 DataModel.person_ready_for_kartoffel.personalNumber

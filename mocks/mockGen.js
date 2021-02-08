@@ -209,7 +209,7 @@ for (let i = 0; i < picturesAmount; i++) {
         "לא ידוע"]
     );
     const createdAt = faker.date
-        .between(faker.date.past(1), picture.profile.takenAt)
+        .between(faker.date.past(1), takenAt)
         .toISOString()
         .split("T")[0] + " 00:00:00.0"
     picture.profile.createdAt = utils.randomElement(
@@ -221,7 +221,7 @@ for (let i = 0; i < picturesAmount; i++) {
         "לא ידוע"]
     );
     const updatedAt = faker.date
-            .between(faker.date.past(1), picture.profile.createdAt)
+            .between(faker.date.past(1), createdAt)
             .toISOString()
             .split("T")[0] + " 00:00:00.0"
     picture.profile.updatedAt = utils.randomElement(

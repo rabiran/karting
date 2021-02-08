@@ -36,6 +36,9 @@ class DataModel {
     
     complete(aka_all_data,city_all_data){
         const identifier = this.person_ready_for_kartoffel.personalNumber || this.person_ready_for_kartoffel.identityCard;
+        if(!identifier){
+            return;
+        }
         const akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
         if(akaRecord){
             this.person_ready_for_kartoffel = completeFromAka(

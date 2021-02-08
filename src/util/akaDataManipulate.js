@@ -15,7 +15,7 @@ module.exports = (telephones, employees, pictures) => {
             telephonesDict[telephones[i][fn.aka.personalNumber]] = telephones[i]
         }
     }
-
+/*
     //same but for pictures
     for (let i = 0; i < pictures.length; i++) {
         if (picturesDict[pictures[i][fn.aka.personalNumber]] != null) {
@@ -28,7 +28,7 @@ module.exports = (telephones, employees, pictures) => {
             picturesDict[pictures[i][fn.aka.personalNumber]] = pictures[i]
         }
     }
-
+*/
     for (j = 0; j < employees.length; j++) {
         if(telephonesDict[employees[j][fn.aka.personalNumber]] != undefined) {
             currEmployee = telephonesDict[employees[j][fn.aka.personalNumber]]
@@ -54,6 +54,7 @@ module.exports = (telephones, employees, pictures) => {
                 }
             }
         }
+        /*
         //same but for pictures
         if(picturesDict[employees[j][fn.aka.personalNumber]] != undefined) {
             currEmployee = picturesDict[employees[j][fn.aka.personalNumber]]
@@ -67,6 +68,7 @@ module.exports = (telephones, employees, pictures) => {
                 employees[j][fn.aka.picture] = currEmployee[fn.aka.picture]
             }
         }
+        */
     }
 
     return employees;

@@ -26,6 +26,7 @@ module.exports = async () => {
     
     const Auth = new AuthClass(sendLog);
 
+    console.log("GOT HERE")
     let extraData = {aka_all_data : akaData,city_all_data : city_all_data}
 
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
