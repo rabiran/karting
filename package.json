@@ -30,7 +30,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startDev": "node ./mocks/mocksServer.js & npm start",
     "start": "node -r dotenv/config ./src/index.js",
     "consumer": "node ./src/kafka/consumer.js",
     "producer": "node ./src/kafka/producer.js"

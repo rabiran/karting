@@ -35,6 +35,14 @@ app.get("/getAkaEmployees", (req, res) => {
     res.json(data)
 })
 
+app.get("/getAkaMetaDataImages", (req, res) => {
+    let data = require("./mocksFiles/imgsMetaData.json")
+    if(Object.keys(req.query).length > 0) {
+        data = searchInData(data, Object.values(req.query));
+    }
+    res.json(data)
+})
+
 app.get("/getAD/s", (req, res) => {
     let data = require("./mocksFiles/AD.json")
     if(Object.keys(req.query).length > 0) {
