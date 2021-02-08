@@ -45,7 +45,6 @@ for (let i = 0; i < akaAmount; i++) {
     birthday: faker.date.between(faker.date.past(18),
     faker.date.past(40)).toISOString().split('T')[0] +
     " 00:00:00.0",
-    hr: utils.randomElement(dataTypes.UNIT),
     sex: utils.randomElement(["M","F"])
     })
     telephones.push({
@@ -161,10 +160,10 @@ for (let i = 0; i < miriAmount; i++) {
           .between(faker.date.future(10), faker.date.past(10))
           .toISOString()
           .split("T")[0] + " 00:00:00.0"
-      ],
+      ,
       null,
       "",
-      "לא ידוע"
+      "לא ידוע"]
     );
     miriUser.job = faker.name.jobTitle();
     miriUser.profession = utils.randomElement([
@@ -197,38 +196,41 @@ for (let i = 0; i < picturesAmount; i++) {
     picture.profile.personalNumber = mis[i];
     picture.profile.path = utils.generateNumberBody();
     picture.profile.format = utils.randomElement(["jepg","png"])
+    const takenAt = faker.date
+        .between(faker.date.past(10), faker.date.past(40))
+        .toISOString()
+        .split("T")[0] + " 00:00:00.0"
     picture.profile.takenAt = utils.randomElement(
         [
-          faker.date
-            .between(faker.date.past(10), faker.date.past(40))
-            .toISOString()
-            .split("T")[0] + " 00:00:00.0"
-        ],
+          takenAt,takenAt,takenAt,takenAt,takenAt
+        ,
         null,
         "",
-        "לא ידוע"
+        "לא ידוע"]
     );
+    const createdAt = faker.date
+        .between(faker.date.past(1), picture.profile.takenAt)
+        .toISOString()
+        .split("T")[0] + " 00:00:00.0"
     picture.profile.createdAt = utils.randomElement(
         [
-          faker.date
-            .between(faker.date.past(1), picture.profile.takenAt)
-            .toISOString()
-            .split("T")[0] + " 00:00:00.0"
-        ],
+            createdAt,createdAt,createdAt,createdAt,createdAt
+        ,
         null,
         "",
-        "לא ידוע"
+        "לא ידוע"]
     );
-    picture.profile.updatedAt = utils.randomElement(
-        [
-          faker.date
+    const updatedAt = faker.date
             .between(faker.date.past(1), picture.profile.createdAt)
             .toISOString()
             .split("T")[0] + " 00:00:00.0"
-        ],
+    picture.profile.updatedAt = utils.randomElement(
+        [
+            updatedAt,updatedAt,updatedAt,updatedAt,
+        ,
         null,
         "",
-        "לא ידוע"
+        "לא ידוע"]
     );
     pictures.push(picture)
 }

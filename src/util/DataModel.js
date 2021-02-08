@@ -1,5 +1,6 @@
 const matchToKartoffel = require('./matchToKartoffel');
 const completeFromAka = require('./completeFromAka');
+const completeFromCity = require('./completeFromCity');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
 
 class DataModel {
@@ -33,21 +34,33 @@ class DataModel {
         }
     }
     
-    completeFromAka(aka_all_data) {
-        if (this.person_ready_for_kartoffel) {
+    complete(aka_all_data,city_all_data){
+        const identifier = this.person_ready_for_kartoffel.personalNumber || this.person_ready_for_kartoffel.identityCard;
+        const akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
+        if(akaRecord){
             this.person_ready_for_kartoffel = completeFromAka(
                 this.person_ready_for_kartoffel,
-                aka_all_data,
+                akaRecord,
                 this.dataSource,
                 this.sendLog
+        );
+        }
+        else{
+            const cityRecord = city_all_data.find(person => ((person[fn.city_name.personalNumber] == identifier) || (person[fn.city_name.identityCard] == identifier)));
+            if(cityRecord){
+                this.person_ready_for_kartoffel = completeFromCity(
+                    this.person_ready_for_kartoffel,
+                    cityRecord
             );
-            this.needCompleteFromAka = false;
+            }
+            else{
+                //send warning not completed
+                sendLog(logLevel.error, logDetails.error.WRN_COMPLETE, identifier, this.dataSource)
+
+            }
         }
 
-    }
-
-    completeFromCT(CTRecord){
-        this.person_ready_for_kartoffel = this.completeFromCT(this.person_ready_for_kartoffel,CTRecord)
+        this.needComplete = false;
     }
 
     checkIfDataSourceIsPrimary(unitName) {

@@ -114,6 +114,11 @@ const match_aka = async (obj, dataSource, flowType, Auth) => {
                 obj.sex = obj[rawKey];
                 (rawKey === "sex") ? null : delete obj[rawKey];
                 break;
+            //picture
+            case fn[dataSource].picture:
+                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
+                (rawKey === "picture") ? null : delete obj[rawKey];
+                break;
             default:
                 delete obj[rawKey];
         }
@@ -201,6 +206,21 @@ const match_es = (obj, dataSource) => {
                 obj.job = location ? `${job} - ${location}` : job;
                 (rawKey === "job") ? null : delete obj[rawKey];
                 break;
+            //Birthday
+            case fn[dataSource].birthday:
+                obj.birthday = obj[rawKey];
+                (rawKey === "birthday") ? null : delete obj[rawKey];
+                break;
+            //sex
+            case fn[dataSource].sex:
+                obj.sex = obj[rawKey];
+                (rawKey === "sex") ? null : delete obj[rawKey];
+                break;
+            //picture
+            case fn[dataSource].picture:
+                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
+                (rawKey === "picture") ? null : delete obj[rawKey];
+                break;
             // else
             default:
                 delete obj[rawKey];
@@ -280,6 +300,21 @@ const match_ads = (obj, dataSource) => {
                 (obj.entityType === fn.entityTypeValue.s) ? obj.personalNumber = identityCardCandidate : null;
                 (rawKey === "entityType" || rawKey === "identityCard" || rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
+            //Birthday
+            case fn[dataSource].birthday:
+                obj.birthday = obj[rawKey];
+                (rawKey === "birthday") ? null : delete obj[rawKey];
+                break;
+            //sex
+            case fn[dataSource].sex:
+                obj.sex = obj[rawKey];
+                (rawKey === "sex") ? null : delete obj[rawKey];
+                break;
+            //picture
+            case fn[dataSource].picture:
+                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
+                (rawKey === "picture") ? null : delete obj[rawKey];
+                break;
             default:
                 delete obj[rawKey];
         }
@@ -348,6 +383,21 @@ const match_adNN = (obj, dataSource) => {
 
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
+            //Birthday
+            case fn[dataSource].birthday:
+                obj.birthday = obj[rawKey];
+                (rawKey === "birthday") ? null : delete obj[rawKey];
+                break;
+            //sex
+            case fn[dataSource].sex:
+                obj.sex = obj[rawKey];
+                (rawKey === "sex") ? null : delete obj[rawKey];
+                break;
+            //picture
+            case fn[dataSource].picture:
+                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
+                (rawKey === "picture") ? null : delete obj[rawKey];
+                break;
             default:
                 (rawKey != "mail" && rawKey != fn[dataSource].fullName) ? delete obj[rawKey] : null;
 
@@ -394,6 +444,21 @@ const match_nv_sql = (obj, dataSource) => {
             case fn[dataSource].identityCard:
                 validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
+                break;
+            //Birthday
+            case fn[dataSource].birthday:
+                obj.birthday = obj[rawKey];
+                (rawKey === "birthday") ? null : delete obj[rawKey];
+                break;
+            //sex
+            case fn[dataSource].sex:
+                obj.sex = obj[rawKey];
+                (rawKey === "sex") ? null : delete obj[rawKey];
+                break;
+            //picture
+            case fn[dataSource].picture:
+                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
+                (rawKey === "picture") ? null : delete obj[rawKey];
                 break;
             default:
                 delete obj[rawKey];
@@ -569,6 +634,21 @@ const match_city = (obj, dataSource) => {
             case fn[dataSource].personalNumber:
                 obj.personalNumber = obj[rawKey];
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
+                break;
+            //Birthday
+            case fn[dataSource].birthday:
+                obj.birthday = obj[rawKey];
+                (rawKey === "birthday") ? null : delete obj[rawKey];
+                break;
+            //sex
+            case fn[dataSource].sex:
+                obj.sex = obj[rawKey];
+                (rawKey === "sex") ? null : delete obj[rawKey];
+                break;
+            //picture
+            case fn[dataSource].picture:
+                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
+                (rawKey === "picture") ? null : delete obj[rawKey];
                 break;
             default:
                 delete obj[rawKey];

@@ -31,7 +31,7 @@ messageLog = {
         ERR_CONNECTING_TO_KAFKA: 'Cannot connect to kafka. topic: %s',
     },
     warn: {
-        WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
+        WRN_COMPLETE: 'The person with the identifier %s from %s not complete from aka or city',
         WRN_MISSING_IDENTIFIER_PERSON: 'There is no identifier to the person: %s, the record is: %s from %s',
         WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL: 'The fields "%s" of the person from:"%s" with the identifier %s updated but not saved in kartoffel because the dataSource: "%s" is not match to the person\'s currentUnit: "%s"',
         WRN_AKA_FIELD_RIGID: 'The field "%s" of the person with the identifier %s from the dataSource "%s" is not update because is rigid to Aka',

@@ -16,7 +16,7 @@ require('dotenv').config();
  * @param {string} dataSource - represents the data source
  * @param {Object} aka_all_data - object that contain all the recent data from aka
  */
-module.exports = async ({ updatedData, dataSource }, aka_all_data, ct_all_data) => {
+module.exports = async ({ updatedData, dataSource }, extraData) => {
     let dataModels = updatedData;
     dataModels = await recordsFilter({dataModels, dataSource});
 
@@ -62,7 +62,7 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data, ct_all_data) 
         if (DataModel.dataSource === fn.dataSources.aka) { //?
             updateSpecificFields(DataModel);
         } else {
-            DataModel.akaRecord = aka_all_data.find(
+            DataModel.akaRecord = extraData.aka_all_data.find(
                 person => (
                     person[fn.aka.personalNumber] == tryFindPerson.argument ||
                     person[fn.aka.identityCard] == tryFindPerson.argument
@@ -90,16 +90,16 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data, ct_all_data) 
                 continue;
             }
             else{
-                const CTRecord = ct_all_data.find(
+                const CityRecord = extraData.ct_all_data.find(
                     person => (
                         person[fn.city_name.personalNumber] == tryFindPerson.argument ||
                         person[fn.city_name.identityCard] == tryFindPerson.argument
                     )
                 );
 
-                if(CTRecord &&
-                    CTRecord[fn.city_name.unitName] &&
-                    !DataModel.checkIfDataSourceIsPrimary(CTRecord[fn.city_name.unitName])
+                if(CityRecord &&
+                    CityRecord[fn.city_name.unitName] &&
+                    !DataModel.checkIfDataSourceIsPrimary(CityRecord[fn.city_name.unitName])
                 ){
                          // Add domain user from the record (if the required data exist)
                 await domainUserHandler(DataModel);
@@ -110,7 +110,7 @@ module.exports = async ({ updatedData, dataSource }, aka_all_data, ct_all_data) 
                     DataModel.dataSource,
                     tryFindPerson.argument,
                     DataModel.dataSource,
-                    CTRecord[fn.city_name.unitName]
+                    CityRecord[fn.city_name.unitName]
                 );
                 continue;
                 }

@@ -11,18 +11,17 @@ const tryArgs = require('../generalUtils/tryArgs');
 const goalUserFromPersonCreation = require('../goalUserFromPersonCreation');
 const DataModel = require('../DataModel');
 const PromiseAllWithFails = require('../generalUtils/promiseAllWithFails');
-const completeFromCT = require('../completeFromCT');
 const preRun = require('../preRun');
 
 require('dotenv').config();
 
 /**
  * Take new object and add it to kartoffel
- *
- * @param { { DataModel[], string } } addedData - represnts the changes from last data
- * @param {*} aka_all_data - all the data from aka data source (for compilation)
+ *  @param extraData:
+ *  { { DataModel[], string } } addedData - represnts the changes from last data
+ *  {*} aka_all_data - all the data from aka data source (for compilation)
  */
-module.exports = async ({ addedData, dataSource }, aka_all_data, ct_all_data, pictures_all_data) => {
+module.exports = async ({ addedData, dataSource }, extraData, pictures_all_data) => {
     let dataModels = addedData;
     dataModels = await recordsFilter({dataModels, dataSource});
 
@@ -40,23 +39,10 @@ module.exports = async ({ addedData, dataSource }, aka_all_data, ct_all_data, pi
             DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.s ||
             DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.c
         ) {
-            const identifier = DataModel.person_ready_for_kartoffel.personalNumber || DataModel.person_ready_for_kartoffel.identityCard;
-            const akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
-            if(akaRecord){
-                DataModel.completeFromAka(aka_all_data);
-            }
-            else{
-                const CTRecord = ct_all_data.find(person => ((person[fn.city_name.personalNumber] == identifier) || (person[fn.city_name.identityCard] == identifier)));
-                if(CTRecord){
-                    DataModel.completeFromCT(CTRecord);
-                }
-            }
-            
+
+            DataModel.complete(extraData.aka_all_data,extraData.city_all_data)
+
             const picturesRecord = pictures_all_data.find(person => ((person[personalNumber] == identifier)));
-            if (picturesRecord){
-                const pictureToAdd = {"profile" : {"personalNumber" : picturesRecord.Path,"takenAt" : picturesRecord.takenAt,"updatedAt" : picturesRecord.updatedAt,"createdAt" : picturesRecord.createdAt,"format" : picturesRecord.format}}
-                DataModel.person_ready_for_kartoffel.pictures = pictureToAdd
-            }
 
             DataModel.identifiers = [
                 DataModel.person_ready_for_kartoffel.identityCard,
@@ -170,7 +156,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data, ct_all_data, pi
                 if (DataModel.updateDeepDiff && DataModel.updateDeepDiff.length > 0) {
                     updated(
                         { updatedData: [DataModel], dataSource },
-                        aka_all_data
+                        extraData.aka_all_data
                     );
                 }
             } else {

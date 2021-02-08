@@ -17,19 +17,19 @@ module.exports = async () => {
         fn.dataSources.lmn, 
         fn.dataSources.mdn, 
         fn.dataSources.mm, 
-        fn.dataSources.city,
-        fn.dataSources.pictures
+        fn.dataSources.city
     ]);
 
     let akaData = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
     //let idObj = {}
-    let ct_all_data = dataObj[fn.dataSources.city] ? dataObj[fn.dataSources.city].data : [];
-    let pictures_all_data = dataObj[fn.dataSources.pictures] ? dataObj[fn.dataSources.pictures].data : [];
+    let city_all_data = dataObj[fn.dataSources.city] ? dataObj[fn.dataSources.city].data : [];
     
     const Auth = new AuthClass(sendLog);
 
+    let extraData = {aka_all_data : akaData,city_all_data : city_all_data}
+
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
-        await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, ct_all_data, pictures_all_data, fn.runnigTypes.recoveryRun, sendLog, Auth);
+        await diffsHandler({ added: dataObj[dataSource].data }, dataSource, extraData, fn.runnigTypes.recoveryRun, sendLog, Auth);
         if(dataSource != fn.dataSources.aka) {
             await cleanDus(
                 fn.runnigTypes.recoveryRun,
