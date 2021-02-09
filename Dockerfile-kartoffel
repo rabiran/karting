@@ -3,7 +3,7 @@ RUN apk update
 RUN apk upgrade
 RUN apk add git
 RUN git clone https://github.com/rabiran/Kartoffel
-COPY ./docker-compose-config/kartoffel/kartoffel.env /Kartoffel/.env
+COPY ./docker-compose-config/kartoffel/kartoffel.env /Kartoffel/docker-compose.env
 
 FROM node:10.13-alpine AS build
 copy --from=clone /Kartoffel /Kartoffel
