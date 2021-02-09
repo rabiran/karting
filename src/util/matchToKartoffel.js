@@ -114,11 +114,6 @@ const match_aka = async (obj, dataSource, flowType, Auth) => {
                 obj.sex = obj[rawKey];
                 (rawKey === "sex") ? null : delete obj[rawKey];
                 break;
-            //picture
-            case fn[dataSource].picture:
-                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
-                (rawKey === "picture") ? null : delete obj[rawKey];
-                break;
             default:
                 delete obj[rawKey];
         }
@@ -216,11 +211,6 @@ const match_es = (obj, dataSource) => {
                 obj.sex = obj[rawKey];
                 (rawKey === "sex") ? null : delete obj[rawKey];
                 break;
-            //picture
-            case fn[dataSource].picture:
-                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
-                (rawKey === "picture") ? null : delete obj[rawKey];
-                break;
             // else
             default:
                 delete obj[rawKey];
@@ -310,11 +300,6 @@ const match_ads = (obj, dataSource) => {
                 obj.sex = obj[rawKey];
                 (rawKey === "sex") ? null : delete obj[rawKey];
                 break;
-            //picture
-            case fn[dataSource].picture:
-                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
-                (rawKey === "picture") ? null : delete obj[rawKey];
-                break;
             default:
                 delete obj[rawKey];
         }
@@ -368,9 +353,10 @@ const match_adNN = (obj, dataSource) => {
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             //personalNumber or identity card
-            case fn[dataSource].sAMAccountName:
+            case fn[dataSource].sAMAccountName:  //changed from sama account, right?
                 if (obj[rawKey].toLowerCase().includes(fn[dataSource].extension)) {
                     uniqueNum = obj[rawKey].toLowerCase().replace(fn[dataSource].extension, "")
+
                 } else {
                     sendLog(logLevel.warn, logDetails.warn.WRN_USER_NOT_EXTENTION, obj[rawKey], fn[dataSource].extension);
                     break;
@@ -380,7 +366,6 @@ const match_adNN = (obj, dataSource) => {
                 } else {
                     obj.personalNumber = uniqueNum.toString();
                 }
-
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             //Birthday
@@ -392,11 +377,6 @@ const match_adNN = (obj, dataSource) => {
             case fn[dataSource].sex:
                 obj.sex = obj[rawKey];
                 (rawKey === "sex") ? null : delete obj[rawKey];
-                break;
-            //picture
-            case fn[dataSource].picture:
-                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
-                (rawKey === "picture") ? null : delete obj[rawKey];
                 break;
             default:
                 (rawKey != "mail" && rawKey != fn[dataSource].fullName) ? delete obj[rawKey] : null;
@@ -454,11 +434,6 @@ const match_nv_sql = (obj, dataSource) => {
             case fn[dataSource].sex:
                 obj.sex = obj[rawKey];
                 (rawKey === "sex") ? null : delete obj[rawKey];
-                break;
-            //picture
-            case fn[dataSource].picture:
-                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
-                (rawKey === "picture") ? null : delete obj[rawKey];
                 break;
             default:
                 delete obj[rawKey];
@@ -645,11 +620,6 @@ const match_city = (obj, dataSource) => {
                 obj.sex = obj[rawKey];
                 (rawKey === "sex") ? null : delete obj[rawKey];
                 break;
-            //picture
-            case fn[dataSource].picture:
-                obj.picture = {"profile" : {"personalNumber" : obj[rawKey].Path,"takenAt" : obj[rawKey].takenAt,"updatedAt" : obj[rawKey].updatedAt,"createdAt" : obj[rawKey].createdAt,"format" : obj[rawKey].format}}
-                (rawKey === "picture") ? null : delete obj[rawKey];
-                break;
             default:
                 delete obj[rawKey];
 
@@ -709,9 +679,13 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             };
             break;
         case fn.dataSources.adNN:
+            //console.log("BBBBB")
+            //console.log(obj)
             match_adNN(obj, dataSource);
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             delete obj[fn[dataSource].fullName];
+            //console.log("CCCC")
+            //console.log(obj)
             break;
         case fn.dataSources.mdn:
         case fn.dataSources.mm:

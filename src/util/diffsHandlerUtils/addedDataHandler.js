@@ -29,8 +29,6 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
         const DataModel = dataModels[i];
         let tryFindPerson;
         let path;
-
-        console.log(dataModels.length)
         await DataModel.matchToKartoffel();
 
         if (DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
@@ -40,9 +38,7 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
             DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.s ||
             DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.c
         ) {
-
-            DataModel.complete(extraData.aka_all_data,extraData.city_all_data)
-            
+            DataModel.complete(extraData)
             DataModel.identifiers = [
                 DataModel.person_ready_for_kartoffel.identityCard,
                 DataModel.person_ready_for_kartoffel.personalNumber
@@ -57,7 +53,7 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
             );
             continue;
         }
-
+        
         if (!DataModel.identifiers.length) {
             DataModel.sendLog(
                 logLevel.warn,

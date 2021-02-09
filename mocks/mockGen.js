@@ -192,15 +192,14 @@ for (let i = 0; i < miriAmount; i++) {
 // Generating pictures
 for (let i = 0; i < picturesAmount; i++) {
     let picture = {}
-    picture.profile = {};
-    picture.profile.personalNumber = mis[i];
-    picture.profile.path = utils.generateNumberBody();
-    picture.profile.format = utils.randomElement(["jepg","png"])
+    picture.personalNumber = mis[i];
+    picture.path = utils.generateNumberBody();
+    picture.format = utils.randomElement(["jpg"])
     const takenAt = faker.date
         .between(faker.date.past(10), faker.date.past(40))
         .toISOString()
         .split("T")[0] + " 00:00:00.0"
-    picture.profile.takenAt = utils.randomElement(
+    picture.takenAt = utils.randomElement(
         [
           takenAt,takenAt,takenAt,takenAt,takenAt
         ,
@@ -212,7 +211,7 @@ for (let i = 0; i < picturesAmount; i++) {
         .between(faker.date.past(1), takenAt)
         .toISOString()
         .split("T")[0] + " 00:00:00.0"
-    picture.profile.createdAt = utils.randomElement(
+    picture.createdAt = utils.randomElement(
         [
             createdAt,createdAt,createdAt,createdAt,createdAt
         ,
@@ -224,7 +223,7 @@ for (let i = 0; i < picturesAmount; i++) {
             .between(faker.date.past(1), createdAt)
             .toISOString()
             .split("T")[0] + " 00:00:00.0"
-    picture.profile.updatedAt = utils.randomElement(
+    picture.updatedAt = utils.randomElement(
         [
             updatedAt,updatedAt,updatedAt,updatedAt,
         ,

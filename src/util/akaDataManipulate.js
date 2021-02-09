@@ -15,20 +15,12 @@ module.exports = (telephones, employees, pictures) => {
             telephonesDict[telephones[i][fn.aka.personalNumber]] = telephones[i]
         }
     }
-/*
+
     //same but for pictures
     for (let i = 0; i < pictures.length; i++) {
-        if (picturesDict[pictures[i][fn.aka.personalNumber]] != null) {
-            if (Array.isArray(picturesDict[pictures[i][fn.aka.personalNumber]])) {
-                picturesDict[pictures[i][fn.aka.personalNumber]] = [...picturesDict[pictures[i][fn.aka.personalNumber]], pictures[i]]
-            } else {
-                picturesDict[pictures[i][fn.aka.personalNumber]] = [picturesDict[pictures[i][fn.aka.personalNumber]], pictures[i]]
-            }
-        } else {
-            picturesDict[pictures[i][fn.aka.personalNumber]] = pictures[i]
-        }
+            picturesDict[pictures[i].personalNumber] = pictures[i]
     }
-*/
+
     for (j = 0; j < employees.length; j++) {
         if(telephonesDict[employees[j][fn.aka.personalNumber]] != undefined) {
             currEmployee = telephonesDict[employees[j][fn.aka.personalNumber]]
@@ -54,21 +46,13 @@ module.exports = (telephones, employees, pictures) => {
                 }
             }
         }
-        /*
+        
         //same but for pictures
         if(picturesDict[employees[j][fn.aka.personalNumber]] != undefined) {
-            currEmployee = picturesDict[employees[j][fn.aka.personalNumber]]
-
-            if (Array.isArray(currEmployee)) {
-                for (currPicture of currEmployee) {
-                    employees[j][fn.aka.picture] = currPicture[fn.aka.picture]
-                }
-            }
-            else {
-                employees[j][fn.aka.picture] = currEmployee[fn.aka.picture]
-            }
+            currPicture = picturesDict[employees[j][fn.aka.personalNumber]]
+            employees[j][fn.aka.picture] = currPicture
         }
-        */
+        
     }
 
     return employees;

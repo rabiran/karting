@@ -30,13 +30,12 @@ module.exports = async (dataSource, runningType, dateAndTime, sendLog, queries) 
         let aka_employees_res = await axios.get(p().AKA_EMPLOYEES_API, query).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
         });
-        /*let pictures_meta_data = await axios.get(p().PICTURES_API, query).catch(err => {
+        let pictures_meta_res = await axios.get(p().PICTURES_API, query).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
-        });*/
+        });
 
-        let pictures_meta_data = []
         // editing the aka data and squishing it to one object
-        data = akaDataManipulate(aka_telephones_res.data, aka_employees_res.data,pictures_meta_data);
+        data = akaDataManipulate(aka_telephones_res.data, aka_employees_res.data, pictures_meta_res.data);
     }
     // get the update data from the remote server
     else {

@@ -1,6 +1,7 @@
 const matchToKartoffel = require('./matchToKartoffel');
 const completeFromAka = require('./completeFromAka');
 const completeFromCity = require('./completeFromCity');
+const fn = require('../config/fieldNames');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
 
 class DataModel {
@@ -34,12 +35,21 @@ class DataModel {
         }
     }
     
-    complete(aka_all_data,city_all_data){
+    complete(extraData){
+        this.needComplete = true;
+
+        const aka_all_data = extraData.aka_all_data
+        const city_all_data = extraData.city_all_data
+
         const identifier = this.person_ready_for_kartoffel.personalNumber || this.person_ready_for_kartoffel.identityCard;
         if(!identifier){
             return;
         }
-        const akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
+
+        let akaRecord = null
+        if(aka_all_data){
+            akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
+        }
         if(akaRecord){
             this.person_ready_for_kartoffel = completeFromAka(
                 this.person_ready_for_kartoffel,
@@ -47,22 +57,27 @@ class DataModel {
                 this.dataSource,
                 this.sendLog
         );
+        this.needComplete = false;
         }
         else{
-            const cityRecord = city_all_data.find(person => ((person[fn.city_name.personalNumber] == identifier) || (person[fn.city_name.identityCard] == identifier)));
-            if(cityRecord){
-                this.person_ready_for_kartoffel = completeFromCity(
-                    this.person_ready_for_kartoffel,
-                    cityRecord
-            );
-            }
-            else{
-                //send warning not completed
-                sendLog(logLevel.error, logDetails.error.WRN_COMPLETE, identifier, this.dataSource)
+            if(city_all_data){
+                const cityRecord = city_all_data.find(person => ((person[fn.city_name.personalNumber] == identifier) || (person[fn.city_name.identityCard] == identifier)));
+
+                if(cityRecord){
+                    this.person_ready_for_kartoffel = completeFromCity(
+                        this.person_ready_for_kartoffel,
+                        cityRecord
+                );
+                this.needComplete = false;
+                }
 
             }
+            
         }
-
+        if(this.needComplete){
+            //send warning not completed
+            sendLog(logLevel.error, logDetails.error.WRN_COMPLETE, identifier, this.dataSource)
+        }
         this.needComplete = false;
     }
 

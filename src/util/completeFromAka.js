@@ -16,7 +16,7 @@ const complete_es = (obj, akaRecord) => {
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
     obj.birthday = akaRecord[fn.aka.birthday];
     obj.sex = akaRecord[fn.aka.sex];
-    obj.picture = akaRecord[fn.aka.picture];
+    obj.pictures = { profile : akaRecord[fn.aka.picture] };
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -37,7 +37,7 @@ const complete_ads = (obj, akaRecord) => {
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
     obj.birthday = akaRecord[fn.aka.birthday];
     obj.sex = akaRecord[fn.aka.sex];
-    obj.picture = akaRecord[fn.aka.picture];
+    obj.pictures = { profile : akaRecord[fn.aka.picture] };
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -58,7 +58,7 @@ const complete_adNN = (obj, akaRecord) => {
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
     obj.birthday = akaRecord[fn.aka.birthday];
     obj.sex = akaRecord[fn.aka.sex];
-    obj.picture = akaRecord[fn.aka.picture];
+    obj.pictures = { profile : akaRecord[fn.aka.picture] };
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -67,7 +67,7 @@ const complete_adNN = (obj, akaRecord) => {
 
 const complete_nv = (obj, akaRecord) => {
     validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
-    obj.firstName = akaRecord[fn.aka.firstName];
+    obj.firstName = akaRecord[fn.aka.firstName] ;
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
     obj.dischargeDay = akaRecord[fn.aka.dischargeDay];
@@ -78,7 +78,7 @@ const complete_nv = (obj, akaRecord) => {
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
     obj.birthday = akaRecord[fn.aka.birthday];
     obj.sex = akaRecord[fn.aka.sex];
-    obj.picture = akaRecord[fn.aka.picture];
+    obj.pictures = { profile : akaRecord[fn.aka.picture] };
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -98,7 +98,7 @@ const complete_city = (obj, akaRecord) => {
     obj.entityType = fn.entityTypeValue.s;
     obj.birthday = akaRecord[fn.aka.birthday];
     obj.sex = akaRecord[fn.aka.sex];
-    obj.picture = akaRecord[fn.aka.picture];
+    obj.pictures = { profile : akaRecord[fn.aka.picture] };
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
