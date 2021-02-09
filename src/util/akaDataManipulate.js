@@ -1,7 +1,8 @@
 const fn = require('../config/fieldNames');
 
-module.exports = (telephones, employees) => {
+module.exports = (telephones, employees, pictures) => {
     let telephonesDict = {};
+    let picturesDict = {}
 
     for (let i = 0; i < telephones.length; i++) {
         if (telephonesDict[telephones[i][fn.aka.personalNumber]] != null) {
@@ -13,6 +14,11 @@ module.exports = (telephones, employees) => {
         } else {
             telephonesDict[telephones[i][fn.aka.personalNumber]] = telephones[i]
         }
+    }
+
+    //same but for pictures
+    for (let i = 0; i < pictures.length; i++) {
+            picturesDict[pictures[i].personalNumber] = pictures[i]
     }
 
     for (j = 0; j < employees.length; j++) {
@@ -40,6 +46,13 @@ module.exports = (telephones, employees) => {
                 }
             }
         }
+        
+        //same but for pictures
+        if(picturesDict[employees[j][fn.aka.personalNumber]] != undefined) {
+            currPicture = picturesDict[employees[j][fn.aka.personalNumber]]
+            employees[j][fn.aka.picture] = currPicture
+        }
+        
     }
 
     return employees;

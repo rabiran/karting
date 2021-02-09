@@ -10,16 +10,18 @@ const recordsFilter = require('../recordsFilter');
 const tryArgs = require('../generalUtils/tryArgs');
 const goalUserFromPersonCreation = require('../goalUserFromPersonCreation');
 const DataModel = require('../DataModel');
+const PromiseAllWithFails = require('../generalUtils/promiseAllWithFails');
+const preRun = require('../preRun');
 
 require('dotenv').config();
 
 /**
  * Take new object and add it to kartoffel
- *
- * @param { { DataModel[], string } } addedData - represnts the changes from last data
- * @param {*} aka_all_data - all the data from aka data source (for compilation)
+ *  @param extraData:
+ *  { { DataModel[], string } } addedData - represnts the changes from last data
+ *  {*} aka_all_data - all the data from aka data source (for compilation)
  */
-module.exports = async ({ addedData, dataSource }, aka_all_data) => {
+module.exports = async ({ addedData, dataSource }, extraData) => {
     let dataModels = addedData;
     dataModels = await recordsFilter({dataModels, dataSource});
 
@@ -27,7 +29,6 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
         const DataModel = dataModels[i];
         let tryFindPerson;
         let path;
-
         await DataModel.matchToKartoffel();
 
         if (DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
@@ -37,8 +38,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
             DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.s ||
             DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.c
         ) {
-            DataModel.completeFromAka(aka_all_data);
-
+            DataModel.complete(extraData)
             DataModel.identifiers = [
                 DataModel.person_ready_for_kartoffel.identityCard,
                 DataModel.person_ready_for_kartoffel.personalNumber
@@ -53,7 +53,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
             );
             continue;
         }
-
+        
         if (!DataModel.identifiers.length) {
             DataModel.sendLog(
                 logLevel.warn,
@@ -140,10 +140,13 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                 })
 
                 let KeyForComparison = Object.keys(DataModel.person).find(key => DataModel.person[key] === tryFindPerson.argument);
-
+                let personCopy = { ...DataModel.person }
+                if (personCopy.pictures && personCopy.pictures.profile) {
+                    personCopy.pictures.profile = personCopy.pictures.profile.meta
+                }
                 DataModel.updateDeepDiff = diff(
                     [DataModel.person],
-                    [DataModel.person_ready_for_kartoffel],
+                    [personCopy],
                     KeyForComparison,
                     { updatedValues: 4 }
                 ).updated[0];
@@ -151,7 +154,7 @@ module.exports = async ({ addedData, dataSource }, aka_all_data) => {
                 if (DataModel.updateDeepDiff && DataModel.updateDeepDiff.length > 0) {
                     updated(
                         { updatedData: [DataModel], dataSource },
-                        aka_all_data
+                        extraData
                     );
                 }
             } else {

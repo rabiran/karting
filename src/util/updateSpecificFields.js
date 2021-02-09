@@ -28,6 +28,13 @@ const updateSpecificFields = async (DataModel) => {
                     objForUpdate[deepDiffRecord.path[0]] = mergeArrays(
                         [deepDiffRecord.rhs], DataModel.person[deepDiffRecord.path[0]]
                     );
+                else if (deepDiffRecord.path[0] == 'pictures'){ //if the edited picture is newer, then replace the old one with it
+                    let oldTakenAt = DataModel.person[deepDiffRecord.path[0]].profile.takenAt
+                    let newTakenAt = deepDiffRecord.rhs.profile.takenAt
+                    if(newTakenAt > oldTakenAt ){
+                        objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs
+                    }
+                }
                 else
                     objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
                 break;

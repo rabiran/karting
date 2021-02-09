@@ -60,7 +60,8 @@ const match_aka = async (obj, dataSource, flowType, Auth) => {
                 break;
             // dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                const date = new Date(obj[rawKey])
+                obj.dischargeDay = date.toISOString();
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance
@@ -272,7 +273,6 @@ const match_ads = (obj, dataSource) => {
                 break;
             default:
                 delete obj[rawKey];
-
         }
     })
 };
@@ -327,6 +327,7 @@ const match_adNN = (obj, dataSource) => {
             case fn[dataSource].sAMAccountName:
                 if (obj[rawKey].toLowerCase().includes(fn[dataSource].extension)) {
                     uniqueNum = obj[rawKey].toLowerCase().replace(fn[dataSource].extension, "")
+
                 } else {
                     sendLog(logLevel.warn, logDetails.warn.WRN_USER_NOT_EXTENTION, obj[rawKey], fn[dataSource].extension);
                     break;
@@ -336,7 +337,6 @@ const match_adNN = (obj, dataSource) => {
                 } else {
                     obj.personalNumber = uniqueNum.toString();
                 }
-
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             default:

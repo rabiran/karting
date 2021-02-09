@@ -18,14 +18,21 @@ module.exports = async () => {
         fn.dataSources.mdn, 
         fn.dataSources.mm, 
         fn.dataSources.city
-        
     ]);
 
     let akaData = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
+    //let idObj = {}
+    let city_all_data = dataObj[fn.dataSources.city] ? dataObj[fn.dataSources.city].data : [];
+    
     const Auth = new AuthClass(sendLog);
 
+    let extraData = {aka_all_data : akaData,city_all_data : city_all_data}
+
+    // remove aka flow in diffshandler
+    delete dataObj[fn.dataSources.aka]
+
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
-        await diffsHandler({ added: dataObj[dataSource].data }, dataSource, akaData, fn.runnigTypes.recoveryRun, sendLog, Auth);
+        await diffsHandler({ added: dataObj[dataSource].data }, dataSource, extraData, fn.runnigTypes.recoveryRun, sendLog, Auth);
         if(dataSource != fn.dataSources.aka) {
             await cleanDus(
                 fn.runnigTypes.recoveryRun,
