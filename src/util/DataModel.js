@@ -3,6 +3,8 @@ const completeFromAka = require('./completeFromAka');
 const completeFromCity = require('./completeFromCity');
 const fn = require('../config/fieldNames');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
+const { logLevel } = require('./logger');
+const logDetails = require('./logDetails');
 
 class DataModel {
     constructor(record, dataSource, flowType, runningType, Auth, sendLog, updateDeepDiff) {
@@ -76,7 +78,7 @@ class DataModel {
         }
         if(this.needComplete){
             //send warning not completed
-            sendLog(logLevel.error, logDetails.error.WRN_COMPLETE, identifier, this.dataSource)
+            this.sendLog(logLevel.warn, logDetails.warn.WRN_COMPLETE, identifier, this.dataSource)
         }
         this.needComplete = false;
     }

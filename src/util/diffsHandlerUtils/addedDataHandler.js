@@ -140,10 +140,13 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
                 })
 
                 let KeyForComparison = Object.keys(DataModel.person).find(key => DataModel.person[key] === tryFindPerson.argument);
-
+                let personCopy = { ...DataModel.person }
+                if (personCopy.pictures && personCopy.pictures.profile) {
+                    personCopy.pictures.profile = personCopy.pictures.profile.meta
+                }
                 DataModel.updateDeepDiff = diff(
                     [DataModel.person],
-                    [DataModel.person_ready_for_kartoffel],
+                    [personCopy],
                     KeyForComparison,
                     { updatedValues: 4 }
                 ).updated[0];
