@@ -45,7 +45,7 @@ for (let i = 0; i < akaAmount; i++) {
     birthday: faker.date.between(faker.date.past(18),
     faker.date.past(40)).toISOString().split('T')[0] +
     " 00:00:00.0",
-    sex: utils.randomElement(["M","F"])
+    sex: utils.randomElement(["m","f"])
     })
     telephones.push({
         mi: mis[i],
@@ -199,38 +199,17 @@ for (let i = 0; i < picturesAmount; i++) {
         .between(faker.date.past(10), faker.date.past(40))
         .toISOString()
         .split("T")[0] + " 00:00:00.0"
-    picture.takenAt = utils.randomElement(
-        [
-          takenAt,takenAt,takenAt,takenAt,takenAt
-        ,
-        null,
-        "",
-        "לא ידוע"]
-    );
+    picture.takenAt = takenAt
     const createdAt = faker.date
         .between(faker.date.past(1), takenAt)
         .toISOString()
         .split("T")[0] + " 00:00:00.0"
-    picture.createdAt = utils.randomElement(
-        [
-            createdAt,createdAt,createdAt,createdAt,createdAt
-        ,
-        null,
-        "",
-        "לא ידוע"]
-    );
+    picture.createdAt = createdAt
     const updatedAt = faker.date
             .between(faker.date.past(1), createdAt)
             .toISOString()
             .split("T")[0] + " 00:00:00.0"
-    picture.updatedAt = utils.randomElement(
-        [
-            updatedAt,updatedAt,updatedAt,updatedAt,
-        ,
-        null,
-        "",
-        "לא ידוע"]
-    );
+    picture.updatedAt = updatedAt
     pictures.push(picture)
 }
 

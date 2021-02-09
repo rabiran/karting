@@ -5,7 +5,7 @@ module.exports = (telephones, employees, pictures) => {
     let picturesDict = {}
 
     for (let i = 0; i < telephones.length; i++) {
-        if (telephonesDict[telephones[i][fn.aka.personalNumber]] != null) { //how can it be an array?
+        if (telephonesDict[telephones[i][fn.aka.personalNumber]] != null) {
             if (Array.isArray(telephonesDict[telephones[i][fn.aka.personalNumber]])) {
                 telephonesDict[telephones[i][fn.aka.personalNumber]] = [...telephonesDict[telephones[i][fn.aka.personalNumber]], telephones[i]]
             } else {
