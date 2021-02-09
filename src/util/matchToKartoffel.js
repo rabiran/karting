@@ -323,7 +323,7 @@ const match_adNN = (obj, dataSource) => {
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             //personalNumber or identity card
-            case fn[dataSource].sAMAccountName:  //changed from sama account, right?
+            case fn[dataSource].sAMAccountName:
                 if (obj[rawKey].toLowerCase().includes(fn[dataSource].extension)) {
                     uniqueNum = obj[rawKey].toLowerCase().replace(fn[dataSource].extension, "")
 
@@ -619,13 +619,9 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             };
             break;
         case fn.dataSources.adNN:
-            //console.log("BBBBB")
-            //console.log(obj)
             match_adNN(obj, dataSource);
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             delete obj[fn[dataSource].fullName];
-            //console.log("CCCC")
-            //console.log(obj)
             break;
         case fn.dataSources.mdn:
         case fn.dataSources.mm:

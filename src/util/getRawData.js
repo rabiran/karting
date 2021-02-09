@@ -30,7 +30,7 @@ module.exports = async (dataSource, runningType, dateAndTime, sendLog, queries) 
         let aka_employees_res = await axios.get(p().AKA_EMPLOYEES_API, query).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
         });
-        let pictures_meta_res = await axios.get(p().PICTURES_API, query).catch(err => {
+        let pictures_meta_res = await axios.get(p().AKA_PICTURES_API, query).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
         });
 

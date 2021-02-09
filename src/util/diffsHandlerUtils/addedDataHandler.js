@@ -151,7 +151,7 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
                 if (DataModel.updateDeepDiff && DataModel.updateDeepDiff.length > 0) {
                     updated(
                         { updatedData: [DataModel], dataSource },
-                        extraData.aka_all_data
+                        extraData
                     );
                 }
             } else {

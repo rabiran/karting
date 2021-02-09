@@ -59,7 +59,7 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
 
         DataModel.person = tryFindPerson.result;
 
-        if (DataModel.dataSource === fn.dataSources.aka) { //?
+        if (DataModel.dataSource === fn.dataSources.aka) {
             updateSpecificFields(DataModel);
         } else {
             DataModel.akaRecord = extraData.aka_all_data.find(
@@ -89,32 +89,36 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
                 );
                 continue;
             }
-            else{
-                const CityRecord = extraData.ct_all_data.find(
-                    person => (
-                        person[fn.city_name.personalNumber] == tryFindPerson.argument ||
-                        person[fn.city_name.identityCard] == tryFindPerson.argument
-                    )
-                );
+            //same but from city incase akarecord doesnt exist:
 
-                if(CityRecord &&
-                    CityRecord[fn.city_name.unitName] &&
-                    !DataModel.checkIfDataSourceIsPrimary(CityRecord[fn.city_name.unitName])
-                ){
-                         // Add domain user from the record (if the required data exist)
-                await domainUserHandler(DataModel);
-                DataModel.sendLog(
-                    logLevel.warn,
-                    logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL,
-                    DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
-                    DataModel.dataSource,
-                    tryFindPerson.argument,
-                    DataModel.dataSource,
-                    CityRecord[fn.city_name.unitName]
-                );
-                continue;
-                }
-            }
+            // else{
+            //     const CityRecord = extraData.city_all_data.find(
+            //         person => (
+            //             person[fn.city_name.personalNumber] == tryFindPerson.argument ||
+            //             person[fn.city_name.identityCard] == tryFindPerson.argument
+            //         )
+            //     );
+
+            //     if(CityRecord &&
+            //         CityRecord[fn.city_name.unitName] &&
+            //         !DataModel.checkIfDataSourceIsPrimary(CityRecord[fn.city_name.unitName])
+            //     ){
+            //              // Add domain user from the record (if the required data exist)
+            //     await domainUserHandler(DataModel);
+            //     DataModel.sendLog(
+            //         logLevel.warn,
+            //         logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL,
+            //         DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
+            //         DataModel.dataSource,
+            //         tryFindPerson.argument,
+            //         DataModel.dataSource,
+            //         CityRecord[fn.city_name.unitName]
+            //     );
+            //     continue;
+            //     }
+            // }
+
+
             // // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
             // DataModel.updateDeepDiff[2] = DataModel.updateDeepDiff[2].filter(
             //     diffsObj => {
