@@ -109,31 +109,34 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
         // }
 
 
-        // // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
-        // DataModel.updateDeepDiff[2] = DataModel.updateDeepDiff[2].filter(
-        //     diffsObj => {
-        //         // if the person's object that will be updated passed through matchToKartoffel
-        //         // then the second expression will be the relevant, If not then the first expression will be relevant
-        //         const keyForCheck = (
-        //             Object.keys(fn[DataModel.dataSource]).find(val => fn[DataModel.dataSource][val] == diffsObj.path.toString()) ||
-        //             diffsObj.path.toString()
-        //         );
+        // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
+        DataModel.updateDeepDiff[2] = DataModel.updateDeepDiff[2].filter(
+            diffsObj => {
+                // if the person's object that will be updated passed through matchToKartoffel
+                // then the second expression will be the relevant, If not then the first expression will be relevant
+                const keyForCheck = (
+                    Object.keys(fn[DataModel.dataSource]).find(val => fn[DataModel.dataSource][val] == diffsObj.path.toString()) ||
+                    diffsObj.path.toString()
+                );
                 
-        //         const include = fn.akaRigid.includes(keyForCheck);
-        //         if (include) {
-        //             DataModel.sendLog(
-        //                 logLevel.warn,
-        //                 logDetails.warn.WRN_AKA_FIELD_RIGID,
-        //                 diffsObj.path.toString(),
-        //                 tryFindPerson.argument,
-        //                 DataModel.dataSource
-        //             )
-        //         }
+                const include = fn.akaRigid.includes(keyForCheck);
+                if (include) {
+                    DataModel.sendLog(
+                        logLevel.warn,
+                        logDetails.warn.WRN_AKA_FIELD_RIGID,
+                        diffsObj.path.toString(),
+                        tryFindPerson.argument,
+                        DataModel.dataSource
+                    )
+                }
 
-        //         return !include;
-        //     }
-        // );
+                return !include;
+            }
+        );
 
+        if (DataModel.updateDeepDiff[2].length > 0) {
+            await updateSpecificFields(DataModel);
+        };
         // Add domain user from the record (if the required data exist)
         DataModel.sendLog(
             logLevel.warn,

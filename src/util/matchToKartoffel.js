@@ -471,6 +471,7 @@ const match_city = (obj, dataSource) => {
 
                     let fullNameRegex = new RegExp(`${obj[fn[dataSource].firstName.replace('(',"").replace(')',"")]}( |\t)+${obj[fn[dataSource].lastName.replace('(',"").replace(')',"")]}`);
                     for (const [index, value] of hr.entries()) {
+                        value = value.replace('(',"").replace(')',"");
                         if (isStrContains(value, ['-']) || fullNameRegex.test(value) || !value) {
                             hr.splice(index);
                             break;

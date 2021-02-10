@@ -152,6 +152,7 @@ module.exports = {
         "mobilePhone",
         "phone",
         "serviceType",
+        "picture",
     ],
     forbiddenFieldsToUpdate: ["identityCard", "personalNumber", "directGroup"],
     fieldsForRmoveFromKartoffel: [
