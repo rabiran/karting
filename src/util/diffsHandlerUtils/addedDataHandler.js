@@ -145,8 +145,8 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
                     personCopy.pictures.profile = personCopy.pictures.profile.meta
                 }
                 DataModel.updateDeepDiff = diff(
-                    [DataModel.person],
                     [personCopy],
+                    [DataModel.person_ready_for_kartoffel],
                     KeyForComparison,
                     { updatedValues: 4 }
                 ).updated[0];
