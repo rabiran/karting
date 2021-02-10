@@ -108,7 +108,7 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
         //     }
         // }
 
-
+        if (DataModel.akaRecord) {
         // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
         DataModel.updateDeepDiff[2] = DataModel.updateDeepDiff[2].filter(
             diffsObj => {
@@ -132,11 +132,12 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
 
                 return !include;
             }
-        );
+            );
 
-        if (DataModel.updateDeepDiff[2].length > 0) {
-            await updateSpecificFields(DataModel);
-        };
+            if (DataModel.updateDeepDiff[2].length > 0) {
+                await updateSpecificFields(DataModel);
+            };
+        }
         // Add domain user from the record (if the required data exist)
         DataModel.sendLog(
             logLevel.warn,

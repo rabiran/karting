@@ -18,9 +18,9 @@ module.exports = async ({ added = [], updated = [] }, dataSource, extraData, run
         deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, runnigType, Auth, sendLog, deepDiffObj)
     );
     
-    
     return PromiseAllWithFails([
         add({ addedData, dataSource }, extraData),
         update({ updatedData, dataSource }, extraData),
     ]);
+
 }

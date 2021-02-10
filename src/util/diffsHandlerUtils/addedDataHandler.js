@@ -27,6 +27,10 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
+
+        //TODO: delete this
+        console.log(DataModel.record)
+        
         let tryFindPerson;
         let path;
         await DataModel.matchToKartoffel();
