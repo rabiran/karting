@@ -7,7 +7,7 @@ const mergeArrays = require('./generalUtils/mergeArrays');
 const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn[fn.aka].dischargeDay]).toISOString() : null;
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]).toISOString() : null;
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.lastName = akaRecord[fn.aka.lastName];
@@ -28,7 +28,7 @@ const complete_ads = (obj, akaRecord) => {
     validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn[fn.aka].dischargeDay]).toISOString() : null;
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]).toISOString() : null;
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.lastName = akaRecord[fn.aka.lastName];
@@ -50,7 +50,7 @@ const complete_adNN = (obj, akaRecord) => {
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn[fn.aka].dischargeDay]).toISOString() : null;
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]).toISOString() : null;
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
@@ -70,7 +70,7 @@ const complete_nv = (obj, akaRecord) => {
     obj.firstName = akaRecord[fn.aka.firstName] ;
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn[fn.aka].dischargeDay]).toISOString() : null;
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]).toISOString() : null;
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
@@ -90,7 +90,7 @@ const complete_city = (obj, akaRecord) => {
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn[fn.aka].dischargeDay]).toISOString() : null;
+    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]).toISOString() : null;
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];

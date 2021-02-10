@@ -469,7 +469,7 @@ const match_city = (obj, dataSource) => {
                     hr = hr.split('/').map(unit => unit.trim());
 
                     let fullNameRegex = new RegExp(`${obj[fn[dataSource].firstName.replace('(',"").replace(')',"")]}( |\t)+${obj[fn[dataSource].lastName.replace('(',"").replace(')',"")]}`);
-                    for (const [index, value] of hr.entries()) {
+                    for (let [index, value] of hr.entries()) {
                         value = value.replace('(',"").replace(')',"");
                         if (isStrContains(value, ['-']) || fullNameRegex.test(value) || !value) {
                             hr.splice(index);
@@ -635,7 +635,12 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
         case fn.dataSources.city:
+            try{
             match_city(obj, dataSource);
+            }
+            catch(err){
+                console.log(err)
+            }
             if (obj.entityType === fn.entityTypeValue.gu) {
                 obj.personalNumber ? delete obj['personalNumber'] : null;
                 obj.identityCard ? delete obj['identityCard'] : null;

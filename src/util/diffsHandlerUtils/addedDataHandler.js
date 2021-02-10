@@ -27,13 +27,12 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
-
-        //TODO: delete this
-        console.log(DataModel.record)
-        
         let tryFindPerson;
         let path;
+
         await DataModel.matchToKartoffel();
+
+        
 
         if (DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
             DataModel.identifiers = [DataModel.person_ready_for_kartoffel.domainUsers[0].uniqueID].filter(id => id);
@@ -138,7 +137,7 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
                 DataModel.person.entityType !== fn.entityTypeValue.gu
             ) {
                 await goalUserFromPersonCreation(DataModel.person, DataModel.person_ready_for_kartoffel, DataModel.dataSource, DataModel.Auth, DataModel.sendLog);
-            } else if (DataModel.isDataSourcePrimary || dataSource === fn.dataSources.aka) {
+            }
                 Object.keys(DataModel.person).map(key => {
                     fn.fieldsForRmoveFromKartoffel.includes(key) ? delete DataModel.person[key] : null;
                 })
@@ -161,9 +160,6 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
                         extraData
                     );
                 }
-            } else {
-                await domainUserHandler(DataModel);
-            }
         } else {
             DataModel.sendLog(logLevel.error, logDetails.error.ERR_UNKNOWN_ERROR, 'addedDataHandler', JSON.stringify(tryFindPerson.lastErr));
         }
