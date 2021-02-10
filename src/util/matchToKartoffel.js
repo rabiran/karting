@@ -60,8 +60,8 @@ const match_aka = async (obj, dataSource, flowType, Auth) => {
                 break;
             // dischargeDay
             case fn[dataSource].dischargeDay:
-                const date = new Date(obj[rawKey])
-                obj.dischargeDay = date.toISOString();
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                obj.dischargeDay = date ? date.toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance
@@ -162,7 +162,8 @@ const match_es = (obj, dataSource) => {
                 break;
             //dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                obj.dischargeDay = date ? date.toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             //hierarchy
@@ -418,7 +419,8 @@ const match_city = (obj, dataSource) => {
                 break;
             // dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                obj.dischargeDay = date ? date.toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance
@@ -465,7 +467,9 @@ const match_city = (obj, dataSource) => {
                 let hr = obj[rawKey].replace('\\', '/');
                 if (hr.includes('/')) {
                     hr = hr.split('/').map(unit => unit.trim());
-                    let fullNameRegex = new RegExp(`${obj[fn[dataSource].firstName]}( |\t)+${obj[fn[dataSource].lastName]}`);
+                    //TODO: replace somewhere else?
+
+                    let fullNameRegex = new RegExp(`${obj[fn[dataSource].firstName.replace('(',"").replace(')',"")]}( |\t)+${obj[fn[dataSource].lastName.replace('(',"").replace(')',"")]}`);
                     for (const [index, value] of hr.entries()) {
                         if (isStrContains(value, ['-']) || fullNameRegex.test(value) || !value) {
                             hr.splice(index);
