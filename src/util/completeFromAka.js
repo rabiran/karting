@@ -14,7 +14,7 @@ const complete_es = (obj, akaRecord) => {
     obj.rank = akaRecord[fn.aka.rank];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
-    obj.birthDate = akaRecord[fn.aka.birthday] ? new Date(akaRecord[fn.aka.birthday]).toISOString() : null
+    obj.birthDate = akaRecord[fn.aka.birthDate] ? new Date(akaRecord[fn.aka.birthDate]).toISOString() : null
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
@@ -35,7 +35,7 @@ const complete_ads = (obj, akaRecord) => {
     obj.rank = akaRecord[fn.aka.rank];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
-    obj.birthDate = akaRecord[fn.aka.birthday] ? new Date(akaRecord[fn.aka.birthday]).toISOString() : null
+    obj.birthDate = akaRecord[fn.aka.birthDate] ? new Date(akaRecord[fn.aka.birthDate]).toISOString() : null
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
@@ -56,7 +56,7 @@ const complete_adNN = (obj, akaRecord) => {
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
-    obj.birthDate = akaRecord[fn.aka.birthday] ? new Date(akaRecord[fn.aka.birthday]).toISOString() : null
+    obj.birthDate = akaRecord[fn.aka.birthDate] ? new Date(akaRecord[fn.aka.birthDate]).toISOString() : null
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
@@ -76,7 +76,7 @@ const complete_nv = (obj, akaRecord) => {
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
-    obj.birthDate = akaRecord[fn.aka.birthday] ? new Date(akaRecord[fn.aka.birthday]).toISOString() : null
+    obj.birthDate = akaRecord[fn.aka.birthDate] ? new Date(akaRecord[fn.aka.birthDate]).toISOString() : null
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
@@ -96,7 +96,7 @@ const complete_city = (obj, akaRecord) => {
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
     obj.entityType = fn.entityTypeValue.s;
-    obj.birthDate = akaRecord[fn.aka.birthday] ? new Date(akaRecord[fn.aka.birthday]).toISOString() : null
+    obj.birthDate = akaRecord[fn.aka.birthDate] ? new Date(akaRecord[fn.aka.birthDate]).toISOString() : null
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;

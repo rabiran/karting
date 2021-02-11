@@ -28,9 +28,9 @@ module.exports = {
         unitName: "hr", 
         telephoneType: "telephoneType",
         uniqeFieldForDeepDiff: "mi",
-        birthday: "birthday",
+        birthDate: "birthday",
         sex: "sex",
-        picture: "picture",
+        picture: "pictures",
     },
     es_name: {
         entityType: "entity",
@@ -153,6 +153,8 @@ module.exports = {
         "phone",
         "serviceType",
         "picture",
+        "sex",
+        "birthDate",
     ],
     forbiddenFieldsToUpdate: ["identityCard", "personalNumber", "directGroup"],
     fieldsForRmoveFromKartoffel: [
