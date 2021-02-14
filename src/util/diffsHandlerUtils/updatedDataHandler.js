@@ -116,9 +116,9 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
                     // then the second expression will be the relevant, If not then the first expression will be relevant
                     const keyForCheck = (
                         Object.keys(fn[DataModel.dataSource]).find(val => fn[DataModel.dataSource][val] == diffsObj.path.toString()) ||
+                        //take into consideration, that diffsObj.path is an array (phones)
                         diffsObj.path.toString()
                     );
-                    
                     const include = fn.akaRigid.includes(keyForCheck);
                     if (include) {
                         DataModel.sendLog(
