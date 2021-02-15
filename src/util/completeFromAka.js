@@ -10,7 +10,7 @@ const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]) : null;
-    var userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
+    const userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
     obj.dischargeDay = (new Date(obj.dischargeDay.getTime() - userTimezoneOffset)).toISOString();
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
@@ -34,7 +34,7 @@ const complete_ads = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]) : null;
-    var userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
+    const userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
     obj.dischargeDay = (new Date(obj.dischargeDay.getTime() - userTimezoneOffset)).toISOString();
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
@@ -59,7 +59,7 @@ const complete_adNN = (obj, akaRecord) => {
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
     obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]) : null;
-    var userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
+    const userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
     obj.dischargeDay = (new Date(obj.dischargeDay.getTime() - userTimezoneOffset)).toISOString();
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
@@ -82,7 +82,7 @@ const complete_nv = (obj, akaRecord) => {
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
     obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]) : null;
-    var userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
+    const userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
     obj.dischargeDay = (new Date(obj.dischargeDay.getTime() - userTimezoneOffset)).toISOString();
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
@@ -105,7 +105,7 @@ const complete_city = (obj, akaRecord) => {
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
     obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]) : null;
-    var userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
+    const userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
     obj.dischargeDay = (new Date(obj.dischargeDay.getTime() - userTimezoneOffset)).toISOString();
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
