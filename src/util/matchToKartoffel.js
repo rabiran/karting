@@ -11,7 +11,6 @@ const { logLevel } = require('./logger');
 require('dotenv').config();
 
 let sendLog;
-var userTimezoneOffset = date.getTimezoneOffset() * 60000;
 
 const match_aka = async (obj, dataSource, flowType, Auth) => {
     const objKeys = Object.keys(obj);
@@ -62,6 +61,7 @@ const match_aka = async (obj, dataSource, flowType, Auth) => {
             // dischargeDay
             case fn[dataSource].dischargeDay:
                 const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                var userTimezoneOffset = date.getTimezoneOffset() * 60000;
                 obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
@@ -164,6 +164,7 @@ const match_es = (obj, dataSource) => {
             //dischargeDay
             case fn[dataSource].dischargeDay:
                 const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                var userTimezoneOffset = date.getTimezoneOffset() * 60000;
                 obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
@@ -421,6 +422,7 @@ const match_city = (obj, dataSource) => {
             // dischargeDay
             case fn[dataSource].dischargeDay:
                 const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                var userTimezoneOffset = date.getTimezoneOffset() * 60000;
                 obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
