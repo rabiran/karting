@@ -130,8 +130,6 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
 
             DataModel.person = tryFindPerson.result;
 
-            DataModel.checkIfDataSourceIsPrimary(DataModel.person_ready_for_kartoffel.currentUnit);
-
             if (
                 DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu &&
                 DataModel.person.entityType !== fn.entityTypeValue.gu

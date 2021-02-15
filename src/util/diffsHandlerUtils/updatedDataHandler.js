@@ -75,9 +75,6 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
             if (DataModel.updateDeepDiff[2].length > 0) {
                 await updateSpecificFields(DataModel);
             };
-    
-            await domainUserHandler(DataModel);
-            continue;
         }
         //same but from city incase akarecord doesnt exist:
 
@@ -108,7 +105,7 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
         //     }
         // }
 
-        if (DataModel.akaRecord) {
+        else if (DataModel.akaRecord) {
             // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
             DataModel.updateDeepDiff[2] = DataModel.updateDeepDiff[2].filter(
                 diffsObj => {
@@ -141,14 +138,13 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
         // Add domain user from the record (if the required data exist)
         DataModel.sendLog(
             logLevel.warn,
-            logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL,
-            DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
+            logDetails.warn.WRN_NOT_UPDATE_IN_KARTOFFEL,
             DataModel.dataSource,
             tryFindPerson.argument,
             DataModel.dataSource,
-            DataModel.akaRecord ? DataModel.akaRecord[fn.aka.unitName] : ''
+            DataModel.akaRecord ? DataModel.akaRecord[fn.aka.unitName] : 'none',
+            DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
         );
         await domainUserHandler(DataModel);
-        
     }
 }
