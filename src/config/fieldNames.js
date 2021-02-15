@@ -30,7 +30,7 @@ module.exports = {
         uniqeFieldForDeepDiff: "mi",
         birthDate: "birthday",
         sex: "sex",
-        picture: "pictures",
+        picture: "picture",
     },
     es_name: {
         entityType: "entity",
