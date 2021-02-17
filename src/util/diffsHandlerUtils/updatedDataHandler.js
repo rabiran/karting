@@ -131,20 +131,22 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
                 }
                 );
 
-                if (DataModel.updateDeepDiff[2].length > 0) {
-                    await updateSpecificFields(DataModel);
-                };
-        }
-        // Add domain user from the record (if the required data exist)
-        DataModel.sendLog(
-            logLevel.warn,
-            logDetails.warn.WRN_NOT_UPDATE_IN_KARTOFFEL,
-            DataModel.dataSource,
-            tryFindPerson.argument,
-            DataModel.dataSource,
-            DataModel.akaRecord ? DataModel.akaRecord[fn.aka.unitName] : 'none',
-            DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
-        );
+            // The filtered fields werent updated because of the current unit irrelevance to the dataSource
+            DataModel.sendLog(
+                logLevel.warn,
+                logDetails.warn.WRN_NOT_UPDATE_IN_KARTOFFEL,
+                DataModel.dataSource,
+                tryFindPerson.argument,
+                DataModel.dataSource,
+                DataModel.akaRecord ? DataModel.akaRecord[fn.aka.unitName] : 'none',
+                DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
+            );
+
+            if (DataModel.updateDeepDiff[2].length > 0) {
+                await updateSpecificFields(DataModel);
+            };
+        } 
+
         await domainUserHandler(DataModel);
     }
 }
