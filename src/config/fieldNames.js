@@ -152,7 +152,7 @@ module.exports = {
         "mobilePhone",
         "phone",
         "serviceType",
-        "picture",
+        "pictures",
         "sex",
         "birthDate",
     ],

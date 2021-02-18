@@ -65,6 +65,7 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
                 person[fn.aka.identityCard] == tryFindPerson.argument
             )
         );
+        let stillNotUpdated = [...DataModel.updateDeepDiff[2]];
 
         // Check if the dataSource of the record is the primary dataSource for the person
         if (
@@ -75,6 +76,7 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
             if (DataModel.updateDeepDiff[2].length > 0) {
                 await updateSpecificFields(DataModel);
             };
+            stillNotUpdated = []
         }
         //same but from city incase akarecord doesnt exist:
 
@@ -111,12 +113,14 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
                 diffsObj => {
                     // if the person's object that will be updated passed through matchToKartoffel
                     // then the second expression will be the relevant, If not then the first expression will be relevant
-                    const keyForCheck = (
+                    let keyForCheck = (
                         Object.keys(fn[DataModel.dataSource]).find(val => fn[DataModel.dataSource][val] == diffsObj.path.toString()) ||
                         //take into consideration, that diffsObj.path is an array (phones)
                         diffsObj.path.toString()
                     );
+                    keyForCheck = keyForCheck.split(',')[0]
                     const include = fn.akaRigid.includes(keyForCheck);
+
                     if (include) {
                         DataModel.sendLog(
                             logLevel.warn,
@@ -134,17 +138,26 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
                 if (DataModel.updateDeepDiff[2].length > 0) {
                     await updateSpecificFields(DataModel);
                 };
+                //array subtraction stillNotUpdated = stillNotUpdated - DataModel.updateDeepdiff[2]
+                stillNotUpdated = stillNotUpdated.filter(function(e) {
+                    let i = DataModel.updateDeepDiff[2].indexOf(e)
+                    return i == -1 ? true : (DataModel.updateDeepDiff[2].splice(i, 1), false)
+                  })
+
         }
+        
         // Add domain user from the record (if the required data exist)
-        DataModel.sendLog(
-            logLevel.warn,
-            logDetails.warn.WRN_NOT_UPDATE_IN_KARTOFFEL,
-            DataModel.dataSource,
-            tryFindPerson.argument,
-            DataModel.dataSource,
-            DataModel.akaRecord ? DataModel.akaRecord[fn.aka.unitName] : 'none',
-            DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
-        );
+        if (stillNotUpdated.length > 0) {
+            DataModel.sendLog(
+                logLevel.warn,
+                logDetails.warn.WRN_NOT_UPDATE_IN_KARTOFFEL,
+                DataModel.dataSource,
+                tryFindPerson.argument,
+                DataModel.dataSource,
+                DataModel.akaRecord ? DataModel.akaRecord[fn.aka.unitName] : 'none',
+                stillNotUpdated.map(obj => `${obj.path.toString()},`),
+            );
+        }
         await domainUserHandler(DataModel);
     }
 }

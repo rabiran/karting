@@ -6,6 +6,7 @@ const mergeArrays = require('./generalUtils/mergeArrays');
 
 
 
+
 const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
@@ -22,6 +23,10 @@ const complete_es = (obj, akaRecord) => {
     obj.birthDate = (new Date(obj.birthDate.getTime() - userTimezoneOffset)).toISOString();
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
+    if(obj.pictures){
+        delete(obj.pictures.profile.createdAt)
+        delete(obj.pictures.profile.updatedAt)
+    }
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -46,6 +51,10 @@ const complete_ads = (obj, akaRecord) => {
     obj.birthDate = (new Date(obj.birthDate.getTime() - userTimezoneOffset)).toISOString();
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
+    if(obj.pictures){
+        delete(obj.pictures.profile.createdAt)
+        delete(obj.pictures.profile.updatedAt)
+    }
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -70,6 +79,10 @@ const complete_adNN = (obj, akaRecord) => {
     obj.birthDate = (new Date(obj.birthDate.getTime() - userTimezoneOffset)).toISOString();
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
+    if(obj.pictures){
+        delete(obj.pictures.profile.createdAt)
+        delete(obj.pictures.profile.updatedAt)
+    }
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -93,6 +106,10 @@ const complete_nv = (obj, akaRecord) => {
     obj.birthDate = (new Date(obj.birthDate.getTime() - userTimezoneOffset)).toISOString();
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
+    if(obj.pictures){
+        delete(obj.pictures.profile.createdAt)
+        delete(obj.pictures.profile.updatedAt)
+    }
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
@@ -116,6 +133,10 @@ const complete_city = (obj, akaRecord) => {
     obj.birthDate = (new Date(obj.birthDate.getTime() - userTimezoneOffset)).toISOString();
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
+    if(obj.pictures){
+        delete(obj.pictures.profile.createdAt)
+        delete(obj.pictures.profile.updatedAt)
+    }
     const akaRecordPhone = `${akaRecord[fn.aka.areaCode]}-${akaRecord[fn.aka.phone]}`;
     const akaRecordMobilePhone = `${akaRecord[fn.aka.areaCodeMobile]}-${akaRecord[fn.aka.mobilePhone]}`;
     phonesValueHandler(obj, akaRecordPhone, "phone");
