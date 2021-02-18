@@ -152,17 +152,12 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
                     { updatedValues: 4 }
                 ).updated[0];
 
-                try{
                 if (DataModel.updateDeepDiff && DataModel.updateDeepDiff.length > 0) {
                     updated(
                         { updatedData: [DataModel], dataSource },
                         extraData
                     );
                 }
-            }
-            catch(err){
-                console.log(err)
-            }
         } else {
             DataModel.sendLog(logLevel.error, logDetails.error.ERR_UNKNOWN_ERROR, 'addedDataHandler', JSON.stringify(tryFindPerson.lastErr));
         }
