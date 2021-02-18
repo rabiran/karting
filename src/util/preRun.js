@@ -6,7 +6,8 @@ const { wrapSendLog } = require('./logger');
 const getRawData = require('./getRawData');
 
 module.exports = async (runningType, dataSources, identifierObj, runUID) => {
-    let sendLog = wrapSendLog(runningType, identifierObj, runUID)
+
+    let sendLog = wrapSendLog(runningType, { identifierObj, runUID })
 
     // check if the root hierarchy exist and adding it if not
     await authHierarchyExistence(sendLog);

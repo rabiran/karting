@@ -1,9 +1,6 @@
 const fn = require('../config/fieldNames');
 const diffsHandler = require('../util/diffsHandler');
 const preRun = require('../util/preRun');
-const searchRecordsInData = require('../util/searchRecordsInData');
-const assembleDomainUser = require('../util/fieldsUtils/assembleDomainUser');
-const cleanDus = require('../util/cleanDu/cleanDus');
 const AuthClass = require('../auth/auth');
 const collectLogs = require('../util/collectLogs')
 
@@ -18,35 +15,13 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
 
         let akaRecords = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
         let foundRecords = dataObj[dataSource] ? dataObj[dataSource].data : [];
-        
-        // const missingSources = [];
-
-        // akaRecords.length ? null : missingSources.push(fn.dataSources.aka);
-        // foundRecords.length ? null : missingSources.push(dataSource);
-
-        // const sourceResults = missingSources.length ? await searchRecordsInData(Object.values(idObj), missingSources) : null;
-
-        // akaRecords = akaRecords.length ? akaRecords : sourceResults[fn.dataSources.aka].map(elem => elem.record);
-        // foundRecords = foundRecords.length ? foundRecords : sourceResults[dataSource].map(elem => elem.record);
-
         const Auth = new AuthClass(sendLog);
 
-        await diffsHandler({ added: foundRecords }, dataSource, akaRecords, fn.runnigTypes.immediateRun, sendLog, Auth);
-        // if(dataSource != fn.dataSources.aka) {
-        //     const domainUser = assembleDomainUser(dataSource, foundRecords[0], sendLog);
-        //     if(dataSource != fn.dataSources.aka) {
-        //         await cleanDus(
-        //             fn.runnigTypes.immediateRun,
-        //             dataSource,
-        //             dataObj[dataSource].data,
-        //             domainUser,
-        //             sendLog,
-        //             Auth
-        //         );
-        //     }
+        let city_all_data = dataObj[fn.dataSources.city] ? dataObj[fn.dataSources.city].data : [];
 
-        // }
+        let extraData = {aka_all_data : akaRecords,city_all_data : city_all_data}
 
+        await diffsHandler({ added: foundRecords }, dataSource, extraData, fn.runnigTypes.immediateRun, sendLog, Auth);
 
         let { logs, fileName } = await collectLogs(idObj, runUID);
         resArray.push({

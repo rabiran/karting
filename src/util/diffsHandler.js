@@ -12,14 +12,15 @@ require('dotenv').config();
 * aka_all_data - object that contain all the recent data from aka
 */
 
-module.exports = async ({ added = [], updated = [] }, dataSource, aka_all_data, runnigType, sendLog, Auth) => {
+module.exports = async ({ added = [], updated = [] }, dataSource, extraData, runnigType, sendLog, Auth) => {
     const addedData = added.map(newRecord => new DataModel(newRecord, dataSource, fn.flowTypes.add, runnigType, Auth, sendLog));
     const updatedData = updated.map(
         deepDiffObj => new DataModel(deepDiffObj[1], dataSource, fn.flowTypes.update, runnigType, Auth, sendLog, deepDiffObj)
     );
-
+    
     return PromiseAllWithFails([
-        add({ addedData, dataSource }, aka_all_data),
-        update({ updatedData, dataSource }, aka_all_data),
+        add({ addedData, dataSource }, extraData),
+        update({ updatedData, dataSource }, extraData),
     ]);
+
 }

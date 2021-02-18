@@ -5,47 +5,47 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-  mongo-primary:
-    image: bitnami/mongodb:latest
-    environment: 
-      - MONGODB_REPLICA_SET_MODE=primary
-      - MONGODB_ADVERTISED_HOSTNAME=mongo-primary
-      - MONGODB_REPLICA_SET_NAME=rs0
-      - MONGODB_ROOT_PASSWORD=nitro123
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
-      - MONGODB_USERNAME=nitro
-      - MONGODB_PASSWORD=password123
-      - MONGODB_DATABASE=kartoffel
-    ports:
-      - 27017:27017
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
-    environment:
-      - discovery.type=single-node
-    ports:
-      - 9200:9200
-  monstache:
-    image: rwynn/monstache:rel6
-    command: -f ./config.toml
-    working_dir: /app
-    depends_on: 
-      - mongo-primary
-      - elasticsearch
-    volumes:
-      - ./docker-compose-config/monstache/config/config.toml:/app/config.toml
-      - ./docker-compose-config/monstache/config/scripts:/app/scripts
-  kartoffel:
-    build:
-      context: .
-      dockerfile: Dockerfile-kartoffel
-    container_name: kartoffel
-    image: "davidhey/kartoffel"
-    depends_on: 
-      - mongo-primary
-      - elasticsearch
-      - redis
-    ports:
-      - "3000:3000"
+  # mongo-primary:
+  #   image: bitnami/mongodb:latest
+  #   environment: 
+  #     - MONGODB_REPLICA_SET_MODE=primary
+  #     - MONGODB_ADVERTISED_HOSTNAME=mongo-primary
+  #     - MONGODB_REPLICA_SET_NAME=rs0
+  #     - MONGODB_ROOT_PASSWORD=nitro123
+  #     - MONGODB_REPLICA_SET_KEY=replicasetkey123
+  #     - MONGODB_USERNAME=nitro
+  #     - MONGODB_PASSWORD=password123
+  #     - MONGODB_DATABASE=kartoffel
+  #   ports:
+  #     - 27017:27017
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+  #   environment:
+  #     - discovery.type=single-node
+  #   ports:
+  #     - 9200:9200
+  # monstache:
+  #   image: rwynn/monstache:rel6
+  #   command: -f ./config.toml
+  #   working_dir: /app
+  #   depends_on: 
+  #     - mongo-primary
+  #     - elasticsearch
+  #   volumes:
+  #     - ./docker-compose-config/monstache/config/config.toml:/app/config.toml
+  #     - ./docker-compose-config/monstache/config/scripts:/app/scripts
+  # kartoffel:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-kartoffel
+  #   container_name: kartoffel
+  #   image: "davidhey/kartoffel"
+  #   depends_on: 
+  #     - mongo-primary
+  #     - elasticsearch
+  #     - redis
+  #   ports:
+  #     - "3000:3000"
   mockserver:
     build:
       context: .
@@ -54,4 +54,46 @@ services:
     image: "davidhey/mockserver"
     ports:
       - "3001:3001"
-  
+  # s3:
+  #   image: minio/minio
+  #   ports:
+  #     - "9000:9000"
+  #   volumes:
+  #     - ./storage/minio:/data
+  #   environment:
+  #     MINIO_ACCESS_KEY: minio
+  #     MINIO_SECRET_KEY: minio123
+  #   command: server /data
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.3.1
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  broker:
+    image: confluentinc/cp-enterprise-kafka:5.3.1
+    hostname: broker
+    container_name: broker
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: broker:29092
+      CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT: zookeeper:2181
+      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
+      CONFLUENT_METRICS_ENABLE: 'true'
+      CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+
+

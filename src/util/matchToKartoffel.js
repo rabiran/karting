@@ -60,7 +60,9 @@ const match_aka = async (obj, dataSource, flowType, Auth) => {
                 break;
             // dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance
@@ -161,7 +163,9 @@ const match_es = (obj, dataSource) => {
                 break;
             //dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             //hierarchy
@@ -272,7 +276,6 @@ const match_ads = (obj, dataSource) => {
                 break;
             default:
                 delete obj[rawKey];
-
         }
     })
 };
@@ -327,6 +330,7 @@ const match_adNN = (obj, dataSource) => {
             case fn[dataSource].sAMAccountName:
                 if (obj[rawKey].toLowerCase().includes(fn[dataSource].extension)) {
                     uniqueNum = obj[rawKey].toLowerCase().replace(fn[dataSource].extension, "")
+
                 } else {
                     sendLog(logLevel.warn, logDetails.warn.WRN_USER_NOT_EXTENTION, obj[rawKey], fn[dataSource].extension);
                     break;
@@ -336,7 +340,6 @@ const match_adNN = (obj, dataSource) => {
                 } else {
                     obj.personalNumber = uniqueNum.toString();
                 }
-
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             default:
@@ -418,7 +421,9 @@ const match_city = (obj, dataSource) => {
                 break;
             // dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance
@@ -465,8 +470,10 @@ const match_city = (obj, dataSource) => {
                 let hr = obj[rawKey].replace('\\', '/');
                 if (hr.includes('/')) {
                     hr = hr.split('/').map(unit => unit.trim());
-                    let fullNameRegex = new RegExp(`${obj[fn[dataSource].firstName]}( |\t)+${obj[fn[dataSource].lastName]}`);
-                    for (const [index, value] of hr.entries()) {
+
+                    let fullNameRegex = new RegExp(`${obj[fn[dataSource].firstName.replace('(',"").replace(')',"")]}( |\t)+${obj[fn[dataSource].lastName.replace('(',"").replace(')',"")]}`);
+                    for (let [index, value] of hr.entries()) {
+                        value = value.replace('(',"").replace(')',"");
                         if (isStrContains(value, ['-']) || fullNameRegex.test(value) || !value) {
                             hr.splice(index);
                             break;
@@ -631,7 +638,12 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
         case fn.dataSources.city:
+            try{
             match_city(obj, dataSource);
+            }
+            catch(err){
+                console.log(err)
+            }
             if (obj.entityType === fn.entityTypeValue.gu) {
                 obj.personalNumber ? delete obj['personalNumber'] : null;
                 obj.identityCard ? delete obj['identityCard'] : null;
