@@ -14,14 +14,16 @@ async function cleanDu(runningType, dataSource, records, query, sendLog, Auth) {
         const resPerson = await Auth.axiosKartoffel.get(`${p().KARTOFFEL_PERSON_API}/domainUser/${query}`).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_PERSONS_BY_DU , query, dataSource, err.message);
         }); 
-        console.log(resPersons.data.domainUsers)
+        //console.log(resPersons.data.domainUsers)
         dataSourcePersons.push(resPerson.data);
     }
     else {
         const resPersons = await Auth.axiosKartoffel.get(p().KARTOFFEL_PERSON_API, query).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_PERSONS_BY_DU , query, dataSource, err.message);
         });
-        dataSourcePersons = resPersons.data;
+        if(resPersons){
+            dataSourcePersons = resPersons.data;
+        }
     }
     const irrelevantDus = getIrrelevantDus(records, dataSourcePersons, dataSource, sendLog, Auth);
     await deleteDus(irrelevantDus, dataSourcePersons, dataSource, sendLog, Auth);

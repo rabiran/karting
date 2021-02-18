@@ -20,7 +20,15 @@ const updateSpecificFields = async (DataModel) => {
     DataModel.updateDeepDiff[2].map(deepDiffRecord => {
         switch(deepDiffRecord.kind) {
             case "N":{
-                objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
+                let newToUpdate;
+                if (deepDiffRecord.path[0] == 'pictures'){
+                    if(deepDiffRecord.path[1] == 'profile' && deepDiffRecord.path[2] != 'takenAt')
+                        break;
+                    newToUpdate = {...DataModel.akaRecord.picture};
+                } else{
+                    newToUpdate = deepDiffRecord.rhs
+                }
+                objForUpdate[deepDiffRecord.path[0]] = newToUpdate;
                 break;
             }
             case "E":{
@@ -28,11 +36,17 @@ const updateSpecificFields = async (DataModel) => {
                     objForUpdate[deepDiffRecord.path[0]] = mergeArrays(
                         [deepDiffRecord.rhs], DataModel.person[deepDiffRecord.path[0]]
                     );
-                else if (deepDiffRecord.path[0] == 'pictures'){ //if the edited picture is newer, then replace the old one with it
-                    let oldTakenAt = DataModel.person[deepDiffRecord.path[0]].profile.takenAt
-                    let newTakenAt = deepDiffRecord.rhs.profile.takenAt
-                    if(newTakenAt > oldTakenAt ){
-                        objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs
+                else if (deepDiffRecord.path[0] == 'pictures' && deepDiffRecord.path[1] === 'profile') { //if the edited picture is newer, then replace the old one with it
+                    if (deepDiffRecord.path[2] === 'takenAt') {
+                        let oldTakenAt = DataModel.person[deepDiffRecord.path[0]].profile.takenAt
+                        let newTakenAt = DataModel.person_ready_for_kartoffel[deepDiffRecord.path[0]].profile.takenAt
+                        if(newTakenAt <= oldTakenAt){
+                            break;
+                        }
+                        objForUpdate[deepDiffRecord.path[0]] = DataModel.person_ready_for_kartoffel[deepDiffRecord.path[0]]
+                    }
+                    else{
+                        break;
                     }
                 }
                 else

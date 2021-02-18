@@ -9,8 +9,8 @@ const fn = require('../config/fieldNames');
  */
 module.exports =  (obj, CityRecord) => {
     
-    obj.rank = CityRecord[fn.city_name.rank];
-    //obj.currentUnit = CityRecord[fn.city_name.unitName];
+    obj.rank = CityRecord[fn[fn.dataSources.city].rank];
+    //obj.currentUnit = CityRecord[fn[fn.dataSources.city]].unitName];
 
     // delete the empty fields from the returned object
     Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null") ? delete obj[key] : null);

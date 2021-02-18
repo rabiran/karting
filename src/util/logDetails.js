@@ -33,7 +33,7 @@ messageLog = {
     warn: {
         WRN_COMPLETE: 'The person with the identifier %s from %s not complete from aka or city',
         WRN_MISSING_IDENTIFIER_PERSON: 'There is no identifier to the person: %s, the record is: %s from %s',
-        WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL: 'The fields "%s" of the person from:"%s" with the identifier %s updated but not saved in kartoffel because the dataSource: "%s" is not match to the person\'s currentUnit: "%s"',
+        WRN_NOT_UPDATE_IN_KARTOFFEL: 'The person from:"%s" with the identifier %s not updated in kartoffel because the dataSource: "%s" is not match to the person\'s currentUnit: "%s", the fields are: %s',
         WRN_AKA_FIELD_RIGID: 'The field "%s" of the person with the identifier %s from the dataSource "%s" is not update because is rigid to Aka',
         WRN_IDENTIFIER_FIELD_REDUNDANT: 'The identifier fields of the person %s are equals, the "%s" field was deleted',
         WRN_NOT_INSERTED_ENTITY_TYPE: 'Not inserted entity type for the user with the upn %s from ads',

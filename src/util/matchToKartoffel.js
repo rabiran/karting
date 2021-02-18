@@ -60,8 +60,9 @@ const match_aka = async (obj, dataSource, flowType, Auth) => {
                 break;
             // dischargeDay
             case fn[dataSource].dischargeDay:
-                const date = new Date(obj[rawKey])
-                obj.dischargeDay = date.toISOString();
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance
@@ -162,7 +163,9 @@ const match_es = (obj, dataSource) => {
                 break;
             //dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             //hierarchy
@@ -418,7 +421,9 @@ const match_city = (obj, dataSource) => {
                 break;
             // dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance
@@ -465,8 +470,10 @@ const match_city = (obj, dataSource) => {
                 let hr = obj[rawKey].replace('\\', '/');
                 if (hr.includes('/')) {
                     hr = hr.split('/').map(unit => unit.trim());
-                    let fullNameRegex = new RegExp(`${obj[fn[dataSource].firstName]}( |\t)+${obj[fn[dataSource].lastName]}`);
-                    for (const [index, value] of hr.entries()) {
+
+                    let fullNameRegex = new RegExp(`${obj[fn[dataSource].firstName.replace('(',"").replace(')',"")]}( |\t)+${obj[fn[dataSource].lastName.replace('(',"").replace(')',"")]}`);
+                    for (let [index, value] of hr.entries()) {
+                        value = value.replace('(',"").replace(')',"");
                         if (isStrContains(value, ['-']) || fullNameRegex.test(value) || !value) {
                             hr.splice(index);
                             break;
@@ -631,7 +638,12 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
         case fn.dataSources.city:
+            try{
             match_city(obj, dataSource);
+            }
+            catch(err){
+                console.log(err)
+            }
             if (obj.entityType === fn.entityTypeValue.gu) {
                 obj.personalNumber ? delete obj['personalNumber'] : null;
                 obj.identityCard ? delete obj['identityCard'] : null;

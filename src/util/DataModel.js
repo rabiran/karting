@@ -50,7 +50,7 @@ class DataModel {
 
         let akaRecord = null
         if(aka_all_data){
-            akaRecord = aka_all_data.find(person => ((person[fn.aka.personalNumber] == identifier) || (person[fn.aka.identityCard] == identifier)));
+            akaRecord = aka_all_data.find(person => ((person[fn[fn.dataSources.aka].personalNumber] == identifier) || (person[fn[fn.dataSources.aka].identityCard] == identifier)));
         }
         if(akaRecord){
             this.person_ready_for_kartoffel = completeFromAka(
@@ -63,7 +63,7 @@ class DataModel {
         }
         else{
             if(city_all_data){
-                const cityRecord = city_all_data.find(person => ((person[fn.city_name.personalNumber] == identifier) || (person[fn.city_name.identityCard] == identifier)));
+                const cityRecord = city_all_data.find(person => ((person[fn[fn.dataSources.city].personalNumber] == identifier) || (person[fn[fn.dataSources.city].identityCard] == identifier)));
 
                 if(cityRecord){
                     this.person_ready_for_kartoffel = completeFromCity(
