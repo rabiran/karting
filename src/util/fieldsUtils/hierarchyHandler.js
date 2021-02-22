@@ -10,7 +10,11 @@ const logDetails = require('../../util/logDetails');
  * @returns ObjectID of the last hierarchy
  */
 module.exports = async (hierarchy_obj, hierarchy, Auth, sendLog) => {
-    let hierarchy_arr = hierarchy.split('/');
+    let hierarchy_arr = []
+    if(hierarchy.constructor === Array)
+        hierarchy_arr = hierarchy
+    else
+        hierarchy_arr = hierarchy.split('/');
     let hierarchyAfterProcess;
     let lastGroupID
     for ([index, group] of hierarchy_arr.entries()) {

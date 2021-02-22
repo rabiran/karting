@@ -575,6 +575,101 @@ const match_city = (obj, dataSource) => {
     })
 };
 
+const match_mm = (obj, dataSource) => {
+    const objKeys = Object.keys(obj);
+    objKeys.map((rawKey) => {
+        switch (rawKey) {
+            //firstName
+            case fn[dataSource].firstName:
+                obj.firstName = obj[rawKey];
+                (rawKey === "firstName") ? null : delete obj[rawKey];
+                break;
+            //lastName
+            case fn[dataSource].lastName:
+                obj.lastName = obj[rawKey];
+                (rawKey === "lastName") ? null : delete obj[rawKey];
+                break;
+            // //fullName?
+            // case fn[dataSource].fullName:
+            //     obj.fullName = obj[rawKey];
+            //     (rawKey === "fullName") ? null : delete obj[rawKey];
+            //     break;
+            //userName
+            case fn[dataSource].userName:
+                obj.userName = obj[rawKey];
+                (rawKey === "userName") ? null : delete obj[rawKey];
+                break;
+            //sex
+            case fn[dataSource].sex:
+                obj.sex = obj[rawKey];
+                (rawKey === "sex") ? null : delete obj[rawKey];
+                break;
+            //personalNumber
+            case fn[dataSource].personalNumber:
+                obj.personalNumber = obj[rawKey];
+                (rawKey === "personalNumber") ? null : delete obj[rawKey];
+                break;
+            //identityCard
+            case fn[dataSource].identityCard:
+                obj.identityCard = obj[rawKey];
+                (rawKey === "identityCard") ? null : delete obj[rawKey];
+                break;
+            //mail
+            case fn[dataSource].mail:
+                obj.mail = obj[rawKey];
+                (rawKey === "mail") ? null : delete obj[rawKey];
+                break;
+            //hierarchy
+            case fn[dataSource].hierarchy:
+                obj.hierarchy = obj[rawKey];
+                (rawKey === "hierarchy") ? null : delete obj[rawKey];
+                break;
+            //domainUsers
+            case fn[dataSource].primaryDU:
+                obj[rawKey].dataSource = dataSource
+                obj.domainUsers = [
+                        obj[rawKey]
+                ];
+                (rawKey === "primaryDU") ? null : delete obj[rawKey];
+                break;
+            //rank
+            case fn[dataSource].rank:
+                obj.rank = obj[rawKey];
+                (rawKey === "rank") ? null : delete obj[rawKey];
+                break;
+            //status?
+            case fn[dataSource].status:
+                obj.status = obj[rawKey];
+                (rawKey === "status") ? null : delete obj[rawKey];
+                break;
+            //address?
+            case fn[dataSource].address:
+                obj.address = obj[rawKey];
+                (rawKey === "address") ? null : delete obj[rawKey];
+                break;
+            //telephone?
+            case fn[dataSource].telephone:
+                obj.telephone = obj[rawKey];
+                (rawKey === "telephone") ? null : delete obj[rawKey];
+                break;
+            //entityType?
+            case fn[dataSource].entityType:
+                obj.entityType = obj[rawKey];
+                (rawKey === "entityType") ? null : delete obj[rawKey];
+                break;
+            //dischargeDay?
+            case fn[dataSource].dischargeDay:
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
+                (rawKey === "dischargeDay") ? null : delete obj[rawKey];
+                break;
+            default:
+                delete obj[rawKey];
+        }
+    })
+};
+
 /**
  * This module accept person object and check if his hierarchy exit.
  * If yes- the module return the last hierarchy's objectID,
@@ -633,6 +728,8 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             break;
         case fn.dataSources.mdn:
         case fn.dataSources.mm:
+            match_mm(obj, dataSource);
+            break;
         case fn.dataSources.lmn:
             match_nv_sql(obj, dataSource);
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
