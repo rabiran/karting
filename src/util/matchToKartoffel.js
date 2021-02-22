@@ -467,6 +467,9 @@ const match_city = (obj, dataSource) => {
                 break;
             //hierarchy
             case fn[dataSource].hierarchy:
+                if (obj.addedTags.isInformative) {
+                    break;
+                }
                 let hr = obj[rawKey].replace('\\', '/');
                 if (hr.includes('/')) {
                     hr = hr.split('/').map(unit => unit.trim());

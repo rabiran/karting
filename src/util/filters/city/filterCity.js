@@ -1,4 +1,4 @@
-const byTags = require('./byTags');
+const { addTags, filterByTags } = require('./byTags');
 
 /**
  * Filter city records
@@ -6,9 +6,10 @@ const byTags = require('./byTags');
  * @param {Object} DataModels - all the raw data from the data source
  */
 module.exports = DataModels => {
-    return DataModels.filter(DataModel => {
-        return (
-            byTags(DataModel.record, DataModel.sendLog)
-        )
+    DataModels.map(DataModel => {
+        DataModel = addTags(DataModel, DataModel.sendLog);
     });
+    return DataModels.filter(DataModel => {
+        return filterByTags(DataModel, DataModel.sendLog);
+    })
 }
