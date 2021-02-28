@@ -43,6 +43,9 @@ const updateSpecificFields = async (DataModel) => {
                         }
                         objForUpdate[deepDiffRecord.path[0]] = DataModel.person_ready_for_kartoffel[deepDiffRecord.path[0]]
                     }
+                    else if (!deepDiffRecord.lhs) {
+                        objForUpdate[deepDiffRecord.path[0]] = DataModel.person_ready_for_kartoffel[deepDiffRecord.path[0]]
+                    }
                     else{
                         break;
                     }
