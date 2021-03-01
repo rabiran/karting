@@ -3,27 +3,24 @@ const validators = require('../config/validators');
 const { logLevel } = require('./logger');
 const logDetails = require('../util/logDetails');
 const mergeArrays = require('./generalUtils/mergeArrays');
-
+const removeDateOffset = require('./generalUtils/removeDateOffset');
 
 
 
 const complete_es = (obj, akaRecord) => {
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]) : null;
-    const userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
-    obj.dischargeDay = (new Date(obj.dischargeDay.getTime() - userTimezoneOffset)).toISOString();
+    obj.dischargeDay = removeDateOffset(akaRecord[fn.aka.dischargeDay])
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
-    obj.birthDate = akaRecord[fn.aka.birthDate] ? new Date(akaRecord[fn.aka.birthDate]) : null;
-    obj.birthDate = (new Date(obj.birthDate.getTime() - userTimezoneOffset)).toISOString();
+    obj.birthDate = removeDateOffset(akaRecord[fn.aka.birthDate])
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
-    if(obj.pictures){
+    if(obj.pictures.profile){
         delete(obj.pictures.profile.createdAt)
         delete(obj.pictures.profile.updatedAt)
     }
@@ -38,20 +35,17 @@ const complete_ads = (obj, akaRecord) => {
     validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]) : null;
-    const userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
-    obj.dischargeDay = (new Date(obj.dischargeDay.getTime() - userTimezoneOffset)).toISOString();
+    obj.dischargeDay = removeDateOffset(akaRecord[fn.aka.dischargeDay])
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
-    obj.birthDate = akaRecord[fn.aka.birthDate] ? new Date(akaRecord[fn.aka.birthDate]) : null;
-    obj.birthDate = (new Date(obj.birthDate.getTime() - userTimezoneOffset)).toISOString();
+    obj.birthDate = removeDateOffset(akaRecord[fn.aka.birthDate])
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
-    if(obj.pictures){
+    if(obj.pictures.profile){
         delete(obj.pictures.profile.createdAt)
         delete(obj.pictures.profile.updatedAt)
     }
@@ -67,19 +61,16 @@ const complete_adNN = (obj, akaRecord) => {
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]) : null;
-    const userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
-    obj.dischargeDay = (new Date(obj.dischargeDay.getTime() - userTimezoneOffset)).toISOString();
+    obj.dischargeDay = removeDateOffset(akaRecord[fn.aka.dischargeDay])
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
-    obj.birthDate = akaRecord[fn.aka.birthDate] ? new Date(akaRecord[fn.aka.birthDate]) : null;
-    obj.birthDate = (new Date(obj.birthDate.getTime() - userTimezoneOffset)).toISOString();
+    obj.birthDate = removeDateOffset(akaRecord[fn.aka.birthDate])
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
-    if(obj.pictures){
+    if(obj.pictures.profile){
         delete(obj.pictures.profile.createdAt)
         delete(obj.pictures.profile.updatedAt)
     }
@@ -94,19 +85,16 @@ const complete_nv = (obj, akaRecord) => {
     obj.firstName = akaRecord[fn.aka.firstName] ;
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]) : null;
-    const userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
-    obj.dischargeDay = (new Date(obj.dischargeDay.getTime() - userTimezoneOffset)).toISOString();
+    obj.dischargeDay = removeDateOffset(akaRecord[fn.aka.dischargeDay])
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
-    obj.birthDate = akaRecord[fn.aka.birthDate] ? new Date(akaRecord[fn.aka.birthDate]) : null;
-    obj.birthDate = (new Date(obj.birthDate.getTime() - userTimezoneOffset)).toISOString();
+    obj.birthDate = removeDateOffset(akaRecord[fn.aka.birthDate])
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
-    if(obj.pictures){
+    if(obj.pictures.profile){
         delete(obj.pictures.profile.createdAt)
         delete(obj.pictures.profile.updatedAt)
     }
@@ -121,19 +109,16 @@ const complete_city = (obj, akaRecord) => {
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]) : null;
-    const userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
-    obj.dischargeDay = (new Date(obj.dischargeDay.getTime() - userTimezoneOffset)).toISOString();
+    obj.dischargeDay = removeDateOffset(akaRecord[fn.aka.dischargeDay])
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
     obj.entityType = fn.entityTypeValue.s;
-    obj.birthDate = akaRecord[fn.aka.birthDate] ? new Date(akaRecord[fn.aka.birthDate]) : null;
-    obj.birthDate = (new Date(obj.birthDate.getTime() - userTimezoneOffset)).toISOString();
+    obj.birthDate = removeDateOffset(akaRecord[fn.aka.birthDate])
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
-    if(obj.pictures){
+    if(obj.pictures.profile){
         delete(obj.pictures.profile.createdAt)
         delete(obj.pictures.profile.updatedAt)
     }
