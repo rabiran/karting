@@ -30,11 +30,11 @@ function getIrrelevantDus(records, persons, dataSource, sendLog, Auth) {
      * @returns {Array} - all the irrelevant records
      */
     function filterIrrelevantByDataSource(dataSource, records, persons) {
+        let irrelevant = getRemovedDu(records, persons, dataSource);
         if (dataSource == fn.dataSources.ads) {
-            return filterAdsRecord(records)
-        } else {
-            return getRemovedDu(records, persons, dataSource);
+            irrelevant = irrelevant.concat(filterAdsRecord(records));
         }
+        return irrelevant;
     }
                             
 

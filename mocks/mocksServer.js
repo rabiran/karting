@@ -35,6 +35,14 @@ app.get("/getAkaEmployees", (req, res) => {
     res.json(data)
 })
 
+app.get("/getAkaImgMetaData", (req, res) => {
+    let data = require("./mocksFiles/pictures.json")
+    if(Object.keys(req.query).length > 0) {
+        data = searchInData(data, Object.values(req.query));
+    }
+    res.json(data)
+})
+
 app.get("/getAD/s", (req, res) => {
     let data = require("./mocksFiles/AD.json")
     if(Object.keys(req.query).length > 0) {
@@ -63,7 +71,7 @@ function searchInData(data, queries) {
     let foundRecord;
     for (query of queries) {
         foundRecord = data.filter(record => {
-            return JSON.stringify(record).includes(query);
+            return JSON.stringify(record).toLowerCase().includes(query);
         })
         if (foundRecord.length) break;
     }

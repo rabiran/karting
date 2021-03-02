@@ -28,6 +28,9 @@ module.exports = {
         unitName: "hr", 
         telephoneType: "telephoneType",
         uniqeFieldForDeepDiff: "mi",
+        birthDate: "birthday",
+        sex: "sex",
+        picture: "picture",
     },
     es_name: {
         entityType: "entity",
@@ -42,10 +45,11 @@ module.exports = {
         hierarchy: "hr",
         mail: "mail",
         address: "adr",
-        job: "tf",
+        job: "tf",        
+        location: "location",
         domainSuffix: "@jello.com",
         userName: "userName",
-        uniqeFieldForDeepDiff: "tz",
+        uniqeFieldForDeepDiff: "tz"
     },
     ads_name: {
         firstName: "KfirstName",
@@ -148,6 +152,9 @@ module.exports = {
         "mobilePhone",
         "phone",
         "serviceType",
+        "pictures",
+        "sex",
+        "birthDate",
     ],
     forbiddenFieldsToUpdate: ["identityCard", "personalNumber", "directGroup"],
     fieldsForRmoveFromKartoffel: [
@@ -165,6 +172,7 @@ module.exports = {
         dailyRun: 'daily_run',
         recoveryRun: 'recovery_run',
         immediateRun: 'immediate_run',
+        kafkaRun: 'kafka',
     },
     organizationGroups: {
         incompletes_name: 'incomplete',
@@ -172,6 +180,11 @@ module.exports = {
     flowTypes: {
         add: 'add',
         update: 'update',
+    },
+    kafkaConf: {
+        migartion: {
+            flowName: 'kafka-migration',
+        },
     },
     redisRetryCount: 3,
     immediatePort: 3002,

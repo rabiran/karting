@@ -16,6 +16,7 @@ const { query } = require('express');
  */
 module.exports = async (dataSource, runningType, dateAndTime, sendLog, queries) => {
     let data;
+    let res;
 
     const query = { 
         params: queries
@@ -23,22 +24,25 @@ module.exports = async (dataSource, runningType, dateAndTime, sendLog, queries) 
 
     if (dataSource === fn.dataSources.aka) {
         // get the update data from the remote server
-        let aka_telephones_data = await axios.get(p().AKA_TELEPHONES_API, query).catch(err => {
+        let aka_telephones_res = await axios.get(p().AKA_TELEPHONES_API, query).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
         });
-        let aka_employees_data = await axios.get(p().AKA_EMPLOYEES_API, query).catch(err => {
+        let aka_employees_res = await axios.get(p().AKA_EMPLOYEES_API, query).catch(err => {
+            sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
+        });
+        let pictures_meta_res = await axios.get(p().AKA_PICTURES_API, query).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
         });
 
         // editing the aka data and squishing it to one object
-        data = akaDataManipulate(aka_telephones_data.data, aka_employees_data.data);
+        data = akaDataManipulate(aka_telephones_res.data, aka_employees_res.data, pictures_meta_res.data);
     }
     // get the update data from the remote server
     else {
-        data = await axios.get(p()[`${dataSource}_API`], query).catch(err=>{
+        res = await axios.get(p()[`${dataSource}_API`], query).catch(err=>{
             sendLog(logLevel.error, logDetails.error.ERR_GET_RAW_DATA , dataSource, err.message);
         });
-        data = data.data;
+        data = res.data;
     }
     
     // save the new json as file in the server and get the name of the kast file

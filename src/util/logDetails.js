@@ -25,12 +25,15 @@ messageLog = {
         ERR_SERVER_INVALID_INPUT: 'Invalid request from server, the request body is %s on %s',
         ERR_NOT_FOUND_IN_RAW_DATA: 'The person with identifier %s from %s does not exists in raw data',
         ERR_UNRECOGNIZED_DATA_SOURCE: 'Unrecognized dataSource at %s, the dataSource is: %s, the record is: %s',
-        ERR_GET_PERSONS_BY_DU: 'Failed to get persons by domain user of %s from kartoffel. The error is: %s',
+        ERR_GET_PERSONS_BY_DU: 'Failed to get persons by domain user of %s from datasource %s from kartoffel. The error is: %s',
+        ERR_GET_PERSONS_BY_ID: 'Failed to get persons by identifier of %s from datasouce %s from kartoffel. The error is: %s',
+        ERR_WRONG_MESSAGE_FROM_KAFKA: 'Recived invalid message from kafka. topic: %s, message: %s, the error message is: %s. The error message is: %s',
+        ERR_CONNECTING_TO_KAFKA: 'Cannot connect to kafka. topic: %s',
     },
     warn: {
-        WRN_COMPLETE_AKA: 'The person with the identifier %s from %s not complete from aka',
+        WRN_COMPLETE: 'The person with the identifier %s from %s not complete from aka or city',
         WRN_MISSING_IDENTIFIER_PERSON: 'There is no identifier to the person: %s, the record is: %s from %s',
-        WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL: 'The fields "%s" of the person from:"%s" with the identifier %s updated but not saved in kartoffel because the dataSource: "%s" is not match to the person\'s currentUnit: "%s"',
+        WRN_NOT_UPDATE_IN_KARTOFFEL: 'The person from:"%s" with the identifier %s not updated in kartoffel because the dataSource: "%s" is not match to the person\'s currentUnit: "%s", the fields are: %s',
         WRN_AKA_FIELD_RIGID: 'The field "%s" of the person with the identifier %s from the dataSource "%s" is not update because is rigid to Aka',
         WRN_IDENTIFIER_FIELD_REDUNDANT: 'The identifier fields of the person %s are equals, the "%s" field was deleted',
         WRN_NOT_INSERTED_ENTITY_TYPE: 'Not inserted entity type for the user with the upn %s from ads',
@@ -57,6 +60,7 @@ messageLog = {
         INF_UPDATE_PERSON_IN_KARTOFFEL: 'The person with the identifier: %s from %s update successfully. %s',
         INF_DELETE_DOMAIN_USER: 'The domain user %s from %s successfully removed from the person with identifier: %s',
         INF_TRANSFER_DOMAIN_USER: 'The domain user: %s successfully transfer FROM person with identifier: %s TO the person with identifier: %s from %s',
+        INF_CONSUME_FROM_KAFKA: 'Recive message successfuly from kafka. topic: %s, message: %s',
     },
 };
 

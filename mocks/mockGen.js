@@ -11,6 +11,7 @@ const ADUnemployeesAmount = ADAmount - ADEmployeesAmount;
 const esAmount = 50;
 const miriAmount = 100;
 const miriAkaStart = ADAmount + esAmount;
+const picturesAmount = 400
 
 let mis = [];
 let tzs = [];
@@ -19,6 +20,7 @@ let telephones = [];
 let adUsers = [];
 let esUsers = [];
 let miriUsers = [];
+let pictures = [];
 
 // Generating mi and tz lists
 for (let i = 0; i < akaAmount; i++) {
@@ -37,9 +39,11 @@ for (let i = 0; i < akaAmount; i++) {
     rnk: utils.randomElement(dataTypes.RANK),
     nstype: utils.randomElement(dataTypes.SERVICE_TYPE),
     rld: faker.date.between(faker.date.future(10),
-                              faker.date.past(10)).toISOString().split('T')[0] +
-                              " 00:00:00.0",
-    hr: utils.randomElement(dataTypes.UNIT)
+                              faker.date.past(10)).toISOString(),
+    hr: utils.randomElement(dataTypes.UNIT),
+    birthday: faker.date.between(faker.date.past(18),
+    faker.date.past(40)).toISOString(),
+    sex: utils.randomElement(["m","f"])
     })
     telephones.push({
         mi: mis[i],
@@ -121,7 +125,7 @@ for (let i = 0; i < esAmount; i++) {
     user.tf = faker.name.jobType();
     user.userName = faker.internet.userName(user.firstName, user.lastName);
     user.mail = user.userName + '@' + dataTypes.DOMAIN_MAP[2][0];
-
+    user.location = faker.name.jobTitle();
     esUsers.push(user);
 }
 
@@ -153,11 +157,10 @@ for (let i = 0; i < miriAmount; i++) {
         faker.date
           .between(faker.date.future(10), faker.date.past(10))
           .toISOString()
-          .split("T")[0] + " 00:00:00.0"
-      ],
+      ,
       null,
       "",
-      "לא ידוע"
+      "לא ידוע"]
     );
     miriUser.job = faker.name.jobTitle();
     miriUser.profession = utils.randomElement([
@@ -183,8 +186,30 @@ for (let i = 0; i < miriAmount; i++) {
     miriUsers.push(miriUser);
 }
 
+// Generating pictures
+for (let i = 0; i < picturesAmount; i++) {
+    let picture = {}
+    picture.personalNumber = mis[i];
+    picture.path = utils.generateNumberBody();
+    picture.format = utils.randomElement(["jpg"])
+    const takenAt = faker.date
+        .between(faker.date.past(10), faker.date.past(40))
+        .toISOString()
+    picture.takenAt = takenAt
+    const createdAt = faker.date
+        .between(faker.date.past(1), takenAt)
+        .toISOString()
+    picture.createdAt = createdAt
+    const updatedAt = faker.date
+            .between(faker.date.past(1), createdAt)
+            .toISOString()
+    picture.updatedAt = updatedAt
+    pictures.push(picture)
+}
+
 fs.writeFileSync("./mocks/mocksFiles/getAkaEmployees.json", JSON.stringify(employees));
 fs.writeFileSync("./mocks/mocksFiles/getAkaTelephone.json", JSON.stringify(telephones));
 fs.writeFileSync("./mocks/mocksFiles/AD.json", JSON.stringify(adUsers));
 fs.writeFileSync("./mocks/mocksFiles/eightsocks.json", JSON.stringify(esUsers));
 fs.writeFileSync("./mocks/mocksFiles/city.json", JSON.stringify(miriUsers));
+fs.writeFileSync("./mocks/mocksFiles/pictures.json", JSON.stringify(pictures));

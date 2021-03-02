@@ -7,6 +7,7 @@ module.exports = pathsHandler = (param, param2) => {
         // Data source
         AKA_TELEPHONES_API: "http://localhost:3001/getAkaTelephone",
         AKA_EMPLOYEES_API: "http://localhost:3001/getAkaEmployees",
+        AKA_PICTURES_API: "http://localhost:3001/getAkaImgMetaData",
         [`${fn.dataSources.es}_API`]: 'http://localhost:3001/getEightSocks',
         [`${fn.dataSources.ads}_API`]: 'http://localhost:3001/getAD/s',
         [`${fn.dataSources.adNN}_API`]: 'http://localhost:3001/getAD/NN',
@@ -15,6 +16,7 @@ module.exports = pathsHandler = (param, param2) => {
         [`${fn.dataSources.mdn}_API`]: 'http://localhost:3001/getNv/sql/mdn',
         [`${fn.dataSources.city}_API`]: 'http://localhost:3001/getCity',
         immediateServer_API: '/immediateRun',
+
 
         // Kartoffel - person
         KARTOFFEL_UPDATE_PERSON_API: `${kartoffelUrl}/api/persons/${param}`,
