@@ -655,10 +655,7 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
 
 
     if (obj.hierarchy) {
-        
         obj.directGroup = await directGroupHandler(obj, Auth);
-        
-        delete obj.hierarchy;
     }
 
     return obj;

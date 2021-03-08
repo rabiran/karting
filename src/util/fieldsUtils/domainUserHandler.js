@@ -2,7 +2,9 @@ const fn = require('../../config/fieldNames');
 const p = require('../../config/paths');
 const { logLevel } = require('../logger');
 const logDetails = require('../logDetails');
+const lodash = require('lodash');
 const assembleDomainUser = require('./assembleDomainUser');
+
 
 /**
  * This module create domainUser for person, using the unique properties of each dataSource
@@ -13,24 +15,36 @@ const assembleDomainUser = require('./assembleDomainUser');
  * @param {Object} originalRecord The original raw record before matchToKartoffel 
  *
  *  */
+
 module.exports = async (DataModel) => {
+
+    // get hierarchy from directGroup
+    const groupID =  DataModel.person_ready_for_kartoffel.directGroup;
+    const resGroup = await DataModel.Auth.axiosKartoffel.get(p(groupID).KARTOFFEL_GROUP_BY_ID)
+    let userHierarchy;
+    if (resGroup.status === 200) {
+        userHierarchy = resGroup.data.hierarchy;
+    }
+
     let user_object = {
         dataSource: DataModel.dataSource,
-        //mail: DataModel.person.mail,
-        //hierarchy: DataModel.person.hierarchy.join()
+        hierarchy: userHierarchy
     };
-
     user_object.uniqueID = assembleDomainUser(DataModel.dataSource, DataModel.record);
     if (!user_object.uniqueID) {
         return;
     } else {
         user_object.uniqueID = user_object.uniqueID.toLowerCase();
-
+        // remove null/undefined before comparing users
+        user_object = lodash.pickBy(user_object, lodash.identity)
         if (DataModel.person.domainUsers.length > 0) {
             let breaking = false;
             DataModel.person.domainUsers.map(du => {
                 if (du.uniqueID.toLowerCase() === user_object.uniqueID) {
-                    return breaking = true;
+                    needUpdate = !lodash.isEqual(user_object, du)
+                    if (!needUpdate) {
+                        return breaking = true;
+                    }
                 }
             })
             if (breaking) { return; }
