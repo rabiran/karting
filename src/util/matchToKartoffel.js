@@ -594,11 +594,11 @@ const match_mm = (obj, dataSource) => {
             //     obj.fullName = obj[rawKey];
             //     (rawKey === "fullName") ? null : delete obj[rawKey];
             //     break;
-            //userName
+            /*//userName
             case fn[dataSource].userName:
                 obj.userName = obj[rawKey];
                 (rawKey === "userName") ? null : delete obj[rawKey];
-                break;
+                break;  */
             //sex
             case fn[dataSource].sex:
                 obj.sex = obj[rawKey];
@@ -621,7 +621,8 @@ const match_mm = (obj, dataSource) => {
                 break;
             //hierarchy
             case fn[dataSource].hierarchy:
-                obj.hierarchy = obj[rawKey];
+                obj.hierarchy = obj[rawKey].join("/");
+                
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             //domainUsers
@@ -630,7 +631,8 @@ const match_mm = (obj, dataSource) => {
                 obj.domainUsers = [
                         obj[rawKey]
                 ];
-                (rawKey === "primaryDU") ? null : delete obj[rawKey];
+                (rawKey === fn[dataSource].primaryDU) ? null : delete obj[rawKey];
+                delete obj[rawKey]
                 break;
             //rank
             case fn[dataSource].rank:
@@ -647,13 +649,23 @@ const match_mm = (obj, dataSource) => {
                 obj.address = obj[rawKey];
                 (rawKey === "address") ? null : delete obj[rawKey];
                 break;
-            //telephone?
+            /*//telephone?
             case fn[dataSource].telephone:
                 obj.telephone = obj[rawKey];
                 (rawKey === "telephone") ? null : delete obj[rawKey];
-                break;
+                break;  */
             //entityType?
             case fn[dataSource].entityType:
+                switch (obj[rawKey]) {
+                    case fn[dataSource].s:
+                        obj.entityType = fn.entityTypeValue.s;
+                        break;
+                    /*case fn[dataSource].c:
+                        obj.entityType = fn.entityTypeValue.s;
+                        break;*/
+                    default:
+                        sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
+                }
                 obj.entityType = obj[rawKey];
                 (rawKey === "entityType") ? null : delete obj[rawKey];
                 break;
@@ -681,6 +693,7 @@ const match_mm = (obj, dataSource) => {
 directGroupHandler = async (obj, Auth) => {
     hr = encodeURIComponent(obj.hierarchy)
     let directGroup;
+    try{
     await Auth.axiosKartoffel.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async (result) => {
             let directGroupID = await hierarchyHandler(result.data, obj.hierarchy, Auth, sendLog);
@@ -692,6 +705,10 @@ directGroupHandler = async (obj, Auth) => {
             sendLog(logLevel.error, logDetails.error.ERR_ADD_DIRECT_GROUP_TO_PERSON, identifier, errorMessage);
         });
     return directGroup;
+    }
+    catch(err){
+        console.log(err)
+    }
 };
 
 /**

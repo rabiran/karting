@@ -19,6 +19,7 @@ module.exports = async (hierarchy_obj, hierarchy, Auth, sendLog) => {
     let lastGroupID
     for ([index, group] of hierarchy_arr.entries()) {
         (index === 0) ? hierarchyAfterProcess = group : hierarchyAfterProcess = hierarchyAfterProcess.concat('/', group);
+
         if (!hierarchy_obj[hierarchyAfterProcess]) {
             let new_group = {
                 name: group,
@@ -33,7 +34,6 @@ module.exports = async (hierarchy_obj, hierarchy, Auth, sendLog) => {
                     sendLog(logLevel.error, logDetails.error.ERR_ADD_HIERARCHY, hierarchyAfterProcess, error.response.data.message);                    
                 })
         }
-
         lastGroupID = hierarchy_obj[hierarchyAfterProcess];
     }
     return lastGroupID;

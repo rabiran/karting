@@ -203,6 +203,7 @@ for (let i = 0; i < MMAmount; i++) {
     mm.hierarchy = [faker.lorem.word(),
                    faker.lorem.word(),
                    faker.lorem.word(),
+                   faker.lorem.word(),
                    faker.lorem.word()]
     mm.mail = faker.internet.email().split('@')[0] + "@" + dataTypes.DOMAIN_MAP[7][0];
     mm.rank = utils.randomElement(dataTypes.RANK);

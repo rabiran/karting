@@ -137,6 +137,7 @@ module.exports = {
         entityType: "entity",
         dischargeDay: "discharge",
         primaryDU: "primaryDU",
+        s: "soldier"
     },
     entityTypeValue: {
         s: "agumon",
