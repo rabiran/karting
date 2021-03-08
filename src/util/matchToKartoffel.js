@@ -589,16 +589,6 @@ const match_mm = (obj, dataSource) => {
                 obj.lastName = obj[rawKey];
                 (rawKey === "lastName") ? null : delete obj[rawKey];
                 break;
-            // //fullName?
-            // case fn[dataSource].fullName:
-            //     obj.fullName = obj[rawKey];
-            //     (rawKey === "fullName") ? null : delete obj[rawKey];
-            //     break;
-            /*//userName
-            case fn[dataSource].userName:
-                obj.userName = obj[rawKey];
-                (rawKey === "userName") ? null : delete obj[rawKey];
-                break;  */
             //sex
             case fn[dataSource].sex:
                 obj.sex = obj[rawKey];
@@ -666,7 +656,6 @@ const match_mm = (obj, dataSource) => {
                     default:
                         sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
                 }
-                obj.entityType = obj[rawKey];
                 (rawKey === "entityType") ? null : delete obj[rawKey];
                 break;
             //dischargeDay?
@@ -752,12 +741,7 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
             break;
         case fn.dataSources.city:
-            try{
             match_city(obj, dataSource);
-            }
-            catch(err){
-                console.log(err)
-            }
             if (obj.entityType === fn.entityTypeValue.gu) {
                 obj.personalNumber ? delete obj['personalNumber'] : null;
                 obj.identityCard ? delete obj['identityCard'] : null;

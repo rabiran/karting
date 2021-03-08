@@ -30,6 +30,7 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
         let tryFindPerson;
         let path;
 
+
         await DataModel.matchToKartoffel();
         
         if (DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {

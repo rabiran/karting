@@ -16,7 +16,7 @@ module.exports = {
     ["turtle.com", "turtle"],
     ["donatelo.turtle.com", "turtle"],
     ["rafael.turtle.com", "turtle"],
-    ["leonardo.com","yoshi"]
+    ["leonardo.com","ddd"]
   ],
 
   SERVICE_TYPE: ["A", "B", "C", "D", "E", "F", "G", "H"],

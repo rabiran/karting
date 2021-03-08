@@ -210,9 +210,9 @@ for (let i = 0; i < MMAmount; i++) {
     mm.status = utils.randomElement(dataTypes.STATUS);
     mm.address = faker.address.streetAddress("###");
     mm.telephone = '0' + utils.generateNumberPrefix() + utils.generateNumberBody();
-    mm.entity = dataTypes.ENTITY_TYPE[1];
+    mm.entity = "soldier";
     mm.discharge = faker.date.between(faker.date.future(20),faker.date.future(10)).toISOString();
-    mm.primaryDU = {uniqueID: mm.mail, adfsUID: mm.mail.split('@')[0] + "@mmm"}
+    mm.primaryDU = {uniqueID: mm.mail, adfsUID: mm.mail.split('@')[0] + "@ddd"}
     mmUsers.push(mm);
 }
 
