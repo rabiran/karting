@@ -21,9 +21,13 @@ function assembleDomainUser(dataSource, record, sendLog) {
                 null);
         case fn.dataSources.mdn:
         case fn.dataSources.lmn:
-        case fn.dataSources.mm:
+        case fn.dataSources.novaMM:
             return (record[fn[dataSource].uniqueID] ?
                 record[fn[dataSource].uniqueID].toLowerCase() :
+                null);
+        case fn.dataSources.mm:
+            return (record[fn[dataSource].primaryDU].uniqueID ?
+                record[fn[dataSource].primaryDU].uniqueID.toLowerCase() :
                 null);
         case fn.dataSources.es:
             return (record[fn[dataSource].userName] ?

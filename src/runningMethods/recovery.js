@@ -11,13 +11,14 @@ const cleanDus = require('../util/cleanDu/cleanDus');
 module.exports = async () => {
     let { sendLog, dataObj } = await preRun(fn.runnigTypes.recoveryRun, [
         fn.dataSources.aka,
-        fn.dataSources.ads, 
-        fn.dataSources.es,
-        fn.dataSources.adNN, 
-        fn.dataSources.lmn, 
-        fn.dataSources.mdn,
+        // fn.dataSources.ads, 
+        // fn.dataSources.es,
+        // fn.dataSources.adNN, 
+        // fn.dataSources.lmn, 
+        // fn.dataSources.mdn,
+        // fn.dataSources.novaMM, 
         fn.dataSources.mm, 
-        fn.dataSources.city
+        // fn.dataSources.city
     ]);
 
     let akaData = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];

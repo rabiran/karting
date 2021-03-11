@@ -12,6 +12,7 @@ module.exports = pathsHandler = (param, param2) => {
         [`${fn.dataSources.ads}_API`]: 'http://localhost:3001/getAD/s',
         [`${fn.dataSources.adNN}_API`]: 'http://localhost:3001/getAD/NN',
         [`${fn.dataSources.mm}_API`]: 'http://localhost:3001/getMM',
+        [`${fn.dataSources.novaMM}_API`]: 'http://localhost:3001/getNv/sql/mm',
         [`${fn.dataSources.lmn}_API`]: 'http://localhost:3001/getNv/sql/lmn',
         [`${fn.dataSources.mdn}_API`]: 'http://localhost:3001/getNv/sql/mdn',
         [`${fn.dataSources.city}_API`]: 'http://localhost:3001/getCity',

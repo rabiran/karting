@@ -8,6 +8,7 @@ module.exports = {
         nvSQL: "nvSQL_name",
         lmn: "lmn_name",
         mdn: "mdn_name",
+        novaMM: "novaMM_name",
         mm: "mm_name",
         city: "city_name",
     },
