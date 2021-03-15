@@ -616,14 +616,14 @@ const match_mm = (obj, dataSource) => {
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
             //domainUsers
-            case fn[dataSource].primaryDU:
-                obj[rawKey].dataSource = dataSource
-                obj.domainUsers = [
-                        obj[rawKey]
-                ];
-                (rawKey === fn[dataSource].primaryDU) ? null : delete obj[rawKey];
-                delete obj[rawKey]
-                break;
+            // case fn[dataSource].primaryDU:
+            //     obj[rawKey].dataSource = dataSource
+            //     obj.domainUsers = [
+            //             obj[rawKey]
+            //     ];
+            //     (rawKey === fn[dataSource].primaryDU) ? null : delete obj[rawKey];
+            //     delete obj[rawKey]
+            //     break;
             //rank
             case fn[dataSource].rank:
                 obj.rank = obj[rawKey];

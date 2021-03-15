@@ -132,17 +132,14 @@ const complete_mm = (obj, akaRecord) => {
     validators(akaRecord[fn.aka.identityCard]).identityCard ? obj.identityCard = akaRecord[fn.aka.identityCard] : null;
     obj.clearance = akaRecord[fn.aka.clearance];
     obj.currentUnit = akaRecord[fn.aka.unitName];
-    obj.dischargeDay = akaRecord[fn.aka.dischargeDay] ? new Date(akaRecord[fn.aka.dischargeDay]) : null;
-    const userTimezoneOffset = obj.dischargeDay.getTimezoneOffset() * 60000;
-    obj.dischargeDay = (new Date(obj.dischargeDay.getTime() - userTimezoneOffset)).toISOString();
+    obj.dischargeDay = removeDateOffset(akaRecord[fn.aka.dischargeDay])
     obj.firstName = akaRecord[fn.aka.firstName];
     obj.serviceType = akaRecord[fn.aka.serviceType];
     obj.lastName = akaRecord[fn.aka.lastName];
     obj.rank = akaRecord[fn.aka.rank];
     obj.entityType = fn.entityTypeValue.s;
     obj.personalNumber = akaRecord[fn.aka.personalNumber];
-    obj.birthDate = akaRecord[fn.aka.birthDate] ? new Date(akaRecord[fn.aka.birthDate]) : null;
-    obj.birthDate = (new Date(obj.birthDate.getTime() - userTimezoneOffset)).toISOString();
+    obj.birthDate = removeDateOffset(akaRecord[fn.aka.birthDate])
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
     if(obj.pictures){

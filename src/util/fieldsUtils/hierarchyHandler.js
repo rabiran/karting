@@ -22,6 +22,8 @@ module.exports = async (hierarchy_obj, hierarchy, Auth, sendLog) => {
                 name: group,
                 parentId: lastGroupID,
             }
+            if(group == "")
+                continue
             await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, new_group)
                 .then((result) => {
                     hierarchy_obj[hierarchyAfterProcess] = result.data.id;
