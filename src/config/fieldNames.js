@@ -116,6 +116,11 @@ module.exports = {
             transportable: 'transportable',
             information: 'information',
         },
+        domains: 'domains',
+        domainNames: {
+            internal: 'local',
+            external: 'external'
+        },
     },
     entityTypeValue: {
         s: "agumon",
