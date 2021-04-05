@@ -32,5 +32,8 @@ module.exports = {
     {
       name: fn[fn.dataSources.city].userTags.information
     },
+  ],
+  MIRI_DOMAINS: [
+    fn[fn.dataSources.city].domains.local, fn[fn.dataSources.city].domains.external
   ]
 };

@@ -117,6 +117,11 @@ module.exports = {
             transportable: 'transportable',
             information: 'information',
         },
+        domains: 'domains',
+        domainNames: {
+            internal: 'local',
+            external: 'external'
+        },
     },
     mm_name: {
         userName : "userName",

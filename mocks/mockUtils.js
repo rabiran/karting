@@ -1,5 +1,9 @@
 const faker = require('faker');
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * Math.floor(max-min+1) + min );
+}
+
  const utils = {
     createCheckDigit: (param) => {
         const rawCheckDigit = param.toString().split('').reduce((accumulator, currChar, currIndex) => {
@@ -13,6 +17,10 @@ const faker = require('faker');
 
     randomElement: (array) => {
         return array[Math.floor(Math.random() * array.length)]
+    },
+    randomArrFromArr: (array) => {
+        const n = getRandomInt(1, array.length)
+        return array.sort(() => Math.random() - Math.random()).slice(0, n)
     },
     generateID: () => {
         const tz = faker.random.number({'min': 10000000,'max': 99999999}).toString();

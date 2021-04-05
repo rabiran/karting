@@ -3,6 +3,7 @@ const faker = require('faker');
 const utils = require("./mockUtils");
 const dataTypes = require("./lists/dataTypesList");
 const miriTypes = require("./lists/miriTypes");
+const dataTypesList = require("./lists/dataTypesList");
 
 const akaAmount = 400;
 const ADAmount = 250;
@@ -185,6 +186,7 @@ for (let i = 0; i < miriAmount; i++) {
         miriUser.tags.push(utils.randomElement(dataTypes.MIRI_TAGS));
         console.log(i)
     }
+    miriUser.domains = utils.randomArrFromArr(dataTypesList.MIRI_DOMAINS);
     miriUsers.push(miriUser);
 }
 
