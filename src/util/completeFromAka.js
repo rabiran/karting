@@ -195,6 +195,8 @@ module.exports =  (obj, akaRecord, dataSource, sendLog) => {
         case fn.dataSources.mdn:
         case fn.dataSources.mm:
             complete_mm(obj, akaRecord);
+        case fn.dataSources.sf:
+            complete_mm(obj, akaRecord);
         case fn.dataSources.lmn:
             complete_nv(obj, akaRecord);
             break;
