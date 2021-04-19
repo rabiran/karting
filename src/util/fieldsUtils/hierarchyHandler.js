@@ -10,16 +10,20 @@ const logDetails = require('../../util/logDetails');
  * @returns ObjectID of the last hierarchy
  */
 module.exports = async (hierarchy_obj, hierarchy, Auth, sendLog) => {
-    let hierarchy_arr = hierarchy.split('/');
+    let hierarchy_arr = []
+    hierarchy_arr = hierarchy.split('/');
     let hierarchyAfterProcess;
     let lastGroupID
     for ([index, group] of hierarchy_arr.entries()) {
         (index === 0) ? hierarchyAfterProcess = group : hierarchyAfterProcess = hierarchyAfterProcess.concat('/', group);
+
         if (!hierarchy_obj[hierarchyAfterProcess]) {
             let new_group = {
                 name: group,
                 parentId: lastGroupID,
             }
+            if(group == "")
+                continue
             await Auth.axiosKartoffel.post(p().KARTOFFEL_ADDGROUP_API, new_group)
                 .then((result) => {
                     hierarchy_obj[hierarchyAfterProcess] = result.data.id;
@@ -29,7 +33,6 @@ module.exports = async (hierarchy_obj, hierarchy, Auth, sendLog) => {
                     sendLog(logLevel.error, logDetails.error.ERR_ADD_HIERARCHY, hierarchyAfterProcess, error.response.data.message);                    
                 })
         }
-
         lastGroupID = hierarchy_obj[hierarchyAfterProcess];
     }
     return lastGroupID;

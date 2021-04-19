@@ -14,7 +14,6 @@ async function cleanDu(runningType, dataSource, records, query, sendLog, Auth) {
         const resPerson = await Auth.axiosKartoffel.get(`${p().KARTOFFEL_PERSON_API}/domainUser/${query}`).catch(err => {
             sendLog(logLevel.error, logDetails.error.ERR_GET_PERSONS_BY_DU , query, dataSource, err.message);
         }); 
-        //console.log(resPersons.data.domainUsers)
         dataSourcePersons.push(resPerson.data);
     }
     else {

@@ -25,6 +25,10 @@ function assembleDomainUser(dataSource, record, sendLog) {
             return (record[fn[dataSource].uniqueID] ?
                 record[fn[dataSource].uniqueID].toLowerCase() :
                 null);
+        case fn.dataSources.sf:
+            return (record[fn[dataSource].primaryDU].uniqueID ?
+                `${record[fn[dataSource].primaryDU].uniqueID.toLowerCase()}${fn[dataSource].domainSuffix}` :
+                null);
         case fn.dataSources.es:
             return (record[fn[dataSource].userName] ?
                 `${record[fn[dataSource].userName]}${fn[dataSource].domainSuffix}`.toLowerCase() :

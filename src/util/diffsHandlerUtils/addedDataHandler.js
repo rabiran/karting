@@ -32,6 +32,7 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
         try {
             await DataModel.matchToKartoffel();
 
+        await DataModel.matchToKartoffel();
         
 
             if (DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
