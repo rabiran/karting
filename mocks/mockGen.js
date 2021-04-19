@@ -3,6 +3,7 @@ const faker = require('faker');
 const utils = require("./mockUtils");
 const dataTypes = require("./lists/dataTypesList");
 const miriTypes = require("./lists/miriTypes");
+const dataTypesList = require("./lists/dataTypesList");
 
 const akaAmount = 400;
 const ADAmount = 250;
@@ -11,7 +12,8 @@ const ADUnemployeesAmount = ADAmount - ADEmployeesAmount;
 const esAmount = 50;
 const miriAmount = 100;
 const miriAkaStart = ADAmount + esAmount;
-const picturesAmount = 400
+const picturesAmount = 400;
+const MMAmount = 200;
 
 let mis = [];
 let tzs = [];
@@ -20,6 +22,7 @@ let telephones = [];
 let adUsers = [];
 let esUsers = [];
 let miriUsers = [];
+let mmUsers = [];
 let pictures = [];
 
 // Generating mi and tz lists
@@ -183,8 +186,38 @@ for (let i = 0; i < miriAmount; i++) {
         miriUser.tags.push(utils.randomElement(dataTypes.MIRI_TAGS));
         console.log(i)
     }
+    miriUser.domains = utils.randomArrFromArr(dataTypesList.MIRI_DOMAINS);
     miriUsers.push(miriUser);
 }
+
+// Generating MM employee/unemployee objects
+for (let i = 0; i < MMAmount; i++) {
+    let mm = {}
+
+    mm.firstName = employees[i].firstName;
+    mm.lastName = employees[i].lastName;
+    mm.userName = faker.internet.userName(mm.firstName, mm.lastName);
+    mm.fullName = mm.firstName.concat(' ',mm.lastName);
+    mm.sex = utils.randomElement(["m","f"])
+    mm.personalNumber = employees[i].mi;
+    mm.tz = employees[i].tz;
+    mm.stype = utils.randomElement(dataTypes.SERVICE_TYPE);
+    mm.hierarchy = [faker.lorem.word(),
+                   faker.lorem.word(),
+                   faker.lorem.word(),
+                   faker.lorem.word(),
+                   faker.lorem.word()]
+    mm.mail = faker.internet.email().split('@')[0] + "@" + dataTypes.DOMAIN_MAP[7][0];
+    mm.rank = utils.randomElement(dataTypes.RANK);
+    mm.status = utils.randomElement(dataTypes.STATUS);
+    mm.address = faker.address.streetAddress("###");
+    mm.telephone = '0' + utils.generateNumberPrefix() + utils.generateNumberBody();
+    mm.entity = "soldier";
+    mm.discharge = faker.date.between(faker.date.future(20),faker.date.future(10)).toISOString();
+    mm.primaryDU = {uniqueID: mm.mail, adfsUID: mm.mail.split('@')[0] + "@ddd"}
+    mmUsers.push(mm);
+}
+
 
 // Generating pictures
 for (let i = 0; i < picturesAmount; i++) {
@@ -212,4 +245,5 @@ fs.writeFileSync("./mocks/mocksFiles/getAkaTelephone.json", JSON.stringify(telep
 fs.writeFileSync("./mocks/mocksFiles/AD.json", JSON.stringify(adUsers));
 fs.writeFileSync("./mocks/mocksFiles/eightsocks.json", JSON.stringify(esUsers));
 fs.writeFileSync("./mocks/mocksFiles/city.json", JSON.stringify(miriUsers));
+fs.writeFileSync("./mocks/mocksFiles/MM.json", JSON.stringify(mmUsers));
 fs.writeFileSync("./mocks/mocksFiles/pictures.json", JSON.stringify(pictures));
