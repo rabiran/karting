@@ -13,7 +13,7 @@ const DataModel = require('./DataModel');
 module.exports = async ({ dataModels, dataSource }) => {
     switch (dataSource) {
         case fn.dataSources.city:
-           return filterCity(dataModels);
+            return filterCity(dataModels);
         case fn.dataSources.aka:
         //     return await filterAka(dataModels);
         case fn.dataSources.adNN:
