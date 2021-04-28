@@ -36,6 +36,6 @@ module.exports = pathsHandler = (param, param2) => {
         KARTOFFEL_ADD_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers`,
         KARTOFFEL_DELETE_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers/${param2}`,
         KARTOFFEL_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/domainUser/${param}`,
-        KARTOFFEL_UPDATE_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUser/${param2}`
+        KARTOFFEL_UPDATE_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers/${param2}`
     }
 }
