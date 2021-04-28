@@ -37,6 +37,9 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
         
 
             if (DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
+                if (dataSource === fn.dataSources.city && !DataModel.record.addedTags.isExternal) { 
+                    continue;
+                }
                 DataModel.identifiers = [DataModel.person_ready_for_kartoffel.domainUsers[0].uniqueID].filter(id => id);
                 path = id => p(id).KARTOFFEL_DOMAIN_USER_API;
             } else if (
