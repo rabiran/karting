@@ -22,7 +22,7 @@ module.exports = async (DataModel) => {
 
     user_object.uniqueID = assembleDomainUser(DataModel.dataSource, DataModel.record);
 
-    let isExternal = DataModel.dataSource === fn.dataSources.city && DataModel.record.tags.includes(fn[fn.dataSources.city].domainNames.external);
+    let isExternal = DataModel.dataSource === fn.dataSources.city && DataModel.record.domains.includes(fn[fn.dataSources.city].domainNames.external);
 
     if (DataModel.dataSource === fn.dataSources.city && !isExternal) {
         user_object.dataSource = fn.dataSources.mir;

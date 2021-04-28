@@ -14,10 +14,10 @@ module.exports = async () => {
         // fn.dataSources.ads, 
         // fn.dataSources.es,
         // fn.dataSources.adNN, 
-        fn.dataSources.lmn, 
-        fn.dataSources.mdn,
-        fn.dataSources.sf,
-        fn.dataSources.mm, 
+        // fn.dataSources.lmn, 
+        // fn.dataSources.mdn,
+        // fn.dataSources.sf,
+        // fn.dataSources.mm, 
         fn.dataSources.city
     ]);
 

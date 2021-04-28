@@ -1,25 +1,28 @@
 [
     {
-        "domUser": "e951221524@turtle.com",
-        "telephone": "0567508234",
-        "clearance": 3,
-        "firstName": "Laverne",
-        "lastName": "Dario",
-        "mail": null,
-        "tz": "",
-        "personalNumber": "לא ידוע",
-        "rank": "champion",
-        "rld": "",
-        "job": "National Brand Liaison",
-        "profession": "Representative",
-        "department": "city3",
+        "domUser": "m821029358@turtle.com",
+        "telephone": "0568999106",
+        "clearance": 1,
+        "firstName": "Rico",
+        "lastName": "Camren",
+        "mail": "",
+        "tz": "לא ידוע",
+        "personalNumber": "",
+        "rank": "mega",
+        "rld": "לא ידוע",
+        "job": "Chief Division Representative",
+        "profession": "null",
+        "department": "city4",
         "stype": "",
-        "hr": "ut/officia/architecto/nemo",
-        "company": "odyssey",
-        "isPortalUser": false,
+        "hr": "nulla/dolorem/ea/molestias",
+        "company": "לא ידוע",
+        "isPortalUser": true,
         "tags": [
             {
-                "name": "information"
+                "name": "transportable"
+            },
+            {
+                "name": "transportable"
             }
         ],
         "domains": [
@@ -27,82 +30,120 @@
         ]
     },
     {
-        "domUser": "m239389596@turtle.com",
-        "telephone": "0534643717",
-        "clearance": 4,
-        "firstName": "Cathy",
-        "lastName": "Minnie",
+        "domUser": "e19916018@donatelo.turtle.com",
+        "telephone": "0515277008",
+        "clearance": 2,
+        "firstName": "Drew",
+        "lastName": "Rosemary",
         "mail": "",
-        "tz": "459891602",
-        "personalNumber": "672687164",
-        "rank": "mega",
+        "tz": "לא ידוע",
+        "personalNumber": null,
+        "rank": "champion",
         "rld": null,
-        "job": "Dynamic Division Engineer",
+        "job": "International Mobility Supervisor",
+        "profession": "",
+        "department": "city3",
+        "stype": "",
+        "hr": null,
+        "company": "odyssey",
+        "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "g14900537@turtle.com",
+        "telephone": "0541887652",
+        "clearance": 2,
+        "firstName": "Lois",
+        "lastName": "Chris",
+        "mail": null,
+        "tz": "192956191",
+        "personalNumber": "",
+        "rank": "mega",
+        "rld": "",
+        "job": "Human Creative Developer",
+        "profession": "Consultant",
+        "department": "city6",
+        "stype": "",
+        "hr": "",
+        "company": "armagadon",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "i118334712@turtle.com",
+        "telephone": "0507019677",
+        "clearance": 1,
+        "firstName": "Adriel",
+        "lastName": "Stella",
+        "mail": "",
+        "tz": "",
+        "personalNumber": "לא ידוע",
+        "rank": "ultimate",
+        "rld": null,
+        "job": "Chief Assurance Facilitator",
         "profession": "Manager",
-        "department": "city2",
+        "department": "city1",
         "stype": "",
-        "hr": "",
+        "hr": "necessitatibus/exercitationem/tempora/beatae",
         "company": "interstellar",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
+        "isPortalUser": false,
+        "tags": [],
         "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "m289134661@rafael.turtle.com",
-        "telephone": "0596223781",
-        "clearance": 4,
-        "firstName": "Karl",
-        "lastName": "Eunice",
-        "mail": "",
-        "tz": null,
-        "personalNumber": "",
-        "rank": "rookie",
-        "rld": "",
-        "job": "Corporate Markets Representative",
-        "profession": "Engineer",
-        "department": "city2",
-        "stype": "",
-        "hr": "voluptatum/et/vel/sint",
-        "company": "odyssey",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external",
             "local"
         ]
     },
     {
-        "domUser": "g675162997@turtle.com",
-        "telephone": "0596879859",
-        "clearance": 3,
-        "firstName": "Judson",
-        "lastName": "Madonna",
+        "domUser": "e538035071@turtle.com",
+        "telephone": "0531075652",
+        "clearance": 1,
+        "firstName": "Abel",
+        "lastName": "Alayna",
         "mail": "",
-        "tz": null,
+        "tz": "לא ידוע",
         "personalNumber": "לא ידוע",
-        "rank": "rookie",
-        "rld": null,
-        "job": "Customer Paradigm Director",
+        "rank": "unknown",
+        "rld": "",
+        "job": "Future Brand Facilitator",
+        "profession": "לא ידוע",
+        "department": "city1",
+        "stype": "",
+        "hr": null,
+        "company": "interstellar",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "m593237844@turtle.com",
+        "telephone": "0525716090",
+        "clearance": 2,
+        "firstName": "Louvenia",
+        "lastName": "Kacie",
+        "mail": "לא ידוע",
+        "tz": "לא ידוע",
+        "personalNumber": null,
+        "rank": "unknown",
+        "rld": "",
+        "job": "Human Mobility Orchestrator",
         "profession": "",
         "department": "city4",
         "stype": "",
         "hr": null,
-        "company": "לא ידוע",
-        "isPortalUser": true,
+        "company": "odyssey",
+        "isPortalUser": false,
         "tags": [
             {
-                "name": "information"
+                "name": "transportable"
             }
         ],
         "domains": [
@@ -111,166 +152,121 @@
         ]
     },
     {
-        "domUser": "e852317283@turtle.com",
-        "telephone": "0557771450",
+        "domUser": "e320084954@donatelo.turtle.com",
+        "telephone": "0571363622",
         "clearance": 5,
-        "firstName": "Eriberto",
-        "lastName": "Wilhelm",
-        "mail": "",
-        "tz": null,
+        "firstName": "Kamryn",
+        "lastName": "Franco",
+        "mail": "לא ידוע",
+        "tz": "",
         "personalNumber": "לא ידוע",
         "rank": "mega",
         "rld": "לא ידוע",
-        "job": "Central Directives Consultant",
+        "job": "Legacy Accountability Technician",
         "profession": "לא ידוע",
         "department": "city3",
         "stype": "",
-        "hr": "",
-        "company": "bladerunners",
-        "isPortalUser": false,
+        "hr": "Kamryn Franco",
+        "company": "",
+        "isPortalUser": true,
         "tags": [
-            {
-                "name": "information"
-            },
             {
                 "name": "information"
             }
         ],
         "domains": [
-            "external"
+            "local"
         ]
     },
     {
-        "domUser": "m507102894@donatelo.turtle.com",
-        "telephone": "0594805320",
-        "clearance": 4,
-        "firstName": "Rosalyn",
-        "lastName": "Skyla",
-        "mail": "",
-        "tz": "לא ידוע",
-        "personalNumber": "לא ידוע",
-        "rank": "mega",
-        "rld": "לא ידוע",
-        "job": "Dynamic Communications Developer",
-        "profession": "Consultant",
-        "department": "city2",
+        "domUser": "m759249532@turtle.com",
+        "telephone": "0549618147",
+        "clearance": 2,
+        "firstName": "Gerard",
+        "lastName": "Anthony",
+        "mail": "לא ידוע",
+        "tz": "469502553",
+        "personalNumber": "78651533",
+        "rank": "champion",
+        "rld": "",
+        "job": "Direct Metrics Strategist",
+        "profession": "לא ידוע",
+        "department": "city1",
         "stype": "",
-        "hr": "Rosalyn Skyla",
-        "company": "",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            },
-            {
-                "name": "transportable"
-            }
-        ],
+        "hr": null,
+        "company": "interstellar",
+        "isPortalUser": true,
+        "tags": [],
         "domains": [
             "local",
             "external"
         ]
     },
     {
-        "domUser": "m907524474@turtle.com",
-        "telephone": "0555875116",
-        "clearance": 5,
-        "firstName": "Richmond",
-        "lastName": "Herta",
-        "mail": "",
-        "tz": "765883640",
-        "personalNumber": "לא ידוע",
-        "rank": "champion",
-        "rld": "לא ידוע",
-        "job": "Product Solutions Director",
-        "profession": "Director",
+        "domUser": "g870733207@turtle.com",
+        "telephone": "0519094943",
+        "clearance": 1,
+        "firstName": "Deondre",
+        "lastName": "Ludie",
+        "mail": null,
+        "tz": "לא ידוע",
+        "personalNumber": "",
+        "rank": "rookie",
+        "rld": null,
+        "job": "National Creative Specialist",
+        "profession": "",
         "department": "city2",
         "stype": "",
-        "hr": "",
+        "hr": "voluptatem/aut/ea/optio",
         "company": "armagadon",
         "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "e749567678@turtle.com",
+        "telephone": "0531464066",
+        "clearance": 4,
+        "firstName": "Weldon",
+        "lastName": "Alanna",
+        "mail": null,
+        "tz": "",
+        "personalNumber": "",
+        "rank": "ultimate",
+        "rld": null,
+        "job": "Lead Identity Planner",
+        "profession": "null",
+        "department": "city4",
+        "stype": "",
+        "hr": "laudantium/fuga/aut/vel",
+        "company": "odyssey",
+        "isPortalUser": false,
         "tags": [
             {
                 "name": "information"
             }
         ],
         "domains": [
-            "external"
+            "local"
         ]
     },
     {
-        "domUser": "e128318798@turtle.com",
-        "telephone": "0522765666",
+        "domUser": "m722369396@donatelo.turtle.com",
+        "telephone": "0512975567",
         "clearance": 1,
-        "firstName": "Cleo",
-        "lastName": "Kyle",
+        "firstName": "Aditya",
+        "lastName": "Freeman",
         "mail": "",
-        "tz": "",
+        "tz": null,
         "personalNumber": "לא ידוע",
-        "rank": "unknown",
-        "rld": null,
-        "job": "Lead Applications Assistant",
-        "profession": "Specialist",
-        "department": "city5",
-        "stype": "",
-        "hr": "Cleo Kyle",
-        "company": "bladerunners",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            },
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e399996707@turtle.com",
-        "telephone": "0535826181",
-        "clearance": 3,
-        "firstName": "Eleonore",
-        "lastName": "Trystan",
-        "mail": "Sincere_Mosciski@turtleS.com",
-        "tz": "",
-        "personalNumber": null,
-        "rank": "unknown",
+        "rank": "ultimate",
         "rld": "לא ידוע",
-        "job": "Internal Marketing Director",
-        "profession": "null",
-        "department": "city6",
-        "stype": "",
-        "hr": "qui/et/vitae/corrupti",
-        "company": "",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "g708628989@turtle.com",
-        "telephone": "0539431369",
-        "clearance": 5,
-        "firstName": "Frederique",
-        "lastName": "Alia",
-        "mail": "לא ידוע",
-        "tz": "468636055",
-        "personalNumber": null,
-        "rank": "mega",
-        "rld": "לא ידוע",
-        "job": "Future Tactics Engineer",
-        "profession": "Specialist",
-        "department": "city5",
+        "job": "International Accountability Manager",
+        "profession": "",
+        "department": "city3",
         "stype": "",
         "hr": "",
         "company": "bladerunners",
@@ -282,633 +278,26 @@
         ]
     },
     {
-        "domUser": "e164838393@rafael.turtle.com",
-        "telephone": "0576786900",
-        "clearance": 2,
-        "firstName": "Queen",
-        "lastName": "Kayden",
-        "mail": "לא ידוע",
-        "tz": null,
-        "personalNumber": "לא ידוע",
-        "rank": "unknown",
-        "rld": "לא ידוע",
-        "job": "Customer Operations Developer",
-        "profession": "לא ידוע",
-        "department": "city5",
-        "stype": "",
-        "hr": "Queen Kayden",
-        "company": null,
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "e801938895@donatelo.turtle.com",
-        "telephone": "0579311393",
-        "clearance": 4,
-        "firstName": "Diamond",
-        "lastName": "Katelin",
-        "mail": "לא ידוע",
-        "tz": "",
-        "personalNumber": "לא ידוע",
-        "rank": "ultimate",
-        "rld": "2016-03-15T03:08:58.078Z",
-        "job": "Legacy Optimization Administrator",
-        "profession": "Facilitator",
-        "department": "city3",
-        "stype": "",
-        "hr": null,
-        "company": "armagadon",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "e665963114@rafael.turtle.com",
-        "telephone": "0527351543",
-        "clearance": 4,
-        "firstName": "Kelley",
-        "lastName": "Rodger",
-        "mail": "לא ידוע",
-        "tz": null,
-        "personalNumber": null,
-        "rank": "rookie",
-        "rld": "",
-        "job": "District Optimization Engineer",
-        "profession": "לא ידוע",
-        "department": "city2",
-        "stype": "",
-        "hr": "dignissimos/in/velit/aut",
-        "company": "odyssey",
-        "isPortalUser": true,
-        "tags": [],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e840962225@turtle.com",
-        "telephone": "0534771012",
-        "clearance": 1,
-        "firstName": "Jake",
-        "lastName": "Aliyah",
-        "mail": "Lane43@turtleS.com",
-        "tz": "358573426",
-        "personalNumber": "",
-        "rank": "unknown",
-        "rld": "",
-        "job": "Internal Optimization Director",
-        "profession": "Planner",
-        "department": "city6",
-        "stype": "",
-        "hr": "rem/reprehenderit/impedit/pariatur",
-        "company": "armagadon",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "e768605107@turtle.com",
-        "telephone": "0532819684",
-        "clearance": 1,
-        "firstName": "Gene",
-        "lastName": "Ryann",
-        "mail": null,
-        "tz": "",
-        "personalNumber": "",
-        "rank": "unknown",
-        "rld": "2022-01-24T19:57:39.137Z",
-        "job": "Global Solutions Developer",
-        "profession": "Technician",
-        "department": "city4",
-        "stype": "",
-        "hr": "debitis/ut/in/alias",
-        "company": "לא ידוע",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "i687187437@donatelo.turtle.com",
-        "telephone": "0579723943",
-        "clearance": 1,
-        "firstName": "Wilma",
-        "lastName": "Barbara",
-        "mail": "",
-        "tz": "",
-        "personalNumber": "לא ידוע",
-        "rank": "mega",
-        "rld": "2017-01-13T12:20:33.575Z",
-        "job": "Future Implementation Planner",
-        "profession": "null",
-        "department": "city1",
-        "stype": "",
-        "hr": "Wilma Barbara",
-        "company": "armagadon",
-        "isPortalUser": true,
-        "tags": [],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "i576530867@turtle.com",
-        "telephone": "0592444325",
-        "clearance": 4,
-        "firstName": "Lincoln",
-        "lastName": "Lupe",
-        "mail": null,
-        "tz": "",
-        "personalNumber": "לא ידוע",
-        "rank": "ultimate",
-        "rld": "",
-        "job": "Dynamic Group Technician",
-        "profession": "null",
-        "department": "city2",
-        "stype": "",
-        "hr": "aliquid/dolore/tempore/sit",
-        "company": "bladerunners",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "e675473108@donatelo.turtle.com",
-        "telephone": "0505280024",
+        "domUser": "e508980714@rafael.turtle.com",
+        "telephone": "0517540282",
         "clearance": 3,
-        "firstName": "Mae",
-        "lastName": "Vincent",
-        "mail": "",
-        "tz": "652827106",
-        "personalNumber": "959308716",
-        "rank": "rookie",
-        "rld": null,
-        "job": "Senior Accountability Supervisor",
-        "profession": "null",
-        "department": "city5",
-        "stype": "",
-        "hr": "",
-        "company": "לא ידוע",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "m181621298@turtle.com",
-        "telephone": "0594117936",
-        "clearance": 2,
-        "firstName": "Ava",
-        "lastName": "Paris",
-        "mail": "",
-        "tz": "לא ידוע",
-        "personalNumber": "",
-        "rank": "mega",
-        "rld": null,
-        "job": "Corporate Applications Strategist",
-        "profession": "null",
-        "department": "city4",
-        "stype": "",
-        "hr": null,
-        "company": "interstellar",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e9921003@turtle.com",
-        "telephone": "0531804768",
-        "clearance": 4,
-        "firstName": "Nyasia",
-        "lastName": "Charley",
-        "mail": "",
-        "tz": "368542148",
-        "personalNumber": null,
-        "rank": "champion",
-        "rld": null,
-        "job": "Direct Program Consultant",
-        "profession": "Architect",
-        "department": "city6",
-        "stype": "",
-        "hr": null,
-        "company": "interstellar",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "e952296700@turtle.com",
-        "telephone": "0507954295",
-        "clearance": 4,
-        "firstName": "Sigmund",
-        "lastName": "Annetta",
+        "firstName": "Lenna",
+        "lastName": "Celine",
         "mail": "",
         "tz": null,
-        "personalNumber": "לא ידוע",
-        "rank": "ultimate",
-        "rld": "לא ידוע",
-        "job": "Lead Program Liaison",
-        "profession": "",
-        "department": "city4",
-        "stype": "",
-        "hr": "dolorem/iure/eveniet/omnis",
-        "company": "לא ידוע",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "e862943955@rafael.turtle.com",
-        "telephone": "0518736484",
-        "clearance": 5,
-        "firstName": "Flossie",
-        "lastName": "Pattie",
-        "mail": null,
-        "tz": "883845174",
-        "personalNumber": "לא ידוע",
-        "rank": "champion",
-        "rld": "לא ידוע",
-        "job": "Dynamic Paradigm Developer",
-        "profession": "Specialist",
-        "department": "city6",
-        "stype": "",
-        "hr": "Flossie Pattie",
-        "company": "לא ידוע",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "m623650129@turtle.com",
-        "telephone": "0585651419",
-        "clearance": 1,
-        "firstName": "Camylle",
-        "lastName": "Shany",
-        "mail": "",
-        "tz": "542887534",
-        "personalNumber": "לא ידוע",
+        "personalNumber": "356689844",
         "rank": "rookie",
-        "rld": "לא ידוע",
-        "job": "Lead Functionality Supervisor",
-        "profession": "null",
-        "department": "city1",
-        "stype": "",
-        "hr": "",
-        "company": "armagadon",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            },
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "e902236644@turtle.com",
-        "telephone": "0548196250",
-        "clearance": 3,
-        "firstName": "Jamey",
-        "lastName": "Elyssa",
-        "mail": "לא ידוע",
-        "tz": "",
-        "personalNumber": "289578515",
-        "rank": "champion",
-        "rld": "לא ידוע",
-        "job": "National Optimization Strategist",
-        "profession": "Assistant",
-        "department": "city2",
-        "stype": "",
-        "hr": "aut/quas/ut/quam",
-        "company": "interstellar",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "e477540719@rafael.turtle.com",
-        "telephone": "0597816786",
-        "clearance": 4,
-        "firstName": "Lilyan",
-        "lastName": "Macey",
-        "mail": "לא ידוע",
-        "tz": "לא ידוע",
-        "personalNumber": null,
-        "rank": "unknown",
         "rld": null,
-        "job": "Lead Assurance Agent",
+        "job": "Product Creative Administrator",
         "profession": "",
         "department": "city5",
         "stype": "",
-        "hr": "Lilyan Macey",
-        "company": "bladerunners",
-        "isPortalUser": true,
-        "tags": [],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "m500145145@turtle.com",
-        "telephone": "0564123650",
-        "clearance": 3,
-        "firstName": "Marjory",
-        "lastName": "Ashley",
-        "mail": "Salvador_Haley@turtleS.com",
-        "tz": "227111655",
-        "personalNumber": "לא ידוע",
-        "rank": "unknown",
-        "rld": null,
-        "job": "Dynamic Implementation Executive",
-        "profession": "Designer",
-        "department": "city3",
-        "stype": "",
-        "hr": null,
-        "company": "armagadon",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "m352166483@turtle.com",
-        "telephone": "0512084699",
-        "clearance": 5,
-        "firstName": "Berenice",
-        "lastName": "Carson",
-        "mail": null,
-        "tz": "580075935",
-        "personalNumber": "לא ידוע",
-        "rank": "champion",
-        "rld": "2021-07-29T22:49:42.078Z",
-        "job": "Principal Web Agent",
-        "profession": "null",
-        "department": "city5",
-        "stype": "",
-        "hr": "",
-        "company": null,
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "m543771573@turtle.com",
-        "telephone": "0507709452",
-        "clearance": 3,
-        "firstName": "Karolann",
-        "lastName": "Monserrat",
-        "mail": "",
-        "tz": "",
-        "personalNumber": "",
-        "rank": "champion",
-        "rld": "2024-10-06T16:31:18.057Z",
-        "job": "Lead Accounts Liaison",
-        "profession": "null",
-        "department": "city5",
-        "stype": "",
-        "hr": "voluptas/sunt/quis/nobis",
+        "hr": "quae/aut/amet/sunt",
         "company": "interstellar",
         "isPortalUser": false,
         "tags": [
             {
                 "name": "information"
-            }
-        ],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "e359188273@donatelo.turtle.com",
-        "telephone": "0579889485",
-        "clearance": 4,
-        "firstName": "Krista",
-        "lastName": "Lisette",
-        "mail": "",
-        "tz": "",
-        "personalNumber": null,
-        "rank": "unknown",
-        "rld": "2019-07-18T13:35:12.503Z",
-        "job": "Corporate Division Agent",
-        "profession": "Designer",
-        "department": "city3",
-        "stype": "",
-        "hr": "Krista Lisette",
-        "company": null,
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "e67689955@turtle.com",
-        "telephone": "0592616187",
-        "clearance": 4,
-        "firstName": "Vida",
-        "lastName": "Kayla",
-        "mail": "לא ידוע",
-        "tz": "569622749",
-        "personalNumber": null,
-        "rank": "ultimate",
-        "rld": "",
-        "job": "Internal Infrastructure Analyst",
-        "profession": "Architect",
-        "department": "city3",
-        "stype": "",
-        "hr": "",
-        "company": "לא ידוע",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "e556391568@donatelo.turtle.com",
-        "telephone": "0594099274",
-        "clearance": 2,
-        "firstName": "Grover",
-        "lastName": "Dejah",
-        "mail": "לא ידוע",
-        "tz": null,
-        "personalNumber": "",
-        "rank": "champion",
-        "rld": "",
-        "job": "Senior Interactions Officer",
-        "profession": "Specialist",
-        "department": "city1",
-        "stype": "",
-        "hr": null,
-        "company": "odyssey",
-        "isPortalUser": true,
-        "tags": [],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "i689242571@donatelo.turtle.com",
-        "telephone": "0571390129",
-        "clearance": 3,
-        "firstName": "Vincenzo",
-        "lastName": "Jimmie",
-        "mail": null,
-        "tz": null,
-        "personalNumber": null,
-        "rank": "rookie",
-        "rld": "לא ידוע",
-        "job": "Principal Branding Architect",
-        "profession": "Representative",
-        "department": "city2",
-        "stype": "",
-        "hr": null,
-        "company": "odyssey",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            },
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e674840348@turtle.com",
-        "telephone": "0576384664",
-        "clearance": 4,
-        "firstName": "Rudy",
-        "lastName": "Baylee",
-        "mail": "לא ידוע",
-        "tz": "",
-        "personalNumber": null,
-        "rank": "champion",
-        "rld": null,
-        "job": "Dynamic Communications Architect",
-        "profession": "לא ידוע",
-        "department": "city3",
-        "stype": "",
-        "hr": "Rudy Baylee",
-        "company": "לא ידוע",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "e866691555@turtle.com",
-        "telephone": "0506337458",
-        "clearance": 5,
-        "firstName": "Sydnie",
-        "lastName": "Dallas",
-        "mail": null,
-        "tz": null,
-        "personalNumber": "699529889",
-        "rank": "ultimate",
-        "rld": "2022-10-18T03:29:34.044Z",
-        "job": "Product Division Engineer",
-        "profession": "Liaison",
-        "department": "city1",
-        "stype": "",
-        "hr": null,
-        "company": "armagadon",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
             },
             {
                 "name": "transportable"
@@ -920,1637 +309,561 @@
         ]
     },
     {
-        "domUser": "e66476812@rafael.turtle.com",
-        "telephone": "0554000632",
-        "clearance": 3,
-        "firstName": "Rosanna",
-        "lastName": "Tiana",
-        "mail": "לא ידוע",
-        "tz": "לא ידוע",
-        "personalNumber": null,
-        "rank": "mega",
-        "rld": "",
-        "job": "Chief Accounts Specialist",
-        "profession": "null",
-        "department": "city5",
-        "stype": "",
-        "hr": "",
-        "company": "",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            },
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "e372973747@turtle.com",
-        "telephone": "0521698727",
-        "clearance": 1,
-        "firstName": "London",
-        "lastName": "Caesar",
-        "mail": "Hilario87@turtleS.com",
-        "tz": "",
-        "personalNumber": "555662978",
-        "rank": "unknown",
-        "rld": null,
-        "job": "Forward Operations Director",
-        "profession": "Director",
-        "department": "city5",
-        "stype": "",
-        "hr": "",
-        "company": "armagadon",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "m382288949@rafael.turtle.com",
-        "telephone": "0559386050",
-        "clearance": 4,
-        "firstName": "Abigayle",
-        "lastName": "Lue",
-        "mail": "לא ידוע",
-        "tz": "127397883",
-        "personalNumber": "לא ידוע",
-        "rank": "unknown",
-        "rld": "לא ידוע",
-        "job": "Central Optimization Architect",
-        "profession": "לא ידוע",
-        "department": "city1",
-        "stype": "",
-        "hr": "praesentium/eius/pariatur/magni",
-        "company": "odyssey",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "i602968962@donatelo.turtle.com",
-        "telephone": "0584741822",
-        "clearance": 4,
-        "firstName": "Trevor",
-        "lastName": "Dallin",
-        "mail": null,
-        "tz": "לא ידוע",
-        "personalNumber": "785246560",
-        "rank": "rookie",
-        "rld": "2019-08-16T01:41:02.156Z",
-        "job": "Customer Directives Engineer",
-        "profession": "Orchestrator",
-        "department": "city1",
-        "stype": "",
-        "hr": null,
-        "company": "לא ידוע",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "e603807515@turtle.com",
-        "telephone": "0521507809",
-        "clearance": 5,
-        "firstName": "Rossie",
-        "lastName": "Ruthie",
-        "mail": "",
-        "tz": "לא ידוע",
-        "personalNumber": null,
-        "rank": "unknown",
-        "rld": "לא ידוע",
-        "job": "Lead Factors Officer",
-        "profession": "Representative",
-        "department": "city3",
-        "stype": "",
-        "hr": "",
-        "company": "odyssey",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "e682057555@rafael.turtle.com",
-        "telephone": "0587787316",
-        "clearance": 1,
-        "firstName": "Tracey",
-        "lastName": "Uriel",
-        "mail": "",
-        "tz": null,
-        "personalNumber": null,
-        "rank": "rookie",
-        "rld": "לא ידוע",
-        "job": "Central Response Liaison",
-        "profession": "",
-        "department": "city3",
-        "stype": "",
-        "hr": "Tracey Uriel",
-        "company": "interstellar",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "m260548311@turtle.com",
-        "telephone": "0524598319",
-        "clearance": 2,
-        "firstName": "Freda",
-        "lastName": "Weston",
-        "mail": null,
-        "tz": "",
-        "personalNumber": "",
-        "rank": "rookie",
-        "rld": "לא ידוע",
-        "job": "Chief Applications Representative",
-        "profession": "null",
-        "department": "city5",
-        "stype": "",
-        "hr": "illo/porro/quis/vel",
-        "company": "לא ידוע",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            },
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "j629841415@rafael.turtle.com",
-        "telephone": "0566984358",
-        "clearance": 4,
-        "firstName": "Eliane",
-        "lastName": "Shanie",
-        "mail": "",
-        "tz": "140333501",
-        "personalNumber": null,
-        "rank": "rookie",
-        "rld": "לא ידוע",
-        "job": "Lead Creative Facilitator",
-        "profession": "לא ידוע",
-        "department": "city6",
-        "stype": "",
-        "hr": "Eliane Shanie",
-        "company": "לא ידוע",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e763228226@turtle.com",
-        "telephone": "0565368108",
-        "clearance": 2,
-        "firstName": "Myriam",
-        "lastName": "Newell",
-        "mail": null,
-        "tz": "",
-        "personalNumber": "",
-        "rank": "rookie",
-        "rld": null,
-        "job": "Legacy Solutions Engineer",
-        "profession": "לא ידוע",
-        "department": "city1",
-        "stype": "",
-        "hr": "maxime/tempore/consequatur/labore",
-        "company": null,
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "e708829009@turtle.com",
-        "telephone": "0576731158",
-        "clearance": 5,
-        "firstName": "Rigoberto",
-        "lastName": "Giovanni",
-        "mail": "לא ידוע",
-        "tz": null,
-        "personalNumber": "לא ידוע",
-        "rank": "champion",
-        "rld": null,
-        "job": "Direct Quality Associate",
-        "profession": "Administrator",
-        "department": "city5",
-        "stype": "",
-        "hr": null,
-        "company": "לא ידוע",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e992913743@turtle.com",
-        "telephone": "0522558468",
-        "clearance": 5,
-        "firstName": "Norene",
-        "lastName": "Jailyn",
-        "mail": "",
-        "tz": null,
-        "personalNumber": "555786960",
-        "rank": "ultimate",
-        "rld": "לא ידוע",
-        "job": "Principal Data Assistant",
-        "profession": "null",
-        "department": "city6",
-        "stype": "",
-        "hr": null,
-        "company": "armagadon",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "j534567257@turtle.com",
-        "telephone": "0566578202",
-        "clearance": 1,
-        "firstName": "Monserrate",
-        "lastName": "Mateo",
-        "mail": "",
-        "tz": null,
-        "personalNumber": "",
-        "rank": "rookie",
-        "rld": null,
-        "job": "Senior Security Representative",
-        "profession": "Planner",
-        "department": "city4",
-        "stype": "",
-        "hr": "",
-        "company": "",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            },
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "g677613083@donatelo.turtle.com",
-        "telephone": "0512665811",
-        "clearance": 2,
-        "firstName": "Bradly",
-        "lastName": "Adrien",
-        "mail": "",
-        "tz": "589700905",
-        "personalNumber": "",
-        "rank": "ultimate",
-        "rld": "לא ידוע",
-        "job": "Investor Web Supervisor",
-        "profession": "Consultant",
-        "department": "city4",
-        "stype": "",
-        "hr": "cumque/ut/nemo/dolorem",
-        "company": "armagadon",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e514490229@turtle.com",
-        "telephone": "0579252215",
-        "clearance": 1,
-        "firstName": "Chris",
-        "lastName": "Samir",
-        "mail": null,
-        "tz": "",
-        "personalNumber": null,
-        "rank": "mega",
-        "rld": "לא ידוע",
-        "job": "Future Assurance Consultant",
-        "profession": "",
-        "department": "city6",
-        "stype": "",
-        "hr": "dolorem/occaecati/incidunt/qui",
-        "company": "odyssey",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "i535516594@turtle.com",
-        "telephone": "0595267674",
-        "clearance": 1,
-        "firstName": "Derek",
-        "lastName": "Bonnie",
-        "mail": null,
-        "tz": "561345612",
-        "personalNumber": "",
-        "rank": "mega",
-        "rld": "2020-02-12T21:26:38.044Z",
-        "job": "Dynamic Accounts Orchestrator",
-        "profession": "Analyst",
-        "department": "city2",
-        "stype": "",
-        "hr": null,
-        "company": "",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "g328551079@donatelo.turtle.com",
-        "telephone": "0553796611",
-        "clearance": 5,
-        "firstName": "Mittie",
-        "lastName": "Bell",
-        "mail": null,
-        "tz": "",
-        "personalNumber": "",
-        "rank": "ultimate",
-        "rld": "לא ידוע",
-        "job": "Product Usability Director",
-        "profession": "Executive",
-        "department": "city3",
-        "stype": "",
-        "hr": "",
-        "company": "armagadon",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e930684616@rafael.turtle.com",
-        "telephone": "0573064357",
+        "domUser": "e605501367@turtle.com",
+        "telephone": "0565733425",
         "clearance": 5,
         "firstName": "Zander",
-        "lastName": "Marjorie",
-        "mail": "לא ידוע",
-        "tz": "",
-        "personalNumber": null,
-        "rank": "mega",
-        "rld": "",
-        "job": "Direct Response Executive",
-        "profession": "null",
-        "department": "city1",
-        "stype": "",
-        "hr": null,
-        "company": "odyssey",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            },
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "e618159778@donatelo.turtle.com",
-        "telephone": "0549984831",
-        "clearance": 3,
-        "firstName": "Hillary",
-        "lastName": "Alysson",
+        "lastName": "Jarret",
         "mail": "לא ידוע",
         "tz": null,
-        "personalNumber": "",
-        "rank": "mega",
-        "rld": null,
-        "job": "Legacy Accountability Director",
-        "profession": "",
-        "department": "city5",
-        "stype": "",
-        "hr": "Hillary Alysson",
-        "company": "armagadon",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "j381494252@rafael.turtle.com",
-        "telephone": "0541414392",
-        "clearance": 1,
-        "firstName": "Laron",
-        "lastName": "Samara",
-        "mail": "Everette_Parker@turtleS.com",
-        "tz": "לא ידוע",
-        "personalNumber": "",
-        "rank": "mega",
-        "rld": "",
-        "job": "Direct Marketing Orchestrator",
-        "profession": "Officer",
-        "department": "city5",
-        "stype": "",
-        "hr": "",
-        "company": "לא ידוע",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "j213434304@donatelo.turtle.com",
-        "telephone": "0589107356",
-        "clearance": 5,
-        "firstName": "Abigale",
-        "lastName": "Esperanza",
-        "mail": null,
-        "tz": "492846852",
-        "personalNumber": "925906161",
-        "rank": "champion",
-        "rld": "",
-        "job": "Future Markets Orchestrator",
-        "profession": "לא ידוע",
-        "department": "city6",
-        "stype": "",
-        "hr": "Abigale Esperanza",
-        "company": "לא ידוע",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            },
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "i251738431@rafael.turtle.com",
-        "telephone": "0525651021",
-        "clearance": 5,
-        "firstName": "Carleton",
-        "lastName": "Declan",
-        "mail": null,
-        "tz": null,
-        "personalNumber": null,
-        "rank": "rookie",
-        "rld": "לא ידוע",
-        "job": "Direct Response Consultant",
-        "profession": "Consultant",
-        "department": "city4",
-        "stype": "",
-        "hr": "Carleton Declan",
-        "company": "bladerunners",
-        "isPortalUser": true,
-        "tags": [],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "g270404692@turtle.com",
-        "telephone": "0525556412",
-        "clearance": 3,
-        "firstName": "Leopoldo",
-        "lastName": "Mellie",
-        "mail": null,
-        "tz": "לא ידוע",
-        "personalNumber": "",
-        "rank": "unknown",
-        "rld": "",
-        "job": "Chief Infrastructure Associate",
-        "profession": "null",
-        "department": "city6",
-        "stype": "",
-        "hr": null,
-        "company": "bladerunners",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "e98855642@turtle.com",
-        "telephone": "0558578427",
-        "clearance": 5,
-        "firstName": "Vella",
-        "lastName": "Kristina",
-        "mail": "לא ידוע",
-        "tz": "888706777",
         "personalNumber": "לא ידוע",
         "rank": "unknown",
-        "rld": "2026-05-03T16:31:33.982Z",
-        "job": "Lead Interactions Coordinator",
-        "profession": "לא ידוע",
-        "department": "city5",
-        "stype": "",
-        "hr": null,
-        "company": "armagadon",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            },
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "m224153484@turtle.com",
-        "telephone": "0539072258",
-        "clearance": 2,
-        "firstName": "Lionel",
-        "lastName": "Aaliyah",
-        "mail": "",
-        "tz": "לא ידוע",
-        "personalNumber": "",
-        "rank": "rookie",
-        "rld": "",
-        "job": "Customer Quality Director",
-        "profession": "",
-        "department": "city1",
-        "stype": "",
-        "hr": null,
-        "company": null,
-        "isPortalUser": true,
-        "tags": [],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "i82385020@donatelo.turtle.com",
-        "telephone": "0548107482",
-        "clearance": 5,
-        "firstName": "Chester",
-        "lastName": "Jillian",
-        "mail": "לא ידוע",
-        "tz": "416307536",
-        "personalNumber": null,
-        "rank": "rookie",
-        "rld": "2023-06-22T08:40:04.646Z",
-        "job": "Human Markets Designer",
-        "profession": "",
-        "department": "city1",
-        "stype": "",
-        "hr": "",
-        "company": "odyssey",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            },
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "e786753296@turtle.com",
-        "telephone": "0576811328",
-        "clearance": 2,
-        "firstName": "Aurore",
-        "lastName": "Maybelle",
-        "mail": "לא ידוע",
-        "tz": "לא ידוע",
-        "personalNumber": "743045711",
-        "rank": "unknown",
-        "rld": "לא ידוע",
-        "job": "Corporate Applications Agent",
-        "profession": "לא ידוע",
-        "department": "city3",
-        "stype": "",
-        "hr": "distinctio/minima/in/facere",
-        "company": "armagadon",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "g903145408@donatelo.turtle.com",
-        "telephone": "0532639337",
-        "clearance": 1,
-        "firstName": "Izaiah",
-        "lastName": "Dominic",
-        "mail": null,
-        "tz": "492533310",
-        "personalNumber": "174163018",
-        "rank": "unknown",
-        "rld": "",
-        "job": "Lead Paradigm Supervisor",
-        "profession": "Planner",
-        "department": "city5",
-        "stype": "",
-        "hr": null,
-        "company": "interstellar",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "m412398287@turtle.com",
-        "telephone": "0559011395",
-        "clearance": 1,
-        "firstName": "Kieran",
-        "lastName": "Michele",
-        "mail": null,
-        "tz": "לא ידוע",
-        "personalNumber": null,
-        "rank": "mega",
-        "rld": "לא ידוע",
-        "job": "International Intranet Technician",
-        "profession": "Architect",
-        "department": "city2",
-        "stype": "",
-        "hr": "Kieran Michele",
-        "company": "לא ידוע",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "information"
-            },
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e994060991@donatelo.turtle.com",
-        "telephone": "0501364234",
-        "clearance": 5,
-        "firstName": "Zena",
-        "lastName": "Frederique",
-        "mail": "Electa88@turtleS.com",
-        "tz": "851372847",
-        "personalNumber": "444923458",
-        "rank": "champion",
-        "rld": null,
-        "job": "Product Creative Officer",
-        "profession": "Architect",
-        "department": "city5",
-        "stype": "",
-        "hr": "exercitationem/unde/voluptas/molestias",
-        "company": "armagadon",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            },
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "e27336496@donatelo.turtle.com",
-        "telephone": "0566053368",
-        "clearance": 4,
-        "firstName": "Davon",
-        "lastName": "Diana",
-        "mail": null,
-        "tz": null,
-        "personalNumber": null,
-        "rank": "ultimate",
-        "rld": "",
-        "job": "Senior Quality Planner",
-        "profession": "Associate",
-        "department": "city4",
-        "stype": "",
-        "hr": "tempore/asperiores/ullam/tenetur",
-        "company": "interstellar",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "g206000065@donatelo.turtle.com",
-        "telephone": "0504484019",
-        "clearance": 2,
-        "firstName": "Kendra",
-        "lastName": "Adelle",
-        "mail": null,
-        "tz": "",
-        "personalNumber": null,
-        "rank": "mega",
-        "rld": "",
-        "job": "Regional Intranet Supervisor",
-        "profession": "",
-        "department": "city5",
-        "stype": "",
-        "hr": null,
-        "company": "odyssey",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "j487204971@donatelo.turtle.com",
-        "telephone": "0593075988",
-        "clearance": 3,
-        "firstName": "Emanuel",
-        "lastName": "Laisha",
-        "mail": "לא ידוע",
-        "tz": "",
-        "personalNumber": "לא ידוע",
-        "rank": "mega",
-        "rld": "",
-        "job": "District Interactions Agent",
-        "profession": "לא ידוע",
-        "department": "city4",
-        "stype": "",
-        "hr": "labore/veniam/quas/ex",
-        "company": "",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "l918443351@rafael.turtle.com",
-        "telephone": "0529187649",
-        "clearance": 1,
-        "firstName": "Larissa",
-        "lastName": "Damian",
-        "mail": "לא ידוע",
-        "tz": "793369497",
-        "personalNumber": null,
-        "rank": "mega",
-        "rld": "לא ידוע",
-        "job": "Regional Data Coordinator",
-        "profession": "null",
-        "department": "city1",
-        "stype": "",
-        "hr": "sint/molestiae/qui/cum",
-        "company": null,
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            },
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "m3804379@rafael.turtle.com",
-        "telephone": "0546727016",
-        "clearance": 5,
-        "firstName": "Jessica",
-        "lastName": "Anita",
-        "mail": "לא ידוע",
-        "tz": "182631259",
-        "personalNumber": "914068395",
-        "rank": "mega",
-        "rld": "2015-05-22T20:53:22.785Z",
-        "job": "Future Response Architect",
-        "profession": "לא ידוע",
-        "department": "city5",
-        "stype": "",
-        "hr": "",
-        "company": "armagadon",
-        "isPortalUser": true,
-        "tags": [],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "l351243799@turtle.com",
-        "telephone": "0505512015",
-        "clearance": 4,
-        "firstName": "Diamond",
-        "lastName": "Brooks",
-        "mail": "לא ידוע",
-        "tz": "",
-        "personalNumber": "לא ידוע",
-        "rank": "rookie",
-        "rld": null,
-        "job": "National Division Supervisor",
-        "profession": "Technician",
-        "department": "city5",
-        "stype": "",
-        "hr": "Diamond Brooks",
-        "company": "interstellar",
-        "isPortalUser": true,
-        "tags": [],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "m630199036@turtle.com",
-        "telephone": "0513877566",
-        "clearance": 1,
-        "firstName": "Selmer",
-        "lastName": "Burnice",
-        "mail": null,
-        "tz": null,
-        "personalNumber": "435386768",
-        "rank": "unknown",
-        "rld": "",
-        "job": "Global Data Engineer",
-        "profession": "",
-        "department": "city1",
-        "stype": "",
-        "hr": "iure/cumque/et/odio",
-        "company": "לא ידוע",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "e910150814@turtle.com",
-        "telephone": "0578591930",
-        "clearance": 5,
-        "firstName": "Anne",
-        "lastName": "Danyka",
-        "mail": "",
-        "tz": "",
-        "personalNumber": "",
-        "rank": "mega",
-        "rld": "",
-        "job": "Corporate Directives Architect",
-        "profession": "לא ידוע",
-        "department": "city5",
-        "stype": "",
-        "hr": "porro/possimus/quia/sit",
-        "company": "",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            },
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "e583820733@rafael.turtle.com",
-        "telephone": "0579421655",
-        "clearance": 1,
-        "firstName": "Sibyl",
-        "lastName": "Franco",
-        "mail": null,
-        "tz": "לא ידוע",
-        "personalNumber": null,
-        "rank": "mega",
-        "rld": "",
-        "job": "Future Tactics Facilitator",
-        "profession": "לא ידוע",
-        "department": "city6",
-        "stype": "",
-        "hr": "",
-        "company": "",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "m438791547@rafael.turtle.com",
-        "telephone": "0514283643",
-        "clearance": 1,
-        "firstName": "Joshua",
-        "lastName": "Tyrese",
-        "mail": null,
-        "tz": "לא ידוע",
-        "personalNumber": "876963580",
-        "rank": "ultimate",
-        "rld": null,
-        "job": "Dynamic Creative Developer",
-        "profession": "",
-        "department": "city6",
-        "stype": "",
-        "hr": "Joshua Tyrese",
-        "company": "odyssey",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "g655353563@turtle.com",
-        "telephone": "0548169489",
-        "clearance": 4,
-        "firstName": "Cory",
-        "lastName": "Merritt",
-        "mail": "לא ידוע",
-        "tz": "",
-        "personalNumber": "",
-        "rank": "ultimate",
-        "rld": "",
-        "job": "Senior Infrastructure Executive",
-        "profession": "Strategist",
-        "department": "city3",
-        "stype": "",
-        "hr": null,
-        "company": "odyssey",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "e760029357@turtle.com",
-        "telephone": "0533628600",
-        "clearance": 4,
-        "firstName": "Penelope",
-        "lastName": "Amparo",
-        "mail": null,
-        "tz": "",
-        "personalNumber": null,
-        "rank": "unknown",
-        "rld": null,
-        "job": "International Integration Agent",
-        "profession": "null",
-        "department": "city6",
-        "stype": "",
-        "hr": "",
-        "company": "",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "g264805822@donatelo.turtle.com",
-        "telephone": "0569651882",
-        "clearance": 4,
-        "firstName": "Karlie",
-        "lastName": "Jaydon",
-        "mail": "לא ידוע",
-        "tz": null,
-        "personalNumber": "476623409",
-        "rank": "rookie",
-        "rld": "2020-10-10T23:04:34.044Z",
-        "job": "Internal Data Developer",
-        "profession": "Supervisor",
-        "department": "city6",
-        "stype": "",
-        "hr": null,
-        "company": "bladerunners",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "m878093179@turtle.com",
-        "telephone": "0513747949",
-        "clearance": 1,
-        "firstName": "Trevor",
-        "lastName": "Vickie",
-        "mail": "לא ידוע",
-        "tz": "355052556",
-        "personalNumber": "",
-        "rank": "mega",
-        "rld": "לא ידוע",
-        "job": "Senior Brand Developer",
-        "profession": "null",
-        "department": "city3",
-        "stype": "",
-        "hr": "Trevor Vickie",
-        "company": null,
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "e473444674@turtle.com",
-        "telephone": "0574299913",
-        "clearance": 1,
-        "firstName": "Edna",
-        "lastName": "Kenyatta",
-        "mail": "לא ידוע",
-        "tz": "",
-        "personalNumber": "לא ידוע",
-        "rank": "mega",
-        "rld": "לא ידוע",
-        "job": "Human Division Administrator",
-        "profession": "Supervisor",
-        "department": "city4",
-        "stype": "",
-        "hr": null,
-        "company": "armagadon",
-        "isPortalUser": true,
-        "tags": [],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "g585731048@donatelo.turtle.com",
-        "telephone": "0532424077",
-        "clearance": 4,
-        "firstName": "Saul",
-        "lastName": "Nola",
-        "mail": null,
-        "tz": null,
-        "personalNumber": null,
-        "rank": "ultimate",
-        "rld": "2026-05-07T16:18:55.835Z",
-        "job": "National Factors Producer",
-        "profession": "לא ידוע",
-        "department": "city1",
-        "stype": "",
-        "hr": "Saul Nola",
-        "company": "interstellar",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "g773857876@donatelo.turtle.com",
-        "telephone": "0558655081",
-        "clearance": 4,
-        "firstName": "Jasper",
-        "lastName": "Jimmy",
-        "mail": "",
-        "tz": "861655942",
-        "personalNumber": "",
-        "rank": "mega",
-        "rld": "",
-        "job": "Dynamic Identity Engineer",
-        "profession": "Assistant",
-        "department": "city6",
-        "stype": "",
-        "hr": null,
-        "company": "",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "m210341104@turtle.com",
-        "telephone": "0541528543",
-        "clearance": 2,
-        "firstName": "Raul",
-        "lastName": "Cornelius",
-        "mail": null,
-        "tz": "593041338",
-        "personalNumber": null,
-        "rank": "mega",
-        "rld": "2020-07-04T10:40:27.117Z",
-        "job": "Chief Configuration Coordinator",
-        "profession": "Agent",
-        "department": "city4",
-        "stype": "",
-        "hr": null,
-        "company": "interstellar",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "e819152286@turtle.com",
-        "telephone": "0557024580",
-        "clearance": 2,
-        "firstName": "Tianna",
-        "lastName": "Johnathan",
-        "mail": null,
-        "tz": null,
-        "personalNumber": "",
-        "rank": "ultimate",
-        "rld": "2018-12-14T16:53:45.048Z",
-        "job": "Central Directives Producer",
-        "profession": "Agent",
-        "department": "city4",
-        "stype": "",
-        "hr": null,
-        "company": "bladerunners",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "m640120977@turtle.com",
-        "telephone": "0578698576",
-        "clearance": 3,
-        "firstName": "Chet",
-        "lastName": "Zane",
-        "mail": "",
-        "tz": "474852811",
-        "personalNumber": null,
-        "rank": "rookie",
-        "rld": null,
-        "job": "Direct Usability Liaison",
-        "profession": "Engineer",
-        "department": "city4",
-        "stype": "",
-        "hr": "",
-        "company": "interstellar",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "l825897072@donatelo.turtle.com",
-        "telephone": "0553432553",
-        "clearance": 3,
-        "firstName": "Garnett",
-        "lastName": "Carole",
-        "mail": null,
-        "tz": "",
-        "personalNumber": "",
-        "rank": "mega",
-        "rld": "2015-09-13T02:48:48.531Z",
-        "job": "Regional Configuration Manager",
-        "profession": "Developer",
-        "department": "city1",
-        "stype": "",
-        "hr": "",
-        "company": "",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            },
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "m445013679@turtle.com",
-        "telephone": "0544337845",
-        "clearance": 2,
-        "firstName": "Eula",
-        "lastName": "Deon",
-        "mail": "לא ידוע",
-        "tz": null,
-        "personalNumber": null,
-        "rank": "ultimate",
-        "rld": "לא ידוע",
-        "job": "Corporate Security Director",
-        "profession": "Representative",
-        "department": "city6",
-        "stype": "",
-        "hr": "nulla/amet/molestiae/impedit",
-        "company": null,
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            },
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e796703912@turtle.com",
-        "telephone": "0555295851",
-        "clearance": 3,
-        "firstName": "Dayna",
-        "lastName": "Alfreda",
-        "mail": "לא ידוע",
-        "tz": null,
-        "personalNumber": "",
-        "rank": "mega",
-        "rld": "לא ידוע",
-        "job": "Internal Markets Representative",
-        "profession": "",
-        "department": "city5",
-        "stype": "",
-        "hr": null,
-        "company": "odyssey",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "l883897721@rafael.turtle.com",
-        "telephone": "0522165924",
-        "clearance": 5,
-        "firstName": "Melyssa",
-        "lastName": "Uriel",
-        "mail": null,
-        "tz": "",
-        "personalNumber": "לא ידוע",
-        "rank": "unknown",
-        "rld": "2018-02-23T17:25:25.056Z",
-        "job": "Direct Accounts Associate",
-        "profession": "",
-        "department": "city4",
-        "stype": "",
-        "hr": "",
-        "company": "bladerunners",
-        "isPortalUser": false,
-        "tags": [],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "m467971085@donatelo.turtle.com",
-        "telephone": "0538020929",
-        "clearance": 3,
-        "firstName": "Alejandrin",
-        "lastName": "Reva",
-        "mail": "Kirsten_Franecki93@turtleS.com",
-        "tz": "",
-        "personalNumber": "",
-        "rank": "mega",
-        "rld": "",
-        "job": "Chief Response Coordinator",
-        "profession": "null",
-        "department": "city3",
-        "stype": "",
-        "hr": "nesciunt/est/dolores/fugit",
-        "company": null,
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "g761757328@turtle.com",
-        "telephone": "0531074224",
-        "clearance": 5,
-        "firstName": "Baron",
-        "lastName": "Rafael",
-        "mail": null,
-        "tz": "125650382",
-        "personalNumber": "לא ידוע",
-        "rank": "unknown",
-        "rld": null,
-        "job": "Customer Metrics Associate",
-        "profession": "Representative",
-        "department": "city6",
-        "stype": "",
-        "hr": "sed/tempore/ex/consequatur",
-        "company": "armagadon",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "i506814075@turtle.com",
-        "telephone": "0516522824",
-        "clearance": 3,
-        "firstName": "Andreanne",
-        "lastName": "Lillian",
-        "mail": "",
-        "tz": "502120140",
-        "personalNumber": "8039921",
-        "rank": "unknown",
-        "rld": "2023-12-14T23:34:46.389Z",
-        "job": "Internal Division Producer",
-        "profession": "Assistant",
-        "department": "city4",
-        "stype": "",
-        "hr": "Andreanne Lillian",
-        "company": "odyssey",
-        "isPortalUser": false,
-        "tags": [
-            {
-                "name": "transportable"
-            },
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e425783490@turtle.com",
-        "telephone": "0554645147",
-        "clearance": 4,
-        "firstName": "Barton",
-        "lastName": "Kenneth",
-        "mail": null,
-        "tz": null,
-        "personalNumber": null,
-        "rank": "rookie",
-        "rld": "",
-        "job": "Regional Paradigm Associate",
-        "profession": "",
-        "department": "city6",
-        "stype": "",
-        "hr": null,
-        "company": "",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "information"
-            }
-        ],
-        "domains": [
-            "external"
-        ]
-    },
-    {
-        "domUser": "m627286899@turtle.com",
-        "telephone": "0568004426",
-        "clearance": 5,
-        "firstName": "Antwan",
-        "lastName": "Arden",
-        "mail": "לא ידוע",
-        "tz": "",
-        "personalNumber": "733376000",
-        "rank": "unknown",
-        "rld": "לא ידוע",
-        "job": "Future Solutions Engineer",
-        "profession": "Strategist",
-        "department": "city4",
-        "stype": "",
-        "hr": "",
-        "company": "armagadon",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local",
-            "external"
-        ]
-    },
-    {
-        "domUser": "m26342583@rafael.turtle.com",
-        "telephone": "0508109327",
-        "clearance": 5,
-        "firstName": "Adell",
-        "lastName": "Irving",
-        "mail": null,
-        "tz": null,
-        "personalNumber": "308012476",
-        "rank": "champion",
-        "rld": "לא ידוע",
-        "job": "Chief Integration Specialist",
-        "profession": "",
-        "department": "city3",
-        "stype": "",
-        "hr": null,
-        "company": "bladerunners",
-        "isPortalUser": true,
-        "tags": [],
-        "domains": [
-            "external",
-            "local"
-        ]
-    },
-    {
-        "domUser": "e764782610@turtle.com",
-        "telephone": "0508867026",
-        "clearance": 3,
-        "firstName": "Nathaniel",
-        "lastName": "Frederik",
-        "mail": "לא ידוע",
-        "tz": "לא ידוע",
-        "personalNumber": "462425410",
-        "rank": "mega",
-        "rld": null,
-        "job": "Chief Quality Technician",
-        "profession": "",
-        "department": "city5",
-        "stype": "",
-        "hr": null,
-        "company": "לא ידוע",
-        "isPortalUser": true,
-        "tags": [
-            {
-                "name": "transportable"
-            }
-        ],
-        "domains": [
-            "local"
-        ]
-    },
-    {
-        "domUser": "e157695625@donatelo.turtle.com",
-        "telephone": "0501440057",
-        "clearance": 2,
-        "firstName": "Lorenza",
-        "lastName": "Dedric",
-        "mail": "Jordane.Streich49@turtleS.com",
-        "tz": null,
-        "personalNumber": null,
-        "rank": "mega",
-        "rld": "לא ידוע",
-        "job": "Corporate Security Manager",
+        "rld": "2019-04-29T14:15:54.334Z",
+        "job": "Legacy Accountability Orchestrator",
         "profession": "Director",
         "department": "city1",
         "stype": "",
         "hr": "",
+        "company": "armagadon",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "e630274462@donatelo.turtle.com",
+        "telephone": "0541475386",
+        "clearance": 1,
+        "firstName": "Fabiola",
+        "lastName": "Edwin",
+        "mail": "Arvel.Muller@turtleS.com",
+        "tz": "",
+        "personalNumber": "לא ידוע",
+        "rank": "rookie",
+        "rld": "2018-11-15T16:07:17.291Z",
+        "job": "Corporate Metrics Facilitator",
+        "profession": "Technician",
+        "department": "city6",
+        "stype": "",
+        "hr": "Fabiola Edwin",
+        "company": "bladerunners",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "i83738957@turtle.com",
+        "telephone": "0517744462",
+        "clearance": 3,
+        "firstName": "Lucas",
+        "lastName": "Merlin",
+        "mail": null,
+        "tz": "לא ידוע",
+        "personalNumber": "",
+        "rank": "unknown",
+        "rld": "לא ידוע",
+        "job": "District Division Administrator",
+        "profession": "null",
+        "department": "city3",
+        "stype": "",
+        "hr": null,
+        "company": "bladerunners",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            },
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "m806363181@turtle.com",
+        "telephone": "0563063430",
+        "clearance": 4,
+        "firstName": "Keely",
+        "lastName": "Eudora",
+        "mail": "",
+        "tz": "לא ידוע",
+        "personalNumber": "898574367",
+        "rank": "rookie",
+        "rld": null,
+        "job": "Corporate Accounts Assistant",
+        "profession": "לא ידוע",
+        "department": "city5",
+        "stype": "",
+        "hr": "",
+        "company": "armagadon",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e850058174@rafael.turtle.com",
+        "telephone": "0593975010",
+        "clearance": 3,
+        "firstName": "Kyle",
+        "lastName": "Margarete",
+        "mail": "Burdette.Douglas22@turtleS.com",
+        "tz": "לא ידוע",
+        "personalNumber": "",
+        "rank": "mega",
+        "rld": "2024-07-03T21:26:16.756Z",
+        "job": "Forward Research Representative",
+        "profession": "null",
+        "department": "city2",
+        "stype": "",
+        "hr": "",
+        "company": "interstellar",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "j104156418@turtle.com",
+        "telephone": "0506103541",
+        "clearance": 3,
+        "firstName": "Lukas",
+        "lastName": "Garret",
+        "mail": "לא ידוע",
+        "tz": "744006875",
+        "personalNumber": null,
+        "rank": "unknown",
+        "rld": "2021-04-09T17:26:19.460Z",
+        "job": "Principal Response Associate",
+        "profession": "לא ידוע",
+        "department": "city5",
+        "stype": "",
+        "hr": "",
+        "company": "bladerunners",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "m487406113@turtle.com",
+        "telephone": "0516927870",
+        "clearance": 1,
+        "firstName": "Darius",
+        "lastName": "Raymundo",
+        "mail": "",
+        "tz": null,
+        "personalNumber": "",
+        "rank": "ultimate",
+        "rld": null,
+        "job": "Central Configuration Engineer",
+        "profession": "null",
+        "department": "city2",
+        "stype": "",
+        "hr": "",
+        "company": "armagadon",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e559259533@turtle.com",
+        "telephone": "0591175713",
+        "clearance": 3,
+        "firstName": "Name",
+        "lastName": "Kari",
+        "mail": "לא ידוע",
+        "tz": "לא ידוע",
+        "personalNumber": "106015150",
+        "rank": "champion",
+        "rld": "",
+        "job": "Product Infrastructure Strategist",
+        "profession": "לא ידוע",
+        "department": "city2",
+        "stype": "",
+        "hr": null,
         "company": "לא ידוע",
+        "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "e617493055@turtle.com",
+        "telephone": "0575766093",
+        "clearance": 2,
+        "firstName": "Armando",
+        "lastName": "Kenna",
+        "mail": null,
+        "tz": "",
+        "personalNumber": "569252287",
+        "rank": "mega",
+        "rld": "לא ידוע",
+        "job": "Central Identity Architect",
+        "profession": "לא ידוע",
+        "department": "city3",
+        "stype": "",
+        "hr": "sit/sunt/sint/dolor",
+        "company": null,
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "e315710680@turtle.com",
+        "telephone": "0549386368",
+        "clearance": 5,
+        "firstName": "Verda",
+        "lastName": "Fatima",
+        "mail": null,
+        "tz": null,
+        "personalNumber": "לא ידוע",
+        "rank": "ultimate",
+        "rld": "לא ידוע",
+        "job": "Investor Accounts Designer",
+        "profession": "",
+        "department": "city3",
+        "stype": "",
+        "hr": "Verda Fatima",
+        "company": null,
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "g722935216@donatelo.turtle.com",
+        "telephone": "0591383469",
+        "clearance": 1,
+        "firstName": "Marina",
+        "lastName": "Abner",
+        "mail": "לא ידוע",
+        "tz": "122912280",
+        "personalNumber": null,
+        "rank": "ultimate",
+        "rld": null,
+        "job": "District Web Liaison",
+        "profession": "Coordinator",
+        "department": "city3",
+        "stype": "",
+        "hr": null,
+        "company": "לא ידוע",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e283082355@rafael.turtle.com",
+        "telephone": "0528807393",
+        "clearance": 1,
+        "firstName": "Hazle",
+        "lastName": "Mia",
+        "mail": null,
+        "tz": "לא ידוע",
+        "personalNumber": "38831020",
+        "rank": "unknown",
+        "rld": "",
+        "job": "Chief Implementation Specialist",
+        "profession": "Representative",
+        "department": "city3",
+        "stype": "",
+        "hr": "",
+        "company": "odyssey",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "e623919388@donatelo.turtle.com",
+        "telephone": "0513318226",
+        "clearance": 2,
+        "firstName": "Jeremy",
+        "lastName": "Aaron",
+        "mail": "לא ידוע",
+        "tz": "לא ידוע",
+        "personalNumber": "623424161",
+        "rank": "ultimate",
+        "rld": "",
+        "job": "District Integration Engineer",
+        "profession": "null",
+        "department": "city6",
+        "stype": "",
+        "hr": "Jeremy Aaron",
+        "company": "odyssey",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "e728785940@rafael.turtle.com",
+        "telephone": "0598365084",
+        "clearance": 3,
+        "firstName": "Caden",
+        "lastName": "Carol",
+        "mail": "David.Pfannerstill@turtleS.com",
+        "tz": null,
+        "personalNumber": null,
+        "rank": "mega",
+        "rld": null,
+        "job": "Chief Response Developer",
+        "profession": "Planner",
+        "department": "city1",
+        "stype": "",
+        "hr": "similique/debitis/enim/aut",
+        "company": "interstellar",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            },
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "m940570049@turtle.com",
+        "telephone": "0556588742",
+        "clearance": 3,
+        "firstName": "Emmanuelle",
+        "lastName": "Libbie",
+        "mail": "לא ידוע",
+        "tz": "לא ידוע",
+        "personalNumber": "לא ידוע",
+        "rank": "rookie",
+        "rld": "2022-08-20T17:01:02.863Z",
+        "job": "Future Assurance Liaison",
+        "profession": "לא ידוע",
+        "department": "city5",
+        "stype": "",
+        "hr": "Emmanuelle Libbie",
+        "company": "",
+        "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "e926862784@turtle.com",
+        "telephone": "0535965012",
+        "clearance": 4,
+        "firstName": "Niko",
+        "lastName": "Laurel",
+        "mail": "לא ידוע",
+        "tz": "לא ידוע",
+        "personalNumber": "לא ידוע",
+        "rank": "champion",
+        "rld": null,
+        "job": "Central Identity Technician",
+        "profession": "",
+        "department": "city1",
+        "stype": "",
+        "hr": "Niko Laurel",
+        "company": null,
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "transportable"
+            },
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "e282660543@turtle.com",
+        "telephone": "0592062350",
+        "clearance": 3,
+        "firstName": "Carol",
+        "lastName": "Matilde",
+        "mail": "לא ידוע",
+        "tz": null,
+        "personalNumber": "לא ידוע",
+        "rank": "unknown",
+        "rld": "לא ידוע",
+        "job": "National Research Planner",
+        "profession": "Developer",
+        "department": "city1",
+        "stype": "",
+        "hr": "consequatur/est/impedit/ut",
+        "company": "לא ידוע",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "e984558288@turtle.com",
+        "telephone": "0512275039",
+        "clearance": 2,
+        "firstName": "Houston",
+        "lastName": "Aniya",
+        "mail": "לא ידוע",
+        "tz": "לא ידוע",
+        "personalNumber": "562920226",
+        "rank": "mega",
+        "rld": "לא ידוע",
+        "job": "Principal Assurance Technician",
+        "profession": "null",
+        "department": "city5",
+        "stype": "",
+        "hr": "Houston Aniya",
+        "company": null,
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "transportable"
+            },
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "g639551083@donatelo.turtle.com",
+        "telephone": "0598996029",
+        "clearance": 5,
+        "firstName": "Giovanny",
+        "lastName": "Richmond",
+        "mail": null,
+        "tz": null,
+        "personalNumber": null,
+        "rank": "champion",
+        "rld": "2025-01-06T12:44:32.636Z",
+        "job": "Legacy Quality Coordinator",
+        "profession": "Producer",
+        "department": "city6",
+        "stype": "",
+        "hr": null,
+        "company": "",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "g166521354@turtle.com",
+        "telephone": "0524748449",
+        "clearance": 1,
+        "firstName": "Leonie",
+        "lastName": "Victoria",
+        "mail": "",
+        "tz": "לא ידוע",
+        "personalNumber": null,
+        "rank": "unknown",
+        "rld": "2019-04-07T06:28:45.343Z",
+        "job": "Future Intranet Consultant",
+        "profession": "לא ידוע",
+        "department": "city2",
+        "stype": "",
+        "hr": "et/quos/omnis/quia",
+        "company": null,
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "e720395694@donatelo.turtle.com",
+        "telephone": "0527490245",
+        "clearance": 1,
+        "firstName": "Lavada",
+        "lastName": "Hermina",
+        "mail": null,
+        "tz": "",
+        "personalNumber": "לא ידוע",
+        "rank": "mega",
+        "rld": "2023-12-05T10:32:01.679Z",
+        "job": "Dynamic Identity Consultant",
+        "profession": "Facilitator",
+        "department": "city4",
+        "stype": "",
+        "hr": "Lavada Hermina",
+        "company": "bladerunners",
         "isPortalUser": false,
         "tags": [
             {
@@ -2563,50 +876,476 @@
         ]
     },
     {
-        "domUser": "l45572590@turtle.com",
-        "telephone": "0589677151",
-        "clearance": 2,
-        "firstName": "Adrianna",
-        "lastName": "Clara",
-        "mail": "",
+        "domUser": "e868417000@donatelo.turtle.com",
+        "telephone": "0523842848",
+        "clearance": 1,
+        "firstName": "Gregory",
+        "lastName": "Elyssa",
+        "mail": "לא ידוע",
         "tz": "לא ידוע",
-        "personalNumber": "482126964",
-        "rank": "champion",
+        "personalNumber": "לא ידוע",
+        "rank": "unknown",
+        "rld": null,
+        "job": "Lead Security Engineer",
+        "profession": "null",
+        "department": "city4",
+        "stype": "",
+        "hr": null,
+        "company": null,
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            },
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "l727192180@turtle.com",
+        "telephone": "0584409124",
+        "clearance": 3,
+        "firstName": "Logan",
+        "lastName": "Amy",
+        "mail": "לא ידוע",
+        "tz": "",
+        "personalNumber": null,
+        "rank": "rookie",
         "rld": "",
-        "job": "Product Implementation Architect",
-        "profession": "Administrator",
+        "job": "Regional Brand Analyst",
+        "profession": "null",
         "department": "city6",
         "stype": "",
-        "hr": "Adrianna Clara",
+        "hr": "consequatur/veritatis/voluptatum/necessitatibus",
         "company": "armagadon",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            },
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "e299351303@rafael.turtle.com",
+        "telephone": "0584942002",
+        "clearance": 1,
+        "firstName": "Wyman",
+        "lastName": "Johnathan",
+        "mail": "",
+        "tz": "לא ידוע",
+        "personalNumber": "798009393",
+        "rank": "mega",
+        "rld": null,
+        "job": "Internal Response Assistant",
+        "profession": "Architect",
+        "department": "city2",
+        "stype": "",
+        "hr": null,
+        "company": "bladerunners",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "l307741926@turtle.com",
+        "telephone": "0529203255",
+        "clearance": 3,
+        "firstName": "Mikayla",
+        "lastName": "Lucious",
+        "mail": null,
+        "tz": "",
+        "personalNumber": null,
+        "rank": "rookie",
+        "rld": "",
+        "job": "Investor Branding Supervisor",
+        "profession": "Officer",
+        "department": "city4",
+        "stype": "",
+        "hr": "Mikayla Lucious",
+        "company": "bladerunners",
         "isPortalUser": false,
+        "tags": [
+            {
+                "name": "transportable"
+            },
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "m831015405@turtle.com",
+        "telephone": "0562262408",
+        "clearance": 4,
+        "firstName": "Hazel",
+        "lastName": "Eddie",
+        "mail": null,
+        "tz": null,
+        "personalNumber": "",
+        "rank": "rookie",
+        "rld": "",
+        "job": "Lead Applications Architect",
+        "profession": "לא ידוע",
+        "department": "city1",
+        "stype": "",
+        "hr": null,
+        "company": "לא ידוע",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "m956086100@turtle.com",
+        "telephone": "0535676289",
+        "clearance": 1,
+        "firstName": "Dianna",
+        "lastName": "Chet",
+        "mail": "לא ידוע",
+        "tz": "",
+        "personalNumber": "",
+        "rank": "ultimate",
+        "rld": "2026-05-24T01:48:58.081Z",
+        "job": "Regional Branding Designer",
+        "profession": "לא ידוע",
+        "department": "city6",
+        "stype": "",
+        "hr": "saepe/ipsa/ullam/eos",
+        "company": "armagadon",
+        "isPortalUser": true,
         "tags": [
             {
                 "name": "transportable"
             }
         ],
         "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "i618677556@donatelo.turtle.com",
+        "telephone": "0544536466",
+        "clearance": 1,
+        "firstName": "Brenna",
+        "lastName": "Jannie",
+        "mail": "",
+        "tz": "658821350",
+        "personalNumber": "18959391",
+        "rank": "mega",
+        "rld": "לא ידוע",
+        "job": "International Interactions Orchestrator",
+        "profession": "Director",
+        "department": "city5",
+        "stype": "",
+        "hr": "Brenna Jannie",
+        "company": "bladerunners",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "e697075036@turtle.com",
+        "telephone": "0539757838",
+        "clearance": 5,
+        "firstName": "Luther",
+        "lastName": "Eleazar",
+        "mail": "Berneice_Frami@turtleS.com",
+        "tz": "",
+        "personalNumber": null,
+        "rank": "unknown",
+        "rld": "",
+        "job": "Corporate Program Agent",
+        "profession": "לא ידוע",
+        "department": "city1",
+        "stype": "",
+        "hr": "Luther Eleazar",
+        "company": "",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e430864318@turtle.com",
+        "telephone": "0564222380",
+        "clearance": 4,
+        "firstName": "Kelsi",
+        "lastName": "Malcolm",
+        "mail": "",
+        "tz": "159668649",
+        "personalNumber": null,
+        "rank": "mega",
+        "rld": "",
+        "job": "National Program Assistant",
+        "profession": "null",
+        "department": "city4",
+        "stype": "",
+        "hr": "Kelsi Malcolm",
+        "company": "odyssey",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "transportable"
+            },
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external",
             "local"
         ]
     },
     {
-        "domUser": "e49464402@turtle.com",
-        "telephone": "0592261873",
-        "clearance": 5,
-        "firstName": "Lysanne",
-        "lastName": "Olga",
+        "domUser": "e259280894@turtle.com",
+        "telephone": "0535390283",
+        "clearance": 2,
+        "firstName": "Emma",
+        "lastName": "Mac",
         "mail": null,
-        "tz": "",
-        "personalNumber": "570215329",
-        "rank": "rookie",
-        "rld": null,
-        "job": "Corporate Factors Consultant",
-        "profession": "Engineer",
+        "tz": "984803098",
+        "personalNumber": "",
+        "rank": "unknown",
+        "rld": "2024-04-20T10:22:22.429Z",
+        "job": "Senior Response Architect",
+        "profession": "Administrator",
         "department": "city1",
         "stype": "",
-        "hr": "delectus/consequuntur/non/omnis",
+        "hr": "Emma Mac",
+        "company": "bladerunners",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "m15489105@donatelo.turtle.com",
+        "telephone": "0521216195",
+        "clearance": 3,
+        "firstName": "Amelia",
+        "lastName": "Maurice",
+        "mail": "לא ידוע",
+        "tz": "",
+        "personalNumber": "",
+        "rank": "rookie",
+        "rld": "לא ידוע",
+        "job": "Corporate Branding Officer",
+        "profession": "Coordinator",
+        "department": "city5",
+        "stype": "",
+        "hr": "sit/animi/natus/sint",
         "company": "armagadon",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "e729822620@turtle.com",
+        "telephone": "0587781475",
+        "clearance": 2,
+        "firstName": "Olen",
+        "lastName": "Eldridge",
+        "mail": "",
+        "tz": "לא ידוע",
+        "personalNumber": "לא ידוע",
+        "rank": "champion",
+        "rld": "",
+        "job": "Lead Markets Executive",
+        "profession": "Specialist",
+        "department": "city3",
+        "stype": "",
+        "hr": "Olen Eldridge",
+        "company": "odyssey",
         "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "j929686748@turtle.com",
+        "telephone": "0566777307",
+        "clearance": 5,
+        "firstName": "Nayeli",
+        "lastName": "Brendon",
+        "mail": "Alexzander_Weimann@turtleS.com",
+        "tz": "364098426",
+        "personalNumber": "694375427",
+        "rank": "mega",
+        "rld": "לא ידוע",
+        "job": "Corporate Brand Manager",
+        "profession": "null",
+        "department": "city2",
+        "stype": "",
+        "hr": "",
+        "company": "odyssey",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "m366627309@turtle.com",
+        "telephone": "0579658328",
+        "clearance": 5,
+        "firstName": "Antonette",
+        "lastName": "Rashawn",
+        "mail": null,
+        "tz": "",
+        "personalNumber": "",
+        "rank": "mega",
+        "rld": "",
+        "job": "Forward Group Assistant",
+        "profession": "Architect",
+        "department": "city3",
+        "stype": "",
+        "hr": "",
+        "company": "לא ידוע",
+        "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "e183300499@turtle.com",
+        "telephone": "0537498476",
+        "clearance": 2,
+        "firstName": "Ona",
+        "lastName": "Breana",
+        "mail": "",
+        "tz": "888580404",
+        "personalNumber": "לא ידוע",
+        "rank": "champion",
+        "rld": "",
+        "job": "International Paradigm Coordinator",
+        "profession": "Orchestrator",
+        "department": "city2",
+        "stype": "",
+        "hr": "Ona Breana",
+        "company": "לא ידוע",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e560787818@turtle.com",
+        "telephone": "0545537574",
+        "clearance": 2,
+        "firstName": "Katrine",
+        "lastName": "Demetris",
+        "mail": "לא ידוע",
+        "tz": "",
+        "personalNumber": "לא ידוע",
+        "rank": "unknown",
+        "rld": null,
+        "job": "Direct Functionality Analyst",
+        "profession": "",
+        "department": "city2",
+        "stype": "",
+        "hr": "voluptatum/repudiandae/officia/commodi",
+        "company": "odyssey",
+        "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "e306877274@turtle.com",
+        "telephone": "0581219520",
+        "clearance": 2,
+        "firstName": "Cara",
+        "lastName": "Javonte",
+        "mail": "לא ידוע",
+        "tz": "716161781",
+        "personalNumber": "לא ידוע",
+        "rank": "rookie",
+        "rld": "לא ידוע",
+        "job": "Lead Assurance Administrator",
+        "profession": "לא ידוע",
+        "department": "city1",
+        "stype": "",
+        "hr": "Cara Javonte",
+        "company": null,
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "l169827879@turtle.com",
+        "telephone": "0555416412",
+        "clearance": 5,
+        "firstName": "Laury",
+        "lastName": "Alfred",
+        "mail": "לא ידוע",
+        "tz": null,
+        "personalNumber": "321944687",
+        "rank": "champion",
+        "rld": "2023-02-20T19:22:35.224Z",
+        "job": "Future Implementation Analyst",
+        "profession": "",
+        "department": "city4",
+        "stype": "",
+        "hr": "officia/tempora/nesciunt/distinctio",
+        "company": "armagadon",
+        "isPortalUser": true,
         "tags": [
             {
                 "name": "transportable"
@@ -2618,45 +1357,989 @@
         ]
     },
     {
-        "domUser": "j676568247@turtle.com",
-        "telephone": "0543030616",
+        "domUser": "m21986737@turtle.com",
+        "telephone": "0597483860",
         "clearance": 2,
-        "firstName": "Leanna",
-        "lastName": "Branson",
+        "firstName": "Germaine",
+        "lastName": "Elda",
+        "mail": "",
+        "tz": "165582891",
+        "personalNumber": null,
+        "rank": "ultimate",
+        "rld": "2020-06-16T17:12:06.528Z",
+        "job": "Human Directives Assistant",
+        "profession": "null",
+        "department": "city5",
+        "stype": "",
+        "hr": "fuga/maiores/tenetur/est",
+        "company": "bladerunners",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e838690415@turtle.com",
+        "telephone": "0539227376",
+        "clearance": 3,
+        "firstName": "Sheila",
+        "lastName": "Krystel",
+        "mail": null,
+        "tz": "436691042",
+        "personalNumber": null,
+        "rank": "rookie",
+        "rld": "לא ידוע",
+        "job": "Future Operations Facilitator",
+        "profession": "Specialist",
+        "department": "city2",
+        "stype": "",
+        "hr": "",
+        "company": "לא ידוע",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "e631896047@rafael.turtle.com",
+        "telephone": "0565738226",
+        "clearance": 1,
+        "firstName": "Eliseo",
+        "lastName": "Major",
+        "mail": "",
+        "tz": null,
+        "personalNumber": "866960037",
+        "rank": "champion",
+        "rld": "לא ידוע",
+        "job": "Human Operations Administrator",
+        "profession": "Architect",
+        "department": "city5",
+        "stype": "",
+        "hr": "Eliseo Major",
+        "company": "לא ידוע",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "e8051495@turtle.com",
+        "telephone": "0577581391",
+        "clearance": 1,
+        "firstName": "Nona",
+        "lastName": "Destany",
+        "mail": "",
+        "tz": "",
+        "personalNumber": "278920366",
+        "rank": "ultimate",
+        "rld": null,
+        "job": "Chief Division Engineer",
+        "profession": "לא ידוע",
+        "department": "city6",
+        "stype": "",
+        "hr": "Nona Destany",
+        "company": "",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "g128199248@turtle.com",
+        "telephone": "0501115184",
+        "clearance": 2,
+        "firstName": "Ron",
+        "lastName": "Elvera",
+        "mail": null,
+        "tz": "431666825",
+        "personalNumber": null,
+        "rank": "rookie",
+        "rld": "",
+        "job": "Investor Branding Supervisor",
+        "profession": "",
+        "department": "city5",
+        "stype": "",
+        "hr": "Ron Elvera",
+        "company": "",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "e189222691@rafael.turtle.com",
+        "telephone": "0587274221",
+        "clearance": 2,
+        "firstName": "Cory",
+        "lastName": "Scot",
         "mail": "לא ידוע",
         "tz": "",
         "personalNumber": null,
-        "rank": "champion",
-        "rld": "לא ידוע",
-        "job": "Central Branding Coordinator",
-        "profession": "Liaison",
-        "department": "city6",
+        "rank": "unknown",
+        "rld": "",
+        "job": "International Mobility Coordinator",
+        "profession": "Orchestrator",
+        "department": "city4",
         "stype": "",
-        "hr": "minus/sed/molestiae/iste",
+        "hr": "",
+        "company": "armagadon",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e992375153@donatelo.turtle.com",
+        "telephone": "0507147508",
+        "clearance": 2,
+        "firstName": "Salvatore",
+        "lastName": "Romaine",
+        "mail": "Skylar51@turtleS.com",
+        "tz": "778698449",
+        "personalNumber": "לא ידוע",
+        "rank": "rookie",
+        "rld": null,
+        "job": "Corporate Solutions Specialist",
+        "profession": "Producer",
+        "department": "city5",
+        "stype": "",
+        "hr": "Salvatore Romaine",
+        "company": "odyssey",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "information"
+            },
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "i235228562@rafael.turtle.com",
+        "telephone": "0595935623",
+        "clearance": 3,
+        "firstName": "Kaylin",
+        "lastName": "Maurine",
+        "mail": null,
+        "tz": "959152323",
+        "personalNumber": null,
+        "rank": "mega",
+        "rld": "",
+        "job": "Customer Brand Architect",
+        "profession": "לא ידוע",
+        "department": "city2",
+        "stype": "",
+        "hr": "Kaylin Maurine",
+        "company": "interstellar",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "e841065134@turtle.com",
+        "telephone": "0543835207",
+        "clearance": 4,
+        "firstName": "Omari",
+        "lastName": "Blaise",
+        "mail": null,
+        "tz": "",
+        "personalNumber": "לא ידוע",
+        "rank": "mega",
+        "rld": "",
+        "job": "International Metrics Agent",
+        "profession": "Officer",
+        "department": "city1",
+        "stype": "",
+        "hr": "",
         "company": "",
         "isPortalUser": false,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "g719583769@turtle.com",
+        "telephone": "0516518138",
+        "clearance": 1,
+        "firstName": "Madisyn",
+        "lastName": "Laverna",
+        "mail": "לא ידוע",
+        "tz": null,
+        "personalNumber": "לא ידוע",
+        "rank": "unknown",
+        "rld": "לא ידוע",
+        "job": "Principal Functionality Administrator",
+        "profession": "",
+        "department": "city2",
+        "stype": "",
+        "hr": null,
+        "company": "לא ידוע",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "j64304527@turtle.com",
+        "telephone": "0596408489",
+        "clearance": 2,
+        "firstName": "Stella",
+        "lastName": "Eliane",
+        "mail": "Gaetano_West@turtleS.com",
+        "tz": "906524244",
+        "personalNumber": "לא ידוע",
+        "rank": "unknown",
+        "rld": "2018-10-04T09:23:03.026Z",
+        "job": "Internal Accountability Developer",
+        "profession": "לא ידוע",
+        "department": "city2",
+        "stype": "",
+        "hr": null,
+        "company": "bladerunners",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "transportable"
+            },
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "j513036913@donatelo.turtle.com",
+        "telephone": "0531660947",
+        "clearance": 2,
+        "firstName": "Americo",
+        "lastName": "Aditya",
+        "mail": "לא ידוע",
+        "tz": "",
+        "personalNumber": "לא ידוע",
+        "rank": "rookie",
+        "rld": "2017-02-08T00:26:53.299Z",
+        "job": "Direct Quality Facilitator",
+        "profession": "",
+        "department": "city2",
+        "stype": "",
+        "hr": "",
+        "company": null,
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "m409789198@turtle.com",
+        "telephone": "0546820272",
+        "clearance": 2,
+        "firstName": "Diana",
+        "lastName": "Franz",
+        "mail": "",
+        "tz": "לא ידוע",
+        "personalNumber": "",
+        "rank": "ultimate",
+        "rld": "",
+        "job": "Product Tactics Orchestrator",
+        "profession": "לא ידוע",
+        "department": "city4",
+        "stype": "",
+        "hr": "",
+        "company": "interstellar",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            },
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "e569399375@turtle.com",
+        "telephone": "0537506632",
+        "clearance": 2,
+        "firstName": "Nettie",
+        "lastName": "Cooper",
+        "mail": null,
+        "tz": "521973388",
+        "personalNumber": "235876286",
+        "rank": "champion",
+        "rld": "",
+        "job": "Customer Paradigm Officer",
+        "profession": "",
+        "department": "city1",
+        "stype": "",
+        "hr": "Nettie Cooper",
+        "company": "interstellar",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            },
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e374259963@turtle.com",
+        "telephone": "0566178299",
+        "clearance": 5,
+        "firstName": "Amie",
+        "lastName": "Jessika",
+        "mail": "",
+        "tz": null,
+        "personalNumber": null,
+        "rank": "champion",
+        "rld": "לא ידוע",
+        "job": "Legacy Usability Administrator",
+        "profession": "",
+        "department": "city6",
+        "stype": "",
+        "hr": "",
+        "company": "armagadon",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "m774139284@turtle.com",
+        "telephone": "0501772129",
+        "clearance": 2,
+        "firstName": "Stefanie",
+        "lastName": "Anibal",
+        "mail": null,
+        "tz": null,
+        "personalNumber": "194980211",
+        "rank": "mega",
+        "rld": "",
+        "job": "Lead Paradigm Architect",
+        "profession": "Executive",
+        "department": "city6",
+        "stype": "",
+        "hr": null,
+        "company": "לא ידוע",
+        "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "l851109491@donatelo.turtle.com",
+        "telephone": "0504205261",
+        "clearance": 3,
+        "firstName": "Clotilde",
+        "lastName": "Felix",
+        "mail": "לא ידוע",
+        "tz": "",
+        "personalNumber": "",
+        "rank": "champion",
+        "rld": null,
+        "job": "Corporate Data Designer",
+        "profession": "Consultant",
+        "department": "city2",
+        "stype": "",
+        "hr": "",
+        "company": null,
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "e972228721@turtle.com",
+        "telephone": "0526528986",
+        "clearance": 1,
+        "firstName": "Kraig",
+        "lastName": "Florencio",
+        "mail": "",
+        "tz": "",
+        "personalNumber": "177393968",
+        "rank": "champion",
+        "rld": "לא ידוע",
+        "job": "Product Factors Technician",
+        "profession": "לא ידוע",
+        "department": "city6",
+        "stype": "",
+        "hr": "unde/quisquam/repellat/et",
+        "company": "bladerunners",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "information"
+            },
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "e659231656@rafael.turtle.com",
+        "telephone": "0541979945",
+        "clearance": 3,
+        "firstName": "Ford",
+        "lastName": "Patricia",
+        "mail": "Jany_Sipes33@turtleS.com",
+        "tz": "לא ידוע",
+        "personalNumber": "957162625",
+        "rank": "ultimate",
+        "rld": "לא ידוע",
+        "job": "National Branding Architect",
+        "profession": "null",
+        "department": "city5",
+        "stype": "",
+        "hr": "Ford Patricia",
+        "company": "odyssey",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e194401844@turtle.com",
+        "telephone": "0527969097",
+        "clearance": 1,
+        "firstName": "Devan",
+        "lastName": "Shanie",
+        "mail": null,
+        "tz": null,
+        "personalNumber": "",
+        "rank": "ultimate",
+        "rld": null,
+        "job": "Principal Group Agent",
+        "profession": "Associate",
+        "department": "city5",
+        "stype": "",
+        "hr": null,
+        "company": "",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e843953684@donatelo.turtle.com",
+        "telephone": "0553220764",
+        "clearance": 2,
+        "firstName": "Freda",
+        "lastName": "Ford",
+        "mail": "לא ידוע",
+        "tz": "לא ידוע",
+        "personalNumber": "234349327",
+        "rank": "champion",
+        "rld": "",
+        "job": "International Solutions Technician",
+        "profession": "Facilitator",
+        "department": "city1",
+        "stype": "",
+        "hr": null,
+        "company": "bladerunners",
+        "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "m14392052@rafael.turtle.com",
+        "telephone": "0554419170",
+        "clearance": 3,
+        "firstName": "Haylie",
+        "lastName": "Lolita",
+        "mail": "",
+        "tz": "336913553",
+        "personalNumber": null,
+        "rank": "mega",
+        "rld": "",
+        "job": "Future Communications Developer",
+        "profession": "null",
+        "department": "city6",
+        "stype": "",
+        "hr": null,
+        "company": "לא ידוע",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "g100498994@donatelo.turtle.com",
+        "telephone": "0523897252",
+        "clearance": 2,
+        "firstName": "Erika",
+        "lastName": "Buck",
+        "mail": "Hobart_Jones@turtleS.com",
+        "tz": "",
+        "personalNumber": "",
+        "rank": "rookie",
+        "rld": "לא ידוע",
+        "job": "Forward Assurance Specialist",
+        "profession": "",
+        "department": "city2",
+        "stype": "",
+        "hr": "",
+        "company": "",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "e422300672@turtle.com",
+        "telephone": "0544100399",
+        "clearance": 1,
+        "firstName": "Jaren",
+        "lastName": "Rebeka",
+        "mail": "לא ידוע",
+        "tz": "",
+        "personalNumber": "לא ידוע",
+        "rank": "ultimate",
+        "rld": "לא ידוע",
+        "job": "Central Functionality Designer",
+        "profession": "Strategist",
+        "department": "city4",
+        "stype": "",
+        "hr": "Jaren Rebeka",
+        "company": "armagadon",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "m181564507@turtle.com",
+        "telephone": "0564608906",
+        "clearance": 3,
+        "firstName": "Lillian",
+        "lastName": "Luisa",
+        "mail": null,
+        "tz": null,
+        "personalNumber": null,
+        "rank": "unknown",
+        "rld": "לא ידוע",
+        "job": "Direct Response Representative",
+        "profession": "Planner",
+        "department": "city1",
+        "stype": "",
+        "hr": null,
+        "company": "לא ידוע",
+        "isPortalUser": true,
         "tags": [],
         "domains": [
             "external"
         ]
     },
     {
-        "domUser": "e493142319@donatelo.turtle.com",
-        "telephone": "0577175497",
-        "clearance": 3,
-        "firstName": "Carole",
-        "lastName": "Delta",
-        "mail": "לא ידוע",
-        "tz": "116082421",
-        "personalNumber": "203977260",
-        "rank": "mega",
+        "domUser": "j877750317@rafael.turtle.com",
+        "telephone": "0565287529",
+        "clearance": 4,
+        "firstName": "Maybell",
+        "lastName": "Rocky",
+        "mail": null,
+        "tz": "לא ידוע",
+        "personalNumber": null,
+        "rank": "unknown",
+        "rld": "",
+        "job": "Human Security Developer",
+        "profession": "",
+        "department": "city1",
+        "stype": "",
+        "hr": "",
+        "company": "interstellar",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            },
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "e372125921@turtle.com",
+        "telephone": "0547671768",
+        "clearance": 5,
+        "firstName": "Sean",
+        "lastName": "Jeromy",
+        "mail": "",
+        "tz": "לא ידוע",
+        "personalNumber": "",
+        "rank": "unknown",
         "rld": "לא ידוע",
-        "job": "Legacy Research Strategist",
-        "profession": "Developer",
-        "department": "city4",
+        "job": "Dynamic Intranet Officer",
+        "profession": "לא ידוע",
+        "department": "city3",
+        "stype": "",
+        "hr": "",
+        "company": null,
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "l173417531@turtle.com",
+        "telephone": "0593363344",
+        "clearance": 5,
+        "firstName": "Daphne",
+        "lastName": "Myah",
+        "mail": "Misty50@turtleS.com",
+        "tz": "לא ידוע",
+        "personalNumber": null,
+        "rank": "rookie",
+        "rld": "לא ידוע",
+        "job": "Customer Directives Agent",
+        "profession": "Technician",
+        "department": "city5",
+        "stype": "",
+        "hr": "",
+        "company": "odyssey",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "g142771392@turtle.com",
+        "telephone": "0571691406",
+        "clearance": 5,
+        "firstName": "Bernice",
+        "lastName": "Irma",
+        "mail": null,
+        "tz": "לא ידוע",
+        "personalNumber": null,
+        "rank": "champion",
+        "rld": "2020-06-01T18:32:38.352Z",
+        "job": "Dynamic Web Engineer",
+        "profession": "",
+        "department": "city6",
+        "stype": "",
+        "hr": "Bernice Irma",
+        "company": "odyssey",
+        "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "j555736475@rafael.turtle.com",
+        "telephone": "0591754241",
+        "clearance": 5,
+        "firstName": "Federico",
+        "lastName": "Paris",
+        "mail": "לא ידוע",
+        "tz": "לא ידוע",
+        "personalNumber": "503705064",
+        "rank": "rookie",
+        "rld": "2021-10-10T21:16:56.648Z",
+        "job": "Corporate Interactions Agent",
+        "profession": "לא ידוע",
+        "department": "city2",
         "stype": "",
         "hr": null,
-        "company": "odyssey",
+        "company": "bladerunners",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "j48488256@donatelo.turtle.com",
+        "telephone": "0587146911",
+        "clearance": 5,
+        "firstName": "Monica",
+        "lastName": "Rosalind",
+        "mail": null,
+        "tz": "",
+        "personalNumber": "575337984",
+        "rank": "rookie",
+        "rld": "לא ידוע",
+        "job": "Dynamic Brand Engineer",
+        "profession": "Associate",
+        "department": "city2",
+        "stype": "",
+        "hr": "Monica Rosalind",
+        "company": "",
+        "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "g930452380@turtle.com",
+        "telephone": "0558314515",
+        "clearance": 4,
+        "firstName": "Estevan",
+        "lastName": "Candido",
+        "mail": "",
+        "tz": "לא ידוע",
+        "personalNumber": null,
+        "rank": "champion",
+        "rld": "לא ידוע",
+        "job": "Forward Branding Facilitator",
+        "profession": "לא ידוע",
+        "department": "city3",
+        "stype": "",
+        "hr": "Estevan Candido",
+        "company": "interstellar",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e875763712@turtle.com",
+        "telephone": "0527450562",
+        "clearance": 2,
+        "firstName": "Carol",
+        "lastName": "Magdalena",
+        "mail": null,
+        "tz": "לא ידוע",
+        "personalNumber": null,
+        "rank": "unknown",
+        "rld": null,
+        "job": "Product Tactics Administrator",
+        "profession": "null",
+        "department": "city4",
+        "stype": "",
+        "hr": "",
+        "company": "bladerunners",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "l992076527@turtle.com",
+        "telephone": "0586530643",
+        "clearance": 1,
+        "firstName": "Tiffany",
+        "lastName": "Sarina",
+        "mail": "לא ידוע",
+        "tz": "156980179",
+        "personalNumber": "",
+        "rank": "champion",
+        "rld": null,
+        "job": "Dynamic Optimization Representative",
+        "profession": "לא ידוע",
+        "department": "city6",
+        "stype": "",
+        "hr": "maiores/cupiditate/non/omnis",
+        "company": null,
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "e312259745@turtle.com",
+        "telephone": "0509184989",
+        "clearance": 1,
+        "firstName": "Gerda",
+        "lastName": "Caleigh",
+        "mail": null,
+        "tz": "לא ידוע",
+        "personalNumber": "",
+        "rank": "unknown",
+        "rld": "",
+        "job": "District Markets Administrator",
+        "profession": "Designer",
+        "department": "city5",
+        "stype": "",
+        "hr": "",
+        "company": "לא ידוע",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "m303869593@turtle.com",
+        "telephone": "0551400240",
+        "clearance": 2,
+        "firstName": "Roscoe",
+        "lastName": "Clay",
+        "mail": null,
+        "tz": "",
+        "personalNumber": null,
+        "rank": "rookie",
+        "rld": "",
+        "job": "Product Operations Agent",
+        "profession": "לא ידוע",
+        "department": "city2",
+        "stype": "",
+        "hr": "Roscoe Clay",
+        "company": null,
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            },
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "g458834358@donatelo.turtle.com",
+        "telephone": "0505082853",
+        "clearance": 4,
+        "firstName": "Liana",
+        "lastName": "Lenna",
+        "mail": "",
+        "tz": "לא ידוע",
+        "personalNumber": "52630146",
+        "rank": "champion",
+        "rld": null,
+        "job": "Chief Communications Administrator",
+        "profession": "לא ידוע",
+        "department": "city4",
+        "stype": "",
+        "hr": "",
+        "company": null,
         "isPortalUser": true,
         "tags": [
             {
@@ -2672,32 +2355,325 @@
         ]
     },
     {
-        "domUser": "l14459198@turtle.com",
-        "telephone": "0556908798",
-        "clearance": 4,
-        "firstName": "Ferne",
-        "lastName": "Tatum",
+        "domUser": "e66989493@donatelo.turtle.com",
+        "telephone": "0507658120",
+        "clearance": 2,
+        "firstName": "Ike",
+        "lastName": "Serena",
         "mail": "",
-        "tz": "",
+        "tz": "714342417",
         "personalNumber": "",
-        "rank": "mega",
+        "rank": "unknown",
         "rld": "לא ידוע",
-        "job": "Direct Configuration Technician",
-        "profession": "לא ידוע",
-        "department": "city3",
+        "job": "Central Integration Supervisor",
+        "profession": "Strategist",
+        "department": "city4",
         "stype": "",
         "hr": "",
-        "company": "",
+        "company": "לא ידוע",
         "isPortalUser": false,
         "tags": [
             {
-                "name": "transportable"
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "e10804233@rafael.turtle.com",
+        "telephone": "0591251863",
+        "clearance": 1,
+        "firstName": "Katherine",
+        "lastName": "Bridgette",
+        "mail": null,
+        "tz": "",
+        "personalNumber": "",
+        "rank": "rookie",
+        "rld": "",
+        "job": "Human Solutions Orchestrator",
+        "profession": "Planner",
+        "department": "city5",
+        "stype": "",
+        "hr": "",
+        "company": null,
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "g343751586@donatelo.turtle.com",
+        "telephone": "0552697085",
+        "clearance": 1,
+        "firstName": "Trisha",
+        "lastName": "Alvina",
+        "mail": "לא ידוע",
+        "tz": "",
+        "personalNumber": "לא ידוע",
+        "rank": "champion",
+        "rld": "לא ידוע",
+        "job": "Central Mobility Executive",
+        "profession": "Manager",
+        "department": "city1",
+        "stype": "",
+        "hr": null,
+        "company": "armagadon",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "information"
             },
             {
                 "name": "transportable"
             }
         ],
         "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e92336255@donatelo.turtle.com",
+        "telephone": "0529096757",
+        "clearance": 1,
+        "firstName": "Miller",
+        "lastName": "Ashton",
+        "mail": "Godfrey.Becker@turtleS.com",
+        "tz": null,
+        "personalNumber": "",
+        "rank": "ultimate",
+        "rld": "2017-04-21T00:16:22.344Z",
+        "job": "Regional Creative Agent",
+        "profession": "Facilitator",
+        "department": "city2",
+        "stype": "",
+        "hr": "Miller Ashton",
+        "company": "armagadon",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "transportable"
+            },
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "m226286292@rafael.turtle.com",
+        "telephone": "0544013434",
+        "clearance": 4,
+        "firstName": "Tyrel",
+        "lastName": "Gabriel",
+        "mail": null,
+        "tz": "",
+        "personalNumber": "לא ידוע",
+        "rank": "champion",
+        "rld": null,
+        "job": "District Intranet Administrator",
+        "profession": "Liaison",
+        "department": "city1",
+        "stype": "",
+        "hr": "ex/fuga/aspernatur/eligendi",
+        "company": "לא ידוע",
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "information"
+            },
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e6850879@turtle.com",
+        "telephone": "0556125459",
+        "clearance": 4,
+        "firstName": "Cleve",
+        "lastName": "Wade",
+        "mail": null,
+        "tz": "",
+        "personalNumber": null,
+        "rank": "rookie",
+        "rld": "2023-04-11T15:01:59.709Z",
+        "job": "Future Program Manager",
+        "profession": "",
+        "department": "city3",
+        "stype": "",
+        "hr": "",
+        "company": "לא ידוע",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "j733764366@turtle.com",
+        "telephone": "0521811772",
+        "clearance": 4,
+        "firstName": "Pat",
+        "lastName": "Kirstin",
+        "mail": null,
+        "tz": null,
+        "personalNumber": null,
+        "rank": "champion",
+        "rld": null,
+        "job": "Senior Response Supervisor",
+        "profession": "לא ידוע",
+        "department": "city5",
+        "stype": "",
+        "hr": "delectus/nulla/voluptatum/quae",
+        "company": "armagadon",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "e307733619@turtle.com",
+        "telephone": "0591874941",
+        "clearance": 5,
+        "firstName": "Victoria",
+        "lastName": "Howard",
+        "mail": "Callie58@turtleS.com",
+        "tz": "לא ידוע",
+        "personalNumber": null,
+        "rank": "unknown",
+        "rld": null,
+        "job": "Investor Communications Representative",
+        "profession": "Executive",
+        "department": "city4",
+        "stype": "",
+        "hr": null,
+        "company": "לא ידוע",
+        "isPortalUser": true,
+        "tags": [],
+        "domains": [
+            "local"
+        ]
+    },
+    {
+        "domUser": "e952426133@donatelo.turtle.com",
+        "telephone": "0555095744",
+        "clearance": 1,
+        "firstName": "Rogers",
+        "lastName": "Antonette",
+        "mail": "Johnpaul.Upton90@turtleS.com",
+        "tz": "140650656",
+        "personalNumber": null,
+        "rank": "mega",
+        "rld": null,
+        "job": "Direct Communications Agent",
+        "profession": "Engineer",
+        "department": "city3",
+        "stype": "",
+        "hr": "nulla/dicta/corrupti/aperiam",
+        "company": "odyssey",
+        "isPortalUser": true,
+        "tags": [
+            {
+                "name": "information"
+            }
+        ],
+        "domains": [
+            "external",
+            "local"
+        ]
+    },
+    {
+        "domUser": "e840301293@donatelo.turtle.com",
+        "telephone": "0525455993",
+        "clearance": 4,
+        "firstName": "Donavon",
+        "lastName": "Ayla",
+        "mail": "Harrison51@turtleS.com",
+        "tz": "",
+        "personalNumber": "",
+        "rank": "champion",
+        "rld": "2024-04-19T17:02:42.085Z",
+        "job": "Human Paradigm Consultant",
+        "profession": "לא ידוע",
+        "department": "city6",
+        "stype": "",
+        "hr": "ipsum/voluptatum/qui/tenetur",
+        "company": "armagadon",
+        "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "local",
+            "external"
+        ]
+    },
+    {
+        "domUser": "l786685276@turtle.com",
+        "telephone": "0576452188",
+        "clearance": 4,
+        "firstName": "Salma",
+        "lastName": "Ludwig",
+        "mail": "Winifred.Botsford5@turtleS.com",
+        "tz": "",
+        "personalNumber": "",
+        "rank": "ultimate",
+        "rld": "",
+        "job": "National Metrics Producer",
+        "profession": "לא ידוע",
+        "department": "city3",
+        "stype": "",
+        "hr": "Salma Ludwig",
+        "company": null,
+        "isPortalUser": false,
+        "tags": [
+            {
+                "name": "transportable"
+            }
+        ],
+        "domains": [
+            "external"
+        ]
+    },
+    {
+        "domUser": "e442503261@rafael.turtle.com",
+        "telephone": "0575248106",
+        "clearance": 2,
+        "firstName": "Richard",
+        "lastName": "Antonina",
+        "mail": "לא ידוע",
+        "tz": "378366306",
+        "personalNumber": null,
+        "rank": "rookie",
+        "rld": "לא ידוע",
+        "job": "Product Applications Orchestrator",
+        "profession": "null",
+        "department": "city5",
+        "stype": "",
+        "hr": "Richard Antonina",
+        "company": "",
+        "isPortalUser": false,
+        "tags": [],
+        "domains": [
+            "local",
             "external"
         ]
     }
