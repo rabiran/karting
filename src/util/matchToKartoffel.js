@@ -265,6 +265,7 @@ const match_ads = (obj, dataSource) => {
                             }
                         ];
                         obj.firstName = obj[fn[dataSource].guName] ? obj[fn[dataSource].guName] : 'cn';
+                        obj.job = obj[fn[dataSource].guName] ? obj[fn[dataSource].guName] : 'cn';
                         break;
                     default:
                         sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
