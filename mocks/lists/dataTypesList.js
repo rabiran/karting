@@ -34,6 +34,6 @@ module.exports = {
     },
   ],
   MIRI_DOMAINS: [
-    fn[fn.dataSources.city].domains.local, fn[fn.dataSources.city].domains.external
+    fn[fn.dataSources.city].domainNames.internal, fn[fn.dataSources.city].domainNames.external
   ]
 };

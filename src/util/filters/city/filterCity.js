@@ -17,9 +17,10 @@ const filterRecord = (dataModel, sendLog) => {
         if(isExternal) {
             return true;
         } else {
-            sendLog(logLevel.warn, logDetails.warn.WRN_IRRELEVANT_DOMAIN, JSON.stringify(record), fn.dataSources.city);
+            // sendLog(logLevel.warn, logDetails.warn.WRN_IRRELEVANT_DOMAIN, JSON.stringify(record), fn.dataSources.city);
+            return true;
         }
-        return isExternal; 
+        // return isExternal; 
     }
     if ((isInformative && !isTransportable)) {
         sendLog(logLevel.warn, logDetails.warn.WRN_IRRELEVANT_TAGS, JSON.stringify(record), fn.dataSources.city);

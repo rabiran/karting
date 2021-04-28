@@ -27,6 +27,7 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
+        
         let tryFindPerson;
         let path;
         try {

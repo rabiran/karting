@@ -21,24 +21,42 @@ module.exports = async (DataModel) => {
     };
 
     user_object.uniqueID = assembleDomainUser(DataModel.dataSource, DataModel.record);
+
+    let isExternal = DataModel.dataSource === fn.dataSources.city && DataModel.record.tags.includes(fn[fn.dataSources.city].domainNames.external);
+
+    if (DataModel.dataSource === fn.dataSources.city && !isExternal) {
+        user_object.dataSource = fn.dataSources.mir;
+    };
+    
+    let needChangeFromMirToCity = false;
+
     if (!user_object.uniqueID) {
         return;
     } else {
         user_object.uniqueID = user_object.uniqueID.toLowerCase();
 
         if (DataModel.person.domainUsers.length > 0) {
-            let breaking = false;
+            let uniqeIDExists = false;
             DataModel.person.domainUsers.map(du => {
                 if (du.uniqueID.toLowerCase() === user_object.uniqueID) {
-                    return breaking = true;
+                    // Exist but under Mir - needs to be updated if data source is city
+                    if (du.dataSource === fn.dataSources.mir && isExternal) {
+                        needChangeFromMirToCity = true;
+                    }
+                    return uniqeIDExists = true;
                 }
             })
-            if (breaking) { return; }
+            if (uniqeIDExists && !needChangeFromMirToCity) { return; }
         }
     }
 
     try {
-        let user = await DataModel.Auth.axiosKartoffel.post(p(DataModel.person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
+        let user;
+        if (needChangeFromMirToCity) {
+            user = await DataModel.Auth.axiosKartoffel.put(p(DataModel.person.id, user_object.uniqueID).KARTOFFEL_UPDATE_DOMAIN_USER_API, user_object);
+        } else {
+            user = await DataModel.Auth.axiosKartoffel.post(p(DataModel.person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
+        }
         DataModel.sendLog(logLevel.info, logDetails.info.INF_ADD_DOMAIN_USER, user_object.uniqueID, user.data.personalNumber || user.data.identityCard, DataModel.dataSource);
     } catch (err) {
         let errMessage = err.response ? err.response.data.message : err.message;

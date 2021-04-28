@@ -12,6 +12,7 @@ module.exports = {
         mm: "mm_name",
         sf: "sf_name",
         city: "city_name",
+        mir: "es_name",
     },
     // aka_name: {
     aka: {
