@@ -207,14 +207,15 @@ for (let i = 0; i < MMAmount; i++) {
                    faker.lorem.word(),
                    faker.lorem.word(),
                    faker.lorem.word()]
-    sf.mail = faker.internet.email().split('@')[0] + "@" + dataTypes.DOMAIN_MAP[7][0];
+    let unique_id = faker.internet.email().split('@')[0]
+    sf.mail = unique_id + "@" + dataTypes.DOMAIN_MAP[7][0];
     sf.rank = utils.randomElement(dataTypes.RANK);
     sf.status = utils.randomElement(dataTypes.STATUS);
     sf.address = faker.address.streetAddress("###");
     sf.telephone = '0' + utils.generateNumberPrefix() + utils.generateNumberBody();
     sf.entity = "soldier";
     sf.discharge = faker.date.between(faker.date.future(20),faker.date.future(10)).toISOString();
-    sf.primaryDU = {uniqueID: sf.mail, adfsUID: sf.mail.split('@')[0] + "@ddd"}
+    sf.primaryDU = {uniqueID: unique_id, adfsUID: unique_id + "@ddd"}
     sfUsers.push(sf);
 }
 
