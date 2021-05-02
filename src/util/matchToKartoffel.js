@@ -594,7 +594,7 @@ const match_sf = (obj, dataSource) => {
                 break;
             //sex
             case fn[dataSource].sex:
-                obj.sex = obj[rawKey];
+                obj.sex = obj[rawKey] == 'M' ? 'נקבה' : 'זכר';
                 (rawKey === "sex") ? null : delete obj[rawKey];
                 break;
             //personalNumber
@@ -631,11 +631,6 @@ const match_sf = (obj, dataSource) => {
             case fn[dataSource].rank:
                 obj.rank = obj[rawKey];
                 (rawKey === "rank") ? null : delete obj[rawKey];
-                break;
-            //status?
-            case fn[dataSource].status:
-                obj.status = obj[rawKey];
-                (rawKey === "status") ? null : delete obj[rawKey];
                 break;
             //address?
             case fn[dataSource].address:
