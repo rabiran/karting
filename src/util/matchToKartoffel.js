@@ -578,7 +578,7 @@ const match_city = (obj, dataSource) => {
     })
 };
 
-const match_mm = (obj, dataSource) => {
+const match_sf = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
@@ -737,7 +737,10 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             break;
         case fn.dataSources.mdn:
         case fn.dataSources.mm:
-            match_mm(obj, dataSource);
+            match_nv_sql(obj, dataSource);
+            break;
+        case fn.dataSources.sf:
+            match_sf(obj, dataSource);
             break;
         case fn.dataSources.lmn:
             match_nv_sql(obj, dataSource);

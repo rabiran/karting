@@ -67,8 +67,8 @@ app.get("/getCity", (req, res) => {
     res.json(data)
 })
 
-app.get("/getMM", (req, res) => {
-    let data = require("./mocksFiles/MM.json")
+app.get("/getSf", (req, res) => {
+    let data = require("./mocksFiles/sf.json")
     if(Object.keys(req.query).length > 0) {
         data = searchInData(data, Object.values(req.query));
     }
