@@ -265,6 +265,7 @@ const match_ads = (obj, dataSource) => {
                             }
                         ];
                         obj.firstName = obj[fn[dataSource].guName] ? obj[fn[dataSource].guName] : 'cn';
+                        obj.job = obj[fn[dataSource].guName] ? obj[fn[dataSource].guName] : 'cn';
                         break;
                     default:
                         sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
@@ -467,7 +468,7 @@ const match_city = (obj, dataSource) => {
                 break;
             //hierarchy
             case fn[dataSource].hierarchy:
-                if (obj.addedTags.isInformative) {
+                if (obj.addedTags.isInternal) {
                     break;
                 }
                 let hr = obj[rawKey].replace('\\', '/');
@@ -594,7 +595,7 @@ const match_sf = (obj, dataSource) => {
                 break;
             //sex
             case fn[dataSource].sex:
-                obj.sex = obj[rawKey] == 'M' ? 'נקבה' : 'זכר';
+                obj.sex = obj[rawKey];
                 (rawKey === "sex") ? null : delete obj[rawKey];
                 break;
             //personalNumber
@@ -631,6 +632,11 @@ const match_sf = (obj, dataSource) => {
             case fn[dataSource].rank:
                 obj.rank = obj[rawKey];
                 (rawKey === "rank") ? null : delete obj[rawKey];
+                break;
+            //status?
+            case fn[dataSource].status:
+                obj.status = obj[rawKey];
+                (rawKey === "status") ? null : delete obj[rawKey];
                 break;
             //address?
             case fn[dataSource].address:
