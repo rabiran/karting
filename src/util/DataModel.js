@@ -38,6 +38,9 @@ class DataModel {
     }
     
     complete(extraData){
+        if(this.person_ready_for_kartoffel.identityCard==496820234){
+            console.log("hello")
+        }
         this.needComplete = true;
 
         const aka_all_data = extraData.aka_all_data
