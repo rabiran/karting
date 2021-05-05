@@ -159,6 +159,10 @@ module.exports = {
         domainSuffix: "@leonardo.com",
         uniqeFieldForDeepDiff: "personalNumber",
         sex: "sex",
+        sfSexValues: {
+            m: 'male',
+            f: 'female'
+        },
         serviceType: "stype",
         rank: "rank",
         status: "status",
