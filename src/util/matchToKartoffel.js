@@ -265,6 +265,7 @@ const match_ads = (obj, dataSource) => {
                             }
                         ];
                         obj.firstName = obj[fn[dataSource].guName] ? obj[fn[dataSource].guName] : 'cn';
+                        obj.job = obj[fn[dataSource].guName] ? obj[fn[dataSource].guName] : 'cn';
                         break;
                     default:
                         sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
@@ -467,7 +468,7 @@ const match_city = (obj, dataSource) => {
                 break;
             //hierarchy
             case fn[dataSource].hierarchy:
-                if (obj.addedTags.isInformative) {
+                if (obj.addedTags.isInternal) {
                     break;
                 }
                 let hr = obj[rawKey].replace('\\', '/');
@@ -578,7 +579,7 @@ const match_city = (obj, dataSource) => {
     })
 };
 
-const match_mm = (obj, dataSource) => {
+const match_sf = (obj, dataSource) => {
     const objKeys = Object.keys(obj);
     objKeys.map((rawKey) => {
         switch (rawKey) {
@@ -594,7 +595,8 @@ const match_mm = (obj, dataSource) => {
                 break;
             //sex
             case fn[dataSource].sex:
-                obj.sex = obj[rawKey];
+                const keys = Object.keys(fn[dataSource].sfSexValues);
+                obj.sex = obj[rawKey] == keys[0] ? fn[dataSource].sfSexValues[keys[0]] : fn[dataSource].sfSexValues[keys[1]];
                 (rawKey === "sex") ? null : delete obj[rawKey];
                 break;
             //personalNumber
@@ -737,7 +739,10 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             break;
         case fn.dataSources.mdn:
         case fn.dataSources.mm:
-            match_mm(obj, dataSource);
+            match_nv_sql(obj, dataSource);
+            break;
+        case fn.dataSources.sf:
+            match_sf(obj, dataSource);
             break;
         case fn.dataSources.lmn:
             match_nv_sql(obj, dataSource);

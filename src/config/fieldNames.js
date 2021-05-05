@@ -12,6 +12,7 @@ module.exports = {
         mm: "mm_name",
         sf: "sf_name",
         city: "city_name",
+        mir: "mir_name",
     },
     // aka_name: {
     aka: {
@@ -158,6 +159,10 @@ module.exports = {
         domainSuffix: "@leonardo.com",
         uniqeFieldForDeepDiff: "personalNumber",
         sex: "sex",
+        sfSexValues: {
+            m: 'male',
+            f: 'female'
+        },
         serviceType: "stype",
         rank: "rank",
         status: "status",

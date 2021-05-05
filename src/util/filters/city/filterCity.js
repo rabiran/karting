@@ -14,12 +14,7 @@ const filterRecord = (dataModel, sendLog) => {
     const record = dataModel.record;
     const recordDomains = record[fn[fn.dataSources.city].domains]
     if (recordDomains) {
-        if(isExternal) {
-            return true;
-        } else {
-            sendLog(logLevel.warn, logDetails.warn.WRN_IRRELEVANT_DOMAIN, JSON.stringify(record), fn.dataSources.city);
-        }
-        return isExternal; 
+        return true;
     }
     if ((isInformative && !isTransportable)) {
         sendLog(logLevel.warn, logDetails.warn.WRN_IRRELEVANT_TAGS, JSON.stringify(record), fn.dataSources.city);
