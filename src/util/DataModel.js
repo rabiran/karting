@@ -22,6 +22,7 @@ class DataModel {
         this.akaRecord = null;
         this.sendLog = sendLog;
         this.Auth = Auth;
+        this.domainUserHierarchy = null;
     }
 
     async matchToKartoffel() {
@@ -33,6 +34,10 @@ class DataModel {
                 this.sendLog,
                 this.flowType
             );
+
+            this.domainUserHierarchy = this.person_ready_for_kartoffel.hierarchy;
+            delete this.person_ready_for_kartoffel.hierarchy;
+
             this.isMatchToKartoffel = false;
         }
     }

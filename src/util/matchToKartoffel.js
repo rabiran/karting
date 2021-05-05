@@ -653,11 +653,8 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             sendLog(logLevel.error, logDetails.error.ERR_UNIDENTIFIED_DATA_SOURCE);
     }
 
-
     if (obj.hierarchy) {
         obj.directGroup = await directGroupHandler(obj, Auth);
-
-        delete obj.hierarchy;
     }
 
     return obj;

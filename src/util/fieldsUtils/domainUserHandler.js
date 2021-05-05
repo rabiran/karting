@@ -17,18 +17,10 @@ const assembleDomainUser = require('./assembleDomainUser');
  *  */
 
 module.exports = async (DataModel) => {
-
-    // get hierarchy from directGroup
-    const groupID =  DataModel.person_ready_for_kartoffel.directGroup;
-    const resGroup = await DataModel.Auth.axiosKartoffel.get(p(groupID).KARTOFFEL_GROUP_BY_ID)
-    let userHierarchy;
-    if (resGroup.status === 200) {
-        userHierarchy = resGroup.data.hierarchy;
-    }
-
     let user_object = {
         dataSource: DataModel.dataSource,
-        hierarchy: userHierarchy
+        hierarchy: DataModel.domainUserHierarchy,
+        mail: DataModel.record[fn[DataModel.dataSource].mail]
     };
     user_object.uniqueID = assembleDomainUser(DataModel.dataSource, DataModel.record);
     if (!user_object.uniqueID) {
