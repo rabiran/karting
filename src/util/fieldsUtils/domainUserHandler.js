@@ -45,7 +45,7 @@ module.exports = async (DataModel) => {
                 if (du.uniqueID.toLowerCase() === user_object.uniqueID) {
                     foundDU = true;
                     needUpdate = !lodash.isEqual(user_object, du)
-                    if (needUpdate || du.dataSource === fn.dataSources.mir && isExternal) {
+                    if (needUpdate) {
                         return needsToBeUpdated = true;
                     }
                 }

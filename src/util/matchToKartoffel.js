@@ -468,10 +468,6 @@ const match_city = (obj, dataSource) => {
                 break;
             //hierarchy
             case fn[dataSource].hierarchy:
-                // if (obj.addedTags.isInternal) {
-                //     (rawKey === "hierarchy") ? null : delete obj[rawKey];
-                //     break;
-                // }
                 let hr = obj[rawKey].replace('\\', '/');
                 if (hr.includes('/')) {
                     hr = hr.split('/').map(unit => unit.trim());
@@ -513,6 +509,7 @@ const match_city = (obj, dataSource) => {
                         }
                     }
                 } else {
+                    // Keep the internal hierarchy of internal du
                     obj.hierarchy = `${obj.addedTags.isInternal ? '' : defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
                     if (obj.hierarchy[0] === '/') { 
                         obj.hierarchy = obj.hierarchy.substring(1);
