@@ -11,6 +11,7 @@ module.exports = pathsHandler = (param, param2) => {
         [`${fn.dataSources.es}_API`]: 'http://localhost:3001/getEightSocks',
         [`${fn.dataSources.ads}_API`]: 'http://localhost:3001/getAD/s',
         [`${fn.dataSources.adNN}_API`]: 'http://localhost:3001/getAD/NN',
+        [`${fn.dataSources.sf}_API`]: 'http://localhost:3001/getSf',
         [`${fn.dataSources.mm}_API`]: 'http://localhost:3001/getNv/sql/mm',
         [`${fn.dataSources.lmn}_API`]: 'http://localhost:3001/getNv/sql/lmn',
         [`${fn.dataSources.mdn}_API`]: 'http://localhost:3001/getNv/sql/mdn',
@@ -36,5 +37,6 @@ module.exports = pathsHandler = (param, param2) => {
         KARTOFFEL_ADD_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers`,
         KARTOFFEL_DELETE_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers/${param2}`,
         KARTOFFEL_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/domainUser/${param}`,
+        KARTOFFEL_UPDATE_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers/${param2}`
     }
 }
