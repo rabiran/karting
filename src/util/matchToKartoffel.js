@@ -595,7 +595,8 @@ const match_sf = (obj, dataSource) => {
                 break;
             //sex
             case fn[dataSource].sex:
-                obj.sex = obj[rawKey];
+                const keys = Object.keys(fn[dataSource].sfSexValues);
+                obj.sex = obj[rawKey] == keys[0] ? fn[dataSource].sfSexValues[keys[0]] : fn[dataSource].sfSexValues[keys[1]];
                 (rawKey === "sex") ? null : delete obj[rawKey];
                 break;
             //personalNumber
