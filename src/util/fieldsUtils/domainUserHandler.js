@@ -32,6 +32,7 @@ module.exports = async (DataModel) => {
     };
     
     let needsToBeUpdated = false;
+    let foundDU = false;
 
     if (!user_object.uniqueID) {
         return;
@@ -40,22 +41,16 @@ module.exports = async (DataModel) => {
         // remove null/undefined before comparing users
         user_object = lodash.pickBy(user_object, lodash.identity)
         if (DataModel.person.domainUsers.length > 0) {
-            // let uniqeIDExists = false;
             DataModel.person.domainUsers.map(du => {
                 if (du.uniqueID.toLowerCase() === user_object.uniqueID) {
-                    needUpdate = lodash.isEqual(user_object, du)
+                    foundDU = true;
+                    needUpdate = !lodash.isEqual(user_object, du)
                     if (needUpdate || du.dataSource === fn.dataSources.mir && isExternal) {
                         return needsToBeUpdated = true;
                     }
-                    // // Exist but under Mir - needs to be updated if data source is city
-                    // if (du.dataSource === fn.dataSources.mir && isExternal) {
-                    //     needChangeFromMirToCity = true;
-                    // }
-                    // return uniqeIDExists = true;
                 }
             })
-            // if (uniqeIDExists && !needChangeFromMirToCity) { return; }
-            if (!needsToBeUpdated) { return; }
+            if (foundDU && !needsToBeUpdated) { return; }
         }
     }
 
