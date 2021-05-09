@@ -30,6 +30,10 @@ module.exports = async (DataModel) => {
     if (DataModel.dataSource === fn.dataSources.city && !isExternal) {
         user_object.dataSource = fn.dataSources.mir;
     };
+
+    if(user_object.dataSource === fn.dataSources.mir) {
+        delete user_object.hierarchy;
+    }
     
     let needsToBeUpdated = false;
     let foundDU = false;
