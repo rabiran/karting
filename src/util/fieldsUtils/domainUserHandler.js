@@ -2,7 +2,9 @@ const fn = require('../../config/fieldNames');
 const p = require('../../config/paths');
 const { logLevel } = require('../logger');
 const logDetails = require('../logDetails');
+const lodash = require('lodash');
 const assembleDomainUser = require('./assembleDomainUser');
+
 
 /**
  * This module create domainUser for person, using the unique properties of each dataSource
@@ -13,13 +15,13 @@ const assembleDomainUser = require('./assembleDomainUser');
  * @param {Object} originalRecord The original raw record before matchToKartoffel 
  *
  *  */
+
 module.exports = async (DataModel) => {
     let user_object = {
         dataSource: DataModel.dataSource,
-        //mail: DataModel.person.mail,
-        //hierarchy: DataModel.person.hierarchy.join()
+        hierarchy: DataModel.domainUserHierarchy,
+        mail: DataModel.record[fn[DataModel.dataSource].mail]
     };
-
     user_object.uniqueID = assembleDomainUser(DataModel.dataSource, DataModel.record);
 
     // DataModel's data source is city and contains city domain
@@ -29,31 +31,32 @@ module.exports = async (DataModel) => {
         user_object.dataSource = fn.dataSources.mir;
     };
     
-    let needChangeFromMirToCity = false;
+    let needsToBeUpdated = false;
+    let foundDU = false;
 
     if (!user_object.uniqueID) {
         return;
     } else {
         user_object.uniqueID = user_object.uniqueID.toLowerCase();
-
+        // remove null/undefined before comparing users
+        user_object = lodash.pickBy(user_object, lodash.identity)
         if (DataModel.person.domainUsers.length > 0) {
-            let uniqeIDExists = false;
             DataModel.person.domainUsers.map(du => {
                 if (du.uniqueID.toLowerCase() === user_object.uniqueID) {
-                    // Exist but under Mir - needs to be updated if data source is city
-                    if (du.dataSource === fn.dataSources.mir && isExternal) {
-                        needChangeFromMirToCity = true;
+                    foundDU = true;
+                    needUpdate = !lodash.isEqual(user_object, du)
+                    if (needUpdate) {
+                        return needsToBeUpdated = true;
                     }
-                    return uniqeIDExists = true;
                 }
             })
-            if (uniqeIDExists && !needChangeFromMirToCity) { return; }
+            if (foundDU && !needsToBeUpdated) { return; }
         }
     }
 
     try {
         let user;
-        if (needChangeFromMirToCity) {
+        if (needsToBeUpdated) {
             user = await DataModel.Auth.axiosKartoffel.put(p(DataModel.person.id, user_object.uniqueID).KARTOFFEL_UPDATE_DOMAIN_USER_API, user_object);
         } else {
             user = await DataModel.Auth.axiosKartoffel.post(p(DataModel.person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);

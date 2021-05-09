@@ -468,9 +468,6 @@ const match_city = (obj, dataSource) => {
                 break;
             //hierarchy
             case fn[dataSource].hierarchy:
-                if (obj.addedTags.isInternal) {
-                    break;
-                }
                 let hr = obj[rawKey].replace('\\', '/');
                 if (hr.includes('/')) {
                     hr = hr.split('/').map(unit => unit.trim());
@@ -512,7 +509,11 @@ const match_city = (obj, dataSource) => {
                         }
                     }
                 } else {
-                    obj.hierarchy = `${defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
+                    // Keep the internal hierarchy of internal du
+                    obj.hierarchy = `${obj.addedTags.isInternal ? '' : defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
+                    if (obj.hierarchy[0] === '/') { 
+                        obj.hierarchy = obj.hierarchy.substring(1);
+                    }
                 }
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
@@ -759,12 +760,8 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             sendLog(logLevel.error, logDetails.error.ERR_UNIDENTIFIED_DATA_SOURCE);
     }
 
-
     if (obj.hierarchy) {
-        
         obj.directGroup = await directGroupHandler(obj, Auth);
-        
-        delete obj.hierarchy;
     }
 
     return obj;
