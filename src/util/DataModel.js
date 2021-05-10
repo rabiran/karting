@@ -94,6 +94,8 @@ class DataModel {
             unitName = this.akaRecord[fn.aka.unitName];
         } else if (this.person && this.person.currentUnit) {
             unitName = this.person.currentUnit;
+        } else {
+            return false;
         }
 
         this.isDataSourcePrimary = (currentUnit_to_DataSource.get(unitName) === this.dataSource);
