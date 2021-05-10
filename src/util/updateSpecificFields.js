@@ -20,13 +20,11 @@ const updateSpecificFields = async (DataModel) => {
     DataModel.updateDeepDiff[2].map(deepDiffRecord => {
         switch(deepDiffRecord.kind) {
             case "N":{
-                let newToUpdate;
                 if (deepDiffRecord.path[0] == 'pictures') {
                     if(deepDiffRecord.path[1] == 'profile' && deepDiffRecord.path[2] != 'takenAt')
                         break;
-                    newToUpdate = deepDiffRecord.rhs
                 }
-                objForUpdate[deepDiffRecord.path[0]] = newToUpdate;
+                objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
                 break;
             }
             case "E":{

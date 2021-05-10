@@ -2,7 +2,9 @@ const fn = require('../../config/fieldNames');
 const p = require('../../config/paths');
 const { logLevel } = require('../logger');
 const logDetails = require('../logDetails');
+const lodash = require('lodash');
 const assembleDomainUser = require('./assembleDomainUser');
+
 
 /**
  * This module create domainUser for person, using the unique properties of each dataSource
@@ -13,32 +15,56 @@ const assembleDomainUser = require('./assembleDomainUser');
  * @param {Object} originalRecord The original raw record before matchToKartoffel 
  *
  *  */
+
 module.exports = async (DataModel) => {
     let user_object = {
         dataSource: DataModel.dataSource,
-        //mail: DataModel.person.mail,
-        //hierarchy: DataModel.person.hierarchy.join()
+        hierarchy: DataModel.domainUserHierarchy,
+        mail: DataModel.record[fn[DataModel.dataSource].mail]
+    };
+    user_object.uniqueID = assembleDomainUser(DataModel.dataSource, DataModel.record);
+
+    // DataModel's data source is city and contains city domain
+    let isExternal = DataModel.dataSource === fn.dataSources.city && DataModel.record.addedTags.isExternal;
+
+    if (DataModel.dataSource === fn.dataSources.city && !isExternal) {
+        user_object.dataSource = fn.dataSources.mir;
     };
 
-    user_object.uniqueID = assembleDomainUser(DataModel.dataSource, DataModel.record);
+    if(user_object.dataSource === fn.dataSources.mir) {
+        delete user_object.hierarchy;
+    }
+    
+    let needsToBeUpdated = false;
+    let foundDU = false;
+
     if (!user_object.uniqueID) {
         return;
     } else {
         user_object.uniqueID = user_object.uniqueID.toLowerCase();
-
+        // remove null/undefined before comparing users
+        user_object = lodash.pickBy(user_object, lodash.identity)
         if (DataModel.person.domainUsers.length > 0) {
-            let breaking = false;
             DataModel.person.domainUsers.map(du => {
                 if (du.uniqueID.toLowerCase() === user_object.uniqueID) {
-                    return breaking = true;
+                    foundDU = true;
+                    needUpdate = !lodash.isEqual(user_object, du)
+                    if (needUpdate) {
+                        return needsToBeUpdated = true;
+                    }
                 }
             })
-            if (breaking) { return; }
+            if (foundDU && !needsToBeUpdated) { return; }
         }
     }
 
     try {
-        let user = await DataModel.Auth.axiosKartoffel.post(p(DataModel.person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
+        let user;
+        if (needsToBeUpdated) {
+            user = await DataModel.Auth.axiosKartoffel.put(p(DataModel.person.id, user_object.uniqueID).KARTOFFEL_UPDATE_DOMAIN_USER_API, user_object);
+        } else {
+            user = await DataModel.Auth.axiosKartoffel.post(p(DataModel.person.id).KARTOFFEL_ADD_DOMAIN_USER_API, user_object);
+        }
         DataModel.sendLog(logLevel.info, logDetails.info.INF_ADD_DOMAIN_USER, user_object.uniqueID, user.data.personalNumber || user.data.identityCard, DataModel.dataSource);
     } catch (err) {
         let errMessage = err.response ? err.response.data.message : err.message;

@@ -11,7 +11,7 @@ module.exports = pathsHandler = (param, param2) => {
         [`${fn.dataSources.es}_API`]: 'http://localhost:3001/getEightSocks',
         [`${fn.dataSources.ads}_API`]: 'http://localhost:3001/getAD/s',
         [`${fn.dataSources.adNN}_API`]: 'http://localhost:3001/getAD/NN',
-        [`${fn.dataSources.sf}_API`]: 'http://localhost:3001/getMM/ra',
+        [`${fn.dataSources.sf}_API`]: 'http://localhost:3001/getSf',
         [`${fn.dataSources.mm}_API`]: 'http://localhost:3001/getNv/sql/mm',
         [`${fn.dataSources.lmn}_API`]: 'http://localhost:3001/getNv/sql/lmn',
         [`${fn.dataSources.mdn}_API`]: 'http://localhost:3001/getNv/sql/mdn',
@@ -31,10 +31,12 @@ module.exports = pathsHandler = (param, param2) => {
         KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API: `${kartoffelUrl}/api/organizationGroups/path/${param}/hierarchyExistenceChecking`,
         KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API: `${kartoffelUrl}/api/organizationGroups/path/${param}`,
         KARTOFFEL_GROUP_BY_AKA_UNIT: `${kartoffelUrl}/api/organizationGroups/akaUnit/${param}`,
+        KARTOFFEL_GROUP_BY_ID: `${kartoffelUrl}/api/organizationGroups/${param}`,
 
         // Kartoffel - domainUser
         KARTOFFEL_ADD_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers`,
         KARTOFFEL_DELETE_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers/${param2}`,
         KARTOFFEL_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/domainUser/${param}`,
+        KARTOFFEL_UPDATE_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers/${param2}`
     }
 }

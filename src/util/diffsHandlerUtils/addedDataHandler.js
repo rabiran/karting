@@ -27,15 +27,16 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
 
     for (let i = 0; i < dataModels.length; i++) {
         const DataModel = dataModels[i];
+        
         let tryFindPerson;
         let path;
         try {
             await DataModel.matchToKartoffel();
 
-        await DataModel.matchToKartoffel();
-        
-
             if (DataModel.person_ready_for_kartoffel.entityType === fn.entityTypeValue.gu) {
+                if (dataSource === fn.dataSources.city && !DataModel.record.addedTags.isExternal) { 
+                    continue;
+                }
                 DataModel.identifiers = [DataModel.person_ready_for_kartoffel.domainUsers[0].uniqueID].filter(id => id);
                 path = id => p(id).KARTOFFEL_DOMAIN_USER_API;
             } else if (

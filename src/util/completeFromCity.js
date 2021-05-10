@@ -8,9 +8,12 @@ const fn = require('../config/fieldNames');
  * @returns Object of person with the data from city
  */
 module.exports =  (obj, CityRecord) => {
-    
-    obj.rank = CityRecord[fn[fn.dataSources.city].rank];
-    //obj.currentUnit = CityRecord[fn[fn.dataSources.city]].unitName];
+    if ((CityRecord[fn[fn.dataSources.city].rank])) {
+        obj.rank = (CityRecord[fn[fn.dataSources.city].rank]).replace(/["]+/g,'');
+    }
+    if ((CityRecord[fn[fn.dataSources.city].currentUnit])) {
+        obj.currentUnit = (CityRecord[fn[fn.dataSources.city].currentUnit]).replace(/["]+/g,' ');
+    }
 
     // delete the empty fields from the returned object
     Object.keys(obj).forEach(key => (!obj[key] || obj[key] === "null") ? delete obj[key] : null);

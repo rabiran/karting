@@ -22,7 +22,7 @@ let telephones = [];
 let adUsers = [];
 let esUsers = [];
 let miriUsers = [];
-let mmUsers = [];
+let sfUsers = [];
 let pictures = [];
 
 // Generating mi and tz lists
@@ -190,32 +190,33 @@ for (let i = 0; i < miriAmount; i++) {
     miriUsers.push(miriUser);
 }
 
-// Generating MM employee/unemployee objects
+// Generating SF employee/unemployee objects
 for (let i = 0; i < MMAmount; i++) {
-    let mm = {}
+    let sf = {}
 
-    mm.firstName = employees[i].firstName;
-    mm.lastName = employees[i].lastName;
-    mm.userName = faker.internet.userName(mm.firstName, mm.lastName);
-    mm.fullName = mm.firstName.concat(' ',mm.lastName);
-    mm.sex = utils.randomElement(["m","f"])
-    mm.personalNumber = employees[i].mi;
-    mm.tz = employees[i].tz;
-    mm.stype = utils.randomElement(dataTypes.SERVICE_TYPE);
-    mm.hierarchy = [faker.lorem.word(),
+    sf.firstName = employees[i].firstName;
+    sf.lastName = employees[i].lastName;
+    sf.userName = faker.internet.userName(sf.firstName, sf.lastName);
+    sf.fullName = sf.firstName.concat(' ',sf.lastName);
+    sf.sex = utils.randomElement(["m","f"])
+    sf.personalNumber = employees[i].mi;
+    sf.tz = employees[i].tz;
+    sf.stype = utils.randomElement(dataTypes.SERVICE_TYPE);
+    sf.hierarchy = [faker.lorem.word(),
                    faker.lorem.word(),
                    faker.lorem.word(),
                    faker.lorem.word(),
                    faker.lorem.word()]
-    mm.mail = faker.internet.email().split('@')[0] + "@" + dataTypes.DOMAIN_MAP[7][0];
-    mm.rank = utils.randomElement(dataTypes.RANK);
-    mm.status = utils.randomElement(dataTypes.STATUS);
-    mm.address = faker.address.streetAddress("###");
-    mm.telephone = '0' + utils.generateNumberPrefix() + utils.generateNumberBody();
-    mm.entity = "soldier";
-    mm.discharge = faker.date.between(faker.date.future(20),faker.date.future(10)).toISOString();
-    mm.primaryDU = {uniqueID: mm.mail, adfsUID: mm.mail.split('@')[0] + "@ddd"}
-    mmUsers.push(mm);
+    let unique_id = faker.internet.email().split('@')[0]
+    sf.mail = unique_id + "@" + dataTypes.DOMAIN_MAP[7][0];
+    sf.rank = utils.randomElement(dataTypes.RANK);
+    sf.status = utils.randomElement(dataTypes.STATUS);
+    sf.address = faker.address.streetAddress("###");
+    sf.telephone = '0' + utils.generateNumberPrefix() + utils.generateNumberBody();
+    sf.entity = "soldier";
+    sf.discharge = faker.date.between(faker.date.future(20),faker.date.future(10)).toISOString();
+    sf.primaryDU = {uniqueID: unique_id, adfsUID: unique_id + "@ddd"}
+    sfUsers.push(sf);
 }
 
 
@@ -245,5 +246,5 @@ fs.writeFileSync("./mocks/mocksFiles/getAkaTelephone.json", JSON.stringify(telep
 fs.writeFileSync("./mocks/mocksFiles/AD.json", JSON.stringify(adUsers));
 fs.writeFileSync("./mocks/mocksFiles/eightsocks.json", JSON.stringify(esUsers));
 fs.writeFileSync("./mocks/mocksFiles/city.json", JSON.stringify(miriUsers));
-fs.writeFileSync("./mocks/mocksFiles/MM.json", JSON.stringify(mmUsers));
+fs.writeFileSync("./mocks/mocksFiles/sf.json", JSON.stringify(sfUsers));
 fs.writeFileSync("./mocks/mocksFiles/pictures.json", JSON.stringify(pictures));
