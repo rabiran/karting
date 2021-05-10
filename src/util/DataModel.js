@@ -41,54 +41,61 @@ class DataModel {
             this.isMatchToKartoffel = false;
         }
     }
-    
-    complete(extraData){
+
+    complete(extraData) {
         this.needComplete = true;
 
         const aka_all_data = extraData.aka_all_data
         const city_all_data = extraData.city_all_data
 
         const identifier = this.person_ready_for_kartoffel.personalNumber || this.person_ready_for_kartoffel.identityCard;
-        if(!identifier){
+        if (!identifier) {
             return;
         }
 
         let akaRecord = null
-        if(aka_all_data){
+        if (aka_all_data) {
             akaRecord = aka_all_data.find(person => ((person[fn[fn.dataSources.aka].personalNumber] == identifier) || (person[fn[fn.dataSources.aka].identityCard] == identifier)));
         }
-        if(akaRecord){
+        if (akaRecord) {
             this.person_ready_for_kartoffel = completeFromAka(
                 this.person_ready_for_kartoffel,
                 akaRecord,
                 this.dataSource,
                 this.sendLog
-        );
-        this.needComplete = false;
+            );
+            this.needComplete = false;
         }
-        else{
-            if(city_all_data){
+        else {
+            if (city_all_data) {
                 const cityRecord = city_all_data.find(person => ((person[fn[fn.dataSources.city].personalNumber] == identifier) || (person[fn[fn.dataSources.city].identityCard] == identifier)));
 
-                if(cityRecord){
+                if (cityRecord) {
                     this.person_ready_for_kartoffel = completeFromCity(
                         this.person_ready_for_kartoffel,
                         cityRecord
-                );
-                this.needComplete = false;
+                    );
+                    this.needComplete = false;
                 }
 
             }
-            
+
         }
-        if(this.needComplete){
+        if (this.needComplete) {
             //send warning not completed
             this.sendLog(logLevel.warn, logDetails.warn.WRN_COMPLETE, identifier, this.dataSource)
         }
         this.needComplete = false;
     }
 
-    checkIfDataSourceIsPrimary(unitName) {
+    checkIfDataSourceIsPrimary() {
+        let unitName;
+        if (this.akaRecord && this.akaRecord[fn.aka.unitName]) {
+            unitName = this.akaRecord[fn.aka.unitName];
+        } else if (this.person && this.person.currentUnit) {
+            unitName = this.person.currentUnit;
+        }
+
         this.isDataSourcePrimary = (currentUnit_to_DataSource.get(unitName) === this.dataSource);
         return this.isDataSourcePrimary;
     }
