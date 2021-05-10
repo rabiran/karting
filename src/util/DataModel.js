@@ -22,18 +22,20 @@ class DataModel {
         this.akaRecord = null;
         this.sendLog = sendLog;
         this.Auth = Auth;
+        this.newGroups = null;
         this.domainUserHierarchy = null;
     }
 
     async matchToKartoffel() {
         if (this.isMatchToKartoffel) {
-            this.person_ready_for_kartoffel = await matchToKartoffel(
+            [this.person_ready_for_kartoffel, this.newGroups] = await matchToKartoffel(
                 this.record,
                 this.dataSource,
                 this.Auth,
                 this.sendLog,
                 this.flowType
             );
+            this.newGroups = this.newGroups.reverse();
 
             this.domainUserHierarchy = this.person_ready_for_kartoffel.hierarchy;
             delete this.person_ready_for_kartoffel.hierarchy;
