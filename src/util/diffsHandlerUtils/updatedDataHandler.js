@@ -68,11 +68,7 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
         let stillNotUpdated = [...DataModel.updateDeepDiff[2]];
 
         // Check if the dataSource of the record is the primary dataSource for the person
-        if (
-            DataModel.akaRecord &&
-            DataModel.akaRecord[fn.aka.unitName] &&
-            DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
-        ) {
+        if (DataModel.checkIfDataSourceIsPrimary()) {
             if (DataModel.updateDeepDiff[2].length > 0) {
                 await updateSpecificFields(DataModel);
             };
