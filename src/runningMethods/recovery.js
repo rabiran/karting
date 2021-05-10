@@ -30,7 +30,7 @@ module.exports = async () => {
     let extraData = {aka_all_data : akaData,city_all_data : city_all_data}
 
     // remove aka flow in diffshandler
-    delete dataObj[fn.dataSources.aka]
+    // delete dataObj[fn.dataSources.aka]
 
     await PromiseAllWithFails(Object.keys(dataObj).map(async (dataSource) => {
         await diffsHandler({ added: dataObj[dataSource].data }, dataSource, extraData, fn.runnigTypes.recoveryRun, sendLog, Auth);
