@@ -7,14 +7,17 @@ module.exports = pathsHandler = (param, param2) => {
         // Data source
         AKA_TELEPHONES_API: "http://localhost:3001/getAkaTelephone",
         AKA_EMPLOYEES_API: "http://localhost:3001/getAkaEmployees",
+        AKA_PICTURES_API: "http://localhost:3001/getAkaImgMetaData",
         [`${fn.dataSources.es}_API`]: 'http://localhost:3001/getEightSocks',
         [`${fn.dataSources.ads}_API`]: 'http://localhost:3001/getAD/s',
         [`${fn.dataSources.adNN}_API`]: 'http://localhost:3001/getAD/NN',
+        [`${fn.dataSources.sf}_API`]: 'http://localhost:3001/getSf',
         [`${fn.dataSources.mm}_API`]: 'http://localhost:3001/getNv/sql/mm',
         [`${fn.dataSources.lmn}_API`]: 'http://localhost:3001/getNv/sql/lmn',
         [`${fn.dataSources.mdn}_API`]: 'http://localhost:3001/getNv/sql/mdn',
         [`${fn.dataSources.city}_API`]: 'http://localhost:3001/getCity',
         immediateServer_API: '/immediateRun',
+
 
         // Kartoffel - person
         KARTOFFEL_UPDATE_PERSON_API: `${kartoffelUrl}/api/persons/${param}`,
@@ -29,10 +32,12 @@ module.exports = pathsHandler = (param, param2) => {
         KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_BY_DISPLAYNAME_API: `${kartoffelUrl}/api/organizationGroups/path/${param}`,
         KARTOFFEL_GROUP_BY_AKA_UNIT: `${kartoffelUrl}/api/organizationGroups/akaUnit/${param}`,
         KARTOFFEL_REMOVE_GROUP_API: `${kartoffelUrl}/api/organizationGroups/${param}`,
+        KARTOFFEL_GROUP_BY_ID: `${kartoffelUrl}/api/organizationGroups/${param}`,
 
         // Kartoffel - domainUser
         KARTOFFEL_ADD_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers`,
         KARTOFFEL_DELETE_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers/${param2}`,
         KARTOFFEL_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/domainUser/${param}`,
+        KARTOFFEL_UPDATE_DOMAIN_USER_API: `${kartoffelUrl}/api/persons/${param}/domainUsers/${param2}`
     }
 }

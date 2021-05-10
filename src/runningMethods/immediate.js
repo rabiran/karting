@@ -15,11 +15,13 @@ module.exports = async (dataSource, identifiersArray, runUID) => {
 
         let akaRecords = dataObj[fn.dataSources.aka] ? dataObj[fn.dataSources.aka].data : [];
         let foundRecords = dataObj[dataSource] ? dataObj[dataSource].data : [];
-
         const Auth = new AuthClass(sendLog);
 
-        await diffsHandler({ added: foundRecords }, dataSource, akaRecords, fn.runnigTypes.immediateRun, sendLog, Auth);
+        let city_all_data = dataObj[fn.dataSources.city] ? dataObj[fn.dataSources.city].data : [];
 
+        let extraData = {aka_all_data : akaRecords,city_all_data : city_all_data}
+
+        await diffsHandler({ added: foundRecords }, dataSource, extraData, fn.runnigTypes.immediateRun, sendLog, Auth);
 
         let { logs, fileName } = await collectLogs(idObj, runUID);
         resArray.push({

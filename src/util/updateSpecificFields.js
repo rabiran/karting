@@ -20,6 +20,10 @@ const updateSpecificFields = async (DataModel) => {
     DataModel.updateDeepDiff[2].map(deepDiffRecord => {
         switch(deepDiffRecord.kind) {
             case "N":{
+                if (deepDiffRecord.path[0] == 'pictures') {
+                    if(deepDiffRecord.path[1] == 'profile' && deepDiffRecord.path[2] != 'takenAt')
+                        break;
+                }
                 objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
                 break;
             }
@@ -28,6 +32,22 @@ const updateSpecificFields = async (DataModel) => {
                     objForUpdate[deepDiffRecord.path[0]] = mergeArrays(
                         [deepDiffRecord.rhs], DataModel.person[deepDiffRecord.path[0]]
                     );
+                else if (deepDiffRecord.path[0] == 'pictures' && deepDiffRecord.path[1] === 'profile') { //if the edited picture is newer, then replace the old one with it
+                    if (deepDiffRecord.path[2] === 'takenAt') {
+                        let oldTakenAt = DataModel.person[deepDiffRecord.path[0]].profile.takenAt
+                        let newTakenAt = DataModel.person_ready_for_kartoffel[deepDiffRecord.path[0]].profile.takenAt
+                        if(newTakenAt <= oldTakenAt){
+                            break;
+                        }
+                        objForUpdate[deepDiffRecord.path[0]] = DataModel.person_ready_for_kartoffel[deepDiffRecord.path[0]]
+                    }
+                    else if (!deepDiffRecord.lhs) {
+                        objForUpdate[deepDiffRecord.path[0]] = DataModel.person_ready_for_kartoffel[deepDiffRecord.path[0]]
+                    }
+                    else{
+                        break;
+                    }
+                }
                 else
                     objForUpdate[deepDiffRecord.path[0]] = deepDiffRecord.rhs;
                 break;
@@ -59,7 +79,7 @@ const updateSpecificFields = async (DataModel) => {
     });
     // when person from 'diffsHandler-added' come to update they already passed through 'matchToKartoffel'
     // and if the them sending again to 'matchToKartoffel' the keys of the object will be deleted
-    if (DataModel.isMatchToKartoffel) {
+    if (DataModel.needMatchToKartoffel) {
         objForUpdate = await matchToKartoffel(objForUpdate, DataModel.dataSource, DataModel.Auth, DataModel.sendLog, fn.flowTypes.update);
     }
 

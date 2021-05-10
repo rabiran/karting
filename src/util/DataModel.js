@@ -1,6 +1,10 @@
 const matchToKartoffel = require('./matchToKartoffel');
 const completeFromAka = require('./completeFromAka');
+const completeFromCity = require('./completeFromCity');
+const fn = require('../config/fieldNames');
 const currentUnit_to_DataSource = require('./createDataSourcesMap');
+const { logLevel } = require('./logger');
+const logDetails = require('./logDetails');
 
 class DataModel {
     constructor(record, dataSource, flowType, runningType, Auth, sendLog, updateDeepDiff) {
@@ -19,6 +23,7 @@ class DataModel {
         this.sendLog = sendLog;
         this.Auth = Auth;
         this.newGroups = null;
+        this.domainUserHierarchy = null;
     }
 
     async matchToKartoffel() {
@@ -31,20 +36,58 @@ class DataModel {
                 this.flowType
             );
             this.newGroups = this.newGroups.reverse();
+
+            this.domainUserHierarchy = this.person_ready_for_kartoffel.hierarchy;
+            delete this.person_ready_for_kartoffel.hierarchy;
+
             this.isMatchToKartoffel = false;
         }
     }
+    
+    complete(extraData){
+        this.needComplete = true;
 
-    completeFromAka(aka_all_data) {
-        if (this.person_ready_for_kartoffel) {
+        const aka_all_data = extraData.aka_all_data
+        const city_all_data = extraData.city_all_data
+
+        const identifier = this.person_ready_for_kartoffel.personalNumber || this.person_ready_for_kartoffel.identityCard;
+        if(!identifier){
+            return;
+        }
+
+        let akaRecord = null
+        if(aka_all_data){
+            akaRecord = aka_all_data.find(person => ((person[fn[fn.dataSources.aka].personalNumber] == identifier) || (person[fn[fn.dataSources.aka].identityCard] == identifier)));
+        }
+        if(akaRecord){
             this.person_ready_for_kartoffel = completeFromAka(
                 this.person_ready_for_kartoffel,
-                aka_all_data,
+                akaRecord,
                 this.dataSource,
                 this.sendLog
-            );
-            this.needCompleteFromAka = false;
+        );
+        this.needComplete = false;
         }
+        else{
+            if(city_all_data){
+                const cityRecord = city_all_data.find(person => ((person[fn[fn.dataSources.city].personalNumber] == identifier) || (person[fn[fn.dataSources.city].identityCard] == identifier)));
+
+                if(cityRecord){
+                    this.person_ready_for_kartoffel = completeFromCity(
+                        this.person_ready_for_kartoffel,
+                        cityRecord
+                );
+                this.needComplete = false;
+                }
+
+            }
+            
+        }
+        if(this.needComplete){
+            //send warning not completed
+            this.sendLog(logLevel.warn, logDetails.warn.WRN_COMPLETE, identifier, this.dataSource)
+        }
+        this.needComplete = false;
     }
 
     checkIfDataSourceIsPrimary(unitName) {

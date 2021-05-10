@@ -76,6 +76,9 @@ kartoffelDotenvFile/.env
 # Serverless directories
 .serverless
 
+# minio image
+storage
+
 # Config
 src/config/authParams.js
 src/auth/key.pem

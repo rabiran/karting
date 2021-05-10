@@ -60,7 +60,9 @@ const match_aka = async (obj, dataSource, flowType, Auth) => {
                 break;
             // dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance
@@ -161,7 +163,9 @@ const match_es = (obj, dataSource) => {
                 break;
             //dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             //hierarchy
@@ -260,7 +264,8 @@ const match_ads = (obj, dataSource) => {
                                 dataSource
                             }
                         ];
-                        obj.firstName = fn[dataSource].guName;
+                        obj.firstName = obj[fn[dataSource].guName] ? obj[fn[dataSource].guName] : 'cn';
+                        obj.job = obj[fn[dataSource].guName] ? obj[fn[dataSource].guName] : 'cn';
                         break;
                     default:
                         sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
@@ -272,7 +277,6 @@ const match_ads = (obj, dataSource) => {
                 break;
             default:
                 delete obj[rawKey];
-
         }
     })
 };
@@ -327,6 +331,7 @@ const match_adNN = (obj, dataSource) => {
             case fn[dataSource].sAMAccountName:
                 if (obj[rawKey].toLowerCase().includes(fn[dataSource].extension)) {
                     uniqueNum = obj[rawKey].toLowerCase().replace(fn[dataSource].extension, "")
+
                 } else {
                     sendLog(logLevel.warn, logDetails.warn.WRN_USER_NOT_EXTENTION, obj[rawKey], fn[dataSource].extension);
                     break;
@@ -336,7 +341,6 @@ const match_adNN = (obj, dataSource) => {
                 } else {
                     obj.personalNumber = uniqueNum.toString();
                 }
-
                 (rawKey === "personalNumber") ? null : delete obj[rawKey];
                 break;
             default:
@@ -418,7 +422,9 @@ const match_city = (obj, dataSource) => {
                 break;
             // dischargeDay
             case fn[dataSource].dischargeDay:
-                obj.dischargeDay = obj[rawKey];
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
                 (rawKey === "dischargeDay") ? null : delete obj[rawKey];
                 break;
             // clearance
@@ -465,8 +471,10 @@ const match_city = (obj, dataSource) => {
                 let hr = obj[rawKey].replace('\\', '/');
                 if (hr.includes('/')) {
                     hr = hr.split('/').map(unit => unit.trim());
-                    let fullNameRegex = new RegExp(`${obj[fn[dataSource].firstName]}( |\t)+${obj[fn[dataSource].lastName]}`);
-                    for (const [index, value] of hr.entries()) {
+
+                    let fullNameRegex = new RegExp(`${obj[fn[dataSource].firstName.replace('(',"").replace(')',"")]}( |\t)+${obj[fn[dataSource].lastName.replace('(',"").replace(')',"")]}`);
+                    for (let [index, value] of hr.entries()) {
+                        value = value.replace('(',"").replace(')',"");
                         if (isStrContains(value, ['-']) || fullNameRegex.test(value) || !value) {
                             hr.splice(index);
                             break;
@@ -501,7 +509,11 @@ const match_city = (obj, dataSource) => {
                         }
                     }
                 } else {
-                    obj.hierarchy = `${defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
+                    // Keep the internal hierarchy of internal du
+                    obj.hierarchy = `${obj.addedTags.isInternal ? '' : defaultHierarchy}${hr.includes('/') ? '/' + hr : ''}`;
+                    if (obj.hierarchy[0] === '/') { 
+                        obj.hierarchy = obj.hierarchy.substring(1);
+                    }
                 }
                 (rawKey === "hierarchy") ? null : delete obj[rawKey];
                 break;
@@ -568,6 +580,103 @@ const match_city = (obj, dataSource) => {
     })
 };
 
+const match_sf = (obj, dataSource) => {
+    const objKeys = Object.keys(obj);
+    objKeys.map((rawKey) => {
+        switch (rawKey) {
+            //firstName
+            case fn[dataSource].firstName:
+                obj.firstName = obj[rawKey];
+                (rawKey === "firstName") ? null : delete obj[rawKey];
+                break;
+            //lastName
+            case fn[dataSource].lastName:
+                obj.lastName = obj[rawKey];
+                (rawKey === "lastName") ? null : delete obj[rawKey];
+                break;
+            //sex
+            case fn[dataSource].sex:
+                const keys = Object.keys(fn[dataSource].sfSexValues);
+                obj.sex = obj[rawKey] == keys[0] ? fn[dataSource].sfSexValues[keys[0]] : fn[dataSource].sfSexValues[keys[1]];
+                (rawKey === "sex") ? null : delete obj[rawKey];
+                break;
+            //personalNumber
+            case fn[dataSource].personalNumber:
+                obj.personalNumber = obj[rawKey];
+                (rawKey === "personalNumber") ? null : delete obj[rawKey];
+                break;
+            //identityCard
+            case fn[dataSource].identityCard:
+                obj.identityCard = obj[rawKey];
+                (rawKey === "identityCard") ? null : delete obj[rawKey];
+                break;
+            //mail
+            case fn[dataSource].mail:
+                obj.mail = obj[rawKey];
+                (rawKey === "mail") ? null : delete obj[rawKey];
+                break;
+            //hierarchy
+            case fn[dataSource].hierarchy:
+                obj.hierarchy = obj[rawKey].join("/");
+                
+                (rawKey === "hierarchy") ? null : delete obj[rawKey];
+                break;
+            //domainUsers
+            // case fn[dataSource].primaryDU:
+            //     obj[rawKey].dataSource = dataSource
+            //     obj.domainUsers = [
+            //             obj[rawKey]
+            //     ];
+            //     (rawKey === fn[dataSource].primaryDU) ? null : delete obj[rawKey];
+            //     delete obj[rawKey]
+            //     break;
+            //rank
+            case fn[dataSource].rank:
+                obj.rank = obj[rawKey];
+                (rawKey === "rank") ? null : delete obj[rawKey];
+                break;
+            //status?
+            case fn[dataSource].status:
+                obj.status = obj[rawKey];
+                (rawKey === "status") ? null : delete obj[rawKey];
+                break;
+            //address?
+            case fn[dataSource].address:
+                obj.address = obj[rawKey];
+                (rawKey === "address") ? null : delete obj[rawKey];
+                break;
+            /*//telephone?
+            case fn[dataSource].telephone:
+                obj.telephone = obj[rawKey];
+                (rawKey === "telephone") ? null : delete obj[rawKey];
+                break;  */
+            //entityType?
+            case fn[dataSource].entityType:
+                switch (obj[rawKey]) {
+                    case fn[dataSource].s:
+                        obj.entityType = fn.entityTypeValue.s;
+                        break;
+                    /*case fn[dataSource].c:
+                        obj.entityType = fn.entityTypeValue.s;
+                        break;*/
+                    default:
+                        sendLog(logLevel.warn, logDetails.warn.WRN_NOT_INSERTED_ENTITY_TYPE, obj[rawKey]);
+                }
+                (rawKey === "entityType") ? null : delete obj[rawKey];
+                break;
+            //dischargeDay?
+            case fn[dataSource].dischargeDay:
+                const date = obj[rawKey] ? new Date(obj[rawKey]) : null
+                const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                obj.dischargeDay = date ? (new Date(date.getTime() - userTimezoneOffset)).toISOString() : null;
+                (rawKey === "dischargeDay") ? null : delete obj[rawKey];
+                break;
+            default:
+                delete obj[rawKey];
+        }
+    })
+};
+
 /**
  * This module accept person object and check if his hierarchy exit.
  * If yes- the module return the last hierarchy's objectID,
@@ -580,6 +689,7 @@ directGroupHandler = async (obj, Auth) => {
     hr = encodeURIComponent(obj.hierarchy)
     let directGroup;
     let newGroups;
+    try{
     await Auth.axiosKartoffel.get(p(hr).KARTOFFEL_HIERARCHY_EXISTENCE_CHECKING_API)
         .then(async (result) => {
             [directGroup, newGroups] = await hierarchyHandler(result.data, obj.hierarchy, Auth, sendLog);
@@ -589,7 +699,11 @@ directGroupHandler = async (obj, Auth) => {
             let errorMessage = (err.response) ? err.response.data.message : err.message;
             sendLog(logLevel.error, logDetails.error.ERR_ADD_DIRECT_GROUP_TO_PERSON, identifier, errorMessage);
         });
-    return [directGroup, newGroups];
+        return [directGroup, newGroups];
+    }
+    catch(err){
+        console.log(err)
+    }
 };
 
 /**
@@ -626,6 +740,11 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
             break;
         case fn.dataSources.mdn:
         case fn.dataSources.mm:
+            match_nv_sql(obj, dataSource);
+            break;
+        case fn.dataSources.sf:
+            match_sf(obj, dataSource);
+            break;
         case fn.dataSources.lmn:
             match_nv_sql(obj, dataSource);
             obj.entityType = fn.entityTypeValue.c // override the entitytype in completefromaka by checking if the object is exist in aka
@@ -643,10 +762,7 @@ module.exports = async (origin_obj, dataSource, Auth, defaultSendLog, flowType) 
 
     let newGroups;
     if (obj.hierarchy) {
-        
         [obj.directGroup, newGroups] = await directGroupHandler(obj, Auth);
-        
-        delete obj.hierarchy;
     }
 
     return [obj, newGroups];
