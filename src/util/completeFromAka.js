@@ -142,7 +142,7 @@ const complete_mm = (obj, akaRecord) => {
     obj.birthDate = removeDateOffset(akaRecord[fn.aka.birthDate])
     obj.sex = akaRecord[fn.aka.sex];
     obj.pictures = { profile : akaRecord[fn.aka.picture] };
-    if(obj.pictures){
+    if(obj.pictures.profile){
         delete(obj.pictures.profile.createdAt)
         delete(obj.pictures.profile.updatedAt)
     }

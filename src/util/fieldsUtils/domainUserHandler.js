@@ -48,6 +48,7 @@ module.exports = async (DataModel) => {
             DataModel.person.domainUsers.map(du => {
                 if (du.uniqueID.toLowerCase() === user_object.uniqueID) {
                     foundDU = true;
+                    delete du.adfsUID;
                     needUpdate = !lodash.isEqual(user_object, du)
                     if (needUpdate) {
                         return needsToBeUpdated = true;

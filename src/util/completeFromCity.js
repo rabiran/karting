@@ -9,7 +9,7 @@ const fn = require('../config/fieldNames');
  */
 module.exports =  (obj, CityRecord) => {
     if ((CityRecord[fn[fn.dataSources.city].rank])) {
-        obj.rank = (CityRecord[fn[fn.dataSources.city].rank]).replace(/["]+/g,'');
+        obj.rank = (CityRecord[fn[fn.dataSources.city].rank]).replace(/["]+|[']+/g,'');
     }
     if ((CityRecord[fn[fn.dataSources.city].currentUnit])) {
         obj.currentUnit = (CityRecord[fn[fn.dataSources.city].currentUnit]).replace(/["]+/g,' ');
