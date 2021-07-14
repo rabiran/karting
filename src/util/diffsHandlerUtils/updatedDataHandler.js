@@ -68,46 +68,29 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
         let stillNotUpdated = [...DataModel.updateDeepDiff[2]];
 
         // Check if the dataSource of the record is the primary dataSource for the person
-        if (
-            DataModel.akaRecord &&
+        let isAkaUnitPrimary = DataModel.akaRecord &&
             DataModel.akaRecord[fn.aka.unitName] &&
-            DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName])
-        ) {
+            DataModel.checkIfDataSourceIsPrimary(DataModel.akaRecord[fn.aka.unitName]);
+        let unit_from_city = DataModel.person_ready_for_kartoffel.currentUnit;
+        let isCityUnitPrimary = DataModel.cityRecord && unit_from_city && DataModel.checkIfDataSourceIsPrimary(unit_from_city);
+
+        if (isAkaUnitPrimary || isCityUnitPrimary) {
             if (DataModel.updateDeepDiff[2].length > 0) {
+                if (isCityUnitPrimary && !DataModel.akaRecord) {
+                    DataModel.updateDeepDiff[2] = DataModel.updateDeepDiff[2].filter(diffsObj => {
+                        let keyForCheck = (
+                            Object.keys(fn[DataModel.dataSource]).find(val => fn[DataModel.dataSource][val] == diffsObj.path.toString()) || diffsObj.path.toString()
+                        );
+                        keyForCheck = keyForCheck.split(',')[0];
+                        const include = fn.isCtsPrimary.includes(keyForCheck);
+                        return include;
+                    });
+                }
                 await updateSpecificFields(DataModel);
-            };
-            stillNotUpdated = []
-        }
-        //same but from city incase akarecord doesnt exist:
+            }
+            stillNotUpdated = [];
 
-        // else{
-        //     const CityRecord = extraData.city_all_data.find(
-        //         person => (
-        //             person[fn.city_name.personalNumber] == tryFindPerson.argument ||
-        //             person[fn.city_name.identityCard] == tryFindPerson.argument
-        //         )
-        //     );
-
-        //     if(CityRecord &&
-        //         CityRecord[fn.city_name.unitName] &&
-        //         !DataModel.checkIfDataSourceIsPrimary(CityRecord[fn.city_name.unitName])
-        //     ){
-        //              // Add domain user from the record (if the required data exist)
-        //     await domainUserHandler(DataModel);
-        //     DataModel.sendLog(
-        //         logLevel.warn,
-        //         logDetails.warn.WRN_DOMAIN_USER_NOT_SAVED_IN_KARTOFFEL,
-        //         DataModel.updateDeepDiff[2].map(obj => `${obj.path.toString()},`),
-        //         DataModel.dataSource,
-        //         tryFindPerson.argument,
-        //         DataModel.dataSource,
-        //         CityRecord[fn.city_name.unitName]
-        //     );
-        //     continue;
-        //     }
-        // }
-
-        else if (DataModel.akaRecord) {
+        } else if (DataModel.akaRecord || DataModel.cityRecord) {
             // isolate the fields that not aka hardened from the deepdiff array before sent them to "updateSpecificFields" module
             DataModel.updateDeepDiff[2] = DataModel.updateDeepDiff[2].filter(
                 diffsObj => {
@@ -119,7 +102,7 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
                         diffsObj.path.toString()
                     );
                     keyForCheck = keyForCheck.split(',')[0]
-                    const include = fn.akaRigid.includes(keyForCheck);
+                    const include = DataModel.akaRecord ? fn.akaRigid.includes(keyForCheck) : fn.cityRigid.includes(keyForCheck);
 
                     if (include) {
                         DataModel.sendLog(
@@ -147,17 +130,17 @@ module.exports = async ({ updatedData, dataSource }, extraData) => {
         }
         
         // Add domain user from the record (if the required data exist)
-        if (stillNotUpdated.length > 0) {
-            DataModel.sendLog(
-                logLevel.warn,
-                logDetails.warn.WRN_NOT_UPDATE_IN_KARTOFFEL,
-                DataModel.dataSource,
-                tryFindPerson.argument,
-                DataModel.dataSource,
-                DataModel.akaRecord ? DataModel.akaRecord[fn.aka.unitName] : 'none',
-                stillNotUpdated.map(obj => `${obj.path.toString()},`),
-            );
-        }
+        // if (stillNotUpdated.length > 0) {
+        //     DataModel.sendLog(
+        //         logLevel.warn,
+        //         logDetails.warn.WRN_NOT_UPDATE_IN_KARTOFFEL,
+        //         DataModel.dataSource,
+        //         tryFindPerson.argument,
+        //         DataModel.dataSource,
+        //         DataModel.akaRecord ? DataModel.akaRecord[fn.aka.unitName] : 'none',
+        //         stillNotUpdated.map(obj => `${obj.path.toString()},`),
+        //     );
+        // }
         await domainUserHandler(DataModel);
     }
 }

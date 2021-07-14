@@ -551,21 +551,12 @@ const match_city = (obj, dataSource) => {
                     ];
                 }
 
-                if (obj.entityType !== fn.entityTypeValue.gu) {
-                    // set identityCard || personlNumber if needed
-                    if (!obj.hasOwnProperty('identityCard') ||
-                        !obj.hasOwnProperty('personalNumber') ||
-                        !obj.hasOwnProperty(fn[dataSource].identityCard) ||
-                        !obj.hasOwnProperty(fn[dataSource].personalNumber)) {
-                        validators(defaultIdentifier).identityCard ? obj.identityCard = defaultIdentifier : obj.personalNumber = defaultIdentifier;
-                    }
-                }
-
                 delete obj[rawKey];
                 break;
             //identityCard
             case fn[dataSource].identityCard:
                 validators(obj[rawKey]).identityCard ? obj.identityCard = obj[rawKey].toString() : null;
+                obj.identityCard = obj.identityCard.replace(/^0/, '');
                 (rawKey === "identityCard") ? null : delete obj[rawKey];
                 break;
             //personalNumber
@@ -636,10 +627,10 @@ const match_sf = (obj, dataSource) => {
                 (rawKey === "rank") ? null : delete obj[rawKey];
                 break;
             //status?
-            case fn[dataSource].status:
-                obj.status = obj[rawKey];
-                (rawKey === "status") ? null : delete obj[rawKey];
-                break;
+            // case fn[dataSource].status:
+            //     obj.status = obj[rawKey];
+            //     (rawKey === "status") ? null : delete obj[rawKey];
+            //     break;
             //address?
             case fn[dataSource].address:
                 obj.address = obj[rawKey];

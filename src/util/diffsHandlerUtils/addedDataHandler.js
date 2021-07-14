@@ -76,7 +76,8 @@ module.exports = async ({ addedData, dataSource }, extraData) => {
             );
     
             if (tryFindPerson.lastErr) {
-                if (tryFindPerson.lastErr.response && tryFindPerson.lastErr.response.status === 404) {
+                if (tryFindPerson.lastErr.response && tryFindPerson.lastErr.response.status === 404 && 
+                    !(dataSource === fn.dataSources.city && !DataModel.record.addedTags.isExternal)) {
                     if (!DataModel.person_ready_for_kartoffel.directGroup) {
                         DataModel.sendLog(
                             logLevel.warn,
