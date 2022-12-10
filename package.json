@@ -9,7 +9,7 @@
     "convert-excel-to-json": "^1.7.0",
     "diff-arrays-of-objects": "^1.1.7",
     "dotenv": "^6.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "faker": "^4.1.0",
     "ioredis": "^4.22.0",
     "jsonwebtoken": "^8.5.1",
